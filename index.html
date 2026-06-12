@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f1f3d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="UCI Calendar">
+<meta name="description" content="Live UCI cycling race calendar 2026 — results, standings, riders, teams and upcoming races">
+<link rel="manifest" href="manifest.json">
+<title>UCI Race Calendar 2026</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f4f8; color: #1a202c;
+  min-height: 100vh; padding-bottom: 68px;
+  padding-top: env(safe-area-inset-top);
+}
+/* ── HEADER ── */
+header {
+  background: linear-gradient(135deg,#0f1f3d,#1a3a6e); color: white;
+  padding: 12px 14px 0; position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 10px rgba(0,0,0,.3);
+}
+.header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+header h1 { font-size:1.05rem; font-weight:800; }
+.header-actions { display:flex; align-items:center; gap:6px; }
+#install-btn {
+  display:none; align-items:center; gap:3px; padding:5px 10px;
+  background:rgba(255,215,0,.15); border:1px solid rgba(255,215,0,.4);
+  border-radius:16px; color:#ffd700; font-size:.66rem; font-weight:700; cursor:pointer;
+}
+.refresh-btn {
+  width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,.1);
+  border:none; color:white; cursor:pointer; font-size:.9rem;
+  display:flex; align-items:center; justify-content:center;
+}
+.header-sub { font-size:.58rem; color:rgba(255,255,255,.35); padding-bottom:2px; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position:fixed; bottom:0; left:0; right:0; background:white;
+  border-top:1px solid #e2e8f0; display:flex; z-index:200;
+  padding-bottom:env(safe-area-inset-bottom);
+  box-shadow:0 -2px 12px rgba(0,0,0,.08);
+}
+.nav-btn {
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:7px 2px 5px; border:none; background:transparent;
+  color:#94a3b8; cursor:pointer; font-size:.5rem; font-weight:600; gap:2px;
+}
+.nav-btn .nav-icon { font-size:1.15rem; }
+.nav-btn.active { color:#0f1f3d; }
+.live-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:#ef4444; margin-left:3px; vertical-align:middle; animation:ping 1.5s infinite; }
+@keyframes ping { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
+
+/* ── FILTER ── */
+.filter-bar {
+  display:flex; gap:4px; overflow-x:auto; padding:7px 14px;
+  background:#f0f4f8; scrollbar-width:none;
+}
+.filter-bar::-webkit-scrollbar { display:none; }
+.filter-chip {
+  flex-shrink:0; padding:3px 10px; border-radius:12px;
+  font-size:.63rem; font-weight:700; cursor:pointer;
+  border:1.5px solid #cbd5e0; background:white; color:#475569;
+}
+.filter-chip.active { background:#0f1f3d; border-color:#0f1f3d; color:white; }
+
+/* ── SECTIONS ── */
+.section { display:none; padding:8px 13px 16px; }
+.section.active { display:block; }
+.section-hdr {
+  font-size:.63rem; font-weight:700; text-transform:uppercase; letter-spacing:.6px;
+  color:#64748b; margin:10px 0 5px; padding-bottom:4px; border-bottom:2px solid #e2e8f0;
+}
+
+/* ── OFFLINE ── */
+#offline-banner { display:none; background:#f97316; color:white; text-align:center; font-size:.68rem; font-weight:600; padding:5px; }
+
+/* ── RACE CARD ── */
+.race-card {
+  background:white; border-radius:10px; margin-bottom:7px;
+  box-shadow:0 1px 3px rgba(0,0,0,.07); border:1px solid #e2e8f0; overflow:hidden;
+}
+.race-header { display:flex; align-items:center; padding:10px 12px; cursor:pointer; gap:8px; user-select:none; }
+.race-header:active { background:#f8fafc; }
+.status-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.status-dot.live { background:#ef4444; animation:pulse 1.5s infinite; }
+.status-dot.upcoming { background:#3b82f6; }
+.status-dot.completed { background:#22c55e; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 2px rgba(239,68,68,.2)} 50%{box-shadow:0 0 0 5px rgba(239,68,68,.05)} }
+.race-info { flex:1; min-width:0; }
+.race-name { font-weight:700; font-size:.84rem; color:#0f1f3d; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.race-meta { display:flex; align-items:center; gap:4px; margin-top:2px; flex-wrap:wrap; }
+.badge { font-size:.57rem; font-weight:700; padding:1px 4px; border-radius:3px; text-transform:uppercase; letter-spacing:.3px; }
+.badge.uwt { background:#fef3c7; color:#92400e; }
+.badge.pro { background:#ede9fe; color:#5b21b6; }
+.badge.cat2 { background:#e0f2fe; color:#075985; }
+.badge.cat1 { background:#dcfce7; color:#166534; }
+.badge.we { background:#fce7f3; color:#9d174d; }
+.race-dates { font-size:.63rem; color:#64748b; }
+.live-label { font-size:.58rem; font-weight:700; color:#ef4444; background:#fee2e2; padding:1px 5px; border-radius:6px; }
+.chevron { font-size:.68rem; color:#94a3b8; transition:transform .2s; flex-shrink:0; }
+.race-card.open .chevron { transform:rotate(180deg); }
+.winner-preview { font-size:.67rem; color:#64748b; margin-top:2px; }
+.winner-preview strong { color:#0f1f3d; }
+.progress-bar { background:#e2e8f0; border-radius:2px; height:3px; margin-top:5px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,#ef4444,#f97316); }
+.progress-label { display:flex; justify-content:space-between; font-size:.55rem; color:#94a3b8; margin-top:2px; }
+
+/* ── RACE BODY ── */
+.race-body { display:none; border-top:1px solid #f1f5f9; padding:10px 11px 11px; }
+.race-card.open .race-body { display:block; }
+
+/* ── JERSEYS ── */
+.jerseys { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; margin-bottom:10px; }
+.jersey-card { border-radius:6px; padding:6px 4px; text-align:center; border:1px solid; }
+.jersey-card.gc { background:#fff7ed; border-color:#fed7aa; }
+.jersey-card.pts { background:#fef9c3; border-color:#fef08a; }
+.jersey-card.kom { background:#fce7f3; border-color:#fbcfe8; }
+.jersey-card.youth { background:#f0fdf4; border-color:#bbf7d0; }
+.jersey-icon { font-size:.85rem; }
+.jersey-label { font-size:.52rem; font-weight:700; text-transform:uppercase; letter-spacing:.3px; color:#64748b; }
+.jersey-rider { font-size:.62rem; font-weight:700; color:#0f1f3d; line-height:1.2; margin-top:1px; }
+.jersey-rider a { color:#0369a1; text-decoration:none; }
+
+/* ── STAGES ── */
+.stages-title { font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:#64748b; margin-bottom:5px; }
+.stages-list { border-radius:6px; border:1px solid #f1f5f9; max-height:250px; overflow-y:auto; }
+.stage-row { display:flex; align-items:center; padding:5px 8px; gap:5px; font-size:.7rem; }
+.stage-row:nth-child(odd) { background:#f8fafc; }
+.stage-num { font-weight:700; color:#0f1f3d; min-width:54px; font-size:.62rem; flex-shrink:0; }
+.stage-winner { flex:1; font-weight:600; color:#1e40af; }
+.stage-route { color:#94a3b8; font-size:.6rem; flex-shrink:0; }
+.stage-today { background:#eff6ff !important; border-left:3px solid #3b82f6; }
+.upcoming-row { color:#94a3b8 !important; font-style:italic; font-weight:400 !important; }
+
+/* ── TOP 10 ── */
+.top10-btn { display:flex; align-items:center; gap:4px; font-size:.62rem; color:#3b82f6; font-weight:600; cursor:pointer; margin-top:6px; user-select:none; }
+.top10-list { display:none; border-radius:6px; border:1px solid #f1f5f9; margin-top:5px; }
+.top10-list.open { display:block; }
+.t10 { display:flex; align-items:center; padding:4px 8px; gap:5px; font-size:.67rem; }
+.t10:nth-child(odd) { background:#f8fafc; }
+.t10-rank { font-weight:700; color:#94a3b8; min-width:14px; font-size:.6rem; }
+.t10-rank.g { color:#b7791f; } .t10-rank.s { color:#718096; } .t10-rank.b { color:#c05621; }
+.t10-name { flex:1; font-weight:600; }
+.t10-team { color:#94a3b8; font-size:.58rem; flex-shrink:0; max-width:80px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:right; }
+.t10-gap { color:#ef4444; font-size:.6rem; min-width:38px; text-align:right; }
+
+/* ── ACTION BTNS ── */
+.race-actions { display:flex; gap:4px; margin-top:9px; flex-wrap:wrap; }
+.abtn {
+  display:inline-flex; align-items:center; gap:3px; padding:5px 8px;
+  border-radius:6px; font-size:.62rem; font-weight:600;
+  text-decoration:none; border:1px solid; cursor:pointer; background:transparent; white-space:nowrap;
+}
+.abtn.pcs { background:#f0f9ff; border-color:#38bdf8; color:#0369a1; }
+.abtn.gcal { background:#f0fdf4; border-color:#4ade80; color:#15803d; }
+.abtn.official { background:#fef3c7; border-color:#f59e0b; color:#92400e; }
+.abtn.gc-ldr { background:#fff7ed; border-color:#f97316; color:#c2410c; }
+
+/* ── TdF FEATURED ── */
+.featured-card { background:linear-gradient(135deg,#0f1f3d,#1e3a5f); color:white; border-radius:10px; padding:14px; margin-bottom:10px; }
+.featured-card .race-name { color:#ffd700; font-size:.9rem; }
+.cd-row { display:flex; gap:0; justify-content:center; background:rgba(255,215,0,.1); border:1px solid rgba(255,215,0,.2); border-radius:8px; padding:8px; margin:8px 0; }
+.cd-unit { text-align:center; flex:1; }
+.cd-num { font-size:1.4rem; font-weight:800; color:#ffd700; line-height:1; }
+.cd-lbl { font-size:.48rem; text-transform:uppercase; letter-spacing:.3px; color:rgba(255,255,255,.4); }
+.contenders-wrap { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.rider-chip { display:flex; align-items:center; gap:4px; background:rgba(255,255,255,.1); border-radius:20px; padding:3px 8px 3px 3px; }
+.rider-photo { width:24px; height:24px; border-radius:50%; object-fit:cover; background:rgba(255,255,255,.15); flex-shrink:0; }
+.chip-name { font-size:.66rem; color:rgba(255,255,255,.9); }
+.chip-flag { font-size:.7rem; }
+.key-stages-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:8px; }
+.ks { background:rgba(255,255,255,.07); border-radius:5px; padding:5px 7px; font-size:.59rem; color:rgba(255,255,255,.65); }
+.ks strong { display:block; color:white; font-size:.62rem; }
+
+/* ── TEAMS ── */
+.team-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.team-card { background:white; border-radius:8px; border:1px solid #e2e8f0; padding:10px 8px 8px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:3px; }
+.team-jersey { width:42px; height:42px; object-fit:contain; }
+.team-name { font-size:.65rem; font-weight:700; color:#0f1f3d; line-height:1.2; }
+.team-links { display:flex; gap:4px; margin-top:4px; flex-wrap:wrap; justify-content:center; }
+.tlink { font-size:.56rem; font-weight:600; padding:2px 6px; border-radius:4px; text-decoration:none; border:1px solid; white-space:nowrap; }
+.tlink.official { background:#fef3c7; border-color:#f59e0b; color:#92400e; }
+.tlink.pcs { background:#f0f9ff; border-color:#38bdf8; color:#0369a1; }
+
+/* ── RIDER PROFILE MODAL ── */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:300; align-items:flex-end; }
+.modal-overlay.open { display:flex; }
+.modal-sheet {
+  background:white; border-radius:16px 16px 0 0; width:100%; max-height:85vh;
+  overflow-y:auto; padding:16px; animation:slideUp .25s ease;
+}
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.modal-close { float:right; background:none; border:none; font-size:1.2rem; cursor:pointer; color:#94a3b8; }
+.rider-profile-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; margin-top:4px; }
+.rider-big-photo { width:70px; height:70px; border-radius:50%; object-fit:cover; background:#e2e8f0; border:2px solid #e2e8f0; }
+.rider-profile-name { font-size:1rem; font-weight:800; color:#0f1f3d; }
+.rider-profile-sub { font-size:.72rem; color:#64748b; margin-top:3px; }
+.rider-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px; }
+.rider-stat { background:#f8fafc; border-radius:7px; padding:8px 10px; }
+.rider-stat-label { font-size:.58rem; color:#94a3b8; font-weight:600; text-transform:uppercase; letter-spacing:.3px; }
+.rider-stat-val { font-size:.82rem; font-weight:700; color:#0f1f3d; margin-top:2px; }
+.rider-results-title { font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#64748b; margin-bottom:6px; }
+.rider-result-row { display:flex; align-items:center; padding:5px 0; border-bottom:1px solid #f1f5f9; gap:8px; font-size:.72rem; }
+.rr-date { color:#94a3b8; min-width:45px; font-size:.65rem; }
+.rr-place { font-weight:700; min-width:20px; text-align:center; }
+.rr-place.p1 { color:#b7791f; } .rr-place.p2 { color:#718096; } .rr-place.p3 { color:#c05621; }
+.rr-race { flex:1; color:#0f1f3d; font-weight:600; }
+.spec-bars { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
+.spec-bar-row { display:flex; align-items:center; gap:8px; }
+.spec-bar-label { font-size:.63rem; color:#64748b; min-width:80px; }
+.spec-bar-track { flex:1; background:#e2e8f0; border-radius:4px; height:6px; overflow:hidden; }
+.spec-bar-fill { height:100%; border-radius:4px; }
+.spec-bar-val { font-size:.63rem; font-weight:700; color:#0f1f3d; min-width:32px; text-align:right; }
+.social-links { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+.social-link { padding:5px 10px; border-radius:6px; font-size:.65rem; font-weight:600; text-decoration:none; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; }
+
+/* ── EXPORT ── */
+.export-card { background:white; border-radius:10px; padding:13px; border:1px solid #e2e8f0; margin-bottom:8px; }
+.export-card h3 { font-size:.8rem; font-weight:700; color:#0f1f3d; margin-bottom:4px; }
+.export-card p { font-size:.67rem; color:#64748b; margin-bottom:10px; line-height:1.4; }
+.export-actions { display:flex; gap:6px; flex-wrap:wrap; }
+.ebtn { display:inline-flex; align-items:center; gap:4px; padding:8px 12px; border-radius:8px; font-size:.68rem; font-weight:700; text-decoration:none; border:none; cursor:pointer; }
+.ebtn.ics { background:#7c3aed; color:white; }
+.ebtn.gcal { background:#16a34a; color:white; }
+.ebtn.uci { background:#0f1f3d; color:white; }
+.gcal-item { display:flex; align-items:center; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f1f5f9; }
+.gcal-item-name { font-size:.73rem; font-weight:700; color:#0f1f3d; }
+.gcal-item-sub { font-size:.6rem; color:#94a3b8; }
+
+/* ── RANKINGS TAB ── */
+.ranking-row { display:flex; align-items:center; padding:7px 0; border-bottom:1px solid #f1f5f9; gap:8px; cursor:pointer; }
+.ranking-row:active { background:#f8fafc; }
+.rk-pos { font-size:.75rem; font-weight:800; color:#94a3b8; min-width:22px; }
+.rk-pos.top3 { color:#b7791f; }
+.rk-photo { width:32px; height:32px; border-radius:50%; object-fit:cover; background:#e2e8f0; flex-shrink:0; }
+.rk-name { flex:1; font-size:.75rem; font-weight:700; color:#0f1f3d; }
+.rk-sub { font-size:.6rem; color:#64748b; }
+.rk-pts { font-size:.72rem; font-weight:700; color:#0f1f3d; }
+
+.loading-row { text-align:center; padding:28px; color:#94a3b8; font-size:.73rem; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.spin { display:inline-block; animation:spin 1s linear infinite; }
+</style>
+</head>
+<body>
+
+<div id="offline-banner">📡 Offline — showing cached data</div>
+
+<header>
+  <div class="header-top">
+    <h1>🚴 UCI Calendar 2026</h1>
+    <div class="header-actions">
+      <button class="refresh-btn" onclick="refreshData()" title="Refresh">↻</button>
+      <button id="install-btn" onclick="installPWA()">⬇ Install</button>
+    </div>
+  </div>
+  <div class="header-sub" id="last-updated">procyclingstats.com</div>
+</header>
+
+<!-- BOTTOM NAV (6 tabs) -->
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="showSec('live',this)">
+    <span class="nav-icon">🔴<span class="live-dot"></span></span><span>Live</span>
+  </button>
+  <button class="nav-btn" onclick="showSec('upcoming',this)">
+    <span class="nav-icon">📅</span><span>Upcoming</span>
+  </button>
+  <button class="nav-btn" onclick="showSec('recent',this)">
+    <span class="nav-icon">✅</span><span>Recent</span>
+  </button>
+  <button class="nav-btn" onclick="showSec('riders',this)">
+    <span class="nav-icon">🏆</span><span>Riders</span>
+  </button>
+  <button class="nav-btn" onclick="showSec('teams',this)">
+    <span class="nav-icon">👕</span><span>Teams</span>
+  </button>
+  <button class="nav-btn" onclick="showSec('export',this)">
+    <span class="nav-icon">📤</span><span>Export</span>
+  </button>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filter-bar">
+  <span class="filter-chip active" onclick="setFilter('ALL',this)">All</span>
+  <span class="filter-chip" onclick="setFilter('UWT',this)">UWT ⭐</span>
+  <span class="filter-chip" onclick="setFilter('PRO',this)">Pro</span>
+  <span class="filter-chip" onclick="setFilter('2.2',this)">2.x</span>
+  <span class="filter-chip" onclick="setFilter('1.1',this)">1-day</span>
+  <span class="filter-chip" onclick="setFilter('WE',this)">Women</span>
+</div>
+
+<!-- ═══ LIVE ═══ -->
+<div class="section active" id="sec-live">
+  <div id="live-content"><div class="loading-row"><span class="spin">⏳</span> Loading…</div></div>
+</div>
+
+<!-- ═══ UPCOMING ═══ -->
+<div class="section" id="sec-upcoming">
+  <div id="upcoming-content"><div class="loading-row"><span class="spin">⏳</span> Loading…</div></div>
+</div>
+
+<!-- ═══ RECENT ═══ -->
+<div class="section" id="sec-recent">
+  <div id="recent-content"><div class="loading-row"><span class="spin">⏳</span> Loading…</div></div>
+</div>
+
+<!-- ═══ RIDERS (Rankings + profiles) ═══ -->
+<div class="section" id="sec-riders">
+  <div class="section-hdr">🏆 UCI World Ranking – Top 20 (Jun 2026)</div>
+  <div id="rankings-content"></div>
+</div>
+
+<!-- ═══ TEAMS ═══ -->
+<div class="section" id="sec-teams">
+  <div id="teams-content"><div class="loading-row"><span class="spin">⏳</span> Loading…</div></div>
+</div>
+
+<!-- ═══ EXPORT ═══ -->
+<div class="section" id="sec-export">
+  <div class="export-card">
+    <h3>📥 Download to Calendar App</h3>
+    <p>Import all 2026 UCI races into Google Calendar, Outlook, Apple Calendar or any ICS-compatible app.</p>
+    <div class="export-actions">
+      <button class="ebtn ics" onclick="downloadICS('all')">⬇ All Races (.ics)</button>
+      <button class="ebtn ics" onclick="downloadICS('upcoming')">⬇ Upcoming Only</button>
+    </div>
+  </div>
+  <div class="export-card">
+    <h3>📆 Add Individual Races to Google Calendar</h3>
+    <p>Tap any race to add directly to your Google Calendar in one tap.</p>
+    <div id="gcal-list"></div>
+  </div>
+  <div class="export-card">
+    <h3>🔗 Official Sources</h3>
+    <div class="export-actions">
+      <a class="ebtn uci" href="https://www.uci.org/calendar/all/2jnxYAuvjgttyHi6YQ94EJ" target="_blank">🌍 UCI Official Calendar</a>
+      <a class="ebtn gcal" href="https://www.procyclingstats.com/races.php?category=1&filter=Filter&p=uci&s=latest-results" target="_blank">📊 PCS Latest Results</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RIDER PROFILE MODAL ═══ -->
+<div class="modal-overlay" id="rider-modal" onclick="closeModal(event)">
+  <div class="modal-sheet" id="rider-sheet">
+    <button class="modal-close" onclick="closeRiderModal()">✕</button>
+    <div id="rider-modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// FALLBACK DATA
+// ═══════════════════════════════════════════════════════════════
+const FALLBACK = {
+  scraped_at_human:"12 Jun 2026",
+  live:[
+    {slug:"tour-auvergne-rhone-alpes",name:"Tour Auvergne – Rhône-Alpes",year:"2026",category:"2.UWT",status:"live",start_date:"2026-06-07",end_date:"2026-06-14",total_stages:8,stages_completed:5,last_stage_winner:"Wout Van Aert",last_stage_winner_flag:"🇧🇪",official_url:"https://www.tourauvergne.fr",stages:[
+      {num:1,label:"Stage 1",status:"completed",winner:"Alex Baudin",winner_flag:"🇫🇷",route:"Vizille–St-Ismier",top10:[]},
+      {num:2,label:"Stage 2",status:"completed",winner:"Anthon Charmig",winner_flag:"🇩🇰",route:"Le Puy",top10:[]},
+      {num:3,label:"Stage 3 (TTT)",status:"completed",winner:"Team TT",winner_flag:"",route:"Perreux",top10:[]},
+      {num:4,label:"Stage 4",status:"completed",winner:"Quinn Simmons",winner_flag:"🇺🇸",route:"Montrond",top10:[]},
+      {num:5,label:"Stage 5",status:"completed",winner:"Wout Van Aert",winner_flag:"🇧🇪",route:"Villars-les-Dombes",top10:[]},
+      {num:6,label:"Stage 6",status:"upcoming",winner:null,route:"Crest-Voland"},
+      {num:7,label:"Stage 7",status:"upcoming",winner:null,route:"Grand Colombier"},
+      {num:8,label:"Stage 8 🏁",status:"upcoming",winner:null,route:"Solaison"},
+    ]},
+    {slug:"tour-du-cameroun",name:"Tour du Cameroun",year:"2026",category:"2.2",status:"live",start_date:"2026-06-03",end_date:"2026-06-14",total_stages:10,stages_completed:8,last_stage_winner:"Mohamed Nadjib Assal",last_stage_winner_flag:"🇩🇿",stages:[
+      {num:1,label:"Stage 1",status:"completed",winner:"R. Kuere Nounawe",winner_flag:"🇨🇲",route:"Maroua",top10:[]},
+      {num:2,label:"Stage 2",status:"completed",winner:"Assal 🔥",winner_flag:"🇩🇿",route:"Garoua",top10:[]},
+      {num:3,label:"Stage 3",status:"completed",winner:"Assal 🔥",winner_flag:"🇩🇿",route:"Garoua",top10:[]},
+      {num:4,label:"Stage 4",status:"completed",winner:"Assal 🔥",winner_flag:"🇩🇿",route:"Esse",top10:[]},
+      {num:5,label:"Stage 5",status:"completed",winner:"Leo Charrois",winner_flag:"🇫🇷",route:"Bangangté",top10:[]},
+      {num:6,label:"Stage 6",status:"completed",winner:"Jorik Erberveld",winner_flag:"🇳🇱",route:"Douala",top10:[]},
+      {num:7,label:"Stage 7 (ITT)",status:"completed",winner:"—",winner_flag:"",route:"Limbe",top10:[]},
+      {num:8,label:"Stage 8",status:"completed",winner:"Assal 🔥",winner_flag:"🇩🇿",route:"Kribi",top10:[]},
+      {num:9,label:"Stage 9",status:"upcoming",winner:null,route:"Yaoundé"},
+      {num:10,label:"Stage 10 🏁",status:"upcoming",winner:null,route:"Mbalmayo–Yaoundé"},
+    ]},
+    {slug:"tour-de-gyeongnam",name:"Tour de Gyeongnam",year:"2026",category:"2.2",status:"live",start_date:"2026-06-09",end_date:"2026-06-13",total_stages:5,stages_completed:4,last_stage_winner:"Timofei Ivanov",last_stage_winner_flag:"🇰🇿",stages:[
+      {num:1,label:"Stage 1",status:"completed",winner:"Simone Raccani",winner_flag:"🇮🇹",route:"Geoje",top10:[]},
+      {num:2,label:"Stage 2",status:"completed",winner:"A. Christie-Johnston",winner_flag:"🇦🇺",route:"Tongyeong",top10:[]},
+      {num:3,label:"Stage 3",status:"completed",winner:"Liam Walsh",winner_flag:"🇦🇺",route:"Sacheon",top10:[]},
+      {num:4,label:"Stage 4",status:"completed",winner:"Timofei Ivanov ✅",winner_flag:"🇰🇿",route:"Namhae",top10:[]},
+      {num:5,label:"Stage 5 🏁",status:"upcoming",winner:null,route:"Changwon"},
+    ]},
+    {slug:"tour-de-beauce",name:"Tour de Beauce",year:"2026",category:"2.2",status:"live",start_date:"2026-06-10",end_date:"2026-06-14",total_stages:5,stages_completed:2,last_stage_winner:"Róbigzon Oyola",last_stage_winner_flag:"🇨🇴",official_url:"https://www.tourdebeauce.com",stages:[
+      {num:1,label:"Stage 1",status:"completed",winner:"Marshall Erwood",winner_flag:"🇳🇿",route:"St-Côme-Linière",top10:[
+        {rank:1,name:"Erwood Marshall",flag:"🇳🇿",nat_code:"NZL",team:"Whoosh - NZ Cycling Project",time_gap:"Leader"},
+        {rank:2,name:"Paredes Wilmar",flag:"🇨🇴",nat_code:"COL",team:"Medellín - EPM",time_gap:"+0:02"},
+        {rank:3,name:"Roy Léo",flag:"🇫🇷",nat_code:"FRA",team:"Québec en vélo",time_gap:"+0:00"},
+        {rank:4,name:"Gagné Étienne",flag:"🇨🇦",nat_code:"CAN",team:"Cannondale Echelon",time_gap:"+0:00"},
+        {rank:5,name:"Plamondon Joel",flag:"🇨🇦",nat_code:"CAN",team:"Québec",time_gap:"+0:00"},
+      ]},
+      {num:2,label:"Stage 2",status:"completed",winner:"Róbigzon Oyola",winner_flag:"🇨🇴",route:"St-Odilon",top10:[]},
+      {num:3,label:"Stage 3",status:"upcoming",winner:null,route:"Mont Mégantic"},
+      {num:4,label:"Stage 4 (ITT)",status:"upcoming",winner:null,route:"Québec"},
+      {num:5,label:"Stage 5 🏁",status:"upcoming",winner:null,route:"St-Georges"},
+    ]},
+    {slug:"tour-of-malopolska",name:"Tour of Malopolska",year:"2026",category:"2.2",status:"live",start_date:"2026-06-11",end_date:"2026-06-14",total_stages:4,stages_completed:1,last_stage_winner:"Alberto Monti",last_stage_winner_flag:"🇮🇹",stages:[
+      {num:0,label:"Prologue",status:"completed",winner:"Alberto Monti",winner_flag:"🇮🇹",route:"11 Jun",top10:[]},
+      {num:1,label:"Stage 1",status:"upcoming",winner:null,route:"12 Jun"},
+      {num:2,label:"Stage 2",status:"upcoming",winner:null,route:"13 Jun"},
+      {num:3,label:"Stage 3 🏁",status:"upcoming",winner:null,route:"14 Jun"},
+    ]},
+  ],
+  upcoming:[
+    {slug:"tour-de-france",name:"Tour de France",year:"2026",category:"2.UWT",status:"upcoming",start_date:"2026-07-04",end_date:"2026-07-26",total_stages:21,featured:true,total_km:"3333",start_city:"Barcelona",finish_city:"Paris",official_url:"https://www.letour.fr",contenders:[
+      {name:"Tadej Pogačar",nat:"SLO",flag:"🇸🇮",team:"UAE Emirates-XRG",photo:"https://www.procyclingstats.com/images/riders/oh/dq/tadej-pogacar-2026.jpg"},
+      {name:"Jonas Vingegaard",nat:"DEN",flag:"🇩🇰",team:"Team Visma|LAB",photo:""},
+      {name:"Remco Evenepoel",nat:"BEL",flag:"🇧🇪",team:"Soudal Quick-Step",photo:""},
+      {name:"Antonio Del Toro",nat:"MEX",flag:"🇲🇽",team:"UAE Emirates-XRG",photo:""},
+      {name:"M. van der Poel",nat:"NED",flag:"🇳🇱",team:"Alpecin-PT",photo:""},
+      {name:"Tom Pidcock",nat:"GBR",flag:"🇬🇧",team:"Netcompany INEOS",photo:""},
+      {name:"Jasper Philipsen",nat:"BEL",flag:"🇧🇪",team:"Alpecin-PT",photo:""},
+    ],key_stages:[
+      {label:"Stg 1 · 04/07",desc:"Barcelona TTT"},
+      {label:"Stg 6 · 09/07",desc:"Pau→Gavarnie ⛰"},
+      {label:"Stg 14 · 18/07",desc:"Mulhouse→Markstein ⛰"},
+      {label:"Stg 16 · 21/07",desc:"Évian ITT ⏱"},
+      {label:"Stg 19 · 24/07",desc:"Gap→Alpe d'Huez ⛰"},
+      {label:"Stg 21 · 26/07",desc:"Thoiry→Paris 🎉"},
+    ]},
+    {slug:"tour-de-suisse",name:"Tour de Suisse ⭐",year:"2026",category:"2.UWT",status:"upcoming",start_date:"2026-06-17",end_date:"2026-06-21",total_stages:8,official_url:"https://www.tourdesuisse.ch"},
+    {slug:"tour-de-suisse-women",name:"Tour de Suisse Women",year:"2026",category:"2.WWT",status:"upcoming",start_date:"2026-06-17",end_date:"2026-06-21",official_url:"https://www.tourdesuisse.ch"},
+    {slug:"tour-of-belgium",name:"Baloise Belgium Tour",year:"2026",category:"2.Pro",status:"upcoming",start_date:"2026-06-17",end_date:"2026-06-21",total_stages:5},
+    {slug:"tour-of-slovenia",name:"Tour of Slovenia",year:"2026",category:"2.Pro",status:"upcoming",start_date:"2026-06-17",end_date:"2026-06-21",total_stages:5},
+    {slug:"la-route-d-occitanie",name:"La Route d'Occitanie",year:"2026",category:"2.1",status:"upcoming",start_date:"2026-06-18",end_date:"2026-06-21"},
+    {slug:"copenhagen-sprint",name:"Copenhagen Sprint ME",year:"2026",category:"1.UWT",status:"upcoming",start_date:"2026-06-14",end_date:"2026-06-14"},
+    {slug:"tour-feminin-international-des-pyrenees",name:"CIC-Tour Féminin des Pyrénées",year:"2026",category:"2.Pro",status:"upcoming",start_date:"2026-06-12",end_date:"2026-06-14"},
+    {slug:"gp-du-canton-d-argovie",name:"GP Gippingen",year:"2026",category:"1.1",status:"upcoming",start_date:"2026-06-14",end_date:"2026-06-14"},
+    {slug:"giro-ciclistico-d-italia",name:"Giro d'Italia Next Gen",year:"2026",category:"2.2U",status:"upcoming",start_date:"2026-06-14",end_date:"2026-06-21"},
+    {slug:"vuelta-a-espana",name:"La Vuelta a España",year:"2026",category:"2.UWT",status:"upcoming",start_date:"2026-08-22",end_date:"2026-09-13",total_stages:21,official_url:"https://www.lavuelta.es"},
+  ],
+  recent:[
+    {slug:"giro-d-italia",name:"Giro d'Italia 2026",year:"2026",category:"2.UWT",status:"completed",start_date:"2026-05-10",end_date:"2026-05-31",total_stages:21,gc_winner:"Jonas Vingegaard",gc_winner_nat:"DEN",gc_winner_flag:"🇩🇰",official_url:"https://www.giroditalia.it",stages:[{num:21,label:"Stage 21 🏁",status:"completed",winner:"Jonathan Milan",winner_flag:"🇮🇹",route:"31 May",top10:[]}]},
+    {slug:"tour-de-wallonie",name:"Ethias-Tour de Wallonie",year:"2026",category:"2.Pro",status:"completed",start_date:"2026-06-01",end_date:"2026-06-05",total_stages:5,gc_winner:"Ben Oliver",gc_winner_nat:"NZL",gc_winner_flag:"🇳🇿",stages:[{num:1,label:"Stg 1",status:"completed",winner:"Jordi Meeus",winner_flag:"🇧🇪",route:"1 Jun",top10:[]},{num:2,label:"Stg 2",status:"completed",winner:"Ben Oliver",winner_flag:"🇳🇿",route:"2 Jun",top10:[]},{num:3,label:"Stg 3",status:"completed",winner:"Laurence Pithie",winner_flag:"🇳🇿",route:"3 Jun",top10:[]},{num:4,label:"Stg 4",status:"completed",winner:"Arnaud De Lie",winner_flag:"🇧🇪",route:"4 Jun",top10:[]},{num:5,label:"Stg 5 🏆",status:"completed",winner:"Ben Oliver",winner_flag:"🇳🇿",route:"5 Jun",top10:[]}]},
+    {slug:"tour-of-estonia",name:"Tour of Estonia",year:"2026",category:"2.1",status:"completed",start_date:"2026-06-04",end_date:"2026-06-06",total_stages:3,gc_winner:"Marceli Bogusławski",gc_winner_nat:"POL",gc_winner_flag:"🇵🇱",stages:[{num:0,label:"Prologue",status:"completed",winner:"Romet Pajur",winner_flag:"🇪🇪",route:"4 Jun",top10:[]},{num:1,label:"Stg 1",status:"completed",winner:"Mārtiņš Pluto",winner_flag:"🇱🇻",route:"5 Jun",top10:[]},{num:2,label:"Stg 2 🏆",status:"completed",winner:"M. Bogusławski",winner_flag:"🇵🇱",route:"6 Jun",top10:[]}]},
+    {slug:"oberosterreichrundfahrt",name:"Oberösterreich Rundfahrt",year:"2026",category:"2.2",status:"completed",start_date:"2026-06-04",end_date:"2026-06-07",total_stages:4,gc_winner:"Henrique Bravo",gc_winner_nat:"POR",gc_winner_flag:"🇵🇹",stages:[{num:1,label:"Stg 1",status:"completed",winner:"H. Bravo",winner_flag:"🇵🇹",route:"4 Jun",top10:[]},{num:2,label:"Stg 2",status:"completed",winner:"Henry Hobbs",winner_flag:"🇬🇧",route:"5 Jun",top10:[]},{num:3,label:"Stg 3",status:"completed",winner:"K. Feurstein",winner_flag:"🇦🇹",route:"6 Jun",top10:[]},{num:4,label:"Stg 4 🏆",status:"completed",winner:"Dominik Röber",winner_flag:"🇩🇪",route:"7 Jun",top10:[]}]},
+    {slug:"ronde-de-l-oise",name:"Ronde de l'Oise",year:"2026",category:"2.2",status:"completed",start_date:"2026-06-04",end_date:"2026-06-07",total_stages:4,gc_winner:"Patrick Eddy",gc_winner_nat:"AUS",gc_winner_flag:"🇦🇺",stages:[{num:1,label:"Stg 1",status:"completed",winner:"J. Stiansen",winner_flag:"🇳🇴",route:"4 Jun",top10:[]},{num:2,label:"Stg 2",status:"completed",winner:"M. Avondts",winner_flag:"🇧🇪",route:"5 Jun",top10:[]},{num:3,label:"Stg 3",status:"completed",winner:"A. Konychev",winner_flag:"🇷🇺",route:"6 Jun",top10:[]},{num:4,label:"Stg 4 🏆",status:"completed",winner:"Keije Solen",winner_flag:"🇧🇪",route:"7 Jun",top10:[]}]},
+    {slug:"circuit-franco-belge",name:"Circuit Franco-Belge",year:"2026",category:"1.Pro",status:"completed",start_date:"2026-06-10",end_date:"2026-06-10",total_stages:1,gc_winner:"Corbin Strong",gc_winner_nat:"NZL",gc_winner_flag:"🇳🇿",stages:[]},
+    {slug:"brussels-cycling-classic",name:"Brussels Cycling Classic",year:"2026",category:"1.Pro",status:"completed",start_date:"2026-06-07",end_date:"2026-06-07",total_stages:1,gc_winner:"Jordi Meeus",gc_winner_nat:"BEL",gc_winner_flag:"🇧🇪",stages:[]},
+    {slug:"heist-op-den-berg",name:"Heylen Vastgoed Heistse Pijl",year:"2026",category:"1.1",status:"completed",start_date:"2026-06-06",end_date:"2026-06-06",total_stages:1,gc_winner:"Noah Hobbs",gc_winner_nat:"GBR",gc_winner_flag:"🇬🇧",stages:[]},
+    {slug:"mercan-tour-classic-alpes-maritimes",name:"Mercan'Tour Classic",year:"2026",category:"1.1",status:"completed",start_date:"2026-06-03",end_date:"2026-06-03",total_stages:1,gc_winner:"Ibon Ruiz",gc_winner_nat:"ESP",gc_winner_flag:"🇪🇸",stages:[]},
+  ],
+};
+
+// ── Top riders (PCS world ranking June 2026) ──────────────────
+const TOP_RIDERS = [
+  {name:"Tadej Pogačar",slug:"tadej-pogacar",nat:"SLO",flag:"🇸🇮",team:"UAE Team Emirates - XRG",age:27,photo:"https://www.procyclingstats.com/images/riders/oh/dq/tadej-pogacar-2026.jpg",
+   specialties:{climber:99,oneday:99,gc:76,tt:33,sprint:3},
+   palmares:["4× Tour de France GC (2020-21, 2024-25)","Giro d'Italia 2024","3× Ronde van Vlaanderen","4× Il Lombardia","4× Liège-Bastogne-Liège","2× World Champion"],
+   equipment:{bike:"Colnago V4Rs",wheels:"Campagnolo Bora Ultra",groupset:"Campagnolo Super Record Wireless",shoes:"DMT KR10",helmet:"Kask Protone Icon"},
+   social:{instagram:"https://www.instagram.com/tadejpogacar/",x:"https://x.com/TamauPogi",strava:"https://www.strava.com/athletes/6021015"},
+   results_2026:[{date:"26/04",place:1,race:"Liège-Bastogne-Liège"},{date:"05/04",place:1,race:"Ronde van Vlaanderen"},{date:"21/03",place:1,race:"Milano-Sanremo"},{date:"07/03",place:1,race:"Strade Bianche"},{date:"03/05",place:1,race:"Tour de Romandie S5"}]
+  },
+  {name:"Wout van Aert",slug:"wout-van-aert",nat:"BEL",flag:"🇧🇪",team:"Team Visma | Lease a Bike",age:29,photo:"",
+   specialties:{climber:92,oneday:97,gc:52,tt:81,sprint:88},
+   palmares:["3× Strade Bianche","3× Milan-San Remo","Paris-Roubaix 2023","5× Gent-Wevelgem","Tour de France stages","World TT champion 2021"],
+   equipment:{bike:"Canyon Ultimate CFR",wheels:"Zipp 353 NSW",groupset:"Shimano Dura-Ace Di2",shoes:"Shimano S-Phyre RC902",helmet:"Lazer Sphere"},
+   social:{instagram:"https://www.instagram.com/woutvanaert/",x:"https://x.com/WoutvanAert"},
+   results_2026:[{date:"12/06",place:1,race:"Tour Auvergne S5"},{date:"23/03",place:2,race:"Gent-Wevelgem"},{date:"12/04",place:2,race:"Paris-Roubaix"},{date:"05/04",place:2,race:"Ronde van Vlaanderen"}]
+  },
+  {name:"Remco Evenepoel",slug:"remco-evenepoel",nat:"BEL",flag:"🇧🇪",team:"Soudal Quick-Step",age:24,photo:"",
+   specialties:{climber:88,oneday:85,gc:90,tt:99,sprint:35},
+   palmares:["Vuelta a España 2022","La Vuelta 2024","Olympic Gold TT & RR 2024","World TT champion 2022-23","Liège-Bastogne-Liège 2023"],
+   equipment:{bike:"Specialized S-Works Tarmac SL8",wheels:"Roval Rapide CLX II",groupset:"Shimano Dura-Ace Di2",shoes:"Specialized S-Works 7 Lace",helmet:"Specialized S-Works Evade 3"},
+   social:{instagram:"https://www.instagram.com/remco.ev/",x:"https://x.com/EvenepoelRemco"},
+   results_2026:[]
+  },
+  {name:"Jonas Vingegaard",slug:"jonas-vingegaard",nat:"DEN",flag:"🇩🇰",team:"Team Visma | Lease a Bike",age:27,photo:"",
+   specialties:{climber:99,oneday:72,gc:99,tt:90,sprint:8},
+   palmares:["Tour de France 2022-23","Giro d'Italia 2026","Critérium du Dauphiné 2023","Itzulia Basque Country 2023"],
+   equipment:{bike:"Canyon Ultimate CFR",wheels:"Zipp 353 NSW",groupset:"Shimano Dura-Ace Di2",shoes:"Fizik Infinito R1",helmet:"Lazer Sphere"},
+   social:{instagram:"https://www.instagram.com/jonasvingegaard/"},
+   results_2026:[{date:"31/05",place:1,race:"Giro d'Italia GC"},{date:"03/05",place:1,race:"Tour de Romandie GC"}]
+  },
+  {name:"Mathieu van der Poel",slug:"mathieu-van-der-poel",nat:"NED",flag:"🇳🇱",team:"Alpecin - Premier Tech",age:29,photo:"",
+   specialties:{climber:75,oneday:99,gc:58,tt:60,sprint:92},
+   palmares:["3× Ronde van Vlaanderen","Paris-Roubaix 2024","2× Milan-San Remo","World Champion 2023","2× Strade Bianche","Amstel Gold Race 2019/21/23"],
+   equipment:{bike:"Canyon Aeroad CFR",wheels:"Zipp 303 Firecrest",groupset:"Shimano Dura-Ace Di2",shoes:"Shimano S-Phyre",helmet:"Kask Utopia"},
+   social:{instagram:"https://www.instagram.com/mathieuvanderpoel/"},
+   results_2026:[]
+  },
+  {name:"Mads Pedersen",slug:"mads-pedersen",nat:"DEN",flag:"🇩🇰",team:"Lidl - Trek",age:28,photo:"",
+   specialties:{climber:45,oneday:91,gc:42,tt:75,sprint:88},
+   palmares:["World Champion 2019","Paris-Roubaix 2022","Gent-Wevelgem 2023","Tour de France stages"],
+   equipment:{bike:"Trek Madone SLR",wheels:"Bontrager Aeolus RSL 51",groupset:"Shimano Dura-Ace Di2",shoes:"Specialized S-Works 7",helmet:"Bontrager Ballista Mips"},
+   social:{instagram:"https://www.instagram.com/madspedersendk/"},
+   results_2026:[]
+  },
+  {name:"Primož Roglič",slug:"primoz-roglic",nat:"SLO",flag:"🇸🇮",team:"Red Bull - BORA - hansgrohe",age:35,photo:"",
+   specialties:{climber:95,oneday:80,gc:96,tt:98,sprint:20},
+   palmares:["3× La Vuelta (2019-21)","4× Itzulia Basque Country","Olympic Gold TT 2020","Paris-Nice 2023","Giro dell'Emilia 2024"],
+   equipment:{bike:"Specialized S-Works Tarmac SL8",wheels:"Roval Rapide CLX II",groupset:"Shimano Dura-Ace Di2",shoes:"Specialized S-Works 7",helmet:"Specialized Prevail 3"},
+   social:{instagram:"https://www.instagram.com/primozroglic/"},
+   results_2026:[]
+  },
+  {name:"Tom Pidcock",slug:"tom-pidcock",nat:"GBR",flag:"🇬🇧",team:"Netcompany INEOS",age:25,photo:"",
+   specialties:{climber:91,oneday:90,gc:70,tt:65,sprint:55},
+   palmares:["Olympic MTB Gold 2020","Strade Bianche 2024","l'Alpe d'Huez stage TdF 2022","World CX Champion 2022"],
+   equipment:{bike:"Pinarello Dogma F",wheels:"Campagnolo Bora Ultra WTO",groupset:"Shimano Dura-Ace Di2",shoes:"Sidi Shot 2S",helmet:"Kask Utopia"},
+   social:{instagram:"https://www.instagram.com/tompidcock/"},
+   results_2026:[]
+  },
+  {name:"Jasper Philipsen",slug:"jasper-philipsen",nat:"BEL",flag:"🇧🇪",team:"Alpecin - Premier Tech",age:26,photo:"",
+   specialties:{climber:20,oneday:80,gc:22,tt:40,sprint:99},
+   palmares:["4× Tour de France stage wins 2023","Milan-San Remo 2023","Gent-Wevelgem 2024","Tour de France Green Jersey 2023"],
+   equipment:{bike:"Canyon Aeroad CFR",wheels:"Zipp 858 NSW",groupset:"Shimano Dura-Ace Di2",shoes:"Shimano S-Phyre",helmet:"Kask Utopia"},
+   social:{instagram:"https://www.instagram.com/jasperphilipsen/"},
+   results_2026:[]
+  },
+  {name:"Isaac Del Toro",slug:"isaac-del-toro",nat:"MEX",flag:"🇲🇽",team:"UAE Team Emirates - XRG",age:21,photo:"",
+   specialties:{climber:93,oneday:72,gc:88,tt:75,sprint:15},
+   palmares:["Tour de Romandie 2025","UAE Tour 2025","Paris-Nice 2025 stage","U23 World Champion TT 2023"],
+   equipment:{bike:"Colnago V4Rs",wheels:"Campagnolo Bora Ultra",groupset:"Campagnolo Super Record",shoes:"DMT KR10",helmet:"Kask Protone"},
+   social:{instagram:"https://www.instagram.com/isaac_del_toro/"},
+   results_2026:[]
+  },
+];
+
+// ── Teams ─────────────────────────────────────────────────────
+const TEAMS = {
+  worldtour:[
+    {slug:"alpecin-premier-tech",name:"Alpecin - Premier Tech",official:"https://www.alpecin-premiertech.com/en/",country:"🇧🇪🇨🇦",manager:"Christoph Roodhooft"},
+    {slug:"bahrain-victorious",name:"Bahrain - Victorious",official:"https://www.bahrainfitness.com/cycling/",country:"🇧🇭",manager:"Milan Erzen"},
+    {slug:"decathlon-cma-cgm-team",name:"Decathlon CMA CGM Team",official:"https://www.decathloncmacgmteam.com/",country:"🇫🇷",manager:"Vincent Lavenu"},
+    {slug:"ef-education-easypost",name:"EF Education - EasyPost",official:"https://efprocycling.com/",country:"🇺🇸",manager:"Jonathan Vaughters"},
+    {slug:"groupama-fdj-united",name:"Groupama - FDJ United",official:"https://www.groupama-fdj.com/en/",country:"🇫🇷",manager:"Marc Madiot"},
+    {slug:"lidl-trek",name:"Lidl - Trek",official:"https://www.lidl-trek.com/",country:"🇺🇸",manager:"Luca Guercilena"},
+    {slug:"lotto-intermarche",name:"Lotto Intermarché",official:"https://www.lotto-intermarche.com/",country:"🇧🇪",manager:"Hilaire Van der Schueren"},
+    {slug:"movistar-team",name:"Movistar Team",official:"https://www.movistarteam.com/en/",country:"🇪🇸",manager:"Eusebio Unzué"},
+    {slug:"netcompany-ineos",name:"Netcompany INEOS",official:"https://www.ineos.com/teams/grenadiers/",country:"🇬🇧",manager:"Rod Ellingworth",img_slug:"ineos-grenadiers"},
+    {slug:"nsn-cycling-team",name:"NSN Cycling Team",official:"https://www.procyclingstats.com/team/nsn-cycling-team-2026",country:"🇸🇪",manager:"—"},
+    {slug:"red-bull-bora-hansgrohe",name:"Red Bull - BORA - hansgrohe",official:"https://www.redbull.com/int-en/tags/bora-hansgrohe",country:"🇦🇹🇩🇪",manager:"Ralf Alber"},
+    {slug:"soudal-quick-step",name:"Soudal Quick-Step",official:"https://www.soudal-quickstep.com/",country:"🇧🇪",manager:"Patrick Lefevere"},
+    {slug:"team-jayco-alula",name:"Team Jayco AlUla",official:"https://www.teamjayco.com.au/",country:"🇦🇺",manager:"Brent Copeland"},
+    {slug:"team-picnic-postnl",name:"Team Picnic PostNL",official:"https://www.teampicnicpostnl.nl/",country:"🇳🇱",manager:"Merijn Zeeman"},
+    {slug:"team-visma-lease-a-bike",name:"Team Visma | Lease a Bike",official:"https://www.teamvisma.com/",country:"🇳🇱",manager:"Merijn Zeeman"},
+    {slug:"uae-team-emirates-xrg",name:"UAE Team Emirates - XRG",official:"https://www.uaeteamemirates.com/",country:"🇦🇪",manager:"Mauro Gianetti"},
+    {slug:"uno-x-mobility",name:"Uno-X Mobility",official:"https://www.uno-x.com/",country:"🇳🇴",manager:"Christian Gustavsson"},
+    {slug:"xds-astana-team",name:"XDS Astana Team",official:"https://www.astanaqazaqstan.com/",country:"🇰🇿",manager:"Alexander Vinokourov"},
+  ],
+  proteam:[
+    {slug:"bardiani-csf-7-saber",name:"Bardiani CSF 7 Saber",official:"https://www.bardianiksf.it/"},
+    {slug:"burgos-burpellet-bh",name:"Burgos Burpellet BH",official:"https://www.burgosbh.com/"},
+    {slug:"caja-rural-seguros-rga",name:"Caja Rural - Seguros RGA",official:"https://www.cajarural.com/"},
+    {slug:"cofidis",name:"Cofidis",official:"https://www.cofidis.fr/"},
+    {slug:"equipo-kern-pharma",name:"Equipo Kern Pharma",official:"https://www.equipokernpharma.com/"},
+    {slug:"euskaltel-euskadi",name:"Euskaltel - Euskadi",official:"https://www.euskaltel.com/"},
+    {slug:"totalenergies",name:"TotalEnergies",official:"https://www.totalenergies.com/"},
+    {slug:"tudor-pro-cycling-team",name:"Tudor Pro Cycling Team",official:"https://www.tudor.com/"},
+    {slug:"unibet-rose-rockets",name:"Unibet Rose Rockets",official:""},
+    {slug:"team-flanders-baloise",name:"Team Flanders - Baloise",official:""},
+    {slug:"team-novo-nordisk",name:"Team Novo Nordisk",official:"https://www.teamnovonordisk.com/"},
+    {slug:"pinarello-q365-pro-cycling-team",name:"Pinarello Q36.5",official:"https://www.q36-5.com/"},
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════════
+// INDEXEDDB
+// ═══════════════════════════════════════════════════════════════
+let db=null;
+function openDB(){
+  return new Promise((res,rej)=>{
+    const r=indexedDB.open('uci-cal',3);
+    r.onupgradeneeded=e=>{const d=e.target.result;if(!d.objectStoreNames.contains('data'))d.createObjectStore('data',{keyPath:'k'});};
+    r.onsuccess=e=>{db=e.target.result;res(db);};
+    r.onerror=()=>rej(r.error);
+  });
+}
+function dbSet(k,v){return new Promise((res,rej)=>{const t=db.transaction('data','readwrite');t.objectStore('data').put({k,v,ts:Date.now()});t.oncomplete=res;t.onerror=()=>rej(t.error);});}
+function dbGet(k){return new Promise((res,rej)=>{const t=db.transaction('data','readonly');const r=t.objectStore('data').get(k);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+
+// ═══════════════════════════════════════════════════════════════
+// DATA LOADING
+// ═══════════════════════════════════════════════════════════════
+let appData=null;
+const STALE=4*3600000;
+
+async function loadData(force=false){
+  await openDB();
+  const cached=await dbGet('main').catch(()=>null);
+  if(cached&&!force&&(Date.now()-cached.ts<STALE)){appData=cached.v;renderAll();return;}
+  try{
+    const r=await fetch('./data.json?t='+Date.now(),{cache:'no-cache'});
+    if(r.ok){const j=await r.json();appData=j;await dbSet('main',j);renderAll();return;}
+  }catch(e){}
+  appData=cached?cached.v:FALLBACK;
+  if(!cached)await dbSet('main',FALLBACK);
+  renderAll();
+}
+async function refreshData(){
+  document.querySelector('.refresh-btn').textContent='⏳';
+  await loadData(true);
+  document.querySelector('.refresh-btn').textContent='↻';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+function pcsUrl(r){return`https://www.procyclingstats.com/race/${r.slug}/${r.year}`;}
+function gcalUrl(r){
+  const s=r.start_date.replace(/-/g,'');
+  const d=new Date(r.end_date+'T12:00:00Z');d.setDate(d.getDate()+1);
+  const e=d.toISOString().slice(0,10).replace(/-/g,'');
+  const txt=encodeURIComponent(`${r.name} (${r.category})`);
+  const det=encodeURIComponent(`${r.total_stages||1} stage(s). PCS: ${pcsUrl(r)}`);
+  return`https://calendar.google.com/calendar/event?action=TEMPLATE&text=${txt}&dates=${s}/${e}&details=${det}`;
+}
+function badgeCls(cat){
+  if(!cat)return'cat2';
+  cat=cat.toUpperCase();
+  if(cat.includes('UWT')||cat.includes('WWT'))return'uwt';
+  if(cat.includes('PRO'))return'pro';
+  if(cat.startsWith('1.'))return'cat1';
+  return'cat2';
+}
+function fmtDate(s){if(!s)return'';const d=new Date(s+'T12:00:00Z');return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
+function dateRange(r){if(r.start_date===r.end_date)return fmtDate(r.start_date);return`${fmtDate(r.start_date)} – ${fmtDate(r.end_date)}`;}
+
+function actionBtns(r){
+  let h=`<div class="race-actions">`;
+  h+=`<a class="abtn pcs" href="${pcsUrl(r)}" target="_blank">📊 PCS</a>`;
+  if(r.official_url)h+=`<a class="abtn official" href="${r.official_url}" target="_blank">🏁 Official</a>`;
+  h+=`<a class="abtn gcal" href="${gcalUrl(r)}" target="_blank">📆 Calendar</a>`;
+  if(r.status==='live'||r.status==='completed')h+=`<a class="abtn gc-ldr" href="${pcsUrl(r)}/gc" target="_blank">🟡 GC</a>`;
+  h+=`</div>`;
+  return h;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RACE CARDS
+// ═══════════════════════════════════════════════════════════════
+function renderRaceCard(r,showProg=true){
+  const pct=showProg&&r.total_stages?Math.round((r.stages_completed||0)/r.total_stages*100):0;
+  const live=r.status==='live'?`<span class="live-label">LIVE · ${r.stages_completed||0}/${r.total_stages||'?'}</span>`:'';
+  const gcw=r.gc_winner?`<div class="winner-preview">🏆 <strong>${r.gc_winner_flag||''} ${r.gc_winner}</strong></div>`:'';
+  const lastW=r.last_stage_winner&&!r.gc_winner?`<div class="winner-preview">Last: <strong>${r.last_stage_winner_flag||''} ${r.last_stage_winner}</strong></div>`:'';
+  const prog=showProg&&r.total_stages>1?`<div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div><div class="progress-label"><span>Stg 1</span><span>Final ${fmtDate(r.end_date)}</span></div>`:'';
+
+  let body='';
+
+  // Jerseys for live races
+  if(r.status==='live'){
+    body+=`<div class="jerseys">
+      <div class="jersey-card gc"><div class="jersey-icon">🟡</div><div class="jersey-label">GC</div><div class="jersey-rider"><a href="${pcsUrl(r)}/gc" target="_blank">Live →</a></div></div>
+      <div class="jersey-card pts"><div class="jersey-icon">🟢</div><div class="jersey-label">Points</div><div class="jersey-rider"><a href="${pcsUrl(r)}/points" target="_blank">Live →</a></div></div>
+      <div class="jersey-card kom"><div class="jersey-icon">🔴</div><div class="jersey-label">KOM</div><div class="jersey-rider"><a href="${pcsUrl(r)}/kom" target="_blank">Live →</a></div></div>
+      <div class="jersey-card youth"><div class="jersey-icon">⚪</div><div class="jersey-label">Youth</div><div class="jersey-rider"><a href="${pcsUrl(r)}/youth" target="_blank">Live →</a></div></div>
+    </div>`;
+  }
+
+  // Stages
+  if(r.stages&&r.stages.length){
+    const comp=r.stages.filter(s=>s.status==='completed').length;
+    body+=`<div class="stages-title">Stage Winners</div><div class="stages-list">`;
+    for(let i=0;i<r.stages.length;i++){
+      const s=r.stages[i];
+      const isToday=s.status==='upcoming'&&i===comp;
+      const rowCls=isToday?'stage-row stage-today':'stage-row';
+      const wCls=s.status==='upcoming'?'stage-winner upcoming-row':'stage-winner';
+      const wTxt=s.winner?`${s.winner_flag||''} ${s.winner}`:(isToday?'Today ⏳':'');
+      body+=`<div class="${rowCls}"><span class="stage-num">${s.label}</span><span class="${wCls}">${wTxt}</span><span class="stage-route">${s.route||''}</span></div>`;
+    }
+    body+=`</div>`;
+
+    // Top 10 for last completed
+    const last=[...r.stages].reverse().find(s=>s.status==='completed');
+    if(last&&r.total_stages>1){
+      if(last.top10&&last.top10.length){
+        const tid=`t10-${r.slug}-${last.num}`;
+        body+=`<div class="top10-btn" onclick="toggleEl('${tid}')">▶ Top 10 – ${last.label}</div><div class="top10-list" id="${tid}">`;
+        for(const row of last.top10){
+          const rc=row.rank===1?'t10-rank g':row.rank===2?'t10-rank s':row.rank===3?'t10-rank b':'t10-rank';
+          body+=`<div class="t10"><span class="${rc}">${row.rank}</span><span class="t10-name">${row.flag||''} ${row.name}</span><span class="t10-team">${row.team||''}</span><span class="t10-gap">${row.time_gap||''}</span></div>`;
+        }
+        body+=`</div>`;
+      } else {
+        body+=`<a class="top10-btn" href="https://www.procyclingstats.com/race/${r.slug}/${r.year}/stage-${last.num}/result" target="_blank">📊 View top 10 on PCS →</a>`;
+      }
+    }
+  }
+
+  body+=actionBtns(r);
+
+  return`<div class="race-card" id="card-${r.slug}" data-cat="${r.category}" onclick="toggleCard(this,event)">
+    <div class="race-header">
+      <div class="status-dot ${r.status}"></div>
+      <div class="race-info">
+        <div class="race-name">${r.name}</div>
+        <div class="race-meta"><span class="badge ${badgeCls(r.category)}">${r.category}</span><span class="race-dates">${dateRange(r)}</span>${live}</div>
+        ${gcw}${lastW}${prog}
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="race-body">${body}</div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SECTION RENDERS
+// ═══════════════════════════════════════════════════════════════
+function renderAll(){
+  if(!appData)return;
+  document.getElementById('last-updated').textContent=`Updated: ${appData.scraped_at_human||'—'} · procyclingstats.com`;
+  renderLive();renderUpcoming();renderRecent();renderTeams();renderRankings();renderExport();
+  applyFilter(curFilter);
+}
+
+function renderLive(){
+  const races=appData.live||[];
+  let h=races.length?races.map(r=>renderRaceCard(r,true)).join(''):'<div class="loading-row">No live races right now.</div>';
+  document.getElementById('live-content').innerHTML=h;
+}
+
+function renderUpcoming(){
+  const races=(appData.upcoming||[]).slice().sort((a,b)=>new Date(a.start_date)-new Date(b.start_date));
+  const now=new Date();
+  let h='';
+  const tdf=races.find(r=>r.slug==='tour-de-france');
+  if(tdf)h+=renderFeaturedTDF(tdf);
+  const groups=[['This week',r=>{ const d=(new Date(r.start_date)-now)/86400000; return d>=0&&d<7; }],
+                ['Next week',r=>{ const d=(new Date(r.start_date)-now)/86400000; return d>=7&&d<14; }],
+                ['Coming up',r=>{ const d=(new Date(r.start_date)-now)/86400000; return d>=14; }]];
+  for(const [label,fn] of groups){
+    const g=races.filter(r=>!r.featured&&fn(r));
+    if(g.length){h+=`<div class="section-hdr">${label}</div>`;for(const r of g)h+=renderRaceCard(r,false);}
+  }
+  document.getElementById('upcoming-content').innerHTML=h||'<div class="loading-row">No upcoming data.</div>';
+  updateCountdown();
+}
+
+function renderRecent(){
+  const races=appData.recent||[];
+  const gt=races.filter(r=>r.category==='2.UWT'||r.category==='2.WWT');
+  const stage=races.filter(r=>!gt.includes(r)&&(r.total_stages||1)>1);
+  const oneday=races.filter(r=>(r.total_stages||1)===1);
+  let h='';
+  if(gt.length){h+=`<div class="section-hdr">🏆 Grand Tours</div>`;for(const r of gt)h+=renderRaceCard(r,false);}
+  if(stage.length){h+=`<div class="section-hdr">📋 Stage Races</div>`;for(const r of stage)h+=renderRaceCard(r,false);}
+  if(oneday.length){h+=`<div class="section-hdr">🏅 One-Day Classics</div>`;for(const r of oneday)h+=renderRaceCard(r,false);}
+  document.getElementById('recent-content').innerHTML=h||'<div class="loading-row">No recent results.</div>';
+}
+
+function renderFeaturedTDF(tdf){
+  const chips=(tdf.contenders||[]).map(c=>`<div class="rider-chip">
+    ${c.photo?`<img class="rider-photo" src="${c.photo}" onerror="this.style.display='none'" alt="">`:`<span style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.15);display:inline-block;flex-shrink:0"></span>`}
+    <span class="chip-flag">${c.flag||''}</span><span class="chip-name">${c.name}</span>
+  </div>`).join('');
+  const ks=(tdf.key_stages||[]).map(s=>`<div class="ks"><strong>${s.label}</strong>${s.desc}</div>`).join('');
+  return`<div class="featured-card">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+      <span style="font-size:1.3rem">🏆</span>
+      <div>
+        <div class="race-name">Tour de France 2026</div>
+        <div style="font-size:.6rem;color:rgba(255,255,255,.5);margin-top:2px"><span class="badge uwt">2.UWT</span>&nbsp;4–26 Jul · ${tdf.total_km}km · ${tdf.start_city} → ${tdf.finish_city}</div>
+      </div>
+    </div>
+    <div class="cd-row"><div class="cd-unit"><div class="cd-num" id="cd-d">—</div><div class="cd-lbl">Days</div></div><div class="cd-unit"><div class="cd-num" id="cd-h">—</div><div class="cd-lbl">Hrs</div></div><div class="cd-unit"><div class="cd-num" id="cd-m">—</div><div class="cd-lbl">Min</div></div></div>
+    <div style="font-size:.58rem;color:rgba(255,255,255,.4);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px">Contenders</div>
+    <div class="contenders-wrap">${chips}</div>
+    ${ks?`<div class="key-stages-grid">${ks}</div>`:''}
+    <div style="margin-top:10px;display:flex;gap:5px;flex-wrap:wrap">
+      <a href="${tdf.official_url||'https://www.letour.fr'}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;padding:6px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:white;font-size:.66rem;font-weight:600;text-decoration:none;">🏁 Official</a>
+      <a href="${pcsUrl(tdf)}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;padding:6px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:white;font-size:.66rem;font-weight:600;text-decoration:none;">📊 PCS</a>
+      <a href="${gcalUrl(tdf)}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;padding:6px 10px;background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.3);border-radius:6px;color:#ffd700;font-size:.66rem;font-weight:600;text-decoration:none;">📆 Add to Calendar</a>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RIDERS / RANKINGS
+// ═══════════════════════════════════════════════════════════════
+function renderRankings(){
+  let h='';
+  const riders=appData&&appData.rider_profiles?mergeRiders():TOP_RIDERS;
+  for(let i=0;i<riders.length;i++){
+    const r=riders[i];
+    h+=`<div class="ranking-row" onclick="openRider('${r.slug}')">
+      <span class="rk-pos ${i<3?'top3':''}">${i+1}</span>
+      ${r.photo?`<img class="rk-photo" src="${r.photo}" onerror="this.style.display='none'" alt="">`:'<div class="rk-photo"></div>'}
+      <div style="flex:1;min-width:0">
+        <div class="rk-name">${r.flag||''} ${r.name}</div>
+        <div class="rk-sub">${r.team||''}</div>
+      </div>
+      <div>
+        <div class="rk-pts" style="font-size:.68rem;color:#64748b">View →</div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('rankings-content').innerHTML=h;
+}
+function mergeRiders(){
+  // Merge scraped profiles into TOP_RIDERS
+  const scraped=appData.rider_profiles||{};
+  return TOP_RIDERS.map(r=>{
+    const s=scraped[r.slug];
+    if(!s)return r;
+    return {...r,team:s.team||r.team,nat_code:s.nat_code||r.nat,photo:s.photo||r.photo};
+  });
+}
+
+function openRider(slug){
+  const r=TOP_RIDERS.find(x=>x.slug===slug);
+  if(!r)return;
+  const modal=document.getElementById('rider-modal');
+  document.getElementById('rider-modal-content').innerHTML=renderRiderProfile(r);
+  modal.classList.add('open');
+}
+function closeRiderModal(){document.getElementById('rider-modal').classList.remove('open');}
+function closeModal(e){if(e.target===document.getElementById('rider-modal'))closeRiderModal();}
+
+function renderRiderProfile(r){
+  const specs=[
+    {label:'Climber',val:r.specialties?.climber||0,color:'#8b5cf6'},
+    {label:'One-day',val:r.specialties?.oneday||0,color:'#ef4444'},
+    {label:'GC',val:r.specialties?.gc||0,color:'#f59e0b'},
+    {label:'Time Trial',val:r.specialties?.tt||0,color:'#3b82f6'},
+    {label:'Sprint',val:r.specialties?.sprint||0,color:'#10b981'},
+  ];
+  const specHtml=specs.map(s=>`<div class="spec-bar-row">
+    <span class="spec-bar-label">${s.label}</span>
+    <div class="spec-bar-track"><div class="spec-bar-fill" style="width:${s.val}%;background:${s.color}"></div></div>
+    <span class="spec-bar-val">${s.val}</span>
+  </div>`).join('');
+
+  const palmaresHtml=(r.palmares||[]).map(p=>`<div style="font-size:.7rem;padding:4px 0;border-bottom:1px solid #f1f5f9;color:#0f1f3d">🏅 ${p}</div>`).join('');
+
+  const equip=r.equipment||{};
+  const equipHtml=Object.entries(equip).map(([k,v])=>`<div class="rider-stat"><div class="rider-stat-label">${k}</div><div class="rider-stat-val" style="font-size:.72rem">${v}</div></div>`).join('');
+
+  const results2026=(r.results_2026||[]);
+  const resultsHtml=results2026.length?results2026.map(x=>{
+    const pc=x.place===1?'p1':x.place===2?'p2':x.place===3?'p3':'';
+    return`<div class="rider-result-row"><span class="rr-date">${x.date}</span><span class="rr-place ${pc}">${x.place}</span><span class="rr-race">${x.race}</span></div>`;
+  }).join(''):'<div style="font-size:.68rem;color:#94a3b8;padding:6px 0">No 2026 results recorded</div>';
+
+  const socials=r.social||{};
+  const socialHtml=Object.entries(socials).map(([k,url])=>`<a class="social-link" href="${url}" target="_blank">${k.charAt(0).toUpperCase()+k.slice(1)}</a>`).join('');
+
+  return`<div class="rider-profile-header">
+    ${r.photo?`<img class="rider-big-photo" src="${r.photo}" onerror="this.style.display='none'" alt="${r.name}">`:`<div class="rider-big-photo"></div>`}
+    <div>
+      <div class="rider-profile-name">${r.flag||''} ${r.name}</div>
+      <div class="rider-profile-sub">${r.team||''}</div>
+      <div class="rider-profile-sub">Age ${r.age||'—'} · ${r.nat||'—'}</div>
+    </div>
+  </div>
+
+  <div class="rider-results-title" style="margin-bottom:5px">📊 Specialty Scores (PCS)</div>
+  <div class="spec-bars">${specHtml}</div>
+
+  <div class="rider-results-title">🏆 2026 Results</div>
+  ${resultsHtml}
+
+  <div class="rider-results-title" style="margin-top:12px">🎖 Palmarès</div>
+  <div style="margin-bottom:12px">${palmaresHtml}</div>
+
+  ${equipHtml?`<div class="rider-results-title">🚲 Equipment</div><div class="rider-stat-grid" style="margin-bottom:12px">${equipHtml}</div>`:''}
+
+  ${socialHtml?`<div class="rider-results-title">🔗 Social & Links</div><div class="social-links">${socialHtml}
+    <a class="social-link" href="https://www.procyclingstats.com/rider/${r.slug}" target="_blank">PCS Profile</a>
+  </div>`:''}`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEAMS
+// ═══════════════════════════════════════════════════════════════
+function renderTeams(){
+  let h=`<div class="section-hdr">🌍 UCI WorldTeams 2026</div><div class="team-grid">`;
+  for(const t of TEAMS.worldtour){
+    const js=t.img_slug||t.slug;
+    const jurl=`https://www.procyclingstats.com/images/shirts/bx/eb/${js}-2026.png`;
+    const pcs=`https://www.procyclingstats.com/team/${t.slug}-2026`;
+    h+=`<div class="team-card">
+      <img class="team-jersey" src="${jurl}" onerror="this.style.display='none'" alt="${t.name}">
+      <div class="team-name">${t.name}</div>
+      ${t.country?`<div style="font-size:.6rem;color:#64748b">${t.country} ${t.manager&&t.manager!=='—'?'· '+t.manager:''}</div>`:''}
+      <div class="team-links">
+        ${t.official?`<a class="tlink official" href="${t.official}" target="_blank">🌐 Official</a>`:''}
+        <a class="tlink pcs" href="${pcs}" target="_blank">📊 PCS</a>
+      </div>
+    </div>`;
+  }
+  h+=`</div><div class="section-hdr" style="margin-top:12px">📋 UCI ProTeams 2026</div><div class="team-grid">`;
+  for(const t of TEAMS.proteam){
+    const jurl=`https://www.procyclingstats.com/images/shirts/bx/eb/${t.slug}-2026.png`;
+    const pcs=`https://www.procyclingstats.com/team/${t.slug}-2026`;
+    h+=`<div class="team-card">
+      <img class="team-jersey" src="${jurl}" onerror="this.style.display='none'" alt="${t.name}">
+      <div class="team-name">${t.name}</div>
+      <div class="team-links">
+        ${t.official?`<a class="tlink official" href="${t.official}" target="_blank">🌐 Official</a>`:''}
+        <a class="tlink pcs" href="${pcs}" target="_blank">📊 PCS</a>
+      </div>
+    </div>`;
+  }
+  h+=`</div>`;
+  document.getElementById('teams-content').innerHTML=h;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════════════════════
+function renderExport(){
+  if(!appData)return;
+  const all=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])];
+  let h='';
+  for(const r of all){
+    h+=`<div class="gcal-item">
+      <div><div class="gcal-item-name">${r.name}</div><div class="gcal-item-sub">${dateRange(r)} · ${r.category}</div></div>
+      <a href="${gcalUrl(r)}" target="_blank" class="abtn gcal" style="flex-shrink:0;margin-left:8px;font-size:.58rem">📆 Add</a>
+    </div>`;
+  }
+  document.getElementById('gcal-list').innerHTML=h;
+}
+
+function downloadICS(mode){
+  if(!appData)return;
+  let races=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])];
+  if(mode==='upcoming')races=[...(appData.live||[]),...(appData.upcoming||[])];
+  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//UCI Calendar 2026//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:UCI Race Calendar 2026'];
+  for(const r of races){
+    const s=r.start_date.replace(/-/g,'');
+    const d=new Date(r.end_date+'T12:00:00Z');d.setDate(d.getDate()+1);
+    const e=d.toISOString().slice(0,10).replace(/-/g,'');
+    const desc=[r.total_stages?r.total_stages+' stages':'1-day',r.gc_winner?'Winner: '+r.gc_winner:'','PCS: '+pcsUrl(r),r.official_url?'Official: '+r.official_url:''].filter(Boolean).join('\\n');
+    lines.push('BEGIN:VEVENT',`DTSTART;VALUE=DATE:${s}`,`DTEND;VALUE=DATE:${e}`,`SUMMARY:${r.name} (${r.category})`,`DESCRIPTION:${desc}`,`URL:${pcsUrl(r)}`,`UID:uci-2026-${r.slug}@pwa`,'END:VEVENT');
+  }
+  lines.push('END:VCALENDAR');
+  const blob=new Blob([lines.join('\r\n')],{type:'text/calendar'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=mode==='upcoming'?'uci-upcoming-2026.ics':'uci-calendar-2026.ics';a.click();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COUNTDOWN
+// ═══════════════════════════════════════════════════════════════
+function updateCountdown(){
+  const tdf=new Date('2026-07-04T10:00:00');
+  const now=new Date();
+  const diff=tdf-now;
+  const d=document.getElementById('cd-d');
+  if(!d)return;
+  if(diff<=0){d.textContent='🚴';return;}
+  d.textContent=Math.floor(diff/86400000);
+  document.getElementById('cd-h').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+}
+setInterval(updateCountdown,30000);
+
+// ═══════════════════════════════════════════════════════════════
+// FILTER & NAV
+// ═══════════════════════════════════════════════════════════════
+let curFilter='ALL';
+function setFilter(f,el){
+  curFilter=f;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  applyFilter(f);
+}
+function applyFilter(f){
+  document.querySelectorAll('.race-card').forEach(card=>{
+    const cat=(card.dataset.cat||'').toUpperCase();
+    let show=true;
+    if(f==='UWT')show=cat.includes('UWT')||cat.includes('WWT');
+    else if(f==='PRO')show=cat.includes('PRO');
+    else if(f==='2.2')show=cat.startsWith('2.');
+    else if(f==='1.1')show=cat.startsWith('1.');
+    else if(f==='WE')show=cat.includes('WWT')||cat.endsWith('W');
+    card.style.display=show?'':'none';
+  });
+}
+function showSec(name,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  btn.classList.add('active');
+  const showFilter=['live','upcoming','recent'].includes(name);
+  document.getElementById('filter-bar').style.display=showFilter?'flex':'none';
+}
+function toggleCard(card,event){
+  if(event.target.tagName==='A')return;
+  card.classList.toggle('open');
+}
+function toggleEl(id){document.getElementById(id)?.classList.toggle('open');}
+
+// ═══════════════════════════════════════════════════════════════
+// PWA
+// ═══════════════════════════════════════════════════════════════
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+let prompt;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();prompt=e;document.getElementById('install-btn').style.display='flex';});
+window.addEventListener('appinstalled',()=>document.getElementById('install-btn').style.display='none');
+function installPWA(){if(!prompt)return;prompt.prompt();prompt.userChoice.then(()=>{prompt=null;document.getElementById('install-btn').style.display='none';});}
+function updateOnline(){document.getElementById('offline-banner').style.display=navigator.onLine?'none':'block';}
+window.addEventListener('online',updateOnline);window.addEventListener('offline',updateOnline);updateOnline();
+
+// Hash routing
+const hash=location.hash;
+if(hash==='#upcoming')showSec('upcoming',document.querySelectorAll('.nav-btn')[1]);
+else if(hash==='#riders')showSec('riders',document.querySelectorAll('.nav-btn')[3]);
+else if(hash==='#teams')showSec('teams',document.querySelectorAll('.nav-btn')[4]);
+
+// Boot
+loadData();
+</script>
+</body>
+</html>
