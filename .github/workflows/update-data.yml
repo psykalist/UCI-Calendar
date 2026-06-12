@@ -8,6 +8,9 @@ on:
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   scrape-and-deploy:
     runs-on: ubuntu-latest
@@ -23,8 +26,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run scraper
-        run: python scraper.py
+      - name: Run scraper (best-effort)
+        run: python scraper.py || echo "Scraper encountered errors — using partial/cached data"
 
       - name: Commit updated data.json
         run: |
