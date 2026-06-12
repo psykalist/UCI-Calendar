@@ -1,0 +1,315 @@
+{
+  "scraped_at": "2026-06-12T16:12:52.455076",
+  "scraped_at_human": "12 Jun 2026 16:12",
+  "live": [
+    {
+      "slug": "tour-auvergne-rhone-alpes",
+      "name": "Tour Auvergne – Rhône-Alpes",
+      "year": "2026",
+      "category": "2.UWT",
+      "status": "live",
+      "start_date": "2026-06-07",
+      "end_date": "2026-06-14",
+      "total_stages": 8,
+      "stages": [],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-auvergne-rhone-alpes/2026"
+    },
+    {
+      "slug": "tour-du-cameroun",
+      "name": "Tour du Cameroun",
+      "year": "2026",
+      "category": "2.2",
+      "status": "live",
+      "start_date": "2026-06-03",
+      "end_date": "2026-06-14",
+      "total_stages": 10,
+      "stages": [],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-du-cameroun/2026"
+    },
+    {
+      "slug": "tour-de-gyeongnam",
+      "name": "Tour de Gyeongnam",
+      "year": "2026",
+      "category": "2.2",
+      "status": "live",
+      "start_date": "2026-06-09",
+      "end_date": "2026-06-13",
+      "total_stages": 5,
+      "stages": [],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-de-gyeongnam/2026"
+    },
+    {
+      "slug": "tour-de-beauce",
+      "name": "Tour de Beauce",
+      "year": "2026",
+      "category": "2.2",
+      "status": "live",
+      "start_date": "2026-06-10",
+      "end_date": "2026-06-14",
+      "total_stages": 5,
+      "stages": [],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-de-beauce/2026"
+    },
+    {
+      "slug": "tour-of-malopolska",
+      "name": "Tour of Malopolska",
+      "year": "2026",
+      "category": "2.2",
+      "status": "live",
+      "start_date": "2026-06-11",
+      "end_date": "2026-06-14",
+      "total_stages": 4,
+      "has_prologue": true,
+      "stages": [],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-of-malopolska/2026"
+    }
+  ],
+  "upcoming": [
+    {
+      "slug": "tour-de-france",
+      "name": "Tour de France",
+      "year": "2026",
+      "category": "2.UWT",
+      "status": "upcoming",
+      "start_date": "2026-07-04",
+      "end_date": "2026-07-26",
+      "total_stages": 21,
+      "featured": true,
+      "contenders": [
+        {
+          "name": "Tadej Pogačar",
+          "nat": "SLO",
+          "flag": "🇲🇨"
+        },
+        {
+          "name": "Jonas Vingegaard",
+          "nat": "DEN",
+          "flag": "🇣🇪"
+        },
+        {
+          "name": "Remco Evenepoel",
+          "nat": "BEL",
+          "flag": "🇡🇤"
+        },
+        {
+          "name": "Antonio Del Toro",
+          "nat": "MEX",
+          "flag": "🇬🇷"
+        },
+        {
+          "name": "Mathieu van der Poel",
+          "nat": "NED",
+          "flag": "🇭🇫"
+        },
+        {
+          "name": "Tom Pidcock",
+          "nat": "GBR",
+          "flag": "🇦🇡"
+        },
+        {
+          "name": "Jasper Philipsen",
+          "nat": "BEL",
+          "flag": "🇡🇤"
+        }
+      ],
+      "start_city": "Barcelona",
+      "finish_city": "Paris",
+      "total_km": "3333"
+    },
+    {
+      "slug": "tour-de-suisse",
+      "name": "Tour de Suisse",
+      "year": "2026",
+      "category": "2.UWT",
+      "status": "upcoming",
+      "start_date": "2026-06-17",
+      "end_date": "2026-06-21",
+      "total_stages": 8
+    },
+    {
+      "slug": "tour-de-suisse-women",
+      "name": "Tour de Suisse Women",
+      "year": "2026",
+      "category": "2.WWT",
+      "status": "upcoming",
+      "start_date": "2026-06-17",
+      "end_date": "2026-06-21"
+    },
+    {
+      "slug": "tour-of-belgium",
+      "name": "Baloise Belgium Tour",
+      "year": "2026",
+      "category": "2.Pro",
+      "status": "upcoming",
+      "start_date": "2026-06-17",
+      "end_date": "2026-06-21",
+      "total_stages": 5
+    },
+    {
+      "slug": "tour-of-slovenia",
+      "name": "Tour of Slovenia",
+      "year": "2026",
+      "category": "2.Pro",
+      "status": "upcoming",
+      "start_date": "2026-06-17",
+      "end_date": "2026-06-21",
+      "total_stages": 5
+    },
+    {
+      "slug": "copenhagen-sprint",
+      "name": "Copenhagen Sprint ME",
+      "year": "2026",
+      "category": "1.UWT",
+      "status": "upcoming",
+      "start_date": "2026-06-14",
+      "end_date": "2026-06-14",
+      "total_stages": 1
+    },
+    {
+      "slug": "giro-ciclistico-d-italia",
+      "name": "Giro d'Italia Next Gen",
+      "year": "2026",
+      "category": "2.2U",
+      "status": "upcoming",
+      "start_date": "2026-06-14",
+      "end_date": "2026-06-21"
+    }
+  ],
+  "recent": [
+    {
+      "slug": "tour-de-wallonie",
+      "name": "Ethias-Tour de Wallonie",
+      "year": "2026",
+      "category": "2.Pro",
+      "status": "completed",
+      "start_date": "2026-06-01",
+      "end_date": "2026-06-05",
+      "total_stages": 5,
+      "gc_winner": "Ben Oliver",
+      "gc_winner_nat": "NZL",
+      "gc_winner_flag": "🇭🇹",
+      "pcs_url": "https://www.procyclingstats.com/race/tour-de-wallonie/2026",
+      "stages": []
+    },
+    {
+      "slug": "tour-of-estonia",
+      "name": "Tour of Estonia",
+      "year": "2026",
+      "category": "2.1",
+      "status": "completed",
+      "start_date": "2026-06-04",
+      "end_date": "2026-06-06",
+      "total_stages": 3,
+      "gc_winner": "Marceli Bogusławski",
+      "gc_winner_nat": "POL",
+      "gc_winner_flag": "🇯🇫",
+      "pcs_url": "https://www.procyclingstats.com/race/tour-of-estonia/2026",
+      "stages": []
+    },
+    {
+      "slug": "oberosterreichrundfahrt",
+      "name": "Oberösterreich Rundfahrt",
+      "year": "2026",
+      "category": "2.2",
+      "status": "completed",
+      "start_date": "2026-06-04",
+      "end_date": "2026-06-07",
+      "total_stages": 4,
+      "gc_winner": "Henrique Bravo",
+      "gc_winner_nat": "POR",
+      "gc_winner_flag": "🇯🇳",
+      "pcs_url": "https://www.procyclingstats.com/race/oberosterreichrundfahrt/2026",
+      "stages": []
+    },
+    {
+      "slug": "ronde-de-l-oise",
+      "name": "Ronde de l'Oise",
+      "year": "2026",
+      "category": "2.2",
+      "status": "completed",
+      "start_date": "2026-06-04",
+      "end_date": "2026-06-07",
+      "total_stages": 4,
+      "gc_winner": "Patrick Eddy",
+      "gc_winner_nat": "AUS",
+      "gc_winner_flag": "🇠🇴",
+      "pcs_url": "https://www.procyclingstats.com/race/ronde-de-l-oise/2026",
+      "stages": []
+    },
+    {
+      "slug": "circuit-franco-belge",
+      "name": "Circuit Franco-Belge",
+      "year": "2026",
+      "category": "1.Pro",
+      "status": "completed",
+      "start_date": "2026-06-10",
+      "end_date": "2026-06-10",
+      "total_stages": 1,
+      "gc_winner": "Corbin Strong",
+      "gc_winner_nat": "NZL",
+      "gc_winner_flag": "🇭🇹",
+      "stages": []
+    },
+    {
+      "slug": "brussels-cycling-classic",
+      "name": "Brussels Cycling Classic",
+      "year": "2026",
+      "category": "1.Pro",
+      "status": "completed",
+      "start_date": "2026-06-07",
+      "end_date": "2026-06-07",
+      "total_stages": 1,
+      "gc_winner": "Jordi Meeus",
+      "gc_winner_nat": "BEL",
+      "gc_winner_flag": "🇡🇤",
+      "stages": []
+    },
+    {
+      "slug": "giro-d-italia",
+      "name": "Giro d'Italia 2026",
+      "year": "2026",
+      "category": "2.UWT",
+      "status": "completed",
+      "start_date": "2026-05-10",
+      "end_date": "2026-05-31",
+      "total_stages": 21,
+      "gc_winner": "Jonas Vingegaard",
+      "gc_winner_nat": "DEN",
+      "gc_winner_flag": "🇣🇪",
+      "pcs_url": "https://www.procyclingstats.com/race/giro-d-italia/2026",
+      "stages": []
+    }
+  ],
+  "rider_profiles": {
+    "tadej-pogacar": {
+      "url": "/rider/tadej-pogacar",
+      "nat_code": "GB",
+      "flag": "🇦🇡"
+    },
+    "jonas-vingegaard": {
+      "url": "/rider/jonas-vingegaard",
+      "nat_code": "GB",
+      "flag": "🇦🇡"
+    },
+    "remco-evenepoel": {
+      "url": "/rider/remco-evenepoel",
+      "nat_code": "GB",
+      "flag": "🇦🇡"
+    },
+    "mathieu-van-der-poel": {
+      "url": "/rider/mathieu-van-der-poel",
+      "nat_code": "GB",
+      "flag": "🇦🇡"
+    },
+    "jasper-philipsen": {
+      "url": "/rider/jasper-philipsen",
+      "nat_code": "GB",
+      "flag": "🇦🇡"
+    },
+    "wout-van-aert": {
+      "url": "/rider/wout-van-aert",
+      "nat_code": "GB",
+      "flag": "🇦🇡"
+    }
+  }
+}
