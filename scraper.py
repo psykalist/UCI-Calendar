@@ -1137,9 +1137,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-files: {len(all_data['rider_profiles'])}")
-    print(f"   Scraped at: {all_data['scraped_at_human']}")
-
-
-if __name__ == "__main__":
-    main()
