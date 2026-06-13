@@ -532,21 +532,18 @@ def scrape_classifications_playwright(race_path):
                 url = f"{BASE_URL}/race/{race_slug}/{race_year}/{cls_key}"
                 print(f"    [playwright] {cls_key} ...", end=" ", flush=True)
                 try:
-                    page.goto(url, wait_until="networkidle", timeout=PAGE_TIMEOUT)
+                    page.goto(url, wait_until="load", timeout=PAGE_TIMEOUT)
+                    # Give JS time to populate rider names via AJAX
+                    page.wait_for_timeout(3000)
                     try:
                         page.wait_for_function(
                             "(function(){var d=document.querySelectorAll('td.ridername div.cont');"
                             "for(var i=0;i<d.length;i++){if(d[i].textContent.trim()!='')return true;}"
                             "return false;})()",
-                            timeout=WAIT_TIMEOUT * 2
+                            timeout=WAIT_TIMEOUT
                         )
                     except PWTimeout:
-                        # Try scrolling to trigger lazy-load, then wait briefly
-                        try:
-                            page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-                            page.wait_for_timeout(2000)
-                        except Exception:
-                            pass
+                        pass  # Extract whatever is there
 
                     rows_data = page.evaluate("""() => {
                         const out = [];
