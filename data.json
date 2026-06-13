@@ -1,6 +1,6 @@
 {
-  "scraped_at": "2026-06-13T11:04:59.934259",
-  "scraped_at_human": "13 Jun 2026 11:04",
+  "scraped_at": "2026-06-13T11:33:08.317291",
+  "scraped_at_human": "13 Jun 2026 11:33",
   "live": [
     {
       "slug": "tour-auvergne-rhone-alpes",
@@ -11,8 +11,99 @@
       "start_date": "2026-06-07",
       "end_date": "2026-06-14",
       "total_stages": 8,
-      "stages": [],
-      "pcs_url": "https://www.procyclingstats.com/race/tour-auvergne-rhone-alpes/2026"
+      "official_url": "https://www.tourauvergnerhoalpes.fr/",
+      "stages": [
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/tour-auvergne-rhone-alpes/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/tour-auvergne-rhone-alpes/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/tour-auvergne-rhone-alpes/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 4,
+          "label": "Stage 4",
+          "result_url": "/race/tour-auvergne-rhone-alpes/2026/stage-4/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 5,
+          "label": "Stage 5",
+          "result_url": "/race/tour-auvergne-rhone-alpes/2026/stage-5/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 6,
+          "label": "Stage 6",
+          "result_url": "/race/tour-auvergne-rhone-alpes/2026/stage-6/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 7,
+          "label": "Stage 7",
+          "result_url": "/race/tour-auvergne-rhone-alpes/2026/stage-7/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 8,
+          "label": "Stage 8",
+          "result_url": "/race/tour-auvergne-rhone-alpes/2026/stage-8/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-auvergne-rhone-alpes/2026",
+      "stages_completed": 0
     },
     {
       "slug": "tour-du-cameroun",
@@ -23,8 +114,120 @@
       "start_date": "2026-06-03",
       "end_date": "2026-06-14",
       "total_stages": 10,
-      "stages": [],
-      "pcs_url": "https://www.procyclingstats.com/race/tour-du-cameroun/2026"
+      "stages": [
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/tour-du-cameroun/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/tour-du-cameroun/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/tour-du-cameroun/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 4,
+          "label": "Stage 4",
+          "result_url": "/race/tour-du-cameroun/2026/stage-4/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 5,
+          "label": "Stage 5",
+          "result_url": "/race/tour-du-cameroun/2026/stage-5/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 6,
+          "label": "Stage 6",
+          "result_url": "/race/tour-du-cameroun/2026/stage-6/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 7,
+          "label": "Stage 7",
+          "result_url": "/race/tour-du-cameroun/2026/stage-7/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 8,
+          "label": "Stage 8",
+          "result_url": "/race/tour-du-cameroun/2026/stage-8/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 9,
+          "label": "Stage 9",
+          "result_url": "/race/tour-du-cameroun/2026/stage-9/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 10,
+          "label": "Stage 10",
+          "result_url": "/race/tour-du-cameroun/2026/stage-10/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-du-cameroun/2026",
+      "stages_completed": 0
     },
     {
       "slug": "tour-de-gyeongnam",
@@ -35,8 +238,65 @@
       "start_date": "2026-06-09",
       "end_date": "2026-06-13",
       "total_stages": 5,
-      "stages": [],
-      "pcs_url": "https://www.procyclingstats.com/race/tour-de-gyeongnam/2026"
+      "stages": [
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/tour-de-gyeongnam/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/tour-de-gyeongnam/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/tour-de-gyeongnam/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 4,
+          "label": "Stage 4",
+          "result_url": "/race/tour-de-gyeongnam/2026/stage-4/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 5,
+          "label": "Stage 5",
+          "result_url": "/race/tour-de-gyeongnam/2026/stage-5/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-de-gyeongnam/2026",
+      "stages_completed": 0
     },
     {
       "slug": "tour-de-beauce",
@@ -47,8 +307,66 @@
       "start_date": "2026-06-10",
       "end_date": "2026-06-14",
       "total_stages": 5,
-      "stages": [],
-      "pcs_url": "https://www.procyclingstats.com/race/tour-de-beauce/2026"
+      "official_url": "https://www.tourdebeauce.com/",
+      "stages": [
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/tour-de-beauce/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/tour-de-beauce/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/tour-de-beauce/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 4,
+          "label": "Stage 4",
+          "result_url": "/race/tour-de-beauce/2026/stage-4/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 5,
+          "label": "Stage 5",
+          "result_url": "/race/tour-de-beauce/2026/stage-5/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-de-beauce/2026",
+      "stages_completed": 0
     },
     {
       "slug": "tour-of-malopolska",
@@ -60,8 +378,65 @@
       "end_date": "2026-06-14",
       "total_stages": 4,
       "has_prologue": true,
-      "stages": [],
-      "pcs_url": "https://www.procyclingstats.com/race/tour-of-malopolska/2026"
+      "stages": [
+        {
+          "num": 0,
+          "label": "Prologue",
+          "result_url": "/race/tour-of-malopolska/2026/prologue/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/tour-of-malopolska/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/tour-of-malopolska/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/tour-of-malopolska/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 4,
+          "label": "Stage 4",
+          "result_url": "/race/tour-of-malopolska/2026/stage-4/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ],
+      "pcs_url": "https://www.procyclingstats.com/race/tour-of-malopolska/2026",
+      "stages_completed": 0
     }
   ],
   "upcoming": [
@@ -114,7 +489,8 @@
       ],
       "start_city": "Barcelona",
       "finish_city": "Paris",
-      "total_km": "3333"
+      "total_km": "3333",
+      "official_url": "https://www.letour.fr/en/"
     },
     {
       "slug": "tour-de-suisse",
@@ -122,9 +498,10 @@
       "year": "2026",
       "category": "2.UWT",
       "status": "upcoming",
-      "start_date": "2026-06-17",
+      "start_date": "2026-06-13",
       "end_date": "2026-06-21",
-      "total_stages": 8
+      "total_stages": 8,
+      "official_url": "https://www.tourdesuisse.ch/en/"
     },
     {
       "slug": "tour-de-suisse-women",
@@ -132,8 +509,9 @@
       "year": "2026",
       "category": "2.WWT",
       "status": "upcoming",
-      "start_date": "2026-06-17",
-      "end_date": "2026-06-21"
+      "start_date": "2026-06-13",
+      "end_date": "2026-06-21",
+      "official_url": "https://www.tourdesuisse.ch/en/"
     },
     {
       "slug": "tour-of-belgium",
@@ -153,7 +531,8 @@
       "status": "upcoming",
       "start_date": "2026-06-17",
       "end_date": "2026-06-21",
-      "total_stages": 5
+      "total_stages": 5,
+      "official_url": "https://www.touroflovenija.com/"
     },
     {
       "slug": "copenhagen-sprint",
@@ -172,7 +551,18 @@
       "category": "2.2U",
       "status": "upcoming",
       "start_date": "2026-06-14",
-      "end_date": "2026-06-21"
+      "end_date": "2026-06-21",
+      "total_stages": 8
+    },
+    {
+      "slug": "national-championships",
+      "name": "National Championships",
+      "year": "2026",
+      "category": "NC",
+      "status": "upcoming",
+      "start_date": "2026-06-20",
+      "end_date": "2026-06-28",
+      "total_stages": 1
     }
   ],
   "recent": [
@@ -189,7 +579,63 @@
       "gc_winner_nat": "NZL",
       "gc_winner_flag": "🇭🇹",
       "pcs_url": "https://www.procyclingstats.com/race/tour-de-wallonie/2026",
-      "stages": []
+      "stages": [
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/tour-de-wallonie/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/tour-de-wallonie/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/tour-de-wallonie/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 4,
+          "label": "Stage 4",
+          "result_url": "/race/tour-de-wallonie/2026/stage-4/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 5,
+          "label": "Stage 5",
+          "result_url": "/race/tour-de-wallonie/2026/stage-5/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ]
     },
     {
       "slug": "tour-of-estonia",
@@ -204,7 +650,41 @@
       "gc_winner_nat": "POL",
       "gc_winner_flag": "🇯🇫",
       "pcs_url": "https://www.procyclingstats.com/race/tour-of-estonia/2026",
-      "stages": []
+      "stages": [
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/tour-of-estonia/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/tour-of-estonia/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/tour-of-estonia/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ]
     },
     {
       "slug": "oberosterreichrundfahrt",
@@ -219,7 +699,52 @@
       "gc_winner_nat": "POR",
       "gc_winner_flag": "🇯🇳",
       "pcs_url": "https://www.procyclingstats.com/race/oberosterreichrundfahrt/2026",
-      "stages": []
+      "stages": [
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/oberosterreichrundfahrt/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/oberosterreichrundfahrt/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/oberosterreichrundfahrt/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 4,
+          "label": "Stage 4",
+          "result_url": "/race/oberosterreichrundfahrt/2026/stage-4/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ]
     },
     {
       "slug": "ronde-de-l-oise",
@@ -234,7 +759,52 @@
       "gc_winner_nat": "AUS",
       "gc_winner_flag": "🇠🇴",
       "pcs_url": "https://www.procyclingstats.com/race/ronde-de-l-oise/2026",
-      "stages": []
+      "stages": [
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/ronde-de-l-oise/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/ronde-de-l-oise/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/ronde-de-l-oise/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 4,
+          "label": "Stage 4",
+          "result_url": "/race/ronde-de-l-oise/2026/stage-4/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ]
     },
     {
       "slug": "circuit-franco-belge",
@@ -277,7 +847,239 @@
       "gc_winner_nat": "DEN",
       "gc_winner_flag": "🇣🇪",
       "pcs_url": "https://www.procyclingstats.com/race/giro-d-italia/2026",
-      "stages": []
+      "stages": [
+        {
+          "num": 1,
+          "label": "Stage 1",
+          "result_url": "/race/giro-d-italia/2026/stage-1/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 2,
+          "label": "Stage 2",
+          "result_url": "/race/giro-d-italia/2026/stage-2/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 3,
+          "label": "Stage 3",
+          "result_url": "/race/giro-d-italia/2026/stage-3/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 4,
+          "label": "Stage 4",
+          "result_url": "/race/giro-d-italia/2026/stage-4/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 5,
+          "label": "Stage 5",
+          "result_url": "/race/giro-d-italia/2026/stage-5/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 6,
+          "label": "Stage 6",
+          "result_url": "/race/giro-d-italia/2026/stage-6/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 7,
+          "label": "Stage 7",
+          "result_url": "/race/giro-d-italia/2026/stage-7/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 8,
+          "label": "Stage 8",
+          "result_url": "/race/giro-d-italia/2026/stage-8/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 9,
+          "label": "Stage 9",
+          "result_url": "/race/giro-d-italia/2026/stage-9/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 10,
+          "label": "Stage 10",
+          "result_url": "/race/giro-d-italia/2026/stage-10/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 11,
+          "label": "Stage 11",
+          "result_url": "/race/giro-d-italia/2026/stage-11/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 12,
+          "label": "Stage 12",
+          "result_url": "/race/giro-d-italia/2026/stage-12/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 13,
+          "label": "Stage 13",
+          "result_url": "/race/giro-d-italia/2026/stage-13/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 14,
+          "label": "Stage 14",
+          "result_url": "/race/giro-d-italia/2026/stage-14/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 15,
+          "label": "Stage 15",
+          "result_url": "/race/giro-d-italia/2026/stage-15/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 16,
+          "label": "Stage 16",
+          "result_url": "/race/giro-d-italia/2026/stage-16/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 17,
+          "label": "Stage 17",
+          "result_url": "/race/giro-d-italia/2026/stage-17/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 18,
+          "label": "Stage 18",
+          "result_url": "/race/giro-d-italia/2026/stage-18/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 19,
+          "label": "Stage 19",
+          "result_url": "/race/giro-d-italia/2026/stage-19/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 20,
+          "label": "Stage 20",
+          "result_url": "/race/giro-d-italia/2026/stage-20/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        },
+        {
+          "num": 21,
+          "label": "Stage 21",
+          "result_url": "/race/giro-d-italia/2026/stage-21/result",
+          "winner": null,
+          "winner_url": null,
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
+        }
+      ]
     }
   ],
   "rider_profiles": {
