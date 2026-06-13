@@ -47,6 +47,8 @@ UCI_CATS = {"1.UWT", "2.UWT", "1.Pro", "2.Pro", "1.1", "2.1"}
 
 # ── Team lists (WorldTeam + ProTeam only) ──────────────────────────────────────
 
+MAX_NEW_RIDERS_PER_RUN = 100   # Cap new rider profile fetches per run
+
 WORLD_TEAMS = [
     "alpecin-premier-tech-2026",
     "bahrain-victorious-2026",
@@ -527,6 +529,61 @@ def scrape_team(slug, cat):
             'cat': cat, 'riders': riders}
 
 
+def scrape_rider_profile(slug):
+    """
+    Fetch a rider's photo/DOB/nationality from JSON-LD on their profile page,
+    and their career wins from /profile/{slug}/wins.
+    Returns a dict or None on failure.
+    """
+    base = f"{BASE_URL}/profile/{slug}"
+
+    # 1. Profile page → JSON-LD Person block
+    html = fetch(base)
+    time.sleep(DELAY)
+    if not html:
+        return None
+
+    photo = dob = nat = None
+    for ld_m in re.finditer(
+        r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>', html, re.DOTALL
+    ):
+        try:
+            ld = json.loads(ld_m.group(1))
+            if isinstance(ld, dict) and ld.get('@type') == 'Person':
+                photo = ld.get('image', {}).get('url')
+                dob   = ld.get('birthDate')
+                nat   = (ld.get('nationality') or {}).get('name')
+                break
+        except Exception:
+            pass
+
+    # 2. Wins page → palmares table
+    wins_html = fetch(f"{base}/wins")
+    time.sleep(DELAY)
+    wins = []
+    if wins_html:
+        tr_blocks  = re.findall(r'<tr[^>]*>(.*?)</tr>', wins_html, re.DOTALL)
+        race_rows  = [t for t in tr_blocks if '/race/' in t]
+        for row in race_rows:
+            tds = re.findall(r'<td[^>]*>(.*?)</td>', row, re.DOTALL)
+            if len(tds) >= 4:
+                wins.append({
+                    'year': strip_tags(tds[1]),
+                    'date': strip_tags(tds[2]),
+                    'race': strip_tags(tds[3]),
+                    'cat':  strip_tags(tds[4]) if len(tds) > 4 else '',
+                })
+
+    return {
+        'slug':       slug,
+        'photo':      photo,
+        'dob':        dob,
+        'nat':        nat,
+        'wins':       wins,
+        'fetched_at': datetime.now(timezone.utc).isoformat(),
+    }
+
+
 def scrape_teams():
     """Scrape all WorldTeam and ProTeam pages. Returns list of team dicts."""
     teams = []
@@ -762,6 +819,38 @@ def main():
     teams_data = scrape_teams()
     print(f"  Teams scraped: {len(teams_data)}")
 
+    # ── 3b. Rider profiles (incremental cache) ───────────────────────────────
+    print("\n[3b/4] Rider profiles (incremental)...")
+    rider_profiles = dict(cache.get("rider_profiles", {}))
+
+    # Collect all unique rider slugs from team rosters
+    all_slugs = {
+        r["slug"]
+        for team in teams_data
+        for r in team.get("riders", [])
+        if r.get("slug")
+    }
+    uncached  = sorted(s for s in all_slugs if s not in rider_profiles)
+    to_fetch  = uncached[:MAX_NEW_RIDERS_PER_RUN]
+    print(f"  Riders total: {len(all_slugs)} | cached: {len(rider_profiles)} | new: {len(uncached)} | fetching: {len(to_fetch)}")
+
+    for slug in to_fetch:
+        profile = scrape_rider_profile(slug)
+        if profile:
+            rider_profiles[slug] = profile
+            print(f"  {profile.get('nat','??')} {slug}: {len(profile.get('wins',[]))} wins")
+        else:
+            print(f"  {slug}: failed")
+
+    # Merge photo + wins into each team's rider list
+    for team in teams_data:
+        for rider in team.get("riders", []):
+            p = rider_profiles.get(rider.get("slug", ""))
+            if p:
+                rider["photo"] = p.get("photo")
+                rider["dob"]   = p.get("dob")
+                rider["wins"]  = p.get("wins", [])
+
     # ── 4. Write output ───────────────────────────────────────────────────────
     print("\n[4/4] Writing data.json...")
     now = datetime.now(timezone.utc)
@@ -772,7 +861,7 @@ def main():
         "upcoming":         upcoming_races,
         "recent":           recent_races,
         "teams":            teams_data,
-        "rider_profiles":   cache.get("rider_profiles", {}),
+        "rider_profiles":   rider_profiles,
     }
 
     tmp = OUTPUT_FILE + ".tmp"

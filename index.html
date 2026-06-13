@@ -426,6 +426,69 @@ header h1 span { color: var(--accent); }
 .roster-num { width: 28px; color: var(--muted); font-weight: 700; font-size: .78rem; }
 .roster-age { color: var(--muted); font-size: .82rem; width: 36px; text-align: right; }
 
+/* ── Rider profile in roster ── */
+.rider-photo {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+.rider-photo-ph {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem;
+}
+.rider-row-wrap { border-bottom: 1px solid var(--border); }
+.rider-row-wrap:last-child { border-bottom: none; }
+.rider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+}
+.rider-row.clickable { cursor: pointer; }
+.rider-row.clickable:active { background: var(--surface2); }
+.rider-name-col { flex: 1; min-width: 0; }
+.rider-name-text { font-size: .88rem; font-weight: 600; }
+.rider-sub { font-size: .72rem; color: var(--muted); margin-top: 1px; }
+.wins-badge {
+  font-size: .7rem; font-weight: 700;
+  background: rgba(244,162,97,.15);
+  color: var(--accent);
+  border: 1px solid rgba(244,162,97,.3);
+  border-radius: 10px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.rider-chevron {
+  width: 14px; height: 14px;
+  color: var(--muted);
+  transition: transform .15s;
+  flex-shrink: 0;
+}
+.rider-row-wrap.open .rider-chevron { transform: rotate(180deg); }
+
+.wins-panel { display: none; background: var(--bg); }
+.rider-row-wrap.open .wins-panel { display: block; }
+.win-entry {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: .82rem;
+}
+.win-entry:last-child { border-bottom: none; }
+.win-year { color: var(--accent); font-weight: 700; font-size: .78rem; min-width: 32px; }
+.win-race { flex: 1; }
+.win-cat  { color: var(--muted); font-size: .72rem; }
+
 /* ── Misc ── */
 .empty {
   color: var(--muted);
@@ -598,15 +661,21 @@ function renderLeaders(race) {
 
 function renderStages(stages, cardId) {
   if (!stages || !stages.length) return '';
+  // Find highest stage number that has actual result data
+  const lastWithData = stages.reduce((mx, s) =>
+    (s.winner || (s.top10 && s.top10.length)) ? Math.max(mx, s.num) : mx, 0);
   const rows = stages.map(s => {
     const uid = `s-${cardId}-${s.num}`;
     const hasData = s.winner || (s.top10 && s.top10.length);
+    // If a later stage has results, this stage ran but result is unavailable (e.g. TTT)
+    const laterHasData = !hasData && s.num < lastWithData;
+    const noDataLabel = laterHasData ? 'Result unavailable' : 'Not yet run';
     return `<div class="stage-row" id="${uid}">
       <div class="stage-row-header${hasData?' clickable':''}"${hasData?` onclick="toggleStage('${uid}')"`:''}">
         <span class="stage-num">Stage ${s.num}</span>
         ${hasData
           ? `<span class="stage-winner-name">${esc(s.winner_flag||'')} ${esc(s.winner||'')}</span>${chevron('stage-chevron')}`
-          : `<span class="stage-no-data">Not yet run</span>`}
+          : `<span class="stage-no-data">${noDataLabel}</span>`}
       </div>
       ${hasData ? `<div class="stage-row-body">${renderTop10(s.top10)}</div>` : ''}
     </div>`;
@@ -706,6 +775,51 @@ function renderRecent(races) {
 
 // ── Teams ──────────────────────────────────────────────────────────────────────
 
+function renderRiderRow(r, teamId, idx) {
+  const uid = `rdr-${teamId}-${idx}`;
+  const wins   = r.wins || [];
+  const hasWins = wins.length > 0;
+  const natImg = r.nat
+    ? `<img src="https://cyclingflash.com/svg/flags/${esc(r.nat)}.svg" width="16" height="16" style="vertical-align:middle;margin-right:5px" loading="lazy">`
+    : '';
+  const photo = r.photo
+    ? `<img class="rider-photo" src="${esc(r.photo)}" alt="${esc(r.name)}" loading="lazy">`
+    : `<div class="rider-photo-ph">🚴</div>`;
+
+  let dob = '';
+  if (r.dob) {
+    const d = new Date(r.dob);
+    const age = Math.floor((Date.now() - d) / (365.25 * 86400000));
+    dob = `${d.getFullYear()} · ${age} yrs`;
+  } else if (r.age) {
+    dob = `${r.age} yrs`;
+  }
+
+  const winsHTML = hasWins
+    ? wins.slice(0, 20).map(w =>
+        `<div class="win-entry">
+          <span class="win-year">${esc(w.year)}</span>
+          <span class="win-race">${esc(w.race)}</span>
+          <span class="win-cat">${esc(w.cat)}</span>
+        </div>`).join('')
+    : '';
+
+  return `<div class="rider-row-wrap" id="${uid}">
+    <div class="rider-row${hasWins ? ' clickable' : ''}"${hasWins ? ` onclick="toggleRider('${uid}')"` : ''}>
+      ${photo}
+      <div class="rider-name-col">
+        <div class="rider-name-text">${natImg}${esc(r.name)}</div>
+        ${dob ? `<div class="rider-sub">${dob}</div>` : ''}
+      </div>
+      ${hasWins ? `<span class="wins-badge">🏆 ${wins.length}</span>` : ''}
+      ${hasWins ? chevron('rider-chevron') : ''}
+    </div>
+    ${hasWins ? `<div class="wins-panel">${winsHTML}</div>` : ''}
+  </div>`;
+}
+
+function toggleRider(uid) { document.getElementById(uid)?.classList.toggle('open'); }
+
 let teamIdx = 0;
 
 function renderTeamCard(team) {
@@ -717,29 +831,23 @@ function renderTeamCard(team) {
     ? `<img class="team-jersey-thumb" src="${esc(team.jersey)}" alt="jersey" loading="lazy">`
     : `<div class="team-jersey-placeholder">👕</div>`;
 
-  const rosterRows = (team.riders || []).map((r, i) =>
-    `<tr>
-      <td class="roster-num">${i+1}</td>
-      <td>${r.nat ? `<img src="https://cyclingflash.com/svg/flags/${esc(r.nat)}.svg" width="18" height="18" style="vertical-align:middle;margin-right:6px" alt="${esc(r.nat)}">` : ''}${esc(r.name)}</td>
-      <td class="roster-age">${esc(r.age)}</td>
-    </tr>`
-  ).join('');
+  const riders = team.riders || [];
+  const roster = riders.map((r, i) => renderRiderRow(r, id, i)).join('');
+  const profiledCount = riders.filter(r => r.photo).length;
+  const riderMeta = profiledCount < riders.length
+    ? `${riders.length} riders (${riders.length - profiledCount} loading...)`
+    : `${riders.length} riders`;
 
   return `<div class="team-card ${catCls}" id="${id}" data-cat="${cat}">
     <div class="team-header" onclick="toggleCard('${id}')">
       ${jersey}
       <div class="team-title">
         <div class="team-name-text">${esc(team.name)}</div>
-        <div class="team-meta">${catLabel} &nbsp;·&nbsp; ${(team.riders||[]).length} riders</div>
+        <div class="team-meta">${catLabel} &nbsp;·&nbsp; ${riderMeta}</div>
       </div>
       ${chevron('chevron')}
     </div>
-    <div class="team-body">
-      <table class="roster-table">
-        <thead><tr><th>#</th><th>Rider</th><th>Age</th></tr></thead>
-        <tbody>${rosterRows}</tbody>
-      </table>
-    </div>
+    <div class="team-body">${roster}</div>
   </div>`;
 }
 
