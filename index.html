@@ -874,34 +874,23 @@ function renderRiderProfile(r){
 // TEAMS
 // ═══════════════════════════════════════════════════════════════
 function renderTeams(){
+  function teamCard(t){
+    const pcs=`https://www.procyclingstats.com/team/${t.slug}-2026`;
+    const initial=t.name.split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
+    return`<div class="team-card">
+      <div class="team-jersey-wrap" style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#0f1f3d,#1a3a6e);display:flex;align-items:center;justify-content:center;color:white;font-size:.65rem;font-weight:800;letter-spacing:.5px">${initial}</div>
+      <div class="team-name">${t.name}</div>
+      ${t.country?`<div style="font-size:.6rem;color:#64748b">${t.country}</div>`:''}
+      <div class="team-links">
+        ${t.official?`<a class="tlink official" href="${t.official}" target="_blank">🌐 Official</a>`:''}
+        <a class="tlink pcs" href="${pcs}" target="_blank">📊 PCS</a>
+      </div>
+    </div>`;
+  }
   let h=`<div class="section-hdr">🌍 UCI WorldTeams 2026</div><div class="team-grid">`;
-  for(const t of TEAMS.worldtour){
-    const js=t.img_slug||t.slug;
-    const jurl=`https://www.procyclingstats.com/images/shirts/bx/eb/${js}-2026.png`;
-    const pcs=`https://www.procyclingstats.com/team/${t.slug}-2026`;
-    h+=`<div class="team-card">
-      <img class="team-jersey" src="${jurl}" onerror="this.style.display='none'" alt="${t.name}">
-      <div class="team-name">${t.name}</div>
-      ${t.country?`<div style="font-size:.6rem;color:#64748b">${t.country} ${t.manager&&t.manager!=='—'?'· '+t.manager:''}</div>`:''}
-      <div class="team-links">
-        ${t.official?`<a class="tlink official" href="${t.official}" target="_blank">🌐 Official</a>`:''}
-        <a class="tlink pcs" href="${pcs}" target="_blank">📊 PCS</a>
-      </div>
-    </div>`;
-  }
+  for(const t of TEAMS.worldtour) h+=teamCard(t);
   h+=`</div><div class="section-hdr" style="margin-top:12px">📋 UCI ProTeams 2026</div><div class="team-grid">`;
-  for(const t of TEAMS.proteam){
-    const jurl=`https://www.procyclingstats.com/images/shirts/bx/eb/${t.slug}-2026.png`;
-    const pcs=`https://www.procyclingstats.com/team/${t.slug}-2026`;
-    h+=`<div class="team-card">
-      <img class="team-jersey" src="${jurl}" onerror="this.style.display='none'" alt="${t.name}">
-      <div class="team-name">${t.name}</div>
-      <div class="team-links">
-        ${t.official?`<a class="tlink official" href="${t.official}" target="_blank">🌐 Official</a>`:''}
-        <a class="tlink pcs" href="${pcs}" target="_blank">📊 PCS</a>
-      </div>
-    </div>`;
-  }
+  for(const t of TEAMS.proteam) h+=teamCard(t);
   h+=`</div>`;
   document.getElementById('teams-content').innerHTML=h;
 }
