@@ -341,7 +341,6 @@ header h1 { font-size:1.05rem; font-weight:800; }
     <h3>🔗 Official Sources</h3>
     <div class="export-actions">
       <a class="ebtn uci" href="https://www.uci.org/calendar/all/2jnxYAuvjgttyHi6YQ94EJ" target="_blank">🌍 UCI Official Calendar</a>
-      <a class="ebtn gcal" href="https://www.procyclingstats.com/races.php?category=1&filter=Filter&p=uci&s=latest-results" target="_blank">📊 PCS Latest Results</a>
     </div>
   </div>
 </div>
@@ -627,10 +626,8 @@ function dateRange(r){if(r.start_date===r.end_date)return fmtDate(r.start_date);
 
 function actionBtns(r){
   let h=`<div class="race-actions">`;
-  h+=`<a class="abtn pcs" href="${pcsUrl(r)}" target="_blank">📊 PCS</a>`;
-  if(r.official_url)h+=`<a class="abtn official" href="${r.official_url}" target="_blank">🏁 Official</a>`;
-  h+=`<a class="abtn gcal" href="${gcalUrl(r)}" target="_blank">📆 Calendar</a>`;
-  if(r.status==='live'||r.status==='completed')h+=`<a class="abtn gc-ldr" href="${pcsUrl(r)}/gc" target="_blank">🟡 GC</a>`;
+  if(r.official_url)h+=`<a class="abtn official" href="${r.official_url}" target="_blank">🏁 Official Site</a>`;
+  h+=`<a class="abtn gcal" href="${gcalUrl(r)}" target="_blank">📆 Add to Calendar</a>`;
   h+=`</div>`;
   return h;
 }
@@ -647,13 +644,17 @@ function renderRaceCard(r,showProg=true){
 
   let body='';
 
-  // Jerseys for live races
+  // Jerseys for live races — leaders from scraped data
   if(r.status==='live'){
+    const gc=r.gc_leader||'—';
+    const pts=r.points_leader||'—';
+    const kom=r.kom_leader||'—';
+    const youth=r.youth_leader||'—';
     body+=`<div class="jerseys">
-      <div class="jersey-card gc"><div class="jersey-icon">🟡</div><div class="jersey-label">GC</div><div class="jersey-rider"><a href="${pcsUrl(r)}/gc" target="_blank">Live →</a></div></div>
-      <div class="jersey-card pts"><div class="jersey-icon">🟢</div><div class="jersey-label">Points</div><div class="jersey-rider"><a href="${pcsUrl(r)}/points" target="_blank">Live →</a></div></div>
-      <div class="jersey-card kom"><div class="jersey-icon">🔴</div><div class="jersey-label">KOM</div><div class="jersey-rider"><a href="${pcsUrl(r)}/kom" target="_blank">Live →</a></div></div>
-      <div class="jersey-card youth"><div class="jersey-icon">⚪</div><div class="jersey-label">Youth</div><div class="jersey-rider"><a href="${pcsUrl(r)}/youth" target="_blank">Live →</a></div></div>
+      <div class="jersey-card gc"><div class="jersey-icon">🟡</div><div class="jersey-label">GC</div><div class="jersey-rider">${gc}</div></div>
+      <div class="jersey-card pts"><div class="jersey-icon">🟢</div><div class="jersey-label">Points</div><div class="jersey-rider">${pts}</div></div>
+      <div class="jersey-card kom"><div class="jersey-icon">🔴</div><div class="jersey-label">KOM</div><div class="jersey-rider">${kom}</div></div>
+      <div class="jersey-card youth"><div class="jersey-icon">⚪</div><div class="jersey-label">Youth</div><div class="jersey-rider">${youth}</div></div>
     </div>`;
   }
 
@@ -768,8 +769,7 @@ function renderFeaturedTDF(tdf){
     <div class="contenders-wrap">${chips}</div>
     ${ks?`<div class="key-stages-grid">${ks}</div>`:''}
     <div style="margin-top:10px;display:flex;gap:5px;flex-wrap:wrap">
-      <a href="${tdf.official_url||'https://www.letour.fr'}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;padding:6px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:white;font-size:.66rem;font-weight:600;text-decoration:none;">🏁 Official</a>
-      <a href="${pcsUrl(tdf)}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;padding:6px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:white;font-size:.66rem;font-weight:600;text-decoration:none;">📊 PCS</a>
+      <a href="${tdf.official_url||'https://www.letour.fr'}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;padding:6px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:white;font-size:.66rem;font-weight:600;text-decoration:none;">🏁 Official Site</a>
       <a href="${gcalUrl(tdf)}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;padding:6px 10px;background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.3);border-radius:6px;color:#ffd700;font-size:.66rem;font-weight:600;text-decoration:none;">📆 Add to Calendar</a>
     </div>
   </div>`;
