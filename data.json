@@ -1,6 +1,6 @@
 {
-  "scraped_at": "2026-06-13T19:22:42.931769",
-  "scraped_at_human": "13 Jun 2026 19:22",
+  "scraped_at": "2026-06-13T17:08:38.359638",
+  "scraped_at_human": "13 Jun 2026 17:08",
   "live": [
     {
       "slug": "tour-auvergne-rhone-alpes",
@@ -2869,105 +2869,12 @@
           "num": 4,
           "label": "Stage 4",
           "result_url": "/race/tour-de-beauce/2026/stage-4/result",
-          "winner": "Roy Jacob",
+          "winner": null,
           "winner_url": null,
-          "winner_flag": "🇨🇦",
-          "winner_nat": "CA",
-          "top10": [
-            {
-              "rank": 1,
-              "name": "Roy Jacob",
-              "rider_url": "/rider/jacob-roy",
-              "team": "Les Régis p/b GROUPE AUTOMAX",
-              "nat_code": "CA",
-              "flag": "🇨🇦",
-              "time_gap": "10:04"
-            },
-            {
-              "rank": 2,
-              "name": "Plamondon Joel",
-              "rider_url": "/rider/joel-plamondon",
-              "team": "Québec",
-              "nat_code": "CA",
-              "flag": "🇨🇦",
-              "time_gap": "+0:02"
-            },
-            {
-              "rank": 3,
-              "name": "Erwood Marshall",
-              "rider_url": "/rider/marshall-erwood",
-              "team": "Whoosh - NZ Cycling Project",
-              "nat_code": "NZ",
-              "flag": "🇳🇿",
-              "time_gap": "+0:00"
-            },
-            {
-              "rank": 4,
-              "name": "Gauthier Nicolas",
-              "rider_url": "/rider/nicolas-gauthier",
-              "team": "Les Rouleurs",
-              "nat_code": "CA",
-              "flag": "🇨🇦",
-              "time_gap": "+0:00"
-            },
-            {
-              "rank": 5,
-              "name": "Paredes Wilmar",
-              "rider_url": "/rider/wilmar-paredes",
-              "team": "Team Medellín - EPM",
-              "nat_code": "CO",
-              "flag": "🇨🇴",
-              "time_gap": "+0:03"
-            },
-            {
-              "rank": 6,
-              "name": "Mcbirney Tim",
-              "rider_url": "/rider/tim-mcbirney",
-              "team": "Project Echelon Racing",
-              "nat_code": "US",
-              "flag": "🇺🇸",
-              "time_gap": "+0:08"
-            },
-            {
-              "rank": 7,
-              "name": "Plamondon Robin",
-              "rider_url": "/rider/robin-plamondon",
-              "team": "Vélo Cartel Racing / Siboire",
-              "nat_code": "CA",
-              "flag": "🇨🇦",
-              "time_gap": "+0:11"
-            },
-            {
-              "rank": 8,
-              "name": "Camargo Diego Andrés",
-              "rider_url": "/rider/diego-andres-camargo",
-              "team": "Team Medellín - EPM",
-              "nat_code": "CO",
-              "flag": "🇨🇴",
-              "time_gap": "+0:12"
-            },
-            {
-              "rank": 9,
-              "name": "Gervais Laurent",
-              "rider_url": "/rider/laurent-gervais",
-              "team": "Project Echelon Racing",
-              "nat_code": "CA",
-              "flag": "🇨🇦",
-              "time_gap": "+0:00"
-            },
-            {
-              "rank": 10,
-              "name": "Gauthier Jérôme",
-              "rider_url": "/rider/jerome-gauthier",
-              "team": "Project Echelon Racing",
-              "nat_code": "CA",
-              "flag": "🇨🇦",
-              "time_gap": "+0:15"
-            }
-          ],
-          "status": "completed",
-          "winner_team": "Les Régis p/b GROUPE AUTOMAX",
-          "winner_time_gap": "+0:02"
+          "winner_flag": "",
+          "winner_nat": "",
+          "top10": [],
+          "status": "upcoming"
         },
         {
           "num": 5,
@@ -2982,10 +2889,10 @@
         }
       ],
       "pcs_url": "https://www.procyclingstats.com/race/tour-de-beauce/2026",
-      "last_stage_winner": "Roy Jacob",
-      "last_stage_winner_flag": "🇨🇦",
-      "last_stage_num": 4,
-      "stages_completed": 4
+      "last_stage_winner": "Camargo Diego Andrés",
+      "last_stage_winner_flag": "🇨🇴",
+      "last_stage_num": 3,
+      "stages_completed": 3
     },
     {
       "slug": "tour-of-malopolska",
