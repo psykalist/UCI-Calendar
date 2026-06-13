@@ -215,27 +215,41 @@ def parse_stage_list(html, race_path):
     if not html:
         return []
 
+    # Extract slug and year from race_path like "/race/tour-de-beauce/2026"
+    parts = race_path.strip('/').split('/')
+    if len(parts) < 3:
+        return []
+    race_slug = parts[1]
+    race_year = parts[2]
+
     stages = []
-    # Look for stage links in the format /race/NAME/YEAR/stage-N or /stage-N/result
+
+    # Match BOTH relative (/race/slug/year/stage-N) and absolute URLs
+    # PCS uses absolute URLs in many places: href="https://www.procyclingstats.com/race/..."
+    # Also handle /prologue (some races use this instead of /stage-0)
     stage_pattern = re.compile(
-        r'<a\s+href="(' + re.escape(race_path) + r'/stage-(\d+)(?:/result)?)"[^>]*>([^<]*)</a>',
+        r'href="(?:https?://(?:www\.)?procyclingstats\.com)?'
+        r'(/race/' + re.escape(race_slug) + r'/' + re.escape(race_year) + r'/(?:stage-(\d+)|prologue)(?:/result)?)[^"]*"',
         re.IGNORECASE
     )
 
     seen = set()
     for m in stage_pattern.finditer(html):
         url = m.group(1)
-        num = m.group(2)
-        label = m.group(3).strip()
-        if num not in seen:
-            seen.add(num)
+        num_str = m.group(2)  # None if prologue matched
+        is_prologue = num_str is None
+        num = 0 if is_prologue else int(num_str)
+        key = "prologue" if is_prologue else str(num)
+        if key not in seen:
+            seen.add(key)
             # Normalize URL to result page
             result_url = url if url.endswith("/result") else url + "/result"
             stages.append({
-                "num": int(num),
-                "label": f"Stage {num}",
+                "num": num,
+                "label": "Prologue" if is_prologue else f"Stage {num}",
                 "result_url": result_url,
                 "winner": None,
+                "winner_url": None,
                 "winner_flag": "",
                 "winner_nat": "",
                 "top10": [],
@@ -243,6 +257,47 @@ def parse_stage_list(html, race_path):
             })
 
     stages.sort(key=lambda x: x["num"])
+
+    # Extract stage winners from overview page stage-winners table.
+    # Table pattern: "Stage N" or "Prologue" cell followed by a rider link cell.
+    winner_map = {}
+    rider_href = r'(?:https?://(?:www\.)?procyclingstats\.com)?(/rider/([^"]+))'
+
+    stage_winner_pattern = re.compile(
+        r'(?:Stage\s+(\d+)|Prologue)\s*</td>\s*<td[^>]*>.*?'
+        r'<a\s+href="' + rider_href + r'"[^>]*>([^<]+)</a>',
+        re.DOTALL | re.IGNORECASE
+    )
+    for m in stage_winner_pattern.finditer(html):
+        stage_num_str = m.group(1)  # None if Prologue matched
+        key = "0" if stage_num_str is None else stage_num_str
+        rider_url = m.group(2)
+        rider_name = m.group(4).strip()
+        winner_map[key] = {"winner": rider_name, "winner_url": rider_url}
+
+    # Also try a looser pattern: rows containing both a stage number and rider link
+    if not winner_map:
+        loose_pattern = re.compile(
+            r'<tr[^>]*>.*?(?:Stage\s+(\d+)|Prologue).*?'
+            r'href="' + rider_href + r'"[^>]*>([^<]+)</a>.*?</tr>',
+            re.DOTALL | re.IGNORECASE
+        )
+        for m in loose_pattern.finditer(html):
+            stage_num_str = m.group(1)
+            key = "0" if stage_num_str is None else stage_num_str
+            rider_url = m.group(2)
+            rider_name = m.group(4).strip()
+            if key not in winner_map:
+                winner_map[key] = {"winner": rider_name, "winner_url": rider_url}
+
+    # Apply winners to stage entries
+    for stage in stages:
+        key = str(stage["num"])  # 0 for prologue
+        if key in winner_map:
+            stage["winner"] = winner_map[key]["winner"]
+            stage["winner_url"] = winner_map[key]["winner_url"]
+            stage["status"] = "completed"
+
     return stages
 
 
@@ -471,6 +526,7 @@ LIVE_RACES = [
         "start_date": "2026-06-07",
         "end_date": "2026-06-14",
         "total_stages": 8,
+        "official_url": "https://www.tourauvergnerhoalpes.fr/",
     },
     {
         "slug": "tour-du-cameroun",
@@ -501,6 +557,7 @@ LIVE_RACES = [
         "start_date": "2026-06-10",
         "end_date": "2026-06-14",
         "total_stages": 5,
+        "official_url": "https://www.tourdebeauce.com/",
     },
     {
         "slug": "tour-of-malopolska",
@@ -632,6 +689,7 @@ UPCOMING_RACES = [
         "start_city": "Barcelona",
         "finish_city": "Paris",
         "total_km": "3333",
+        "official_url": "https://www.letour.fr/en/",
     },
     {
         "slug": "tour-de-suisse",
@@ -639,9 +697,10 @@ UPCOMING_RACES = [
         "year": "2026",
         "category": "2.UWT",
         "status": "upcoming",
-        "start_date": "2026-06-17",
+        "start_date": "2026-06-13",
         "end_date": "2026-06-21",
         "total_stages": 8,
+        "official_url": "https://www.tourdesuisse.ch/en/",
     },
     {
         "slug": "tour-de-suisse-women",
@@ -649,8 +708,9 @@ UPCOMING_RACES = [
         "year": "2026",
         "category": "2.WWT",
         "status": "upcoming",
-        "start_date": "2026-06-17",
+        "start_date": "2026-06-13",
         "end_date": "2026-06-21",
+        "official_url": "https://www.tourdesuisse.ch/en/",
     },
     {
         "slug": "tour-of-belgium",
@@ -671,6 +731,7 @@ UPCOMING_RACES = [
         "start_date": "2026-06-17",
         "end_date": "2026-06-21",
         "total_stages": 5,
+        "official_url": "https://www.touroflovenija.com/",
     },
     {
         "slug": "copenhagen-sprint",
@@ -690,6 +751,17 @@ UPCOMING_RACES = [
         "status": "upcoming",
         "start_date": "2026-06-14",
         "end_date": "2026-06-21",
+        "total_stages": 8,
+    },
+    {
+        "slug": "national-championships",
+        "name": "National Championships",
+        "year": "2026",
+        "category": "NC",
+        "status": "upcoming",
+        "start_date": "2026-06-20",
+        "end_date": "2026-06-28",
+        "total_stages": 1,
     },
 ]
 
@@ -770,27 +842,4 @@ def main():
     # ── 3. Fetch key rider profiles ────────────────────────────────────────
     print("\n[3/3] Fetching rider profiles...")
     for url in TDF_CONTENDER_URLS:
-        print(f"  {url}")
-        try:
-            profile = scrape_rider_profile(url)
-            if profile:
-                slug = url.replace("/rider/", "")
-                all_data["rider_profiles"][slug] = profile
-        except Exception as e:
-            print(f"    ERROR: {e}")
-        time.sleep(DELAY)
-
-    # ── Write output ───────────────────────────────────────────────────────
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(all_data, f, ensure_ascii=False, indent=2)
-
-    print(f"\n✅ data.json written ({len(json.dumps(all_data)) // 1024} KB)")
-    print(f"   Live races: {len(all_data['live'])}")
-    print(f"   Upcoming: {len(all_data['upcoming'])}")
-    print(f"   Recent: {len(all_data['recent'])}")
-    print(f"   Rider profiles: {len(all_data['rider_profiles'])}")
-    print(f"   Scraped at: {all_data['scraped_at_human']}")
-
-
-if __name__ == "__main__":
-    main()
+        pr
