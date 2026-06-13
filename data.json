@@ -1,9 +1,10 @@
 {
-  "scraped_at": "2026-06-13T12:20:00.420947",
-  "scraped_at_human": "13 Jun 2026 12:20",
+  "scraped_at": "2026-06-13T18:58:25.507528",
+  "scraped_at_human": "13 Jun 2026 18:58",
   "live": [
     {
       "slug": "tour-auvergne-rhone-alpes",
+      "js_rendered": true,
       "name": "Tour Auvergne – Rhône-Alpes",
       "year": "2026",
       "category": "2.UWT",
@@ -641,78 +642,105 @@
           "num": 7,
           "label": "Stage 7",
           "result_url": "/race/tour-auvergne-rhone-alpes/2026/stage-7/result",
-          "winner": "Almeida João",
+          "winner": "Del Toro Isaac",
           "winner_url": null,
-          "winner_flag": "🇵🇹",
-          "winner_nat": "PT",
+          "winner_flag": "🇲🇽",
+          "winner_nat": "MX",
           "top10": [
             {
-              "rank": 2,
-              "name": "Almeida João",
-              "rider_url": "/rider/joao-almeida",
+              "rank": 1,
+              "name": "Del Toro Isaac",
+              "rider_url": "/rider/isaac-del-toro",
               "team": "UAE Team Emirates - XRG",
-              "nat_code": "PT",
-              "flag": "🇵🇹",
-              "time_gap": "+0:00"
+              "nat_code": "MX",
+              "flag": "🇲🇽",
+              "time_gap": "3:41:41"
             },
             {
-              "rank": 14,
-              "name": "Hagenes Per Strand",
-              "rider_url": "/rider/per-strand-hagenes",
-              "team": "Team Visma | Lease a Bike",
+              "rank": 2,
+              "name": "Ayuso Juan",
+              "rider_url": "/rider/juan-ayuso-pesquera",
+              "team": "Lidl - Trek",
+              "nat_code": "ES",
+              "flag": "🇪🇸",
+              "time_gap": "+0:24"
+            },
+            {
+              "rank": 3,
+              "name": "Johannessen Tobias Halland",
+              "rider_url": "/rider/tobias-halland-johannessen",
+              "team": "Uno-X Mobility",
               "nat_code": "NO",
               "flag": "🇳🇴",
-              "time_gap": "+0:00"
+              "time_gap": "+0:38"
             },
             {
-              "rank": 15,
-              "name": "Nordhagen Jørgen",
-              "rider_url": "/rider/jorgen-nordhagen",
+              "rank": 4,
+              "name": "Jorgenson Matteo",
+              "rider_url": "/rider/matteo-jorgenson",
               "team": "Team Visma | Lease a Bike",
-              "nat_code": "NO",
-              "flag": "🇳🇴",
+              "nat_code": "US",
+              "flag": "🇺🇸",
+              "time_gap": "+0:41"
+            },
+            {
+              "rank": 5,
+              "name": "Uijtdebroeks Cian",
+              "rider_url": "/rider/cian-uijtdebroeks",
+              "team": "Movistar Team",
+              "nat_code": "BE",
+              "flag": "🇧🇪",
               "time_gap": "+0:00"
             },
             {
-              "rank": 31,
-              "name": "Onley Oscar",
-              "rider_url": "/rider/oscar-onley",
-              "team": "Netcompany INEOS",
-              "nat_code": "GB",
-              "flag": "🇬🇧",
-              "time_gap": "+0:00"
+              "rank": 6,
+              "name": "Seixas Paul",
+              "rider_url": "/rider/paul-seixas",
+              "team": "Lidl - Trek",
+              "nat_code": "FR",
+              "flag": "🇫🇷",
+              "time_gap": "+1:17"
             },
             {
-              "rank": 71,
-              "name": "Healy Ben",
-              "rider_url": "/rider/ben-healy",
-              "team": "EF Education - EasyPost",
-              "nat_code": "IE",
-              "flag": "🇮🇪",
-              "time_gap": "+0:00"
+              "rank": 7,
+              "name": "Skjelmose Mattias",
+              "rider_url": "/rider/mattias-skjelmose-jensen",
+              "team": "Decathlon CMA CGM Team",
+              "nat_code": "DK",
+              "flag": "🇩🇰",
+              "time_gap": "+1:21"
             },
             {
-              "rank": 85,
-              "name": "Reinderink Pepijn",
-              "rider_url": "/rider/pepijn-reinderink",
-              "team": "Soudal Quick-Step",
-              "nat_code": "NL",
-              "flag": "🇳🇱",
-              "time_gap": "+0:00"
-            },
-            {
-              "rank": 92,
-              "name": "Conci Nicola",
-              "rider_url": "/rider/nicola-conci",
+              "rank": 8,
+              "name": "Rodríguez Cristián",
+              "rider_url": "/rider/cristian-rodriguez",
               "team": "XDS Astana Team",
-              "nat_code": "IT",
-              "flag": "🇮🇹",
-              "time_gap": "+0:00"
+              "nat_code": "ES",
+              "flag": "🇪🇸",
+              "time_gap": "+2:29"
+            },
+            {
+              "rank": 9,
+              "name": "Parra José Félix",
+              "rider_url": "/rider/jose-felix-parra",
+              "team": "Caja Rural - Seguros RGA",
+              "nat_code": "ES",
+              "flag": "🇪🇸",
+              "time_gap": "+2:31"
+            },
+            {
+              "rank": 10,
+              "name": "Castellon Jan",
+              "rider_url": "/rider/jan-castellon",
+              "team": "Caja Rural - Seguros RGA",
+              "nat_code": "ES",
+              "flag": "🇪🇸",
+              "time_gap": "+2:33"
             }
           ],
           "status": "completed",
           "winner_team": "UAE Team Emirates - XRG",
-          "winner_time_gap": "+0:00"
+          "winner_time_gap": "+0:24"
         },
         {
           "num": 8,
@@ -727,13 +755,14 @@
         }
       ],
       "pcs_url": "https://www.procyclingstats.com/race/tour-auvergne-rhone-alpes/2026",
-      "last_stage_winner": "Almeida João",
-      "last_stage_winner_flag": "🇵🇹",
+      "last_stage_winner": "Del Toro Isaac",
+      "last_stage_winner_flag": "🇲🇽",
       "last_stage_num": 7,
       "stages_completed": 7
     },
     {
       "slug": "tour-du-cameroun",
+      "js_rendered": true,
       "name": "Tour du Cameroun",
       "year": "2026",
       "category": "2.2",
@@ -1485,12 +1514,105 @@
           "num": 9,
           "label": "Stage 9",
           "result_url": "/race/tour-du-cameroun/2026/stage-9/result",
-          "winner": null,
+          "winner": "Kyaviro Joël",
           "winner_url": null,
-          "winner_flag": "",
-          "winner_nat": "",
-          "top10": [],
-          "status": "upcoming"
+          "winner_flag": "🇨🇩",
+          "winner_nat": "CD",
+          "top10": [
+            {
+              "rank": 1,
+              "name": "Kyaviro Joël",
+              "rider_url": "/rider/joel-kyaviro-kasereka",
+              "team": "Democratic Republic of the Congo",
+              "nat_code": "CD",
+              "flag": "🇨🇩",
+              "time_gap": "2:49:03"
+            },
+            {
+              "rank": 2,
+              "name": "Bengayou Abdelraouf",
+              "rider_url": "/rider/abdelraouf-bengayou",
+              "team": "Algeria",
+              "nat_code": "DZ",
+              "flag": "🇩🇿",
+              "time_gap": "+0:10"
+            },
+            {
+              "rank": 3,
+              "name": "Kamzong Clovis",
+              "rider_url": "/rider/clovis-kamzong-abessolo",
+              "team": "SNH Vélo Club",
+              "nat_code": "CM",
+              "flag": "🇨🇲",
+              "time_gap": "+0:12"
+            },
+            {
+              "rank": 4,
+              "name": "Bruil Pepijn",
+              "rider_url": "/rider/pepijn-bruil",
+              "team": "Global Cycling Team",
+              "nat_code": "NL",
+              "flag": "🇳🇱",
+              "time_gap": "+0:23"
+            },
+            {
+              "rank": 5,
+              "name": "Masengesho Vainqueur",
+              "rider_url": "/rider/vainqueur-masengesho",
+              "team": "Benediction Banafrica Team",
+              "nat_code": "RW",
+              "flag": "🇷🇼",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 6,
+              "name": "Yameogo Saturnin",
+              "rider_url": "/rider/saturnin-yameogo",
+              "team": "Burkina Faso",
+              "nat_code": "BF",
+              "flag": "🇧🇫",
+              "time_gap": "+0:29"
+            },
+            {
+              "rank": 7,
+              "name": "Assal Mohamed Nadjib",
+              "rider_url": "/rider/mohamed-nadjib-assal",
+              "team": "Algeria",
+              "nat_code": "DZ",
+              "flag": "🇩🇿",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 8,
+              "name": "Saidi Nassim",
+              "rider_url": "/rider/nassim-saidi",
+              "team": "Algeria",
+              "nat_code": "DZ",
+              "flag": "🇩🇿",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 9,
+              "name": "Ilboudo Soumaila",
+              "rider_url": "/rider/soumaila-ilboudo",
+              "team": "SNH Vélo Club",
+              "nat_code": "BF",
+              "flag": "🇧🇫",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 10,
+              "name": "Kuere Nounawe Rodrigue Eric",
+              "rider_url": "/rider/rodrigue-eric-kuere-nounawe",
+              "team": "Burkina Faso",
+              "nat_code": "CM",
+              "flag": "🇨🇲",
+              "time_gap": "+0:00"
+            }
+          ],
+          "status": "completed",
+          "winner_team": "Democratic Republic of the Congo",
+          "winner_time_gap": "+0:10"
         },
         {
           "num": 10,
@@ -1505,10 +1627,10 @@
         }
       ],
       "pcs_url": "https://www.procyclingstats.com/race/tour-du-cameroun/2026",
-      "last_stage_winner": "Assal Mohamed Nadjib",
-      "last_stage_winner_flag": "🇩🇿",
-      "last_stage_num": 8,
-      "stages_completed": 7
+      "last_stage_winner": "Kyaviro Joël",
+      "last_stage_winner_flag": "🇨🇩",
+      "last_stage_num": 9,
+      "stages_completed": 8
     },
     {
       "slug": "tour-de-gyeongnam",
@@ -2138,7 +2260,7 @@
           "time_gap": "+0:00"
         }
       ],
-      "gc_leader": "🇳🇿 Mudgway Luke",
+      "gc_leader": "🇳🇿 Mudgway Luke",
       "points_top10": [
         {
           "rank": 1,
@@ -2231,7 +2353,7 @@
           "time_gap": "+0:00"
         }
       ],
-      "points_leader": "🇳🇿 Mudgway Luke",
+      "points_leader": "🇳🇿 Mudgway Luke",
       "kom_top10": [
         {
           "rank": 1,
@@ -2324,7 +2446,7 @@
           "time_gap": "+0:00"
         }
       ],
-      "kom_leader": "🇳🇿 Mudgway Luke",
+      "kom_leader": "🇳🇿 Mudgway Luke",
       "youth_top10": [
         {
           "rank": 1,
@@ -2417,10 +2539,11 @@
           "time_gap": "+0:00"
         }
       ],
-      "youth_leader": "🇳🇿 Mudgway Luke"
+      "youth_leader": "🇳🇿 Mudgway Luke"
     },
     {
       "slug": "tour-de-beauce",
+      "js_rendered": true,
       "name": "Tour de Beauce",
       "year": "2026",
       "category": "2.2",
@@ -2773,6 +2896,7 @@
     },
     {
       "slug": "tour-of-malopolska",
+      "js_rendered": true,
       "name": "Tour of Malopolska",
       "year": "2026",
       "category": "2.2",
@@ -2994,12 +3118,105 @@
           "num": 2,
           "label": "Stage 2",
           "result_url": "/race/tour-of-malopolska/2026/stage-2/result",
-          "winner": null,
+          "winner": "Fortin Filippo",
           "winner_url": null,
-          "winner_flag": "",
-          "winner_nat": "",
-          "top10": [],
-          "status": "upcoming"
+          "winner_flag": "🇮🇹",
+          "winner_nat": "IT",
+          "top10": [
+            {
+              "rank": 1,
+              "name": "Fortin Filippo",
+              "rider_url": "/rider/filippo-fortin",
+              "team": "Hrinkow Advarics",
+              "nat_code": "IT",
+              "flag": "🇮🇹",
+              "time_gap": "3:07:34"
+            },
+            {
+              "rank": 2,
+              "name": "Vaníček Šimon",
+              "rider_url": "/rider/simon-vanicek",
+              "team": "ATT Investments",
+              "nat_code": "CZ",
+              "flag": "🇨🇿",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 3,
+              "name": "Budziński Tomasz",
+              "rider_url": "/rider/tomasz-budzinski",
+              "team": "ATT Investments",
+              "nat_code": "PL",
+              "flag": "🇵🇱",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 4,
+              "name": "Crescioli Giosuè",
+              "rider_url": "/rider/giosue-pitti-crescioli",
+              "team": "Gallina Ecotek Lucchini",
+              "nat_code": "IT",
+              "flag": "🇮🇹",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 5,
+              "name": "Vahtra Norman",
+              "rider_url": "/rider/norman-vahtra",
+              "team": "China Anta - Mentech Cycling Team",
+              "nat_code": "EE",
+              "flag": "🇪🇪",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 6,
+              "name": "Nolde Tobias",
+              "rider_url": "/rider/tobias-nolde",
+              "team": "Team Vorarlberg",
+              "nat_code": "DE",
+              "flag": "🇩🇪",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 7,
+              "name": "Ballabio Giacomo",
+              "rider_url": "/rider/giacomo-ballabio",
+              "team": "Team Vorarlberg",
+              "nat_code": "IT",
+              "flag": "🇮🇹",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 8,
+              "name": "Mengel Nikolaj",
+              "rider_url": "/rider/nikolaj-mengel",
+              "team": "Gallina Ecotek Lucchini",
+              "nat_code": "DK",
+              "flag": "🇩🇰",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 9,
+              "name": "Mercatali Valentino",
+              "rider_url": "/rider/valentino-mercatali",
+              "team": "AIRTOX - Carl Ras",
+              "nat_code": "IT",
+              "flag": "🇮🇹",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 10,
+              "name": "Nørtoft Rasmus Aalling",
+              "rider_url": "/rider/rasmus-aalling-nortoft",
+              "team": "Team Aalborg - Sparekassen Danmark",
+              "nat_code": "DK",
+              "flag": "🇩🇰",
+              "time_gap": "+0:00"
+            }
+          ],
+          "status": "completed",
+          "winner_team": "Hrinkow Advarics",
+          "winner_time_gap": "+0:00"
         },
         {
           "num": 3,
@@ -3025,10 +3242,10 @@
         }
       ],
       "pcs_url": "https://www.procyclingstats.com/race/tour-of-malopolska/2026",
-      "last_stage_winner": "Ballabio Giacomo",
+      "last_stage_winner": "Fortin Filippo",
       "last_stage_winner_flag": "🇮🇹",
-      "last_stage_num": 1,
-      "stages_completed": 2
+      "last_stage_num": 2,
+      "stages_completed": 3
     }
   ],
   "upcoming": [

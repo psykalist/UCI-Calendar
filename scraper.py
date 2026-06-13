@@ -474,28 +474,171 @@ def scrape_race_stages(race_path, total_stages=0, has_prologue=False, num_stages
     return stages
 
 
-def scrape_classifications(race_path):
+def _parse_cls_flag(class_str):
+    """Extract 2-letter ISO code from rendered flag class like 'flag fr smflag'."""
+    m = re.search(r'\bflag\s+([a-z]{2})\b', class_str)
+    return m.group(1).upper() if m else ""
+
+
+def scrape_classifications_playwright(race_path):
     """
-    Fetch GC, Points, KOM, Youth classification top-10 for a race.
-    PCS classification URLs: /race/{slug}/{year}/gc|points|kom|youth
-    Returns dict with gc_top10, points_top10, kom_top10, youth_top10,
-    and gc_leader, points_leader, kom_leader, youth_leader (formatted strings).
+    Use headless Chromium (Playwright) to scrape JS-rendered classification pages.
+    Passes session cookies from a urllib pre-fetch to bypass Cloudflare.
+    Returns same dict format as scrape_classifications(), or None if unavailable.
+    """
+    try:
+        from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
+    except ImportError:
+        return None
+
+    parts = race_path.strip('/').split('/')
+    race_slug = parts[1] if len(parts) >= 2 else ""
+    race_year = parts[2] if len(parts) >= 3 else ""
+
+    # Pre-fetch GC page via urllib to get a valid PHPSESSID cookie
+    import http.cookiejar, urllib.request as ur2, urllib.parse as up2
+    cj = http.cookiejar.CookieJar()
+    opener = ur2.build_opener(ur2.HTTPCookieProcessor(cj))
+    gc_url = f"{BASE_URL}/race/{race_slug}/{race_year}/gc"
+    try:
+        req = ur2.Request(gc_url, headers=HEADERS)
+        with opener.open(req, timeout=15) as r:
+            r.read()
+    except Exception:
+        pass
+    cookies_list = [{"name": c.name, "value": c.value, "domain": "www.procyclingstats.com", "path": "/"}
+                    for c in cj]
+    print(f"    [playwright] Session cookies: {[c['name'] for c in cookies_list]}")
+
+    result = {}
+    PAGE_TIMEOUT = 15000   # 15s for page load
+    WAIT_TIMEOUT = 8000    # 8s to wait for JS render
+
+    print(f"    [playwright] Launching headless browser...")
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            ctx = browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                           "AppleWebKit/537.36 (KHTML, like Gecko) "
+                           "Chrome/124.0.0.0 Safari/537.36",
+                locale="en-GB",
+            )
+            if cookies_list:
+                ctx.add_cookies(cookies_list)
+            page = ctx.new_page()
+
+            for cls_key in ["gc", "points", "kom", "youth"]:
+                url = f"{BASE_URL}/race/{race_slug}/{race_year}/{cls_key}"
+                print(f"    [playwright] {cls_key} ...", end=" ", flush=True)
+                try:
+                    page.goto(url, wait_until="domcontentloaded", timeout=PAGE_TIMEOUT)
+                    try:
+                        page.wait_for_function(
+                            "(function(){var d=document.querySelectorAll('td.ridername div.cont');"
+                            "for(var i=0;i<d.length;i++){if(d[i].textContent.trim()!='')return true;}"
+                            "return false;})()",
+                            timeout=WAIT_TIMEOUT
+                        )
+                    except PWTimeout:
+                        pass  # Try extracting whatever is there
+
+                    rows_data = page.evaluate("""() => {
+                        const out = [];
+                        const rows = document.querySelectorAll('tbody tr');
+                        for (let i = 0; i < rows.length && out.length < 10; i++) {
+                            const row = rows[i];
+                            const r1 = row.querySelector('td:first-child');
+                            const rank = r1 ? parseInt(r1.textContent.trim()) : 0;
+                            if (!rank || rank > 150) continue;
+                            const a = row.querySelector('td.ridername a') || row.querySelector('div.cont a');
+                            if (!a) continue;
+                            const fl = row.querySelector('span[class*="flag"]');
+                            const tm = row.querySelector('td.cu600 a');
+                            const ti = row.querySelector('td.time') || row.querySelector('td.ar');
+                            out.push({rank, name: a.textContent.trim(), href: a.getAttribute('href')||'',
+                                      flagClass: fl ? fl.className : '',
+                                      team: tm ? tm.textContent.trim() : '',
+                                      time: ti ? ti.textContent.trim() : ''});
+                        }
+                        return out;
+                    }""")
+
+                    if not rows_data:
+                        print("no data")
+                        continue
+
+                    top10 = []
+                    for i, r in enumerate(rows_data[:10]):
+                        nat_code = _parse_cls_flag(r.get("flagClass", ""))
+                        flag = flag_emoji(nat_code)
+                        href = r.get("href", "")
+                        rider_url = href if href.startswith("/") else "/" + href
+                        name = " ".join(p.capitalize() for p in r.get("name", "").split())
+                        rank = r.get("rank", i + 1)
+                        raw_time = r.get("time", "").strip()
+                        time_gap = raw_time if rank == 1 else (
+                            "+0:00" if raw_time in ("", ",,") else
+                            (raw_time if raw_time.startswith("+") else "+" + raw_time))
+                        top10.append({"rank": rank, "name": name, "rider_url": rider_url,
+                                      "team": r.get("team", ""), "nat_code": nat_code,
+                                      "flag": flag, "time_gap": time_gap})
+
+                    if top10:
+                        result[f"{cls_key}_top10"] = top10
+                        leader = top10[0]
+                        result[f"{cls_key}_leader"] = leader.get("flag","") + " " + leader["name"]
+                        print(f"leader: {leader['name']}")
+                    else:
+                        print("empty after extract")
+                    time.sleep(1)
+
+                except Exception as e:
+                    print(f"error: {e}")
+
+            browser.close()
+    except Exception as e:
+        print(f"    [playwright] Browser error: {e}")
+        return None
+
+    return result
+
+
+def scrape_classifications(race_path, use_playwright=True):
+    """
+    Fetch GC/Points/KOM/Youth top-10.
+    Static HTML first (fast, works for lower-tier races).
+    Falls back to Playwright for JS-rendered pages (if use_playwright=True).
     """
     result = {}
-    for cls_key, cls_path in [("gc", "gc"), ("points", "points"), ("kom", "kom"), ("youth", "youth")]:
-        url = f"{race_path}/{cls_path}"
-        print(f"    Fetching {url} ...")
+    any_static = False
+    for cls_key in ["gc", "points", "kom", "youth"]:
+        url = f"{race_path}/{cls_key}"
         html = fetch(url)
         time.sleep(DELAY)
-        if not html or "rider/" not in html:
-            print(f"      No data for {cls_key}")
+        if not html:
             continue
         top10 = parse_stage_results(html)
         if top10:
+            any_static = True
             result[f"{cls_key}_top10"] = top10
             leader = top10[0]
-            result[f"{cls_key}_leader"] = f"{leader.get('flag','')} {leader['name']}"
-            print(f"      {cls_key} leader: {leader['name']}")
+            result[f"{cls_key}_leader"] = leader.get("flag","") + " " + leader["name"]
+            print(f"      {cls_key} leader (static): {leader['name']}")
+
+    if any_static:
+        return result
+
+    if not use_playwright:
+        print(f"    Classifications not available (JS-rendered race, Playwright disabled)")
+        return result
+
+    print(f"    Static HTML empty, trying Playwright...")
+    pw_result = scrape_classifications_playwright(race_path)
+    if pw_result is not None:
+        return pw_result
+
+    print(f"    [!] Playwright not installed. Run: pip install playwright && playwright install chromium")
     return result
 
 
@@ -575,6 +718,7 @@ def scrape_rider_profile(rider_url):
 LIVE_RACES = [
     {
         "slug": "tour-auvergne-rhone-alpes",
+        "js_rendered": True,
         "name": "Tour Auvergne – Rhône-Alpes",
         "year": "2026",
         "category": "2.UWT",
@@ -586,6 +730,7 @@ LIVE_RACES = [
     },
     {
         "slug": "tour-du-cameroun",
+        "js_rendered": True,
         "name": "Tour du Cameroun",
         "year": "2026",
         "category": "2.2",
@@ -606,6 +751,7 @@ LIVE_RACES = [
     },
     {
         "slug": "tour-de-beauce",
+        "js_rendered": True,
         "name": "Tour de Beauce",
         "year": "2026",
         "category": "2.2",
@@ -617,6 +763,7 @@ LIVE_RACES = [
     },
     {
         "slug": "tour-of-malopolska",
+        "js_rendered": True,
         "name": "Tour of Malopolska",
         "year": "2026",
         "category": "2.2",
@@ -910,7 +1057,7 @@ def main():
             # Fetch classification leaders (GC, Points, KOM, Youth)
             if race_data.get("total_stages", 1) > 1:
                 print(f"    Fetching classifications...")
-                cls_data = scrape_classifications(race_path)
+                cls_data = scrape_classifications(race_path, use_playwright=not race.get("js_rendered", False))
                 race_data.update(cls_data)
 
         except Exception as e:
@@ -924,15 +1071,13 @@ def main():
     cached_recent = {r["slug"]: r for r in cache.get("recent", [])}
     for race in all_data["recent"]:
         if race.get("total_stages", 1) <= 1:
-            # One-day race — reuse cached stages if available, else empty
             race["stages"] = cached_recent.get(race["slug"], {}).get("stages", [])
             continue
 
         if is_complete_recent(race, cache):
-            # Already have full data — copy from cache, skip network
             cached = cached_recent[race["slug"]]
             race["stages"] = cached.get("stages", [])
-            print(f"  {race['name']}: cached ✓ ({len(race['stages'])} stages, skipping)")
+            print(f"  {race['name']}: cached ({len(race['stages'])} stages, skipping)")
             continue
 
         print(f"\n  Race: {race['name']}")
@@ -960,7 +1105,7 @@ def main():
     for url in TDF_CONTENDER_URLS:
         slug = url.replace("/rider/", "")
         if slug in existing_profiles:
-            print(f"  {url}: cached ✓")
+            print(f"  {url}: cached")
             continue
         print(f"  {url}")
         try:
@@ -978,7 +1123,7 @@ def main():
     import os
     os.replace(tmp, OUTPUT_FILE)
 
-    print(f"\n✅ data.json written ({len(json.dumps(all_data)) // 1024} KB)")
+    print(f"\n[OK] data.json written ({len(json.dumps(all_data)) // 1024} KB)")
     print(f"   Live races: {len(all_data['live'])}")
     print(f"   Upcoming: {len(all_data['upcoming'])}")
     print(f"   Recent: {len(all_data['recent'])}")
