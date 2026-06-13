@@ -1103,6 +1103,7 @@ def main():
     print("\n[3/3] Fetching rider profiles...")
     existing_profiles = all_data["rider_profiles"]
     for url in TDF_CONTENDER_URLS:
+       
         slug = url.replace("/rider/", "")
         if slug in existing_profiles:
             print(f"  {url}: cached")
@@ -1127,7 +1128,11 @@ def main():
     print(f"   Live races: {len(all_data['live'])}")
     print(f"   Upcoming: {len(all_data['upcoming'])}")
     print(f"   Recent: {len(all_data['recent'])}")
-    print(f"   Rider profiles: {len(all_data['rider_profiles'])}")
+
+
+if __name__ == "__main__":
+    main()
+files: {len(all_data['rider_profiles'])}")
     print(f"   Scraped at: {all_data['scraped_at_human']}")
 
 
