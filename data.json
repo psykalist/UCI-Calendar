@@ -1,6 +1,6 @@
 {
-  "scraped_at": "2026-06-13T11:56:30.974575",
-  "scraped_at_human": "13 Jun 2026 11:56",
+  "scraped_at": "2026-06-13T12:06:22.971987",
+  "scraped_at_human": "13 Jun 2026 12:06",
   "live": [
     {
       "slug": "tour-auvergne-rhone-alpes",
@@ -2027,7 +2027,379 @@
       "last_stage_winner": "Mudgway Luke",
       "last_stage_winner_flag": "🇳🇿",
       "last_stage_num": 5,
-      "stages_completed": 5
+      "stages_completed": 5,
+      "gc_top10": [
+        {
+          "rank": 1,
+          "name": "Mudgway Luke",
+          "rider_url": "/rider/luke-mudgway",
+          "team": "Li Ning Star",
+          "nat_code": "NZ",
+          "flag": "🇳🇿",
+          "time_gap": "51:21"
+        },
+        {
+          "rank": 2,
+          "name": "D'amato Andrea",
+          "rider_url": "/rider/andrea-d-amato",
+          "team": "Team UKYO",
+          "nat_code": "IT",
+          "flag": "🇮🇹",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 3,
+          "name": "Carstensen Lucas",
+          "rider_url": "/rider/lucas-carstensen",
+          "team": "Kinan Racing Team",
+          "nat_code": "DE",
+          "flag": "🇩🇪",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 4,
+          "name": "Quintero Leonel",
+          "rider_url": "/rider/leonel-quintero",
+          "team": "Victoire Hiroshima",
+          "nat_code": "VE",
+          "flag": "🇻🇪",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 5,
+          "name": "Rikunov Petr",
+          "rider_url": "/rider/petr-rikunov",
+          "team": "Wheeltop Rotor Chengdu Team",
+          "nat_code": "RU",
+          "flag": "🇷🇺",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 6,
+          "name": "Van Aert Bernard",
+          "rider_url": "/rider/bernard-van-aert",
+          "team": "Nusantara Cycling Team",
+          "nat_code": "ID",
+          "flag": "🇮🇩",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 7,
+          "name": "Meijers Jeroen",
+          "rider_url": "/rider/jeroen-meijers",
+          "team": "Victoria Sports Pro Cycling",
+          "nat_code": "NL",
+          "flag": "🇳🇱",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 8,
+          "name": "Samansanti Nati",
+          "rider_url": "/rider/nati-samansanti",
+          "team": "Victoire Hiroshima",
+          "nat_code": "TH",
+          "flag": "🇹🇭",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 9,
+          "name": "Schultz Elliot",
+          "rider_url": "/rider/elliot-schultz",
+          "team": "Grant Thornton Cycling Team",
+          "nat_code": "AU",
+          "flag": "🇦🇺",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 10,
+          "name": "Hopkins Dylan",
+          "rider_url": "/rider/dylan-hopkins",
+          "team": "Roojai Insurance Winspace",
+          "nat_code": "AU",
+          "flag": "🇦🇺",
+          "time_gap": "+0:00"
+        }
+      ],
+      "gc_leader": "🇳🇿 Mudgway Luke",
+      "points_top10": [
+        {
+          "rank": 1,
+          "name": "Mudgway Luke",
+          "rider_url": "/rider/luke-mudgway",
+          "team": "Li Ning Star",
+          "nat_code": "NZ",
+          "flag": "🇳🇿",
+          "time_gap": "51:21"
+        },
+        {
+          "rank": 2,
+          "name": "D'amato Andrea",
+          "rider_url": "/rider/andrea-d-amato",
+          "team": "Team UKYO",
+          "nat_code": "IT",
+          "flag": "🇮🇹",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 3,
+          "name": "Carstensen Lucas",
+          "rider_url": "/rider/lucas-carstensen",
+          "team": "Kinan Racing Team",
+          "nat_code": "DE",
+          "flag": "🇩🇪",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 4,
+          "name": "Quintero Leonel",
+          "rider_url": "/rider/leonel-quintero",
+          "team": "Victoire Hiroshima",
+          "nat_code": "VE",
+          "flag": "🇻🇪",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 5,
+          "name": "Rikunov Petr",
+          "rider_url": "/rider/petr-rikunov",
+          "team": "Wheeltop Rotor Chengdu Team",
+          "nat_code": "RU",
+          "flag": "🇷🇺",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 6,
+          "name": "Van Aert Bernard",
+          "rider_url": "/rider/bernard-van-aert",
+          "team": "Nusantara Cycling Team",
+          "nat_code": "ID",
+          "flag": "🇮🇩",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 7,
+          "name": "Meijers Jeroen",
+          "rider_url": "/rider/jeroen-meijers",
+          "team": "Victoria Sports Pro Cycling",
+          "nat_code": "NL",
+          "flag": "🇳🇱",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 8,
+          "name": "Samansanti Nati",
+          "rider_url": "/rider/nati-samansanti",
+          "team": "Victoire Hiroshima",
+          "nat_code": "TH",
+          "flag": "🇹🇭",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 9,
+          "name": "Schultz Elliot",
+          "rider_url": "/rider/elliot-schultz",
+          "team": "Grant Thornton Cycling Team",
+          "nat_code": "AU",
+          "flag": "🇦🇺",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 10,
+          "name": "Hopkins Dylan",
+          "rider_url": "/rider/dylan-hopkins",
+          "team": "Roojai Insurance Winspace",
+          "nat_code": "AU",
+          "flag": "🇦🇺",
+          "time_gap": "+0:00"
+        }
+      ],
+      "points_leader": "🇳🇿 Mudgway Luke",
+      "kom_top10": [
+        {
+          "rank": 1,
+          "name": "Mudgway Luke",
+          "rider_url": "/rider/luke-mudgway",
+          "team": "Li Ning Star",
+          "nat_code": "NZ",
+          "flag": "🇳🇿",
+          "time_gap": "51:21"
+        },
+        {
+          "rank": 2,
+          "name": "D'amato Andrea",
+          "rider_url": "/rider/andrea-d-amato",
+          "team": "Team UKYO",
+          "nat_code": "IT",
+          "flag": "🇮🇹",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 3,
+          "name": "Carstensen Lucas",
+          "rider_url": "/rider/lucas-carstensen",
+          "team": "Kinan Racing Team",
+          "nat_code": "DE",
+          "flag": "🇩🇪",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 4,
+          "name": "Quintero Leonel",
+          "rider_url": "/rider/leonel-quintero",
+          "team": "Victoire Hiroshima",
+          "nat_code": "VE",
+          "flag": "🇻🇪",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 5,
+          "name": "Rikunov Petr",
+          "rider_url": "/rider/petr-rikunov",
+          "team": "Wheeltop Rotor Chengdu Team",
+          "nat_code": "RU",
+          "flag": "🇷🇺",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 6,
+          "name": "Van Aert Bernard",
+          "rider_url": "/rider/bernard-van-aert",
+          "team": "Nusantara Cycling Team",
+          "nat_code": "ID",
+          "flag": "🇮🇩",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 7,
+          "name": "Meijers Jeroen",
+          "rider_url": "/rider/jeroen-meijers",
+          "team": "Victoria Sports Pro Cycling",
+          "nat_code": "NL",
+          "flag": "🇳🇱",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 8,
+          "name": "Samansanti Nati",
+          "rider_url": "/rider/nati-samansanti",
+          "team": "Victoire Hiroshima",
+          "nat_code": "TH",
+          "flag": "🇹🇭",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 9,
+          "name": "Schultz Elliot",
+          "rider_url": "/rider/elliot-schultz",
+          "team": "Grant Thornton Cycling Team",
+          "nat_code": "AU",
+          "flag": "🇦🇺",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 10,
+          "name": "Hopkins Dylan",
+          "rider_url": "/rider/dylan-hopkins",
+          "team": "Roojai Insurance Winspace",
+          "nat_code": "AU",
+          "flag": "🇦🇺",
+          "time_gap": "+0:00"
+        }
+      ],
+      "kom_leader": "🇳🇿 Mudgway Luke",
+      "youth_top10": [
+        {
+          "rank": 1,
+          "name": "Mudgway Luke",
+          "rider_url": "/rider/luke-mudgway",
+          "team": "Li Ning Star",
+          "nat_code": "NZ",
+          "flag": "🇳🇿",
+          "time_gap": "51:21"
+        },
+        {
+          "rank": 2,
+          "name": "D'amato Andrea",
+          "rider_url": "/rider/andrea-d-amato",
+          "team": "Team UKYO",
+          "nat_code": "IT",
+          "flag": "🇮🇹",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 3,
+          "name": "Carstensen Lucas",
+          "rider_url": "/rider/lucas-carstensen",
+          "team": "Kinan Racing Team",
+          "nat_code": "DE",
+          "flag": "🇩🇪",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 4,
+          "name": "Quintero Leonel",
+          "rider_url": "/rider/leonel-quintero",
+          "team": "Victoire Hiroshima",
+          "nat_code": "VE",
+          "flag": "🇻🇪",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 5,
+          "name": "Rikunov Petr",
+          "rider_url": "/rider/petr-rikunov",
+          "team": "Wheeltop Rotor Chengdu Team",
+          "nat_code": "RU",
+          "flag": "🇷🇺",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 6,
+          "name": "Van Aert Bernard",
+          "rider_url": "/rider/bernard-van-aert",
+          "team": "Nusantara Cycling Team",
+          "nat_code": "ID",
+          "flag": "🇮🇩",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 7,
+          "name": "Meijers Jeroen",
+          "rider_url": "/rider/jeroen-meijers",
+          "team": "Victoria Sports Pro Cycling",
+          "nat_code": "NL",
+          "flag": "🇳🇱",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 8,
+          "name": "Samansanti Nati",
+          "rider_url": "/rider/nati-samansanti",
+          "team": "Victoire Hiroshima",
+          "nat_code": "TH",
+          "flag": "🇹🇭",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 9,
+          "name": "Schultz Elliot",
+          "rider_url": "/rider/elliot-schultz",
+          "team": "Grant Thornton Cycling Team",
+          "nat_code": "AU",
+          "flag": "🇦🇺",
+          "time_gap": "+0:00"
+        },
+        {
+          "rank": 10,
+          "name": "Hopkins Dylan",
+          "rider_url": "/rider/dylan-hopkins",
+          "team": "Roojai Insurance Winspace",
+          "nat_code": "AU",
+          "flag": "🇦🇺",
+          "time_gap": "+0:00"
+        }
+      ],
+      "youth_leader": "🇳🇿 Mudgway Luke"
     },
     {
       "slug": "tour-de-beauce",
