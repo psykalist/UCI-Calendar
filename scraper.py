@@ -16,11 +16,17 @@ Run:  py scraper.py
 
 import json
 import re
+import sys
 import time
 import os
+import urllib.parse
 from datetime import datetime, date, timezone
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
+
+# Force UTF-8 output so arrow/emoji characters don't crash on Windows cp1252 consoles
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 BASE_URL = "https://cyclingflash.com"
 OUTPUT_FILE = "data.json"
@@ -38,6 +44,49 @@ HEADERS = {
 
 # UCI categories to include
 UCI_CATS = {"1.UWT", "2.UWT", "1.Pro", "2.Pro", "1.1", "2.1"}
+
+# ── Team lists (WorldTeam + ProTeam only) ──────────────────────────────────────
+
+WORLD_TEAMS = [
+    "alpecin-premier-tech-2026",
+    "bahrain-victorious-2026",
+    "decathlon-cma-cgm-team-2026",
+    "ef-education-easypost-2026",
+    "groupama-fdj-united-2026",
+    "ineos-grenadiers-2026",
+    "lidl-trek-2026",
+    "lotto-intermarche-2026",
+    "movistar-team-2026",
+    "netcompany-ineos-cycling-team-2026",
+    "nsn-cycling-team-2026",
+    "red-bull-bora-hansgrohe-2026",
+    "soudal-quick-step-2026",
+    "team-jayco-alula-2026",
+    "team-picnic-postnl-2026",
+    "team-visma-lease-a-bike-2026",
+    "uae-emirates-xrg-2026",
+    "uno-x-mobility-2026",
+    "xds-astana-team-2026",
+]
+
+PRO_TEAMS = [
+    "bardiani-csf-7-saber-2026",
+    "burgos-burpellet-bh-2026",
+    "caja-rural-seguros-rga-2026",
+    "cofidis-2026",
+    "equipo-kern-pharma-2026",
+    "euskaltel-euskadi-2026",
+    "mbh-bank-csb-telecom-fort-2026",
+    "modern-adventure-pro-cycling-2026",
+    "pinarello-q36",
+    "solution-tech-nippo-rali-2026",
+    "team-flanders-baloise-2026",
+    "team-novo-nordisk-2026",
+    "team-polti-visitmalta-2026",
+    "totalenergies-2026",
+    "tudor-pro-cycling-team-2026",
+    "unibet-rose-rockets-2026",
+]
 
 # Grand tours and major races to always track
 ALWAYS_INCLUDE = {
@@ -432,6 +481,68 @@ def discover_races_from_homepage():
     return found
 
 
+# ── Team scraping ──────────────────────────────────────────────────────────────
+
+def _cdn_url(html, keyword):
+    """Extract a CDN image URL from a Next.js _next/image url= param by keyword."""
+    m = re.search(r'url=([^&"\']+' + keyword + r'[^&"\']*)', html)
+    if not m:
+        return None
+    return urllib.parse.unquote(m.group(1))
+
+
+def scrape_team(slug, cat):
+    """Fetch a CyclingFlash team page and return a team dict."""
+    html = fetch(f"{BASE_URL}/team/{slug}")
+    if not html:
+        return None
+
+    # Team name
+    name_m = re.search(r'<h1[^>]*>(.*?)</h1>', html, re.DOTALL)
+    name = strip_tags(name_m.group(1)) if name_m else slug.replace('-2026','').replace('-',' ').title()
+
+    # Logo and jersey via CDN URL extraction
+    logo   = _cdn_url(html, 'logo_600_600')
+    jersey = _cdn_url(html, 'shirt_600_600')
+
+    # Rider rows from the roster table
+    tr_blocks  = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
+    rider_rows = [t for t in tr_blocks if '/profile/' in t]
+    riders = []
+    for row in rider_rows:
+        slug_m = re.search(r'/profile/([a-z0-9-]+)', row)
+        name_s = re.search(r'<span>([^<]+)</span>', row)
+        flag_m = re.search(r'/svg/flags/(\w+)\.svg', row)
+        tds    = re.findall(r'<td[^>]*>(.*?)</td>', row, re.DOTALL)
+        age    = strip_tags(tds[-1]) if tds else ''
+        if slug_m and name_s:
+            riders.append({
+                'slug': slug_m.group(1),
+                'name': name_s.group(1),
+                'nat':  flag_m.group(1) if flag_m else '',
+                'age':  age,
+            })
+
+    return {'slug': slug, 'name': name, 'logo': logo, 'jersey': jersey,
+            'cat': cat, 'riders': riders}
+
+
+def scrape_teams():
+    """Scrape all WorldTeam and ProTeam pages. Returns list of team dicts."""
+    teams = []
+    pairs = [(s, 'UWT') for s in WORLD_TEAMS] + [(s, 'Pro') for s in PRO_TEAMS]
+    for slug, cat in pairs:
+        print(f"  {slug}")
+        team = scrape_team(slug, cat)
+        time.sleep(DELAY)
+        if team:
+            print(f"    {team['name']} — {len(team['riders'])} riders")
+            teams.append(team)
+        else:
+            print(f"    [skip] fetch failed")
+    return teams
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -456,7 +567,7 @@ def main():
     }
 
     # ── 1. Discover races ─────────────────────────────────────────────────────
-    print("\n[1/3] Discovering races...")
+    print("\n[1/4] Discovering races...")
 
     # Primary: structured calendar pages (full season)
     print("  Scraping calendar pages...")
@@ -476,7 +587,7 @@ def main():
     print(f"  Found {len(discovered)} candidate races")
 
     # ── 2. Fetch race details ─────────────────────────────────────────────────
-    print("\n[2/3] Fetching race details...")
+    print("\n[2/4] Fetching race details...")
 
     live_races     = []
     upcoming_races = []
@@ -646,8 +757,13 @@ def main():
 
         (live_races if status == "live" else recent_races).append(race_obj)
 
-    # ── 3. Write output ───────────────────────────────────────────────────────
-    print("\n[3/3] Writing data.json...")
+    # ── 3. Scrape teams ───────────────────────────────────────────────────────
+    print("\n[3/4] Scraping teams (WorldTeam + ProTeam)...")
+    teams_data = scrape_teams()
+    print(f"  Teams scraped: {len(teams_data)}")
+
+    # ── 4. Write output ───────────────────────────────────────────────────────
+    print("\n[4/4] Writing data.json...")
     now = datetime.now(timezone.utc)
     all_data = {
         "scraped_at":       now.isoformat(),
@@ -655,6 +771,7 @@ def main():
         "live":             live_races,
         "upcoming":         upcoming_races,
         "recent":           recent_races,
+        "teams":            teams_data,
         "rider_profiles":   cache.get("rider_profiles", {}),
     }
 
@@ -668,6 +785,7 @@ def main():
     print(f"  Live:     {len(live_races)}")
     print(f"  Upcoming: {len(upcoming_races)}")
     print(f"  Recent:   {len(recent_races)}")
+    print(f"  Teams:    {len(teams_data)}")
     print(f"  Scraped:  {all_data['scraped_at_human']}")
 
 

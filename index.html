@@ -355,6 +355,77 @@ header h1 span { color: var(--accent); }
 }
 @keyframes ping { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
 
+/* ── Team cards ── */
+.team-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.team-card.uwt { border-left: 3px solid var(--gold); }
+.team-card.pro  { border-left: 3px solid var(--upcoming); }
+
+.team-header {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  min-height: 70px;
+}
+.team-header:active { background: var(--surface2); }
+
+.team-jersey-thumb {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 6px;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.team-jersey-placeholder {
+  width: 52px; height: 52px;
+  background: var(--surface2);
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.team-title { flex: 1; min-width: 0; }
+.team-name-text {
+  font-size: .95rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.team-meta { font-size: .78rem; color: var(--muted); margin-top: 3px; }
+
+.team-body { display: none; border-top: 1px solid var(--border); }
+.team-card.open .team-body { display: block; }
+.team-card.open .chevron { transform: rotate(180deg); }
+
+.roster-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.roster-table th {
+  text-align: left;
+  padding: 7px 10px;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.roster-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.roster-table tr:last-child td { border-bottom: none; }
+.roster-num { width: 28px; color: var(--muted); font-weight: 700; font-size: .78rem; }
+.roster-age { color: var(--muted); font-size: .82rem; width: 36px; text-align: right; }
+
 /* ── Misc ── */
 .empty {
   color: var(--muted);
@@ -390,8 +461,9 @@ header h1 span { color: var(--accent); }
 <div class="filter-bar" id="filter-bar">
   <span class="filter-chip active" onclick="setFilter('ALL',this)">All</span>
   <span class="filter-chip" onclick="setFilter('UWT',this)">UWT ⭐</span>
-  <span class="filter-chip" onclick="setFilter('PRO',this)">Pro Series</span>
-  <span class="filter-chip" onclick="setFilter('1.1',this)">1.1 / 2.1</span>
+  <span class="filter-chip race-chip" onclick="setFilter('PRO',this)">Pro Series</span>
+  <span class="filter-chip team-chip" onclick="setFilter('PRO',this)" style="display:none">ProTeam</span>
+  <span class="filter-chip race-chip" onclick="setFilter('1.1',this)">1.1 / 2.1</span>
 </div>
 
 <main>
@@ -400,6 +472,7 @@ header h1 span { color: var(--accent); }
   <div class="section" id="sec-live"></div>
   <div class="section" id="sec-upcoming"></div>
   <div class="section" id="sec-recent"></div>
+  <div class="section" id="sec-teams"></div>
 </main>
 
 <nav class="bottom-nav">
@@ -412,6 +485,9 @@ header h1 span { color: var(--accent); }
   </button>
   <button class="nav-btn" id="nav-recent" onclick="showSec('recent',this)">
     <span class="nav-icon">✅</span><span>Recent</span>
+  </button>
+  <button class="nav-btn" id="nav-teams" onclick="showSec('teams',this)">
+    <span class="nav-icon">👕</span><span>Teams</span>
   </button>
 </nav>
 
@@ -448,6 +524,10 @@ function showSec(name, btn) {
   document.getElementById('sec-' + name).classList.add('active');
   btn.classList.add('active');
   currentTab = name;
+  // Swap filter chips based on tab
+  const isTeams = name === 'teams';
+  document.querySelectorAll('.race-chip').forEach(c => c.style.display = isTeams ? 'none' : '');
+  document.querySelectorAll('.team-chip').forEach(c => c.style.display = isTeams ? '' : 'none');
   applyFilter(curFilter);
 }
 
@@ -463,12 +543,22 @@ function setFilter(f, el) {
 }
 
 function applyFilter(f) {
+  // Race cards
   document.querySelectorAll('.race-card').forEach(card => {
     const cat = (card.dataset.cat || '').toUpperCase();
     let show = true;
     if      (f === 'UWT') show = cat.includes('UWT');
     else if (f === 'PRO') show = cat.includes('PRO');
     else if (f === '1.1') show = cat.startsWith('1.') || (cat.startsWith('2.') && !cat.includes('UWT') && !cat.includes('PRO'));
+    card.style.display = show ? '' : 'none';
+  });
+  // Team cards
+  document.querySelectorAll('.team-card').forEach(card => {
+    const cat = (card.dataset.cat || '').toUpperCase();
+    let show = true;
+    if      (f === 'UWT') show = cat === 'UWT';
+    else if (f === 'PRO') show = cat === 'PRO';
+    // '1.1' filter not relevant for teams — show all
     card.style.display = show ? '' : 'none';
   });
 }
@@ -614,6 +704,59 @@ function renderRecent(races) {
     group('🏅 One-Day Classics', oneday.map(r=>renderRaceCard(r,'recent')).join(''));
 }
 
+// ── Teams ──────────────────────────────────────────────────────────────────────
+
+let teamIdx = 0;
+
+function renderTeamCard(team) {
+  const id = `tc-${teamIdx++}`;
+  const cat = (team.cat || '').toUpperCase();
+  const catLabel = cat === 'UWT' ? '🌍 WorldTeam' : '🔵 ProTeam';
+  const catCls   = cat === 'UWT' ? 'uwt' : 'pro';
+  const jersey = team.jersey
+    ? `<img class="team-jersey-thumb" src="${esc(team.jersey)}" alt="jersey" loading="lazy">`
+    : `<div class="team-jersey-placeholder">👕</div>`;
+
+  const rosterRows = (team.riders || []).map((r, i) =>
+    `<tr>
+      <td class="roster-num">${i+1}</td>
+      <td>${r.nat ? `<img src="https://cyclingflash.com/svg/flags/${esc(r.nat)}.svg" width="18" height="18" style="vertical-align:middle;margin-right:6px" alt="${esc(r.nat)}">` : ''}${esc(r.name)}</td>
+      <td class="roster-age">${esc(r.age)}</td>
+    </tr>`
+  ).join('');
+
+  return `<div class="team-card ${catCls}" id="${id}" data-cat="${cat}">
+    <div class="team-header" onclick="toggleCard('${id}')">
+      ${jersey}
+      <div class="team-title">
+        <div class="team-name-text">${esc(team.name)}</div>
+        <div class="team-meta">${catLabel} &nbsp;·&nbsp; ${(team.riders||[]).length} riders</div>
+      </div>
+      ${chevron('chevron')}
+    </div>
+    <div class="team-body">
+      <table class="roster-table">
+        <thead><tr><th>#</th><th>Rider</th><th>Age</th></tr></thead>
+        <tbody>${rosterRows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderTeams(teams) {
+  const el = document.getElementById('sec-teams');
+  if (!teams || !teams.length) {
+    el.innerHTML = '<p class="empty">No team data yet — run the scraper.</p>';
+    return;
+  }
+  const uwt = teams.filter(t => t.cat === 'UWT');
+  const pro = teams.filter(t => t.cat !== 'UWT');
+  let html = '';
+  if (uwt.length) html += `<div class="group-header">🌍 UCI WorldTeam (${uwt.length})</div>` + uwt.map(renderTeamCard).join('');
+  if (pro.length) html += `<div class="group-header">🔵 UCI ProTeam (${pro.length})</div>`     + pro.map(renderTeamCard).join('');
+  el.innerHTML = `<div style="padding:14px">${html}</div>`;
+}
+
 // ── Data loading ───────────────────────────────────────────────────────────────
 
 let appData = {};
@@ -635,6 +778,7 @@ async function loadData(force=false) {
     renderLive(appData.live || []);
     renderUpcoming(appData.upcoming || []);
     renderRecent(appData.recent || []);
+    renderTeams(appData.teams || []);
 
     // Default tab: live if there are live races, otherwise upcoming
     const defaultTab = (appData.live||[]).length ? 'live' : 'upcoming';
