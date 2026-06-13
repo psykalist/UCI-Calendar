@@ -532,16 +532,21 @@ def scrape_classifications_playwright(race_path):
                 url = f"{BASE_URL}/race/{race_slug}/{race_year}/{cls_key}"
                 print(f"    [playwright] {cls_key} ...", end=" ", flush=True)
                 try:
-                    page.goto(url, wait_until="domcontentloaded", timeout=PAGE_TIMEOUT)
+                    page.goto(url, wait_until="networkidle", timeout=PAGE_TIMEOUT)
                     try:
                         page.wait_for_function(
                             "(function(){var d=document.querySelectorAll('td.ridername div.cont');"
                             "for(var i=0;i<d.length;i++){if(d[i].textContent.trim()!='')return true;}"
                             "return false;})()",
-                            timeout=WAIT_TIMEOUT
+                            timeout=WAIT_TIMEOUT * 2
                         )
                     except PWTimeout:
-                        pass  # Try extracting whatever is there
+                        # Try scrolling to trigger lazy-load, then wait briefly
+                        try:
+                            page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                            page.wait_for_timeout(2000)
+                        except Exception:
+                            pass
 
                     rows_data = page.evaluate("""() => {
                         const out = [];
@@ -1057,7 +1062,7 @@ def main():
             # Fetch classification leaders (GC, Points, KOM, Youth)
             if race_data.get("total_stages", 1) > 1:
                 print(f"    Fetching classifications...")
-                cls_data = scrape_classifications(race_path, use_playwright=not race.get("js_rendered", False))
+                cls_data = scrape_classifications(race_path, use_playwright=True)
                 race_data.update(cls_data)
 
         except Exception as e:
