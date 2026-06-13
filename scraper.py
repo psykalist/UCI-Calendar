@@ -971,9 +971,12 @@ def main():
             print(f"    ERROR: {e}")
         time.sleep(DELAY)
 
-    # ── Write output ───────────────────────────────────────────────────────
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    # ── Write output (atomic: write temp then rename) ─────────────────────
+    tmp = OUTPUT_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(all_data, f, ensure_ascii=False, indent=2)
+    import os
+    os.replace(tmp, OUTPUT_FILE)
 
     print(f"\n✅ data.json written ({len(json.dumps(all_data)) // 1024} KB)")
     print(f"   Live races: {len(all_data['live'])}")
