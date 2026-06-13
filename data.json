@@ -1,6 +1,6 @@
 {
-  "scraped_at": "2026-06-13T12:24:20.161457",
-  "scraped_at_human": "13 Jun 2026 12:24",
+  "scraped_at": "2026-06-13T12:33:51.727559",
+  "scraped_at_human": "13 Jun 2026 12:33",
   "live": [
     {
       "slug": "tour-auvergne-rhone-alpes",
@@ -680,6 +680,24 @@
               "team": "Netcompany INEOS",
               "nat_code": "GB",
               "flag": "🇬🇧",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 71,
+              "name": "Healy Ben",
+              "rider_url": "/rider/ben-healy",
+              "team": "EF Education - EasyPost",
+              "nat_code": "IE",
+              "flag": "🇮🇪",
+              "time_gap": "+0:00"
+            },
+            {
+              "rank": 85,
+              "name": "Reinderink Pepijn",
+              "rider_url": "/rider/pepijn-reinderink",
+              "team": "Soudal Quick-Step",
+              "nat_code": "NL",
+              "flag": "🇳🇱",
               "time_gap": "+0:00"
             },
             {
@@ -3152,7 +3170,6 @@
       "gc_winner": "Ben Oliver",
       "gc_winner_nat": "NZL",
       "gc_winner_flag": "🇳🇿",
-      "pcs_url": "https://www.procyclingstats.com/race/tour-de-wallonie/2026",
       "stages": [
         {
           "num": 1,
@@ -3923,7 +3940,6 @@
       "gc_winner": "Henrique Bravo",
       "gc_winner_nat": "POR",
       "gc_winner_flag": "🇵🇹",
-      "pcs_url": "https://www.procyclingstats.com/race/oberosterreichrundfahrt/2026",
       "stages": [
         {
           "num": 1,
@@ -4355,7 +4371,6 @@
       "gc_winner": "Patrick Eddy",
       "gc_winner_nat": "AUS",
       "gc_winner_flag": "🇦🇺",
-      "pcs_url": "https://www.procyclingstats.com/race/ronde-de-l-oise/2026",
       "stages": [
         {
           "num": 1,
@@ -4815,7 +4830,6 @@
       "gc_winner": "Jonas Vingegaard",
       "gc_winner_nat": "DEN",
       "gc_winner_flag": "🇩🇰",
-      "pcs_url": "https://www.procyclingstats.com/race/giro-d-italia/2026",
       "stages": [
         {
           "num": 1,

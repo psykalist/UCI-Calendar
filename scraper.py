@@ -64,7 +64,7 @@ def flag_emoji(code):
         return ""
     # Unicode regional indicator symbols: A=0x1F1E6, B=0x1F1E7, ...
     try:
-        return "".join(chr(0x1F1E0 + ord(c) - ord("A")) for c in code)
+        return "".join(chr(0x1F1E6 + ord(c) - ord("A")) for c in code)
     except Exception:
         return ""
 
@@ -106,95 +106,84 @@ def parse_flag_class(class_str):
 def parse_stage_results(html):
     """
     Parse a PCS stage result page.
-    Returns list of dicts: {rank, name, rider_url, team, nationality_code, flag, time_gap}
+    Returns list of dicts: {rank, name, rider_url, team, nat_code, flag, time_gap}
+
+    Actual PCS HTML structure (confirmed from live page):
+      <tr>
+        <td>1</td>                          ← rank
+        <td class="ridername">
+          <span class="flag nz"></span>     ← 2-letter ISO code, lowercase
+          <a data-ct="OC" href="rider/marshall-erwood">
+            <span class="uppercase">erwood</span> Marshall
+          </a>
+        </td>
+        <td class="time ar"><font>4:10:10</font></td>
+      </tr>
     """
     if not html:
         return []
 
     results = []
-    # Find the main results table (class="basic results" or similar)
-    # Match table rows with rider links
-    # PCS table structure:
-    #   <td class="..."><span class="flag NZL smflag"></span><a href="/rider/...">Name</a></td>
+    seen_ranks = set()
 
-    # Find all result rows - look for rank + rider pattern
-    # Strategy: find spans with flag class, then walk the surrounding context
-
-    rider_pattern = re.compile(
-        r'<span\s+class="flag\s+([A-Za-z]+)[^"]*"[^>]*>.*?'  # flag span with country
-        r'<a\s+href="(/rider/[^"]+)"[^>]*>([^<]+)</a>',       # rider link
-        re.DOTALL
-    )
-
-    # Also try alternate: rider link first, then flag
-    rider_pattern2 = re.compile(
-        r'<a\s+href="(/rider/[^"]+)"[^>]*>([^<]+)</a>.*?'
-        r'<span\s+class="flag\s+([A-Za-z]+)[^"]*"',
-        re.DOTALL
-    )
-
-    # Simpler: find all table rows in results table
-    # Find the results table first
-    table_match = re.search(r'class="basic results"(.*?)</table>', html, re.DOTALL | re.IGNORECASE)
-    if not table_match:
-        # Try alternate table class patterns
-        table_match = re.search(r'<table[^>]*class="[^"]*result[^"]*"(.*?)</table>', html, re.DOTALL | re.IGNORECASE)
-
-    if not table_match:
-        # Fall back to searching entire page for rider rows
-        table_html = html
-    else:
-        table_html = table_match.group(0)
-
-    # Find each row with a ranking and rider
     row_pattern = re.compile(r'<tr[^>]*>(.*?)</tr>', re.DOTALL)
 
-    for row_m in row_pattern.finditer(table_html):
+    for row_m in row_pattern.finditer(html):
         row = row_m.group(1)
 
-        # Must have a rider link
-        rider_m = re.search(r'<a\s+href="(/rider/([^"]+))"[^>]*>([^<]+)</a>', row)
+        # Must contain a rider link (relative: href="rider/slug")
+        if 'href="rider/' not in row:
+            continue
+
+        # Extract rider link — may have extra attributes like data-ct before href
+        rider_m = re.search(r'<a\b[^>]*\bhref="rider/([^"]+)"[^>]*>(.*?)</a>', row, re.DOTALL)
         if not rider_m:
             continue
 
-        rider_url = rider_m.group(1)
-        rider_slug = rider_m.group(2)
-        rider_name_raw = rider_m.group(3).strip()
+        rider_slug = rider_m.group(1)
+        rider_url = "/rider/" + rider_slug
 
-        # Skip if this looks like a team link (no /rider/ prefix check)
-        if not rider_url.startswith("/rider/"):
+        # Build rider name: strip all HTML tags from link content, capitalize
+        name_html = rider_m.group(2)
+        name_text = re.sub(r'<[^>]+>', ' ', name_html)
+        rider_name = ' '.join(p.capitalize() for p in name_text.split())
+        if not rider_name:
             continue
 
-        # Get nationality from flag span
-        flag_m = re.search(r'class="flag\s+([A-Za-z]+)', row)
+        # Rank: first <td> whose entire content is a positive integer
+        rank_m = re.search(r'<td[^>]*>\s*([1-9]\d{0,2})\s*</td>', row)
+        if not rank_m:
+            continue
+        rank = int(rank_m.group(1))
+        if rank > 150 or rank in seen_ranks:
+            continue
+        seen_ranks.add(rank)
+
+        # Nationality: <span class="flag XX"> where XX is 2-letter lowercase ISO
+        flag_m = re.search(r'class="flag\s+([a-z]{2})\b', row)
         nat_code = flag_m.group(1).upper() if flag_m else ""
+        flag = flag_emoji(nat_code)
 
-        # Get rank (first numeric td)
-        rank_m = re.search(r'<td[^>]*>\s*(\d+)\s*</td>', row)
-        rank = int(rank_m.group(1)) if rank_m else 999
-
-        # Skip non-top-10 (but keep up to 20 for safety)
-        if rank > 20:
-            continue
-
-        # Get time gap - look for time pattern
-        time_gaps = re.findall(r'\+?\d+:\d+(?::\d+)?', row)
-        time_gap = time_gaps[-1] if time_gaps else ""
-        if rank == 1 and not time_gap.startswith("+"):
-            time_gap = "Leader"
-        elif rank > 1 and time_gap and not time_gap.startswith("+"):
-            time_gap = "+" + time_gap
-
-        # Get team
-        team_m = re.search(r'<a\s+href="/team/[^"]+">([^<]+)</a>', row)
+        # Team: first team link
+        team_m = re.search(r'<a\b[^>]*\bhref="team/[^"]+">([^<]+)</a>', row)
         team = team_m.group(1).strip() if team_m else ""
 
-        # Compute flag
-        flag = flag_emoji(nat_code)
+        # Finish/gap time: <td class="time ar ..."><font>VALUE</font>
+        time_m = re.search(r'class="time\s+ar[^"]*"[^>]*><font[^>]*>([^<]+)</font>', row)
+        raw_time = time_m.group(1).strip() if time_m else ""
+
+        # Build display time gap
+        if rank == 1:
+            time_gap = raw_time  # winner's finish time e.g. "4:10:10"
+        elif raw_time in (",,", ""):
+            time_gap = "+0:00"   # same time as winner
+        else:
+            # Already has + prefix or is a gap like "0:03"
+            time_gap = raw_time if raw_time.startswith("+") else "+" + raw_time
 
         results.append({
             "rank": rank,
-            "name": rider_name_raw,
+            "name": rider_name,
             "rider_url": rider_url,
             "team": team,
             "nat_code": nat_code,
@@ -202,7 +191,6 @@ def parse_stage_results(html):
             "time_gap": time_gap,
         })
 
-    # Sort by rank and keep top 10
     results.sort(key=lambda x: x["rank"])
     return results[:10]
 
@@ -382,31 +370,63 @@ def parse_latest_results_page(html):
     return races
 
 
-def scrape_race_stages(race_path, num_stages_to_fetch=6):
+def build_stage_list(race_path, total_stages, has_prologue=False):
     """
-    Fetch stage data for a race: stage list + top-10 results for recent stages.
+    Build stage URL list directly from total_stages count.
+    Avoids HTML parsing of overview page (PCS renders stage list via JS).
+    """
+    stages = []
+    if has_prologue:
+        stages.append({
+            "num": 0,
+            "label": "Prologue",
+            "result_url": f"{race_path}/prologue/result",
+            "winner": None,
+            "winner_url": None,
+            "winner_flag": "",
+            "winner_nat": "",
+            "top10": [],
+            "status": "upcoming",
+        })
+    for n in range(1, total_stages + 1):
+        stages.append({
+            "num": n,
+            "label": f"Stage {n}",
+            "result_url": f"{race_path}/stage-{n}/result",
+            "winner": None,
+            "winner_url": None,
+            "winner_flag": "",
+            "winner_nat": "",
+            "top10": [],
+            "status": "upcoming",
+        })
+    return stages
+
+
+def scrape_race_stages(race_path, total_stages=0, has_prologue=False, num_stages_to_fetch=6):
+    """
+    Fetch stage data for a race: build stage list from total_stages, then
+    fetch top-10 results for the most recent completed stages.
     Returns list of stage dicts.
     """
-    print(f"  Fetching race overview: {race_path}")
-    html = fetch(race_path)
-    time.sleep(DELAY)
-    if not html:
-        return []
-
-    stages = parse_stage_list(html, race_path)
-
-    # If no stages found from overview, try /results sub-page
-    if not stages:
-        html2 = fetch(race_path + "/results")
+    # Build stage list from count (reliable) or fall back to HTML parsing
+    if total_stages > 0 or has_prologue:
+        stages = build_stage_list(race_path, total_stages, has_prologue)
+        print(f"  Built {len(stages)} stage URLs for {race_path}")
+    else:
+        # Fallback: try HTML parsing of overview page
+        print(f"  Fetching race overview (fallback): {race_path}")
+        html = fetch(race_path)
         time.sleep(DELAY)
-        if html2:
-            stages = parse_stage_list(html2, race_path)
-
-    if not stages:
-        print(f"    No stages found for {race_path}")
-        return []
-
-    print(f"    Found {len(stages)} stages. Fetching results...")
+        stages = parse_stage_list(html, race_path) if html else []
+        if not stages:
+            html2 = fetch(race_path + "/results")
+            time.sleep(DELAY)
+            stages = parse_stage_list(html2, race_path) if html2 else []
+        if not stages:
+            print(f"    No stages found for {race_path}")
+            return []
+        print(f"    Found {len(stages)} stages via HTML")
 
     # Fetch results for completed stages (work backwards from most recent)
     fetched = 0
@@ -420,11 +440,22 @@ def scrape_race_stages(race_path, num_stages_to_fetch=6):
         time.sleep(DELAY)
 
         if not stage_html:
+            stage["status"] = "upcoming"
             continue
 
-        # Check if stage has results (look for rider links in results section)
-        if "/rider/" not in stage_html or "No results" in stage_html:
+        # Check if stage has results
+        # PCS uses relative URLs: href="rider/name" (no leading slash)
+        if "rider/" not in stage_html:
             stage["status"] = "upcoming"
+            # One-time debug: show what we're actually getting
+            if fetched == 0:
+                print(f"    [debug] len={len(stage_html)}, has_rider={('rider/' in stage_html)}, has_table={('basic results' in stage_html)}")
+                # Look for ERWOOD (known Stage 1 winner of Tour de Beauce)
+                erwood_pos = stage_html.lower().find("erwood")
+                print(f"    [debug] 'erwood' at pos={erwood_pos}")
+                # Show first 600 chars
+                snippet = stage_html[:600].replace('\n', ' ').replace('\r', '')
+                print(f"    [debug] start: {snippet}")
             continue
 
         top10 = parse_stage_results(stage_html)
@@ -434,13 +465,38 @@ def scrape_race_stages(race_path, num_stages_to_fetch=6):
             stage["winner"] = top10[0]["name"]
             stage["winner_flag"] = top10[0]["flag"]
             stage["winner_nat"] = top10[0]["nat_code"]
-            stage["winner_team"] = top10[0]["team"]
+            stage["winner_team"] = top10[0].get("team", "")
             stage["winner_time_gap"] = top10[1]["time_gap"] if len(top10) > 1 else ""
             fetched += 1
         else:
             stage["status"] = "upcoming"
 
     return stages
+
+
+def scrape_classifications(race_path):
+    """
+    Fetch GC, Points, KOM, Youth classification top-10 for a race.
+    PCS classification URLs: /race/{slug}/{year}/gc|points|kom|youth
+    Returns dict with gc_top10, points_top10, kom_top10, youth_top10,
+    and gc_leader, points_leader, kom_leader, youth_leader (formatted strings).
+    """
+    result = {}
+    for cls_key, cls_path in [("gc", "gc"), ("points", "points"), ("kom", "kom"), ("youth", "youth")]:
+        url = f"{race_path}/{cls_path}"
+        print(f"    Fetching {url} ...")
+        html = fetch(url)
+        time.sleep(DELAY)
+        if not html or "rider/" not in html:
+            print(f"      No data for {cls_key}")
+            continue
+        top10 = parse_stage_results(html)
+        if top10:
+            result[f"{cls_key}_top10"] = top10
+            leader = top10[0]
+            result[f"{cls_key}_leader"] = f"{leader.get('flag','')} {leader['name']}"
+            print(f"      {cls_key} leader: {leader['name']}")
+    return result
 
 
 def scrape_race_overview(race_path):
@@ -776,9 +832,43 @@ TDF_CONTENDER_URLS = [
 ]
 
 
+def load_cache():
+    """Load existing data.json as a cache to avoid re-scraping completed races."""
+    try:
+        with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def is_complete_recent(race, cache):
+    """
+    Return True if this completed race already has full stage data cached.
+    Skips re-scraping if every expected stage has a top10.
+    """
+    if not cache:
+        return False
+    cached_recent = {r["slug"]: r for r in cache.get("recent", [])}
+    cached = cached_recent.get(race["slug"])
+    if not cached:
+        return False
+    total = race.get("total_stages", 1)
+    if total <= 1:
+        return True  # one-day race, nothing to scrape
+    stages = cached.get("stages", [])
+    completed = [s for s in stages if s.get("status") == "completed" and s.get("top10")]
+    # Consider complete if we have top10 for all expected stages
+    return len(completed) >= total
+
+
 def main():
     print(f"UCI Scraper starting — {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
+
+    # Load cache so we can skip re-scraping completed races
+    cache = load_cache()
+    if cache:
+        print(f"  Cache loaded from {OUTPUT_FILE}")
 
     all_data = {
         "scraped_at": datetime.now().isoformat(),
@@ -786,7 +876,7 @@ def main():
         "live": [],
         "upcoming": UPCOMING_RACES[:],
         "recent": RECENT_RACES[:],
-        "rider_profiles": {},
+        "rider_profiles": cache.get("rider_profiles", {}),  # reuse cached profiles
     }
 
     # ── 1. Scrape live race stages ─────────────────────────────────────────
@@ -800,7 +890,12 @@ def main():
         race_data["pcs_url"] = BASE_URL + race_path
 
         try:
-            stages = scrape_race_stages(race_path, num_stages_to_fetch=8)
+            stages = scrape_race_stages(
+                race_path,
+                total_stages=race.get("total_stages", 0),
+                has_prologue=race.get("has_prologue", False),
+                num_stages_to_fetch=8,
+            )
             if stages:
                 race_data["stages"] = stages
                 completed = [s for s in stages if s.get("status") == "completed"]
@@ -811,6 +906,13 @@ def main():
                     race_data["last_stage_num"] = last["num"]
                 race_data["stages_completed"] = len(completed)
             print(f"    Done: {len(race_data['stages'])} stages, {race_data.get('stages_completed', 0)} completed")
+
+            # Fetch classification leaders (GC, Points, KOM, Youth)
+            if race_data.get("total_stages", 1) > 1:
+                print(f"    Fetching classifications...")
+                cls_data = scrape_classifications(race_path)
+                race_data.update(cls_data)
+
         except Exception as e:
             print(f"    ERROR: {e}")
 
@@ -819,10 +921,18 @@ def main():
 
     # ── 2. Scrape recent race stages ───────────────────────────────────────
     print("\n[2/3] Scraping recent races for stage results...")
+    cached_recent = {r["slug"]: r for r in cache.get("recent", [])}
     for race in all_data["recent"]:
         if race.get("total_stages", 1) <= 1:
-            # One-day race, no stages to fetch
-            race["stages"] = []
+            # One-day race — reuse cached stages if available, else empty
+            race["stages"] = cached_recent.get(race["slug"], {}).get("stages", [])
+            continue
+
+        if is_complete_recent(race, cache):
+            # Already have full data — copy from cache, skip network
+            cached = cached_recent[race["slug"]]
+            race["stages"] = cached.get("stages", [])
+            print(f"  {race['name']}: cached ✓ ({len(race['stages'])} stages, skipping)")
             continue
 
         print(f"\n  Race: {race['name']}")
@@ -830,16 +940,48 @@ def main():
         race["pcs_url"] = BASE_URL + race_path
 
         try:
-            stages = scrape_race_stages(race_path, num_stages_to_fetch=race.get("total_stages", 5))
+            stages = scrape_race_stages(
+                race_path,
+                total_stages=race.get("total_stages", 0),
+                has_prologue=race.get("has_prologue", False),
+                num_stages_to_fetch=race.get("total_stages", 5),
+            )
             race["stages"] = stages
             print(f"    Done: {len(stages)} stages")
         except Exception as e:
             print(f"    ERROR: {e}")
-            race["stages"] = []
+            race["stages"] = cached_recent.get(race["slug"], {}).get("stages", [])
 
         time.sleep(DELAY)
 
     # ── 3. Fetch key rider profiles ────────────────────────────────────────
     print("\n[3/3] Fetching rider profiles...")
+    existing_profiles = all_data["rider_profiles"]
     for url in TDF_CONTENDER_URLS:
-        pr
+        slug = url.replace("/rider/", "")
+        if slug in existing_profiles:
+            print(f"  {url}: cached ✓")
+            continue
+        print(f"  {url}")
+        try:
+            profile = scrape_rider_profile(url)
+            if profile:
+                existing_profiles[slug] = profile
+        except Exception as e:
+            print(f"    ERROR: {e}")
+        time.sleep(DELAY)
+
+    # ── Write output ───────────────────────────────────────────────────────
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(all_data, f, ensure_ascii=False, indent=2)
+
+    print(f"\n✅ data.json written ({len(json.dumps(all_data)) // 1024} KB)")
+    print(f"   Live races: {len(all_data['live'])}")
+    print(f"   Upcoming: {len(all_data['upcoming'])}")
+    print(f"   Recent: {len(all_data['recent'])}")
+    print(f"   Rider profiles: {len(all_data['rider_profiles'])}")
+    print(f"   Scraped at: {all_data['scraped_at_human']}")
+
+
+if __name__ == "__main__":
+    main()

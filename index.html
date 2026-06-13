@@ -119,6 +119,8 @@ header h1 { font-size:1.05rem; font-weight:800; }
 /* ── JERSEYS ── */
 .jerseys { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; margin-bottom:10px; }
 .jersey-card { border-radius:6px; padding:6px 4px; text-align:center; border:1px solid; }
+.jersey-card.clickable { cursor:pointer; }
+.jersey-card.clickable:active { opacity:.75; }
 .jersey-card.gc { background:#fff7ed; border-color:#fed7aa; }
 .jersey-card.pts { background:#fef9c3; border-color:#fef08a; }
 .jersey-card.kom { background:#fce7f3; border-color:#fbcfe8; }
@@ -411,7 +413,7 @@ const FALLBACK = {
   ],
   upcoming:[
     {slug:"tour-de-france",name:"Tour de France",year:"2026",category:"2.UWT",status:"upcoming",start_date:"2026-07-04",end_date:"2026-07-26",total_stages:21,featured:true,total_km:"3333",start_city:"Barcelona",finish_city:"Paris",official_url:"https://www.letour.fr",contenders:[
-      {name:"Tadej Pogačar",nat:"SLO",flag:"🇸🇮",team:"UAE Emirates-XRG",photo:"https://www.procyclingstats.com/images/riders/oh/dq/tadej-pogacar-2026.jpg"},
+      {name:"Tadej Pogačar",nat:"SLO",flag:"🇸🇮",team:"UAE Emirates-XRG",photo:""},
       {name:"Jonas Vingegaard",nat:"DEN",flag:"🇩🇰",team:"Team Visma|LAB",photo:""},
       {name:"Remco Evenepoel",nat:"BEL",flag:"🇧🇪",team:"Soudal Quick-Step",photo:""},
       {name:"Antonio Del Toro",nat:"MEX",flag:"🇲🇽",team:"UAE Emirates-XRG",photo:""},
@@ -452,7 +454,7 @@ const FALLBACK = {
 
 // ── Top riders (PCS world ranking June 2026) ──────────────────
 const TOP_RIDERS = [
-  {name:"Tadej Pogačar",slug:"tadej-pogacar",nat:"SLO",flag:"🇸🇮",team:"UAE Team Emirates - XRG",age:27,photo:"https://www.procyclingstats.com/images/riders/oh/dq/tadej-pogacar-2026.jpg",
+  {name:"Tadej Pogačar",slug:"tadej-pogacar",nat:"SLO",flag:"🇸🇮",team:"UAE Team Emirates - XRG",age:27,photo:"",
    specialties:{climber:99,oneday:99,gc:76,tt:33,sprint:3},
    palmares:["4× Tour de France GC (2020-21, 2024-25)","Giro d'Italia 2024","3× Ronde van Vlaanderen","4× Il Lombardia","4× Liège-Bastogne-Liège","2× World Champion"],
    equipment:{bike:"Colnago V4Rs",wheels:"Campagnolo Bora Ultra",groupset:"Campagnolo Super Record Wireless",shoes:"DMT KR10",helmet:"Kask Protone Icon"},
@@ -536,7 +538,7 @@ const TEAMS = {
     {slug:"lotto-intermarche",name:"Lotto Intermarché",official:"https://www.lotto-intermarche.com/",country:"🇧🇪",manager:"Hilaire Van der Schueren"},
     {slug:"movistar-team",name:"Movistar Team",official:"https://www.movistarteam.com/en/",country:"🇪🇸",manager:"Eusebio Unzué"},
     {slug:"netcompany-ineos",name:"Netcompany INEOS",official:"https://www.ineos.com/teams/grenadiers/",country:"🇬🇧",manager:"Rod Ellingworth",img_slug:"ineos-grenadiers"},
-    {slug:"nsn-cycling-team",name:"NSN Cycling Team",official:"https://www.procyclingstats.com/team/nsn-cycling-team-2026",country:"🇸🇪",manager:"—"},
+    {slug:"nsn-cycling-team",name:"NSN Cycling Team",country:"🇸🇪",manager:"—"},
     {slug:"red-bull-bora-hansgrohe",name:"Red Bull - BORA - hansgrohe",official:"https://www.redbull.com/int-en/tags/bora-hansgrohe",country:"🇦🇹🇩🇪",manager:"Ralf Alber"},
     {slug:"soudal-quick-step",name:"Soudal Quick-Step",official:"https://www.soudal-quickstep.com/",country:"🇧🇪",manager:"Patrick Lefevere"},
     {slug:"team-jayco-alula",name:"Team Jayco AlUla",official:"https://www.teamjayco.com.au/",country:"🇦🇺",manager:"Brent Copeland"},
@@ -644,18 +646,38 @@ function renderRaceCard(r,showProg=true){
 
   let body='';
 
-  // Jerseys for live races — leaders from scraped data
+  // Jerseys for live races — leaders from scraped data, clickable to expand classification
   if(r.status==='live'){
     const gc=r.gc_leader||'—';
     const pts=r.points_leader||'—';
     const kom=r.kom_leader||'—';
     const youth=r.youth_leader||'—';
+    const hasGc=!!(r.gc_top10&&r.gc_top10.length);
+    const hasPts=!!(r.points_top10&&r.points_top10.length);
+    const hasKom=!!(r.kom_top10&&r.kom_top10.length);
+    const hasYouth=!!(r.youth_top10&&r.youth_top10.length);
     body+=`<div class="jerseys">
-      <div class="jersey-card gc"><div class="jersey-icon">🟡</div><div class="jersey-label">GC</div><div class="jersey-rider">${gc}</div></div>
-      <div class="jersey-card pts"><div class="jersey-icon">🟢</div><div class="jersey-label">Points</div><div class="jersey-rider">${pts}</div></div>
-      <div class="jersey-card kom"><div class="jersey-icon">🔴</div><div class="jersey-label">KOM</div><div class="jersey-rider">${kom}</div></div>
-      <div class="jersey-card youth"><div class="jersey-icon">⚪</div><div class="jersey-label">Youth</div><div class="jersey-rider">${youth}</div></div>
+      <div class="jersey-card gc${hasGc?' clickable':''}" ${hasGc?`onclick="toggleEl('cls-${r.slug}-gc',event)"`:''}>
+        <div class="jersey-icon">🟡</div><div class="jersey-label">GC${hasGc?' ▾':''}</div><div class="jersey-rider">${gc}</div></div>
+      <div class="jersey-card pts${hasPts?' clickable':''}" ${hasPts?`onclick="toggleEl('cls-${r.slug}-pts',event)"`:''}>
+        <div class="jersey-icon">🟢</div><div class="jersey-label">Points${hasPts?' ▾':''}</div><div class="jersey-rider">${pts}</div></div>
+      <div class="jersey-card kom${hasKom?' clickable':''}" ${hasKom?`onclick="toggleEl('cls-${r.slug}-kom',event)"`:''}>
+        <div class="jersey-icon">🔴</div><div class="jersey-label">KOM${hasKom?' ▾':''}</div><div class="jersey-rider">${kom}</div></div>
+      <div class="jersey-card youth${hasYouth?' clickable':''}" ${hasYouth?`onclick="toggleEl('cls-${r.slug}-youth',event)"`:''}>
+        <div class="jersey-icon">⚪</div><div class="jersey-label">Youth${hasYouth?' ▾':''}</div><div class="jersey-rider">${youth}</div></div>
     </div>`;
+    // Classification panels (hidden, toggled by jersey card clicks)
+    for(const [key,label,icon] of [['gc','GC','🟡'],['pts','Points','🟢'],['kom','KOM','🔴'],['youth','Youth','⚪']]){
+      const top10=r[key==='pts'?'points_top10':key==='kom'?'kom_top10':key==='youth'?'youth_top10':'gc_top10'];
+      if(top10&&top10.length){
+        body+=`<div class="top10-list" id="cls-${r.slug}-${key}" style="display:none"><div class="stages-title">${icon} ${label} Classification</div>`;
+        for(const row of top10){
+          const rc=row.rank===1?'t10-rank g':row.rank===2?'t10-rank s':row.rank===3?'t10-rank b':'t10-rank';
+          body+=`<div class="t10"><span class="${rc}">${row.rank}</span><span class="t10-name">${row.flag||''} ${row.name}</span><span class="t10-team">${row.team||''}</span><span class="t10-gap">${row.time_gap||''}</span></div>`;
+        }
+        body+=`</div>`;
+      }
+    }
   }
 
   // Stages
@@ -672,20 +694,16 @@ function renderRaceCard(r,showProg=true){
     }
     body+=`</div>`;
 
-    // Top 10 for last completed
+    // Top 10 for last completed stage
     const last=[...r.stages].reverse().find(s=>s.status==='completed');
-    if(last&&r.total_stages>1){
-      if(last.top10&&last.top10.length){
-        const tid=`t10-${r.slug}-${last.num}`;
-        body+=`<div class="top10-btn" onclick="toggleEl('${tid}')">▶ Top 10 – ${last.label}</div><div class="top10-list" id="${tid}">`;
-        for(const row of last.top10){
-          const rc=row.rank===1?'t10-rank g':row.rank===2?'t10-rank s':row.rank===3?'t10-rank b':'t10-rank';
-          body+=`<div class="t10"><span class="${rc}">${row.rank}</span><span class="t10-name">${row.flag||''} ${row.name}</span><span class="t10-team">${row.team||''}</span><span class="t10-gap">${row.time_gap||''}</span></div>`;
-        }
-        body+=`</div>`;
-      } else {
-        body+=`<a class="top10-btn" href="https://www.procyclingstats.com/race/${r.slug}/${r.year}/stage-${last.num}/result" target="_blank">📊 View top 10 on PCS →</a>`;
+    if(last&&r.total_stages>1&&last.top10&&last.top10.length){
+      const tid=`t10-${r.slug}-${last.num}`;
+      body+=`<div class="top10-btn" onclick="toggleEl('${tid}',event)">▶ Top 10 – ${last.label}</div><div class="top10-list" id="${tid}">`;
+      for(const row of last.top10){
+        const rc=row.rank===1?'t10-rank g':row.rank===2?'t10-rank s':row.rank===3?'t10-rank b':'t10-rank';
+        body+=`<div class="t10"><span class="${rc}">${row.rank}</span><span class="t10-name">${row.flag||''} ${row.name}</span><span class="t10-team">${row.team||''}</span><span class="t10-gap">${row.time_gap||''}</span></div>`;
       }
+      body+=`</div>`;
     }
   }
 
@@ -865,9 +883,7 @@ function renderRiderProfile(r){
 
   ${equipHtml?`<div class="rider-results-title">🚲 Equipment</div><div class="rider-stat-grid" style="margin-bottom:12px">${equipHtml}</div>`:''}
 
-  ${socialHtml?`<div class="rider-results-title">🔗 Social & Links</div><div class="social-links">${socialHtml}
-    <a class="social-link" href="https://www.procyclingstats.com/rider/${r.slug}" target="_blank">PCS Profile</a>
-  </div>`:''}`;
+  ${socialHtml?`<div class="rider-results-title">🔗 Social & Links</div><div class="social-links">${socialHtml}</div>`:''}`;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -875,16 +891,12 @@ function renderRiderProfile(r){
 // ═══════════════════════════════════════════════════════════════
 function renderTeams(){
   function teamCard(t){
-    const pcs=`https://www.procyclingstats.com/team/${t.slug}-2026`;
     const initial=t.name.split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
     return`<div class="team-card">
       <div class="team-jersey-wrap" style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#0f1f3d,#1a3a6e);display:flex;align-items:center;justify-content:center;color:white;font-size:.65rem;font-weight:800;letter-spacing:.5px">${initial}</div>
       <div class="team-name">${t.name}</div>
       ${t.country?`<div style="font-size:.6rem;color:#64748b">${t.country}</div>`:''}
-      <div class="team-links">
-        ${t.official?`<a class="tlink official" href="${t.official}" target="_blank">🌐 Official</a>`:''}
-        <a class="tlink pcs" href="${pcs}" target="_blank">📊 PCS</a>
-      </div>
+      ${t.official?`<div class="team-links"><a class="tlink official" href="${t.official}" target="_blank">🌐 Official Site</a></div>`:''}
     </div>`;
   }
   let h=`<div class="section-hdr">🌍 UCI WorldTeams 2026</div><div class="team-grid">`;
@@ -975,10 +987,16 @@ function showSec(name,btn){
   document.getElementById('filter-bar').style.display=showFilter?'flex':'none';
 }
 function toggleCard(card,event){
-  if(event.target.tagName==='A')return;
+  if(event.target.tagName==='A'||event.target.tagName==='BUTTON')return;
+  if(event.target.closest('.jersey-card')||event.target.closest('.top10-btn')||event.target.closest('.top10-list'))return;
   card.classList.toggle('open');
 }
-function toggleEl(id){document.getElementById(id)?.classList.toggle('open');}
+function toggleEl(id,event){
+  if(event)event.stopPropagation();
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.style.display=el.style.display==='none'?'block':'none';
+}
 
 // ═══════════════════════════════════════════════════════════════
 // PWA
