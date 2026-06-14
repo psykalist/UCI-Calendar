@@ -1235,6 +1235,46 @@ if ('serviceWorker' in navigator) {
 }
 
 loadData();
+
+// ── Background auto-refresh every 30 minutes ─────────────────────────────────
+let _lastScrapedAt = '';
+async function silentCheck() {
+  try {
+    const r = await fetch('./data.json?t=' + Date.now(), {cache: 'no-cache'});
+    if (!r.ok) return;
+    const d = await r.json();
+    if (d.scraped_at && d.scraped_at !== _lastScrapedAt) {
+      appData = d;
+      _lastScrapedAt = d.scraped_at;
+      document.getElementById('last-updated').textContent = `Updated ${d.scraped_at_human || '—'}`;
+      renderLive(appData.live || []);
+      renderUpcoming(appData.upcoming || []);
+      renderRecent(appData.recent || []);
+      showBanner('📡 New race data loaded');
+    }
+  } catch(e) {}
+}
+function showBanner(msg) {
+  let b = document.getElementById('update-banner');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = 'update-banner';
+    b.style.cssText = 'position:fixed;bottom:calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:#4361ee;color:#fff;font-size:.82rem;font-weight:700;padding:7px 18px;border-radius:20px;z-index:999;pointer-events:none;transition:opacity .5s';
+    document.body.appendChild(b);
+  }
+  b.textContent = msg;
+  b.style.opacity = '1';
+  setTimeout(() => { b.style.opacity = '0'; }, 3500);
+}
+// Capture initial scraped_at after first load
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { _lastScrapedAt = appData.scraped_at || ''; }, 2000);
+});
+setInterval(silentCheck, 30 * 60 * 1000); // every 30 min
+// Also check when tab becomes visible again (phone unlock / tab switch)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') silentCheck();
+});
 </script>
 </body>
 </html>
