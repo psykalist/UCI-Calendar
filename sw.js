@@ -24,12 +24,28 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch: network-first for PCS links, cache-first for app shell
+// Fetch strategy:
+//   data.json  → network-first (always get fresh race data), fallback to cache
+//   app shell  → cache-first (fast load), fallback to network
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // External requests (PCS links etc) - network only
+  // External requests - pass through
   if (url.origin !== self.location.origin) {
+    return;
+  }
+
+  // data.json: network-first so updates appear immediately
+  if (url.pathname.endsWith('data.json')) {
+    event.respondWith(
+      fetch(event.request).then(response => {
+        if (response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        }
+        return response;
+      }).catch(() => caches.match(event.request))
+    );
     return;
   }
 
