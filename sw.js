@@ -1,5 +1,5 @@
 // UCI Calendar 2026 - Service Worker
-const CACHE_NAME = 'uci-calendar-v7';
+const CACHE_NAME = 'uci-calendar-v8';
 const ASSETS = [
   './',
   './index.html',
@@ -11,17 +11,18 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
-  self.skipWaiting();
+  self.skipWaiting(); // activate immediately, don't wait for old tabs to close
 });
 
-// Activate: clean old caches
+// Activate: wipe old caches, claim all clients, then tell them to reload
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ includeUncontrolled: true }))
+      .then(clients => clients.forEach(c => c.postMessage({ type: 'SW_UPDATED', version: CACHE_NAME })))
   );
-  self.clients.claim();
 });
 
 // Fetch strategy:

@@ -653,7 +653,7 @@ header h1 span { color: var(--accent); }
       <button class="refresh-btn" onclick="refreshData()" title="Refresh">↻</button>
     </div>
   </div>
-  <div class="header-sub" id="last-updated">Loading…</div>
+  <div class="header-sub" id="last-updated">Loading… <span id="app-version" style="opacity:.45;margin-left:6px"></span></div>
 </header>
 
 <div class="filter-bar" id="filter-bar">
@@ -1230,8 +1230,18 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
+const APP_VERSION = 'v8';
+document.getElementById('app-version').textContent = APP_VERSION;
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
+  // When a new SW activates it sends SW_UPDATED → reload to get new index.html
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data?.type === 'SW_UPDATED') {
+      console.log('SW updated to', e.data.version, '— reloading');
+      window.location.reload();
+    }
+  });
 }
 
 loadData();
