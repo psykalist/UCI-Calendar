@@ -497,22 +497,17 @@ def scrape_stage_details(slug, stage_num):
     if not html:
         return None
 
-    # ── 1. Meta description (always in raw HTML) ──────────────────────────────
-    # e.g. "140km individual road race stage from Vizille to Saint-Ismier."
-    meta_m = re.search(r'<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)["\']', html, re.IGNORECASE)
-    if not meta_m:
-        meta_m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']description["\']', html, re.IGNORECASE)
-    meta_desc = meta_m.group(1) if meta_m else ""
-    print(f"        [detail] meta_desc={meta_desc[:80]!r}")
-
+    # ── 1. Search full HTML for stage distance/type/towns ────────────────────
+    # Pattern appears in meta description AND in body text, e.g.:
+    # "140km individual road race stage from Vizille to Saint-Ismier"
     distance_km    = None
     stage_type_raw = ""
     start_town     = ""
     finish_town    = ""
 
     stage_info_m = re.search(
-        r'(\d+(?:\.\d+)?)\s*km\s+([\w\s]+?)\s+stage\s+from\s+(.+?)\s+to\s+(.+?)(?:\.|,|$)',
-        meta_desc, re.IGNORECASE
+        r'(\d+(?:\.\d+)?)\s*km\s+([\w\s]+?)\s+stage\s+from\s+([A-Z][^<\n]+?)\s+to\s+([A-Z][^<\n.,"]{2,40?})(?:[<."&#])',
+        html, re.IGNORECASE
     )
     if stage_info_m:
         distance_km    = float(stage_info_m.group(1))
