@@ -487,6 +487,83 @@ def scrape_classification(slug, stage_num, cls_type):
     return rows if rows else None
 
 
+
+# ── Stage detail scraping ──────────────────────────────────────────────────────
+
+def scrape_stage_details(slug, stage_num):
+    """Fetch /race/{slug}/stages/stage-{n} and return a details dict, or None."""
+    url = f"{BASE_URL}/race/{slug}/stages/stage-{stage_num}"
+    html = fetch(url)
+    if not html:
+        return None
+
+    def tval(label):
+        """Extract value from an info-table row labelled `label`."""
+        m = re.search(
+            r'<th[^>]*>\s*' + re.escape(label) + r'\s*</th>\s*<td[^>]*>(.*?)</td>',
+            html, re.DOTALL | re.IGNORECASE
+        )
+        return strip_tags(m.group(1)).strip() if m else None
+
+    date_str    = tval("Date") or ""
+    start_town  = tval("Start") or ""
+    finish_town = tval("Finish") or ""
+    dist_str    = tval("Distance") or ""
+    elev_str    = tval("Elevation gain") or tval("Elevation") or ""
+    start_time  = tval("Start time") or tval("Start Time") or ""
+    type_raw    = tval("Type") or ""
+
+    # Parse numeric values
+    dist_m = re.search(r"([\d.]+)", dist_str.replace(",", ""))
+    elev_m = re.search(r"([\d,]+)", elev_str.replace(",", ""))
+    distance_km  = float(dist_m.group(1)) if dist_m else None
+    elevation_m  = int(elev_m.group(1).replace(",", "")) if elev_m else None
+
+    # Classify stage type
+    type_lower = type_raw.lower()
+    if "team time trial" in type_lower:
+        stage_type = "TTT"
+    elif "individual time trial" in type_lower or "time trial" in type_lower:
+        stage_type = "ITT"
+    else:
+        # Classify road stage by elevation
+        if elevation_m and elevation_m > 2500:
+            stage_type = "mountain"
+        elif elevation_m and elevation_m > 1200:
+            stage_type = "hilly"
+        else:
+            stage_type = "flat"
+
+    # Extract description paragraphs from stage page (text blocks before/after table)
+    # Remove script/style/nav content then extract paragraphs
+    body = re.sub(r'<(script|style|nav|header|footer)[^>]*>.*?</>', '', html, flags=re.DOTALL|re.IGNORECASE)
+    paras = re.findall(r'<p[^>]*>(.*?)</p>', body, re.DOTALL)
+    description_parts = []
+    for p in paras:
+        text = strip_tags(p).strip()
+        # Only keep substantive stage-description paragraphs (>40 chars, not nav labels)
+        if len(text) > 40 and not re.match(r'^(Stage|Race|Result|Startlist|Classification)\s', text, re.IGNORECASE):
+            description_parts.append(text)
+    description = " ".join(description_parts[:4]) if description_parts else ""  # cap at 4 paragraphs
+
+    # Height profile image
+    height_profile_img = _cdn_url(html, '___heightProfile')
+
+    details = {
+        "date_str":          date_str,
+        "start_town":        start_town,
+        "finish_town":       finish_town,
+        "distance_km":       distance_km,
+        "elevation_m":       elevation_m,
+        "start_time":        start_time,
+        "stage_type":        stage_type,
+        "description":       description,
+    }
+    if height_profile_img:
+        details["height_profile_img"] = height_profile_img
+    return details
+
+
 # ── Race discovery ─────────────────────────────────────────────────────────────
 
 SKIP_SLUG = re.compile(r'-(we|wj|wu|mu|mj|ju)-|(-we|-wj|-wu|-mu|-mj|-ju)$')
@@ -813,7 +890,8 @@ def main():
         # ── Multi-stage: find completed stages ───────────────────────────────
         print(f"    Finding completed stages (probing 1-{total_stages})...")
         cached_race   = cache_by_slug.get(slug)
-        cached_stages = {s["num"]: s for s in (cached_race or {}).get("stages", []) if s.get("top10")}
+        cached_stages_results = {s["num"]: s for s in (cached_race or {}).get("stages", []) if s.get("top10")}
+        cached_stages_details = {s["num"]: s for s in (cached_race or {}).get("stages", []) if s.get("distance_km")}
 
         completed_nums = []
         for n in range(1, total_stages + 1):
@@ -836,40 +914,58 @@ def main():
         # Build stages list
         stages = []
         for n in range(1, total_stages + 1):
-            if n not in completed_nums:
-                stages.append({
-                    "num": n, "label": f"Stage {n}",
-                    "result_url": f"/race/{slug}/result/stage-{n}",
-                    "winner": None, "winner_flag": "", "winner_nat": "",
-                    "top10": [],
-                })
-                continue
+            has_details = n in cached_stages_details
 
-            if n in cached_stages:
-                stages.append(cached_stages[n])
-                w = cached_stages[n].get("winner", "cached")
-                print(f"      Stage {n}: cached ({w})")
-                continue
+            if n in completed_nums:
+                if n in cached_stages_results:
+                    stage_obj = dict(cached_stages_results[n])
+                    w = stage_obj.get("winner", "cached")
+                    print(f"      Stage {n}: cached ({w})")
+                else:
+                    rows, winner, height_profile, route_img = scrape_stage(slug, n)
+                    time.sleep(DELAY)
+                    stage_obj = {
+                        "num":              n,
+                        "label":            f"Stage {n}",
+                        "result_url":       f"/race/{slug}/result/stage-{n}",
+                        "winner":           winner["name"] if winner else None,
+                        "winner_flag":      winner["flag"] if winner else "",
+                        "winner_nat":       winner["nat_code"] if winner else "",
+                        "top10":            rows or [],
+                        "height_profile_img": height_profile,
+                        "route_img":        route_img,
+                    }
+                    if winner:
+                        win_slug = winner.get("rider_url", "").replace("/profile/", "").strip("/")
+                        if win_slug:
+                            stage_winners_to_refresh.add(win_slug)
+                    print(f"      Stage {n}: {winner['name'] if winner else 'no data'}")
+            else:
+                # Upcoming stage — start from cached details or blank placeholder
+                if has_details:
+                    stage_obj = dict(cached_stages_details[n])
+                    stage_obj.setdefault("top10", [])
+                    print(f"      Stage {n}: upcoming (details cached)")
+                else:
+                    stage_obj = {
+                        "num": n, "label": f"Stage {n}",
+                        "result_url": f"/race/{slug}/result/stage-{n}",
+                        "winner": None, "winner_flag": "", "winner_nat": "",
+                        "top10": [],
+                    }
 
-            rows, winner, height_profile, route_img = scrape_stage(slug, n)
-            time.sleep(DELAY)
-            stage_obj = {
-                "num":              n,
-                "label":            f"Stage {n}",
-                "result_url":       f"/race/{slug}/result/stage-{n}",
-                "winner":           winner["name"] if winner else None,
-                "winner_flag":      winner["flag"] if winner else "",
-                "winner_nat":       winner["nat_code"] if winner else "",
-                "top10":            rows or [],
-                "height_profile_img": height_profile,
-                "route_img":        route_img,
-            }
-            if winner:
-                win_slug = winner.get("rider_url", "").replace("/profile/", "").strip("/")
-                if win_slug:
-                    stage_winners_to_refresh.add(win_slug)
+            # Fetch stage details (date, distance, elevation, type, description) if not cached
+            if not has_details:
+                details = scrape_stage_details(slug, n)
+                time.sleep(DELAY)
+                if details:
+                    # Don't overwrite existing height_profile_img from result page
+                    if stage_obj.get("height_profile_img"):
+                        details.pop("height_profile_img", None)
+                    stage_obj.update(details)
+                    print(f"        Stage {n} details: {details.get('distance_km','?')}km {details.get('stage_type','?')}")
+
             stages.append(stage_obj)
-            print(f"      Stage {n}: {winner['name'] if winner else 'no data'}")
 
         race_obj["stages"] = stages
 
