@@ -894,7 +894,8 @@ function renderStages(stages, cardId) {
       ${clickable ? `<div class="stage-row-body">${bodyContent}</div>` : ''}
     </div>`;
   }).join('');
-  return `<div class="stages-title">Stage Results</div>${rows}`;
+  const hasAnyResults = stages.some(s => s.winner || s.top10?.length);
+  return `<div class="stages-title">${hasAnyResults ? 'Stage Results' : 'Route'}</div>${rows}`;
 }
 
 function toggleStage(uid) { document.getElementById(uid)?.classList.toggle('open'); }
@@ -917,7 +918,9 @@ function renderRaceCard(race, status) {
 
   let body = '';
   if (upcoming) {
-    body = `<div class="upcoming-dates">📅 ${dateRange(race.start_date, race.end_date) || 'Dates TBC'}${multi ? ` &nbsp;·&nbsp; ${total} stages` : ''}</div>`;
+    const datesDiv = `<div class="upcoming-dates">📅 ${dateRange(race.start_date, race.end_date) || 'Dates TBC'}${multi ? ` &nbsp;·&nbsp; ${total} stages` : ''}</div>`;
+    const stagesHtml = (multi && race.stages?.length) ? renderStages(race.stages, id) : '';
+    body = `<div class="race-body-inner">${datesDiv}${stagesHtml}</div>`;
   } else if (!multi) {
     const winSlug1d = race.top10 && race.top10[0] ? (race.top10[0].rider_url||'').replace('/profile/','').replace(/^\/+/,'').trim() : '';
     const winnerName1d = winSlug1d
