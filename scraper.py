@@ -47,7 +47,7 @@ UCI_CATS = {"1.UWT", "2.UWT", "1.Pro", "2.Pro", "1.1", "2.1"}
 
 # ── Team lists (WorldTeam + ProTeam only) ──────────────────────────────────────
 
-MAX_NEW_RIDERS_PER_RUN = 300   # Cap new rider profile fetches per run
+MAX_NEW_RIDERS_PER_RUN = 9999  # No effective cap — fetch all outstanding profiles
 
 WORLD_TEAMS = [
     "alpecin-premier-tech-2026",
