@@ -1,0 +1,45 @@
+=== tour-auvergne-rhone-alpes 2026 GC PAGE ANALYSIS ===
+
+--- 3000 chars starting from rider link #12 ---
+i>
+<li><a href="rider/jonas-vingegaard">Jonas Vingegaard</a></li>
+<li><a href="rider/mathieu-van-der-poel">Mathieu van der Poel</a></li>
+<li><a href="rider/mads-pedersen">Mads Pedersen</a></li>
+<li><a href="rider/isaac-del-toro">Isaac Del Toro</a></li>
+<li><a href="rider/paul-seixas">Paul Seixas</a></li>
+<li><a href="rider/demi-vollering">Demi Vollering</a></li>
+<li><a href="rider/lotte-kopecky">Lotte Kopecky</a></li>
+<li><a href="rider/katarzyna-niewiadoma">Katarzyna Niewiadoma</a></li>
+<li><a href="rider/pauline-ferrand-prevot">Pauline Ferrand-Prévot</a></li>
+</ul></li><li class="group"><h3>Rankings</h3><ul><li><a href="rankings.php">PCS ranking</a></li>
+<li><a href="rankings/me/uci-individual">UCI World Ranking</a></li>
+<li><a href="rankings/me/all-time">Alltime</a></li>
+</ul><h3>Statistics</h3><ul><li><a href="statistics/start/points-per-age">Points per age</a></li>
+<li><a href="statistics/start/latest-injuries">Latest injuries</a></li>
+<li><a href="statistics/riders/youngest-riders">Youngest riders</a></li>
+<li><a href="statistics/grandtours">Grand tour statistics</a></li>
+<li><a href="statistics/monuments">Monument classics</a></li>
+<li><a href="teams/transfers">Latest transfers</a></li>
+<li><a href="favorite500">Favorite 500</a></li>
+</ul></li><li class="group"><h3>Info</h3><ul><li><a href="info/point-scales">Points scales</a></li>
+<li><a href="info/profile-score-explained">Profile scores</a></li>
+<li><a href="reset_password.php">Reset password</a></li>
+<li><a href="info/pcs-game">PCS game</a></li>
+<li><a href="https://www.procyclingstats.com/?cmpscreen">Cookie consent</a></li>
+</ul><h3>About ProCyclingStats</h3><ul><li><a href="info/about-us">About us</a></li>
+<li><a href="info/contact">Contact us</a></li>
+<li><a href="info/cookie-policy">Cookie policy</a></li>
+<li><a href="info/sitemap">Sitemap</a></li>
+<li><a href="info/optimadata">OptimaData</a></li>
+<li><span>Pageload 0.0291s</span></li>
+</ul></li></ul></div></div><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0b23dba4c1a86a3',t:'MTc4MTM2NTcyMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+<script src="search_list28.js"></script>
+
+--- First 3 <tr> rows containing rank numbers (45 total) ---
+'<tr><td>1</td><td class="bibs " ></td><td class="h2h " ></td><td class="specialty " ></td><td class="age " ></td><td class="ridername " ><div class="cont"></div></td><td class="cu600 " ></td><td class="pnt " >10</td><td class="delta_pnt ar green" ></td></tr>'
+
+'<tr><td>2</td><td class="bibs " ></td><td class="h2h " ></td><td class="specialty " ></td><td class="age " ></td><td class="ridername " ><div class="cont"></div></td><td class="cu600 " ></td><td class="pnt " >6</td><td class="delta_pnt ar green" ></td></tr>'
+
+'<tr><td>3</td><td class="bibs " ></td><td class="h2h " ></td><td class="specialty " ></td><td class="age " ></td><td class="ridername " ><div class="cont"></div></td><td class="cu600 " ></td><td class="pnt " >4</td><td class="delta_pnt ar green" ></td></tr>'
+

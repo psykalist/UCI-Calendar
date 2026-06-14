@@ -1,6 +1,6 @@
 {
-  "name": "UCI Race Calendar 2026",
-  "short_name": "UCI Calendar",
+  "name": "Kieran's UCI Calendar",
+  "short_name": "Kieran's UCI",
   "description": "Live UCI cycling race calendar with results, stage winners and classifications",
   "start_url": "./index.html",
   "display": "standalone",

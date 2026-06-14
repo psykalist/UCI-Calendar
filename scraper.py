@@ -388,6 +388,69 @@ def parse_race_info(slug, html, debug=False):
 
 # ── Scrape stage result ────────────────────────────────────────────────────────
 
+def parse_ttt_rows(html, max_rows=10):
+    """
+    Parse a Team Time Trial result page where rows are teams not riders.
+    CyclingFlash TTT table: Rank | Team (flag + name link) | Time
+    Returns list of dicts with same shape as parse_result_rows but name=team name, is_ttt=True.
+    """
+    results = []
+    prev_time = ""
+    for row_m in re.finditer(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL):
+        row_html = row_m.group(1)
+        cells = [m.group(1) for m in re.finditer(r'<td[^>]*>(.*?)</td>', row_html, re.DOTALL)]
+        if len(cells) < 3:
+            continue
+        rank_text = strip_tags(cells[0]).strip()
+        try:
+            rank = int(rank_text)
+        except ValueError:
+            continue
+        if rank < 1 or rank > 999:
+            continue
+
+        # Find cell with /team/ link
+        team_cell = next((c for c in cells if '/team/' in c), None)
+        if not team_cell:
+            continue
+
+        nat_m = re.search(r'alt=["\']([A-Z]{2}) flag["\']', team_cell)
+        nat_code = nat_m.group(1) if nat_m else ""
+
+        team_m = re.search(
+            r'href=["\'](?:https://cyclingflash\.com)?/team/([^"\']+)["\'][^>]*>(.*?)</a>',
+            team_cell, re.DOTALL
+        )
+        if not team_m:
+            continue
+        team_name = strip_tags(team_m.group(2)).strip()
+        if not team_name:
+            continue
+
+        time_text = strip_tags(cells[-1]).strip()
+        if time_text in ('"', '“', '”', '"'):
+            time_gap = prev_time
+        elif re.search(r'\d', time_text):
+            time_gap = time_text
+            prev_time = time_text
+        else:
+            time_gap = ""
+
+        results.append({
+            "rank":      rank,
+            "name":      team_name,
+            "rider_url": f"/team/{team_m.group(1)}",
+            "team":      "",
+            "nat_code":  nat_code,
+            "flag":      flag_emoji(nat_code),
+            "time_gap":  time_gap,
+            "is_ttt":    True,
+        })
+        if len(results) >= max_rows:
+            break
+    return results
+
+
 def scrape_stage(slug, stage_num):
     """Fetch a stage result page and return (top10_list, winner_dict) or (None, None)."""
     if stage_num == 0:
@@ -400,6 +463,9 @@ def scrape_stage(slug, stage_num):
         return None, None
 
     rows = parse_result_rows(html, max_rows=10)
+    if not rows:
+        # Try TTT parser (team time trial — teams not riders in result table)
+        rows = parse_ttt_rows(html, max_rows=10)
     if not rows:
         return None, None
 

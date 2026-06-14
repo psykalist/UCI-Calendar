@@ -7,10 +7,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="UCI Calendar">
+<meta name="apple-mobile-web-app-title" content="Kieran's UCI Calendar">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>UCI Race Calendar</title>
+<title>Kieran's UCI Calendar</title>
 <style>
 :root {
   --bg:       #0f1117;
@@ -204,32 +204,54 @@ header h1 span { color: var(--accent); }
 
 .race-body-inner { padding: 14px; }
 
-/* ── Leaders ── */
-.leaders {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-.leader-card {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px 12px;
-}
-.leader-label {
-  font-size: .68rem;
+/* ── Classifications accordion ── */
+.classif-section { margin-bottom: 16px; }
+.classif-title {
+  font-size: .72rem;
   font-weight: 700;
-  letter-spacing: .8px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 4px;
+  padding: 0 0 6px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
 }
-.leader-name { font-size: .92rem; font-weight: 600; line-height: 1.3; }
-.jersey-gc       { border-top: 2px solid #f5cb42; }
-.jersey-points   { border-top: 2px solid #2dd36f; }
-.jersey-mountain { border-top: 2px solid #e63946; }
-.jersey-youth    { border-top: 2px solid #4cc9f0; }
+.classif-row {
+  border-bottom: 1px solid var(--border);
+}
+.classif-row:last-child { border-bottom: none; }
+.classif-row-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 2px;
+  cursor: pointer;
+  user-select: none;
+}
+.classif-row-header:active { background: #2a2f47; }
+.classif-badge {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 10px;
+  white-space: nowrap;
+  min-width: 62px;
+  text-align: center;
+}
+.badge-gc       { background: rgba(245,203,66,.18);  color: #f5cb42; border: 1px solid rgba(245,203,66,.35); }
+.badge-points   { background: rgba(45,211,111,.15);  color: #2dd36f; border: 1px solid rgba(45,211,111,.35); }
+.badge-mountain { background: rgba(230,57,70,.15);   color: #e63946; border: 1px solid rgba(230,57,70,.35); }
+.badge-youth    { background: rgba(76,201,240,.15);  color: #4cc9f0; border: 1px solid rgba(76,201,240,.35); }
+.classif-leader-name { font-size: .92rem; font-weight: 600; flex: 1; }
+.classif-chevron {
+  width: 18px; height: 18px; flex-shrink: 0; color: var(--muted);
+  transition: transform .2s;
+}
+.classif-row.open .classif-chevron { transform: rotate(180deg); }
+.classif-row-body { display: none; padding-bottom: 8px; }
+.classif-row.open .classif-row-body { display: block; }
 
 /* ── Stages ── */
 .stages-title {
@@ -262,6 +284,7 @@ header h1 span { color: var(--accent); }
 .stage-num { font-size: .78rem; font-weight: 700; color: var(--muted); min-width: 58px; }
 .stage-winner-name { font-size: .92rem; flex: 1; }
 .stage-no-data { font-size: .82rem; color: var(--muted); flex: 1; font-style: italic; }
+.ttt-badge { font-size: .65rem; font-weight: 700; letter-spacing: .6px; background: rgba(76,201,240,.18); color: #4cc9f0; border: 1px solid rgba(76,201,240,.35); border-radius: 4px; padding: 1px 5px; vertical-align: middle; }
 
 .stage-chevron {
   width: 16px; height: 16px;
@@ -512,7 +535,7 @@ header h1 span { color: var(--accent); }
 
 <header>
   <div class="header-top">
-    <h1>🚴 UCI <span>Race Calendar</span></h1>
+    <h1>🚴 Kieran's <span>UCI Calendar</span></h1>
     <div class="header-actions">
       <button id="install-btn" onclick="installPWA()">⬇ Install</button>
       <button class="refresh-btn" onclick="refreshData()" title="Refresh">↻</button>
@@ -630,32 +653,44 @@ function applyFilter(f) {
 
 function renderTop10(rows) {
   if (!rows || !rows.length) return '<p class="empty">No results.</p>';
+  const isTTT = rows.some(r => r.is_ttt);
+  const riderHeader = isTTT ? 'Team' : 'Rider';
   return `<table class="top10-table">
-    <thead><tr><th>#</th><th>Rider</th><th>Team</th><th>Time</th></tr></thead>
+    <thead><tr><th>#</th><th>${riderHeader}</th>${isTTT ? '' : '<th>Team</th>'}<th>Time</th></tr></thead>
     <tbody>${rows.map(r => `<tr>
       <td class="rank-cell ${r.rank<=3?'rank-'+r.rank:''}">${r.rank}</td>
       <td>${esc(r.flag||'')} ${esc(r.name)}</td>
-      <td class="team-cell">${esc(r.team||'')}</td>
+      ${isTTT ? '' : `<td class="team-cell">${esc(r.team||'')}</td>`}
       <td class="time-cell">${esc(r.time_gap||'')}</td>
     </tr>`).join('')}</tbody></table>`;
 }
 
-// ── Leaders ────────────────────────────────────────────────────────────────────
+// ── Classifications ────────────────────────────────────────────────────────────
 
 function renderLeaders(race) {
   const defs = [
-    {key:'gc_leader',     label:'🟡 GC',      cls:'jersey-gc'},
-    {key:'points_leader', label:'🟢 Points',   cls:'jersey-points'},
-    {key:'kom_leader',    label:'🔴 KOM',      cls:'jersey-mountain'},
-    {key:'youth_leader',  label:'🔵 Youth',    cls:'jersey-youth'},
+    {leaderKey:'gc_leader',     top10Key:'gc_top10',     label:'GC',      badgeCls:'badge-gc'},
+    {leaderKey:'points_leader', top10Key:'points_top10', label:'Points',  badgeCls:'badge-points'},
+    {leaderKey:'kom_leader',    top10Key:'kom_top10',    label:'KOM',     badgeCls:'badge-mountain'},
+    {leaderKey:'youth_leader',  top10Key:'youth_top10',  label:'Youth',   badgeCls:'badge-youth'},
   ];
-  const cards = defs.filter(d => race[d.key]).map(d =>
-    `<div class="leader-card ${d.cls}">
-      <div class="leader-label">${d.label}</div>
-      <div class="leader-name">${esc(race[d.key])}</div>
-    </div>`).join('');
-  return cards ? `<div class="leaders">${cards}</div>` : '';
+  const rows = defs.filter(d => race[d.leaderKey]).map((d, i) => {
+    const uid = `cl-${race._uid||Math.random().toString(36).slice(2)}-${i}`;
+    const top10 = race[d.top10Key] || [];
+    const hasTop10 = top10.length > 0;
+    return `<div class="classif-row${hasTop10?' clickable':''}" id="${uid}">
+      <div class="classif-row-header"${hasTop10 ? ` onclick="toggleClassif('${uid}')"` : ''}>
+        <span class="classif-badge ${d.badgeCls}">${d.label}</span>
+        <span class="classif-leader-name">${esc(race[d.leaderKey])}</span>
+        ${hasTop10 ? chevron('classif-chevron') : ''}
+      </div>
+      ${hasTop10 ? `<div class="classif-row-body">${renderTop10(top10)}</div>` : ''}
+    </div>`;
+  }).join('');
+  return rows ? `<div class="classif-section"><div class="classif-title">Classifications</div>${rows}</div>` : '';
 }
+
+function toggleClassif(uid) { document.getElementById(uid)?.classList.toggle('open'); }
 
 // ── Stages ─────────────────────────────────────────────────────────────────────
 
@@ -674,7 +709,11 @@ function renderStages(stages, cardId) {
       <div class="stage-row-header${hasData?' clickable':''}"${hasData?` onclick="toggleStage('${uid}')"`:''}">
         <span class="stage-num">Stage ${s.num}</span>
         ${hasData
-          ? `<span class="stage-winner-name">${esc(s.winner_flag||'')} ${esc(s.winner||'')}</span>${chevron('stage-chevron')}`
+          ? (() => {
+              const isTTT = s.top10 && s.top10.length && s.top10[0].is_ttt;
+              const prefix = isTTT ? '<span class="ttt-badge">TTT</span> ' : `${esc(s.winner_flag||'')} `;
+              return `<span class="stage-winner-name">${prefix}${esc(s.winner||'')}</span>${chevron('stage-chevron')}`;
+            })()
           : `<span class="stage-no-data">${noDataLabel}</span>`}
       </div>
       ${hasData ? `<div class="stage-row-body">${renderTop10(s.top10)}</div>` : ''}
@@ -691,6 +730,7 @@ let cardIdx = 0;
 
 function renderRaceCard(race, status) {
   const id = `rc-${cardIdx++}`;
+  race._uid = id;
   const total = race.total_stages || 1;
   const done  = race.stages_completed || 0;
   const multi = total > 1;
