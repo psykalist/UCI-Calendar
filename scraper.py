@@ -503,6 +503,7 @@ def scrape_stage_details(slug, stage_num):
     if not meta_m:
         meta_m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']description["\']', html, re.IGNORECASE)
     meta_desc = meta_m.group(1) if meta_m else ""
+    print(f"        [detail] meta_desc={meta_desc[:80]!r}")
 
     distance_km    = None
     stage_type_raw = ""
