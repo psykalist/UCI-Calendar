@@ -592,6 +592,9 @@ def scrape_stage_details(slug, stage_num):
         details["height_profile_img"] = height_profile_img
     return details
 
+SKIP_SLUG = re.compile(r'-(we|wj|wu|mu|mj|ju)-|(-we|-wj|-wu|-mu|-mj|-ju)$')
+
+
 def _slugs_from_html(html):
     """Extract unique men's race slugs from any CyclingFlash HTML page."""
     raw = re.findall(
