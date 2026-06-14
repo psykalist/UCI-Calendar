@@ -497,76 +497,100 @@ def scrape_stage_details(slug, stage_num):
     if not html:
         return None
 
-    def tval(label):
-        """Extract value from an info-table row labelled `label`."""
+    # ── 1. Meta description (always in raw HTML) ──────────────────────────────
+    # e.g. "140km individual road race stage from Vizille to Saint-Ismier."
+    meta_m = re.search(r'<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)["\']', html, re.IGNORECASE)
+    if not meta_m:
+        meta_m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']description["\']', html, re.IGNORECASE)
+    meta_desc = meta_m.group(1) if meta_m else ""
+
+    distance_km    = None
+    stage_type_raw = ""
+    start_town     = ""
+    finish_town    = ""
+
+    stage_info_m = re.search(
+        r'(\d+(?:\.\d+)?)\s*km\s+([\w\s]+?)\s+stage\s+from\s+(.+?)\s+to\s+(.+?)(?:\.|,|$)',
+        meta_desc, re.IGNORECASE
+    )
+    if stage_info_m:
+        distance_km    = float(stage_info_m.group(1))
+        stage_type_raw = stage_info_m.group(2).strip().lower()
+        start_town     = stage_info_m.group(3).strip()
+        finish_town    = stage_info_m.group(4).strip()
+
+    # ── 2. Flexible table extraction (label within ~300 chars of a <td>) ──────
+    def find_after_label(label):
         m = re.search(
-            r'<th[^>]*>\s*' + re.escape(label) + r'\s*</th>\s*<td[^>]*>(.*?)</td>',
-            html, re.DOTALL | re.IGNORECASE
+            re.escape(label) + r'[\s\S]{0,300}?<td[^>]*>([\s\S]*?)</td>',
+            html, re.IGNORECASE
         )
-        return strip_tags(m.group(1)).strip() if m else None
+        return strip_tags(m.group(1)).strip() if m else ""
 
-    date_str    = tval("Date") or ""
-    start_town  = tval("Start") or ""
-    finish_town = tval("Finish") or ""
-    dist_str    = tval("Distance") or ""
-    elev_str    = tval("Elevation gain") or tval("Elevation") or ""
-    start_time  = tval("Start time") or tval("Start Time") or ""
-    type_raw    = tval("Type") or ""
+    date_str   = find_after_label("Date")
+    elev_str   = find_after_label("Elevation gain") or find_after_label("Elevation")
+    start_time = find_after_label("Start time") or find_after_label("Start Time")
+    type_raw   = find_after_label("Type")
 
-    # Parse numeric values
-    dist_m = re.search(r"([\d.]+)", dist_str.replace(",", ""))
-    elev_m = re.search(r"([\d,]+)", elev_str.replace(",", ""))
-    distance_km  = float(dist_m.group(1)) if dist_m else None
-    elevation_m  = int(elev_m.group(1).replace(",", "")) if elev_m else None
+    if not start_town:
+        raw = find_after_label("Start")
+        start_town = re.sub(r'https?://\S+', '', raw).strip()
+    if not finish_town:
+        raw = find_after_label("Finish")
+        finish_town = re.sub(r'https?://\S+', '', raw).strip()
 
-    # Classify stage type
-    type_lower = type_raw.lower()
-    if "team time trial" in type_lower:
+    # ── 3. Parse elevation ────────────────────────────────────────────────────
+    elevation_m = None
+    if elev_str:
+        ev = re.search(r'([\d,]+)', elev_str)
+        if ev:
+            elevation_m = int(ev.group(1).replace(",", ""))
+    if not elevation_m:
+        ev = re.search(r'(?:elevation|gain)[^\d]{0,40}(\d[\d,]+)\s*m', html, re.IGNORECASE)
+        if ev:
+            elevation_m = int(ev.group(1).replace(",", ""))
+
+    # ── 4. Stage type classification ──────────────────────────────────────────
+    type_combined = (type_raw + " " + stage_type_raw).lower()
+    if "team time trial" in type_combined:
         stage_type = "TTT"
-    elif "individual time trial" in type_lower or "time trial" in type_lower:
+    elif "time trial" in type_combined or "individual time trial" in type_combined:
         stage_type = "ITT"
+    elif elevation_m and elevation_m > 2500:
+        stage_type = "mountain"
+    elif elevation_m and elevation_m > 1200:
+        stage_type = "hilly"
     else:
-        # Classify road stage by elevation
-        if elevation_m and elevation_m > 2500:
-            stage_type = "mountain"
-        elif elevation_m and elevation_m > 1200:
-            stage_type = "hilly"
-        else:
-            stage_type = "flat"
+        stage_type = "flat"
 
-    # Extract description paragraphs from stage page (text blocks before/after table)
-    # Remove script/style/nav content then extract paragraphs
-    body = re.sub(r'<(script|style|nav|header|footer)[^>]*>.*?</>', '', html, flags=re.DOTALL|re.IGNORECASE)
-    paras = re.findall(r'<p[^>]*>(.*?)</p>', body, re.DOTALL)
+    # ── 5. Description paragraphs ─────────────────────────────────────────────
+    body = re.sub(r'<(script|style|nav|header|footer)[^>]*>[\s\S]*?</\1>', '', html, flags=re.IGNORECASE)
+    paras = re.findall(r'<p[^>]*>([\s\S]*?)</p>', body, re.DOTALL)
     description_parts = []
     for p in paras:
         text = strip_tags(p).strip()
-        # Only keep substantive stage-description paragraphs (>40 chars, not nav labels)
-        if len(text) > 40 and not re.match(r'^(Stage|Race|Result|Startlist|Classification)\s', text, re.IGNORECASE):
+        if (len(text) > 80
+                and re.search(r'\b(km|stage|climb|col|c[oô]te|riders?|race|mountain|sprint|finish|start|ascent)\b', text, re.IGNORECASE)
+                and not re.match(r'^(Home|Today|Calendar|Teams|Rankings|News|Results|Startlist|Classification|More|CET)\b', text, re.IGNORECASE)):
             description_parts.append(text)
-    description = " ".join(description_parts[:4]) if description_parts else ""  # cap at 4 paragraphs
+    description = " ".join(description_parts[:3])
 
-    # Height profile image
+    # ── 6. Height profile image ───────────────────────────────────────────────
     height_profile_img = _cdn_url(html, '___heightProfile')
 
     details = {
-        "date_str":          date_str,
-        "start_town":        start_town,
-        "finish_town":       finish_town,
-        "distance_km":       distance_km,
-        "elevation_m":       elevation_m,
-        "start_time":        start_time,
-        "stage_type":        stage_type,
-        "description":       description,
+        "date_str":    date_str,
+        "start_town":  start_town,
+        "finish_town": finish_town,
+        "distance_km": distance_km,
+        "elevation_m": elevation_m,
+        "start_time":  start_time,
+        "stage_type":  stage_type,
+        "description": description,
     }
     if height_profile_img:
         details["height_profile_img"] = height_profile_img
     return details
-
-
-# ── Race discovery ─────────────────────────────────────────────────────────────
-
-SKIP_SLUG = re.compile(r'-(we|wj|wu|mu|mj|ju)-|(-we|-wj|-wu|-mu|-mj|-ju)$')
 
 def _slugs_from_html(html):
     """Extract unique men's race slugs from any CyclingFlash HTML page."""
