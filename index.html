@@ -295,6 +295,9 @@ header h1 span { color: var(--accent); }
 .stage-row.open .stage-chevron { transform: rotate(180deg); }
 .stage-row-body { display: none; border-top: 1px solid var(--border); }
 .stage-row.open .stage-row-body { display: block; }
+.stage-images { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px 0; }
+.stage-images img { width: 100%; border-radius: 6px; display: block; }
+.stage-img-label { font-size: .68rem; color: var(--muted); margin-top: 2px; }
 
 /* ── Top-10 table ── */
 .top10-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
@@ -807,6 +810,18 @@ function renderLeaders(race) {
 
 function toggleClassif(uid) { document.getElementById(uid)?.classList.toggle('open'); }
 
+// ── Stage images (height profile + route map) ───────────────────────────────
+
+function renderStageImages(s) {
+  const hp = s.height_profile_img;
+  const rt = s.route_img;
+  if (!hp && !rt) return '';
+  return `<div class="stage-images">
+    ${hp ? `<div><img src="${esc(hp)}" alt="Height profile" loading="lazy"><div class="stage-img-label">Height profile</div></div>` : ''}
+    ${rt ? `<div><img src="${esc(rt)}" alt="Route map" loading="lazy"><div class="stage-img-label">Route map</div></div>` : ''}
+  </div>`;
+}
+
 // ── Stages ─────────────────────────────────────────────────────────────────────
 
 function renderStages(stages, cardId) {
@@ -835,7 +850,7 @@ function renderStages(stages, cardId) {
             })()
           : `<span class="stage-no-data">${noDataLabel}</span>`}
       </div>
-      ${hasData ? `<div class="stage-row-body">${renderTop10(s.top10)}</div>` : ''}
+      ${hasData ? `<div class="stage-row-body">${renderStageImages(s)}${renderTop10(s.top10)}</div>` : ''}
     </div>`;
   }).join('');
   return `<div class="stages-title">Stage Results</div>${rows}`;
@@ -868,7 +883,7 @@ function renderRaceCard(race, status) {
       ? `<span class="rider-name-link" onclick="openRiderModal('${esc(winSlug1d)}')">${esc(race.winner)}</span>`
       : esc(race.winner||'');
     const w = race.winner ? `<div class="single-winner"><span class="label">Winner</span> ${esc(race.winner_flag||'')} ${winnerName1d}</div>` : '';
-    body = `<div class="race-body-inner">${w}${renderTop10(race.top10)}</div>`;
+    body = `<div class="race-body-inner">${w}${renderStageImages(race)}${renderTop10(race.top10)}</div>`;
   } else {
     body = `<div class="race-body-inner">${renderLeaders(race)}${renderStages(race.stages||[], id)}</div>`;
   }

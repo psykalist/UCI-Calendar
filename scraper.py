@@ -452,7 +452,7 @@ def parse_ttt_rows(html, max_rows=10):
 
 
 def scrape_stage(slug, stage_num):
-    """Fetch a stage result page and return (top10_list, winner_dict) or (None, None)."""
+    """Fetch a stage result page and return (top10_list, winner_dict, height_profile_img, route_img) or (None, None, None, None)."""
     if stage_num == 0:
         url = f"{BASE_URL}/race/{slug}/result"
     else:
@@ -460,16 +460,19 @@ def scrape_stage(slug, stage_num):
 
     html = fetch(url)
     if not html:
-        return None, None
+        return None, None, None, None
 
     rows = parse_result_rows(html, max_rows=10)
     if not rows:
         # Try TTT parser (team time trial — teams not riders in result table)
         rows = parse_ttt_rows(html, max_rows=10)
     if not rows:
-        return None, None
+        return None, None, None, None
 
-    return rows, rows[0]
+    height_profile = _cdn_url(html, '___heightProfile')
+    route_img      = _cdn_url(html, '___route_')
+
+    return rows, rows[0], height_profile, route_img
 
 
 # ── Scrape classification ──────────────────────────────────────────────────────
@@ -623,6 +626,14 @@ def scrape_rider_profile(slug):
         except Exception:
             pass
 
+    # Fallback: og:image meta tag if JSON-LD photo is missing
+    if not photo:
+        og_m = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']', html)
+        if not og_m:
+            og_m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', html)
+        if og_m:
+            photo = og_m.group(1)
+
     # 2. Wins page → palmares table
     wins_html = fetch(f"{base}/wins")
     time.sleep(DELAY)
@@ -715,6 +726,7 @@ def main():
     live_races     = []
     upcoming_races = []
     recent_races   = []
+    stage_winners_to_refresh = set()  # Stage winners from freshly scraped (non-cached) results
 
     for slug, disc in discovered.items():
         print(f"\n  → {slug}")
@@ -783,13 +795,18 @@ def main():
 
         # ── Single-day race ──────────────────────────────────────────────────
         if total_stages <= 1:
-            rows, winner = scrape_stage(slug, 0)
+            rows, winner, height_profile, route_img = scrape_stage(slug, 0)
             time.sleep(DELAY)
             if winner:
-                race_obj["winner"]      = winner["name"]
-                race_obj["winner_flag"] = winner["flag"]
-                race_obj["winner_nat"]  = winner["nat_code"]
-                race_obj["top10"]       = rows or []
+                race_obj["winner"]             = winner["name"]
+                race_obj["winner_flag"]        = winner["flag"]
+                race_obj["winner_nat"]         = winner["nat_code"]
+                race_obj["top10"]              = rows or []
+                race_obj["height_profile_img"] = height_profile
+                race_obj["route_img"]          = route_img
+                win_slug = winner.get("rider_url", "").replace("/profile/", "").strip("/")
+                if win_slug:
+                    stage_winners_to_refresh.add(win_slug)
             (live_races if status == "live" else recent_races).append(race_obj)
             continue
 
@@ -834,17 +851,23 @@ def main():
                 print(f"      Stage {n}: cached ({w})")
                 continue
 
-            rows, winner = scrape_stage(slug, n)
+            rows, winner, height_profile, route_img = scrape_stage(slug, n)
             time.sleep(DELAY)
             stage_obj = {
-                "num":        n,
-                "label":      f"Stage {n}",
-                "result_url": f"/race/{slug}/result/stage-{n}",
-                "winner":      winner["name"] if winner else None,
-                "winner_flag": winner["flag"] if winner else "",
-                "winner_nat":  winner["nat_code"] if winner else "",
-                "top10":       rows or [],
+                "num":              n,
+                "label":            f"Stage {n}",
+                "result_url":       f"/race/{slug}/result/stage-{n}",
+                "winner":           winner["name"] if winner else None,
+                "winner_flag":      winner["flag"] if winner else "",
+                "winner_nat":       winner["nat_code"] if winner else "",
+                "top10":            rows or [],
+                "height_profile_img": height_profile,
+                "route_img":        route_img,
             }
+            if winner:
+                win_slug = winner.get("rider_url", "").replace("/profile/", "").strip("/")
+                if win_slug:
+                    stage_winners_to_refresh.add(win_slug)
             stages.append(stage_obj)
             print(f"      Stage {n}: {winner['name'] if winner else 'no data'}")
 
@@ -917,15 +940,18 @@ def main():
     # Priority order: result riders first, then roster
     priority_order = result_slugs + roster_slugs
     all_slugs = set(result_slugs) | set(roster_slugs)
-    uncached  = [s for s in priority_order if s not in rider_profiles]
-    to_fetch  = uncached[:MAX_NEW_RIDERS_PER_RUN]
-    print(f"  Riders total: {len(all_slugs)} | cached: {len(rider_profiles)} | new: {len(uncached)} | fetching: {len(to_fetch)} (result riders first)")
+    uncached = [s for s in priority_order if s not in rider_profiles]
+    # Always re-fetch profiles for today's stage winners (palmares may have updated)
+    refresh_existing = [s for s in priority_order if s in stage_winners_to_refresh and s in rider_profiles]
+    to_fetch = refresh_existing + uncached[:MAX_NEW_RIDERS_PER_RUN]
+    print(f"  Riders total: {len(all_slugs)} | cached: {len(rider_profiles)} | new: {len(uncached)} | refreshing winners: {len(refresh_existing)} | fetching: {len(to_fetch)}")
 
     for slug in to_fetch:
         profile = scrape_rider_profile(slug)
         if profile:
             rider_profiles[slug] = profile
-            print(f"  {profile.get('nat','??')} {slug}: {len(profile.get('wins',[]))} wins")
+            tag = "↺" if slug in stage_winners_to_refresh else "+"
+            print(f"  {tag} {profile.get('nat','??')} {slug}: {len(profile.get('wins',[]))} wins")
         else:
             print(f"  {slug}: failed")
 
