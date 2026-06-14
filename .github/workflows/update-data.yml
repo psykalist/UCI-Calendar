@@ -36,5 +36,6 @@ jobs:
           git add data.json
           git diff --staged --quiet && echo "No changes to commit" || (
             git commit -m "chore: update race data $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git pull --rebase origin main
             git push
           )
