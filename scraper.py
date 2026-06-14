@@ -888,8 +888,8 @@ def main():
             "official_url": f"https://cyclingflash.com/race/{slug}",
         }
 
-        # ── Upcoming: no results to fetch ────────────────────────────────────
-        if status == "upcoming":
+        # ── Upcoming single-day: no results to fetch ─────────────────────────
+        if status == "upcoming" and total_stages <= 1:
             upcoming_races.append(race_obj)
             continue
 
@@ -1020,7 +1020,12 @@ def main():
                 else:
                     print(f"      {cls_key}: no data")
 
-        (live_races if status == "live" else recent_races).append(race_obj)
+        if status == "upcoming":
+            upcoming_races.append(race_obj)
+        elif status == "live":
+            live_races.append(race_obj)
+        else:
+            recent_races.append(race_obj)
 
     # ── 3. Scrape teams ───────────────────────────────────────────────────────
     print("\n[3/4] Scraping teams (WorldTeam + ProTeam)...")
