@@ -506,7 +506,7 @@ def scrape_stage_details(slug, stage_num):
     finish_town    = ""
 
     stage_info_m = re.search(
-        r'(\d+(?:\.\d+)?)\s*km\s+([\w\s]+?)\s+stage\s+from\s+([A-Z][^<\n]+?)\s+to\s+([A-Z][^<\n.,"]{2,40?})(?:[<."&#])',
+        r'(\d+(?:\.\d+)?)\s*km\s+([\w\s]+?)\s+(?:stage\s+)?from\s+([A-Z][^<\n]+?)\s+to\s+([A-Z][^<\n.,"]{2,40?})(?:[<."&#])',
         html, re.IGNORECASE
     )
     if stage_info_m:
@@ -527,6 +527,14 @@ def scrape_stage_details(slug, stage_num):
     elev_str   = find_after_label("Elevation gain") or find_after_label("Elevation")
     start_time = find_after_label("Start time") or find_after_label("Start Time")
     type_raw   = find_after_label("Type")
+
+    # Fallback distance from table "Distance" label
+    if distance_km is None:
+        dist_str = find_after_label("Distance")
+        if dist_str:
+            dm = re.search(r'(\d+(?:\.\d+)?)', dist_str)
+            if dm:
+                distance_km = float(dm.group(1))
 
     if not start_town:
         raw = find_after_label("Start")
