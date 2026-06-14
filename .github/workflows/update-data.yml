@@ -26,16 +26,19 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Pull latest data before scraping
+        run: |
+          git config --global user.name 'UCI Calendar Bot'
+          git config --global user.email 'uci-bot@users.noreply.github.com'
+          git pull origin main
+
       - name: Run scraper (best-effort)
         run: python scraper.py || echo "Scraper encountered errors — using partial/cached data"
 
       - name: Commit updated data.json
         run: |
-          git config --global user.name 'UCI Calendar Bot'
-          git config --global user.email 'uci-bot@users.noreply.github.com'
           git add data.json
           git diff --staged --quiet && echo "No changes to commit" || (
             git commit -m "chore: update race data $(date -u '+%Y-%m-%d %H:%M UTC')"
-            git pull --rebase origin main
             git push
           )
