@@ -1,5 +1,5 @@
 // UCI Calendar 2026 - Service Worker
-const CACHE_NAME = 'uci-calendar-v5';
+const CACHE_NAME = 'uci-calendar-v6';
 const ASSETS = [
   './',
   './index.html',
