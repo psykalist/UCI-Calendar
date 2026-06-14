@@ -896,7 +896,7 @@ def main():
         completed_nums = []
         for n in range(1, total_stages + 1):
             # If we have a cached result with top10 for this stage, count it as done
-            if n in cached_stages:
+            if n in cached_stages_results:
                 completed_nums.append(n)
                 continue
             url = f"{BASE_URL}/race/{slug}/result/stage-{n}"
