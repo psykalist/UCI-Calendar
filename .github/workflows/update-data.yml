@@ -2,7 +2,7 @@ name: Update UCI Race Data
 
 on:
   schedule:
-    - cron: '0 17 * * *'  # 18:00 Irish time (UTC+1)
+    - cron: '30 17 * * *'  # 18:30 Irish time (UTC+1)
   workflow_dispatch:              # Allow manual trigger from GitHub UI
 
 permissions:
