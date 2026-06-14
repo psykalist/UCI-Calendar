@@ -529,9 +529,79 @@ header h1 span { color: var(--accent); }
   color: var(--muted);
   font-size: 1rem;
 }
+/* ── Rider modal ── */
+.rider-modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.65);
+  z-index: 1000;
+  align-items: flex-end;
+  justify-content: center;
+}
+.rider-modal-overlay.open { display: flex; }
+.rider-modal {
+  background: var(--surface);
+  border-radius: 18px 18px 0 0;
+  width: 100%;
+  max-width: 520px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 20px 16px 36px;
+  box-shadow: 0 -4px 32px rgba(0,0,0,.4);
+}
+.rider-modal-handle {
+  width: 36px; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+.rider-modal-header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.rider-modal-photo {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+}
+.rider-modal-photo-ph {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; flex-shrink: 0;
+}
+.rider-modal-name { font-size: 1.1rem; font-weight: 800; line-height: 1.2; }
+.rider-modal-meta { font-size: .82rem; color: var(--muted); margin-top: 3px; }
+.rider-modal-section {
+  font-size: .7rem; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 5px; margin: 14px 0 8px;
+}
+.rider-modal-no-data { font-size: .85rem; color: var(--muted); font-style: italic; }
+.rider-name-link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,.25);
+  text-underline-offset: 2px;
+}
 </style>
 </head>
 <body>
+
+<!-- Rider profile modal -->
+<div class="rider-modal-overlay" id="riderModal" onclick="closeRiderModal(event)">
+  <div class="rider-modal">
+    <div class="rider-modal-handle"></div>
+    <div id="riderModalContent"></div>
+  </div>
+</div>
 
 <header>
   <div class="header-top">
@@ -657,12 +727,18 @@ function renderTop10(rows) {
   const riderHeader = isTTT ? 'Team' : 'Rider';
   return `<table class="top10-table">
     <thead><tr><th>#</th><th>${riderHeader}</th>${isTTT ? '' : '<th>Team</th>'}<th>Time</th></tr></thead>
-    <tbody>${rows.map(r => `<tr>
-      <td class="rank-cell ${r.rank<=3?'rank-'+r.rank:''}">${r.rank}</td>
-      <td>${esc(r.flag||'')} ${esc(r.name)}</td>
-      ${isTTT ? '' : `<td class="team-cell">${esc(r.team||'')}</td>`}
-      <td class="time-cell">${esc(r.time_gap||'')}</td>
-    </tr>`).join('')}</tbody></table>`;
+    <tbody>${rows.map(r => {
+      const slug = (r.rider_url||'').replace('/profile/','').replace(/^\/+/,'').trim();
+      const nameEl = (!isTTT && slug)
+        ? `<span class="rider-name-link" onclick="openRiderModal('${esc(slug)}')">${esc(r.name)}</span>`
+        : esc(r.name);
+      return `<tr>
+        <td class="rank-cell ${r.rank<=3?'rank-'+r.rank:''}">${r.rank}</td>
+        <td>${esc(r.flag||'')} ${nameEl}</td>
+        ${isTTT ? '' : `<td class="team-cell">${esc(r.team||'')}</td>`}
+        <td class="time-cell">${esc(r.time_gap||'')}</td>
+      </tr>`;
+    }).join('')}</tbody></table>`;
 }
 
 // ── Classifications ────────────────────────────────────────────────────────────
@@ -678,10 +754,15 @@ function renderLeaders(race) {
     const uid = `cl-${race._uid||Math.random().toString(36).slice(2)}-${i}`;
     const top10 = race[d.top10Key] || [];
     const hasTop10 = top10.length > 0;
+    // Get leader slug from top10 first entry for profile tap
+    const leaderSlug = top10.length ? (top10[0].rider_url||'').replace('/profile/','').replace(/^\/+/,'').trim() : '';
+    const leaderNameEl = leaderSlug
+      ? `<span class="classif-leader-name rider-name-link" onclick="event.stopPropagation();openRiderModal('${esc(leaderSlug)}')">${esc(race[d.leaderKey])}</span>`
+      : `<span class="classif-leader-name">${esc(race[d.leaderKey])}</span>`;
     return `<div class="classif-row${hasTop10?' clickable':''}" id="${uid}">
       <div class="classif-row-header"${hasTop10 ? ` onclick="toggleClassif('${uid}')"` : ''}>
         <span class="classif-badge ${d.badgeCls}">${d.label}</span>
-        <span class="classif-leader-name">${esc(race[d.leaderKey])}</span>
+        ${leaderNameEl}
         ${hasTop10 ? chevron('classif-chevron') : ''}
       </div>
       ${hasTop10 ? `<div class="classif-row-body">${renderTop10(top10)}</div>` : ''}
@@ -905,6 +986,65 @@ function renderTeams(teams) {
   el.innerHTML = `<div style="padding:14px">${html}</div>`;
 }
 
+// ── Rider profile modal ────────────────────────────────────────────────────────
+
+function openRiderModal(slug) {
+  const profile = (appData.rider_profiles || {})[slug];
+  const modal = document.getElementById('riderModal');
+  const content = document.getElementById('riderModalContent');
+
+  let baseInfo = null;
+  for (const team of (appData.teams || [])) {
+    const r = (team.riders || []).find(r => r.slug === slug);
+    if (r) { baseInfo = {...r, teamName: team.name}; break; }
+  }
+
+  const name     = (profile || baseInfo || {}).name || slug.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  const nat      = (profile || baseInfo || {}).nat || '';
+  const photo    = (profile || {}).photo;
+  const dob      = (profile || {}).dob;
+  const wins     = (profile || {}).wins || [];
+  const teamName = (baseInfo || {}).teamName || '';
+
+  const photoEl = photo
+    ? `<img class="rider-modal-photo" src="${esc(photo)}" alt="${esc(name)}">`
+    : `<div class="rider-modal-photo-ph">🚴</div>`;
+
+  let meta = '';
+  if (nat) meta += `<img src="https://cyclingflash.com/svg/flags/${esc(nat)}.svg" width="14" height="14" style="vertical-align:middle;margin-right:4px">${nat}`;
+  if (dob) {
+    const age = Math.floor((Date.now() - new Date(dob)) / (365.25*86400000));
+    meta += (meta ? ' · ' : '') + `Born ${dob} (${age} yrs)`;
+  }
+  if (teamName) meta += (meta ? '<br>' : '') + teamName;
+
+  const winsHTML = wins.length
+    ? wins.map(w => `<div class="win-entry"><span class="win-year">${esc(w.year)}</span><span class="win-race">${esc(w.race)}</span><span class="win-cat">${esc(w.cat)}</span></div>`).join('')
+    : `<p class="rider-modal-no-data">No wins data yet — check back after next scrape</p>`;
+
+  content.innerHTML = `
+    <div class="rider-modal-header">
+      ${photoEl}
+      <div>
+        <div class="rider-modal-name">${esc(name)}</div>
+        ${meta ? `<div class="rider-modal-meta">${meta}</div>` : ''}
+      </div>
+    </div>
+    <div class="rider-modal-section">🏆 Palmares (${wins.length} wins)</div>
+    <div class="wins-panel" style="display:block">${winsHTML}</div>
+  `;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRiderModal(e) {
+  if (!e || e.target === document.getElementById('riderModal')) {
+    document.getElementById('riderModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
 // ── Data loading ───────────────────────────────────────────────────────────────
 
 let appData = {};
@@ -916,30 +1056,18 @@ async function loadData(force=false) {
     const r = await fetch(url, opts);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     appData = await r.json();
-
-    document.getElementById('last-updated').textContent =
-      `Updated ${appData.scraped_at_human || '—'}`;
-
+    document.getElementById('last-updated').textContent = `Updated ${appData.scraped_at_human || '—'}`;
     document.getElementById('loading').style.display = 'none';
     document.querySelectorAll('.section').forEach(s => s.style.display = '');
-
     renderLive(appData.live || []);
     renderUpcoming(appData.upcoming || []);
     renderRecent(appData.recent || []);
     renderTeams(appData.teams || []);
-
-    // Default tab: live if there are live races, otherwise upcoming
     const defaultTab = (appData.live||[]).length ? 'live' : 'upcoming';
-    const btn = document.getElementById('nav-' + defaultTab);
-    showSec(defaultTab, btn);
-
+    showSec(defaultTab, document.getElementById('nav-' + defaultTab));
   } catch(e) {
     document.getElementById('loading').innerHTML =
-      `<div style="text-align:center;color:var(--muted)">
-        ⚠️ Could not load race data<br>
-        <small>${esc(e.message)}</small><br><br>
-        <small>Run <code>py -m http.server 8000</code> and open<br>http://localhost:8000</small>
-      </div>`;
+      `<div style="text-align:center;color:var(--muted)">⚠️ Could not load race data<br><small>${esc(e.message)}</small></div>`;
   }
 }
 
@@ -950,33 +1078,23 @@ async function refreshData() {
   btn.textContent = '↻';
 }
 
-// ── PWA install ────────────────────────────────────────────────────────────────
-
 let deferredPrompt;
-
 window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
+  e.preventDefault(); deferredPrompt = e;
   document.getElementById('install-btn').style.display = 'flex';
 });
-
 function installPWA() {
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
   deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
 }
-
 window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-// ── Service worker ─────────────────────────────────────────────────────────────
-
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
-
-// ── Init ───────────────────────────────────────────────────────────────────────
 
 loadData();
 </script>

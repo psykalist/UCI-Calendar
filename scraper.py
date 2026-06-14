@@ -47,7 +47,7 @@ UCI_CATS = {"1.UWT", "2.UWT", "1.Pro", "2.Pro", "1.1", "2.1"}
 
 # ── Team lists (WorldTeam + ProTeam only) ──────────────────────────────────────
 
-MAX_NEW_RIDERS_PER_RUN = 100   # Cap new rider profile fetches per run
+MAX_NEW_RIDERS_PER_RUN = 300   # Cap new rider profile fetches per run
 
 WORLD_TEAMS = [
     "alpecin-premier-tech-2026",
@@ -889,16 +889,37 @@ def main():
     print("\n[3b/4] Rider profiles (incremental)...")
     rider_profiles = dict(cache.get("rider_profiles", {}))
 
-    # Collect all unique rider slugs from team rosters
-    all_slugs = {
+    # Collect slugs from race results first (stage top-10, GC/points/KOM/youth top-10)
+    result_slugs = []
+    seen = set()
+    for race in live_races + recent_races:
+        for stage in race.get("stages", []):
+            for row in stage.get("top10", []):
+                slug = row.get("rider_url", "").replace("/profile/", "").strip("/")
+                if slug and not row.get("is_ttt") and slug not in seen:
+                    result_slugs.append(slug)
+                    seen.add(slug)
+        for key in ("gc_top10", "points_top10", "kom_top10", "youth_top10"):
+            for row in race.get(key, []):
+                slug = row.get("rider_url", "").replace("/profile/", "").strip("/")
+                if slug and slug not in seen:
+                    result_slugs.append(slug)
+                    seen.add(slug)
+
+    # Then add team roster riders
+    roster_slugs = [
         r["slug"]
         for team in teams_data
         for r in team.get("riders", [])
-        if r.get("slug")
-    }
-    uncached  = sorted(s for s in all_slugs if s not in rider_profiles)
+        if r.get("slug") and r["slug"] not in seen
+    ]
+
+    # Priority order: result riders first, then roster
+    priority_order = result_slugs + roster_slugs
+    all_slugs = set(result_slugs) | set(roster_slugs)
+    uncached  = [s for s in priority_order if s not in rider_profiles]
     to_fetch  = uncached[:MAX_NEW_RIDERS_PER_RUN]
-    print(f"  Riders total: {len(all_slugs)} | cached: {len(rider_profiles)} | new: {len(uncached)} | fetching: {len(to_fetch)}")
+    print(f"  Riders total: {len(all_slugs)} | cached: {len(rider_profiles)} | new: {len(uncached)} | fetching: {len(to_fetch)} (result riders first)")
 
     for slug in to_fetch:
         profile = scrape_rider_profile(slug)
