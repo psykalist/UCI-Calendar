@@ -1358,9 +1358,28 @@ const normName = n => (n||'').toLowerCase().replace(/[^a-z]/g,' ').replace(/\s+/
 
 function getAllRiders(){
   const riders=[],seen=new Set();
+  // Primary: team roster data
   for(const team of (appData.teams||[])){
     for(const r of (team.riders||[])){
       if(!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:r.slug||'',nat:r.nat||'',photo:r.photo||'',teamName:team.name});}
+    }
+  }
+  // Fallback: extract names from race result top10 / classifications
+  if(!riders.length){
+    for(const section of ['recent','live','upcoming']){
+      for(const race of (appData[section]||[])){
+        for(const stage of (race.stages||[])){
+          for(const r of (stage.top10||[])){
+            if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:r.nat||'',photo:'',teamName:r.team||''});}
+          }
+        }
+        const cl=race.classifications||{};
+        for(const key of ['gc','points','mountain','youth']){
+          for(const r of (cl[key]||[])){
+            if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:r.nat||'',photo:'',teamName:r.team||''});}
+          }
+        }
+      }
     }
   }
   return riders.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
@@ -1427,8 +1446,8 @@ function renderFantasySetup(){
       +'<div style="font-size:.8rem;color:var(--muted);background:rgba(67,97,238,.1);border-radius:6px;padding:10px;margin-bottom:14px">'
         +'Pick <strong style="color:var(--text)">12 riders</strong>. You get <strong style="color:var(--accent)">5 transfers</strong> for the whole season.</div>'
       +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Add Riders <span id="fPickCount" style="color:var(--accent);font-weight:700">0</span>/12</label>'
-      +'<input id="fRiderSearch" type="search" placeholder="Search rider name…" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)">'
-      +'<div id="fRiderResults" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>'
+      +'<input id="fRiderSearch" type="search" placeholder="Type a name to search riders…" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)" onfocus="fSearchRiders(this.value)">'
+      +'<div id="fRiderResults" style="max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>'
     +'</div>'
     +'<div id="fPickedList" style="margin-bottom:14px"></div>'
     +'<button onclick="fCreateTeam()" style="width:100%;padding:14px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer">✅ Create Team</button>'
@@ -1437,18 +1456,33 @@ function renderFantasySetup(){
 
 function fSearchRiders(q){
   const el=document.getElementById('fRiderResults');if(!el)return;
-  q=q.trim().toLowerCase();
-  if(!q){el.style.display='none';return;}
+  const raw=q.trim();
   const picked=new Set(_fPicked.map(r=>r.name));
-  const matches=getAllRiders().filter(r=>(r.name||'').toLowerCase().includes(q)&&!picked.has(r.name)).slice(0,15);
+  const all=getAllRiders().filter(r=>!picked.has(r.name));
+  let matches;
+  if(!raw){
+    // show first 20 alphabetically on focus/empty
+    matches=all.slice(0,20);
+  } else {
+    const lq=raw.toLowerCase();
+    // prioritise names that START with query, then contains
+    const starts=all.filter(r=>(r.name||'').toLowerCase().startsWith(lq));
+    const contains=all.filter(r=>!(r.name||'').toLowerCase().startsWith(lq)&&(r.name||'').toLowerCase().includes(lq));
+    matches=[...starts,...contains].slice(0,20);
+  }
+  if(!all.length){
+    el.style.display='block';
+    el.innerHTML='<div style="padding:12px;color:var(--muted);font-size:.85rem">No rider data yet — run the scraper first.</div>';
+    return;
+  }
   if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:12px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
   el.style.display='block';
   el.innerHTML=matches.map(r=>
-    '<div data-pick="'+esc(r.name)+'" style="padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">'
-      +flag(r.nat)
+    '<div data-pick="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:background .15s" onmouseenter="this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
+      +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
       +'<span style="flex:1;font-size:.9rem">'+esc(r.name)+'</span>'
-      +'<span style="font-size:.75rem;color:var(--muted)">'+esc(r.teamName||'')+'</span>'
-      +'<span style="color:var(--upcoming);font-weight:700">+</span>'
+      +'<span style="font-size:.75rem;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.teamName||'')+'</span>'
+      +'<span style="color:var(--upcoming);font-weight:700;margin-left:6px">+</span>'
     +'</div>'
   ).join('');
   el.querySelectorAll('[data-pick]').forEach(node=>node.addEventListener('click',()=>fPickRider(node.dataset.pick)));
@@ -1530,8 +1564,8 @@ function renderMySquad(team,total,breakdown){
 
   const swapPanel='<div id="fSwapPanel" style="display:none;padding:14px;border-top:1px solid var(--border);background:var(--surface2)">'
     +'<div id="fSwapLabel" style="font-size:.82rem;color:var(--muted);margin-bottom:8px"></div>'
-    +'<input id="fSwapSearch" type="search" placeholder="Search replacement rider…" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 12px;color:var(--text);font-size:.88rem;outline:none;margin-bottom:6px" oninput="fSearchSwap(this.value)">'
-    +'<div id="fSwapResults" style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface)"></div>'
+    +'<input id="fSwapSearch" type="search" placeholder="Type name to search riders…" autocomplete="off" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 12px;color:var(--text);font-size:.88rem;outline:none;margin-bottom:6px" oninput="fSearchSwap(this.value)" onfocus="fSearchSwap(this.value)">'
+    +'<div id="fSwapResults" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface)"></div>'
     +'<button onclick="fCloseSwap()" style="margin-top:8px;padding:7px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:.82rem;cursor:pointer">Cancel</button>'
   +'</div>';
 
@@ -1573,19 +1607,28 @@ function fCloseSwap(){
 
 function fSearchSwap(q){
   const el=document.getElementById('fSwapResults');if(!el)return;
-  q=q.trim().toLowerCase();
-  if(!q){el.style.display='none';return;}
+  const raw=q.trim();
   const team=fantasyLoad();
   const squad=new Set((team&&team.riders||[]).map(r=>r.name));
-  const matches=getAllRiders().filter(r=>(r.name||'').toLowerCase().includes(q)&&!squad.has(r.name)).slice(0,12);
+  const all=getAllRiders().filter(r=>!squad.has(r.name));
+  let matches;
+  if(!raw){
+    matches=all.slice(0,20);
+  } else {
+    const lq=raw.toLowerCase();
+    const starts=all.filter(r=>(r.name||'').toLowerCase().startsWith(lq));
+    const contains=all.filter(r=>!(r.name||'').toLowerCase().startsWith(lq)&&(r.name||'').toLowerCase().includes(lq));
+    matches=[...starts,...contains].slice(0,20);
+  }
+  if(!all.length){el.style.display='block';el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.85rem">No rider data yet.</div>';return;}
   if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
   el.style.display='block';
   el.innerHTML=matches.map(r=>
-    '<div data-doswap="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)">'
-      +flag(r.nat)
+    '<div data-doswap="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);transition:background .15s" onmouseenter="this.style.background=\'var(--surface2)\'" onmouseleave="this.style.background=\'\'">'
+      +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
       +'<span style="flex:1;font-size:.88rem">'+esc(r.name)+'</span>'
-      +'<span style="font-size:.75rem;color:var(--muted)">'+esc(r.teamName||'')+'</span>'
-      +'<span style="color:#2dd36f;font-weight:700">IN</span>'
+      +'<span style="font-size:.75rem;color:var(--muted);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.teamName||'')+'</span>'
+      +'<span style="color:#2dd36f;font-weight:700;margin-left:6px">IN</span>'
     +'</div>'
   ).join('');
   el.querySelectorAll('[data-doswap]').forEach(node=>node.addEventListener('click',()=>fDoSwap(node.dataset.doswap)));
@@ -1655,7 +1698,7 @@ function renderWatchlist(watchlist){
   const canAdd=watchlist.length<MAX_WATCH;
   const addCard=canAdd?'<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">'
     +'<div style="font-size:.78rem;color:var(--muted);margin-bottom:6px">Follow a rider</div>'
-    +'<input id="fWatchSearch" type="search" placeholder="Search rider…" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:.85rem;outline:none" oninput="fSearchWatch(this.value)">'
+    +'<input id="fWatchSearch" type="search" placeholder="Type name to search riders…" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:.85rem;outline:none" oninput="fSearchWatch(this.value)" onfocus="fSearchWatch(this.value)">'
     +'<div id="fWatchResults" style="max-height:160px;overflow-y:auto;margin-top:6px;display:none;border:1px solid var(--border);border-radius:6px;background:var(--surface2)"></div>'
   +'</div>':'';
 
@@ -1669,15 +1712,24 @@ function renderWatchlist(watchlist){
 
 function fSearchWatch(q){
   const el=document.getElementById('fWatchResults');if(!el)return;
-  q=q.trim().toLowerCase();
-  if(!q){el.style.display='none';return;}
+  const raw=q.trim();
   const watched=new Set(watchLoad().map(w=>w.name));
-  const matches=getAllRiders().filter(r=>(r.name||'').toLowerCase().includes(q)&&!watched.has(r.name)).slice(0,10);
+  const all=getAllRiders().filter(r=>!watched.has(r.name));
+  let matches;
+  if(!raw){
+    matches=all.slice(0,15);
+  } else {
+    const lq=raw.toLowerCase();
+    const starts=all.filter(r=>(r.name||'').toLowerCase().startsWith(lq));
+    const contains=all.filter(r=>!(r.name||'').toLowerCase().startsWith(lq)&&(r.name||'').toLowerCase().includes(lq));
+    matches=[...starts,...contains].slice(0,15);
+  }
+  if(!matches.length&&!all.length){el.style.display='none';return;}
   if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.82rem">No riders found</div>';return;}
   el.style.display='block';
   el.innerHTML=matches.map(r=>
-    '<div data-addwatch="'+esc(r.name)+'" data-nat="'+esc(r.nat||'')+'" data-slug="'+esc(r.slug||'')+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)">'
-      +flag(r.nat)
+    '<div data-addwatch="'+esc(r.name)+'" data-nat="'+esc(r.nat||'')+'" data-slug="'+esc(r.slug||'')+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);transition:background .15s" onmouseenter="this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
+      +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
       +'<span style="flex:1;font-size:.85rem">'+esc(r.name)+'</span>'
       +'<span style="color:var(--upcoming);font-weight:700">+</span>'
     +'</div>'
@@ -1761,4 +1813,4 @@ function fDeleteTeam(){
 
 </script>
 </body>
-</html>
+</html>                                                          
