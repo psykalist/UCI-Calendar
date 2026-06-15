@@ -1330,422 +1330,434 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') silentCheck();
 });
 
-// ── Fantasy League ──────────────────────────────────────────────────────────
+
+
+// ── Fantasy League ─────────────────────────────────────────────────────────────
 
 const FANTASY_TEAM_KEY   = 'fantasy_my_team';
 const FANTASY_LEAGUE_KEY = 'fantasy_league';
 const FANTASY_WATCH_KEY  = 'fantasy_watchlist';
-const MAX_SQUAD      = 12;
-const MAX_TRANSFERS  = 5;
-const MAX_WATCH      = 10;
-const STAGE_PTS = {1:25, 2:12, 3:8, 4:3, 5:3, 6:3, 7:3, 8:3, 9:3, 10:3};
-const GC_PTS    = {1:50, 2:30, 3:20, 4:8, 5:8, 6:8, 7:8, 8:8, 9:8, 10:8};
+const MAX_SQUAD     = 12;
+const MAX_TRANSFERS = 5;
+const MAX_WATCH     = 10;
+const STAGE_PTS = {1:25,2:12,3:8,4:3,5:3,6:3,7:3,8:3,9:3,10:3};
+const GC_PTS    = {1:50,2:30,3:20,4:8,5:8,6:8,7:8,8:8,9:8,10:8};
 const JERSEY_PTS = 15;
 
 let _fPicked = [];
+let _fSwapOut = null;
 
-function fantasyLoad() { try { return JSON.parse(localStorage.getItem(FANTASY_TEAM_KEY)||'null'); } catch(e){return null;} }
-function fantasySave(t){ localStorage.setItem(FANTASY_TEAM_KEY, JSON.stringify(t)); }
-function leagueLoad()  { try { return JSON.parse(localStorage.getItem(FANTASY_LEAGUE_KEY)||'[]'); } catch(e){return[];} }
-function leagueSave(l) { localStorage.setItem(FANTASY_LEAGUE_KEY, JSON.stringify(l)); }
-function watchLoad()   { try { return JSON.parse(localStorage.getItem(FANTASY_WATCH_KEY)||'[]'); } catch(e){return[];} }
-function watchSave(w)  { localStorage.setItem(FANTASY_WATCH_KEY, JSON.stringify(w)); }
+function fantasyLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_TEAM_KEY)||'null');}catch(e){return null;}}
+function fantasySave(t){localStorage.setItem(FANTASY_TEAM_KEY,JSON.stringify(t));}
+function leagueLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_LEAGUE_KEY)||'[]');}catch(e){return[];}}
+function leagueSave(l){localStorage.setItem(FANTASY_LEAGUE_KEY,JSON.stringify(l));}
+function watchLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_WATCH_KEY)||'[]');}catch(e){return[];}}
+function watchSave(w){localStorage.setItem(FANTASY_WATCH_KEY,JSON.stringify(w));}
 
 const normName = n => (n||'').toLowerCase().replace(/[^a-z]/g,' ').replace(/\s+/g,' ').trim();
 
-function getAllRiders() {
-  const riders = [], seen = new Set();
-  for (const team of (appData.teams||[])) {
-    for (const r of (team.riders||[])) {
-      if (!seen.has(r.name)) {
-        seen.add(r.name);
-        riders.push({name:r.name, slug:r.slug, nat:r.nat, photo:r.photo, teamName:team.name});
-      }
+function getAllRiders(){
+  const riders=[],seen=new Set();
+  for(const team of (appData.teams||[])){
+    for(const r of (team.riders||[])){
+      if(!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:r.slug||'',nat:r.nat||'',photo:r.photo||'',teamName:team.name});}
     }
   }
   return riders.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
 }
 
-function computePoints(riderNames) {
-  const myNorm = new Set(riderNames.map(normName));
-  let pts = 0;
-  const breakdown = [];
-  for (const race of [...(appData.recent||[]), ...(appData.live||[])]) {
-    for (const stage of (race.stages||[])) {
-      for (const r of (stage.top10||[])) {
-        if (r.rank>=1 && r.rank<=10 && myNorm.has(normName(r.name))) {
-          const p = STAGE_PTS[r.rank]||0;
-          if (p>0) { pts+=p; breakdown.push({race:race.name, label:'Stage '+stage.stage_num, rank:r.rank, pts:p, rider:r.name}); }
+function computePoints(riderNames){
+  const myNorm=new Set(riderNames.map(normName));
+  let pts=0;const breakdown=[];
+  for(const race of [...(appData.recent||[]),...(appData.live||[])]){
+    for(const stage of (race.stages||[])){
+      for(const r of (stage.top10||[])){
+        if(r.rank>=1&&r.rank<=10&&myNorm.has(normName(r.name))){
+          const p=STAGE_PTS[r.rank]||0;
+          if(p>0){pts+=p;breakdown.push({race:race.name,label:'Stage '+stage.stage_num,rank:r.rank,pts:p,rider:r.name});}
         }
       }
     }
-    const cl = race.classifications||{};
-    for (const r of (cl.gc||[])) {
-      if (r.rank>=1 && r.rank<=10 && myNorm.has(normName(r.name))) {
+    const cl=race.classifications||{};
+    for(const r of (cl.gc||[])){
+      if(r.rank>=1&&r.rank<=10&&myNorm.has(normName(r.name))){
         const p=GC_PTS[r.rank]||0;
-        if(p>0){pts+=p; breakdown.push({race:race.name, label:'GC', rank:r.rank, pts:p, rider:r.name});}
+        if(p>0){pts+=p;breakdown.push({race:race.name,label:'GC',rank:r.rank,pts:p,rider:r.name});}
       }
     }
-    const sprint=(cl.points||[])[0];
-    if(sprint && myNorm.has(normName(sprint.name))){pts+=JERSEY_PTS; breakdown.push({race:race.name,label:'Sprint Jersey',rank:1,pts:JERSEY_PTS,rider:sprint.name});}
-    const kom=(cl.mountain||[])[0];
-    if(kom && myNorm.has(normName(kom.name))){pts+=JERSEY_PTS; breakdown.push({race:race.name,label:'KOM Jersey',rank:1,pts:JERSEY_PTS,rider:kom.name});}
+    const sp=(cl.points||[])[0];
+    if(sp&&myNorm.has(normName(sp.name))){pts+=JERSEY_PTS;breakdown.push({race:race.name,label:'Sprint Jersey',rank:1,pts:JERSEY_PTS,rider:sp.name});}
+    const km=(cl.mountain||[])[0];
+    if(km&&myNorm.has(normName(km.name))){pts+=JERSEY_PTS;breakdown.push({race:race.name,label:'KOM Jersey',rank:1,pts:JERSEY_PTS,rider:km.name});}
   }
-  return {total:pts, breakdown};
+  return{total:pts,breakdown};
 }
 
-function renderFantasy() {
-  const el = document.getElementById('sec-fantasy');
-  if (!el) return;
-  const myTeam = fantasyLoad();
-  const watchlist = watchLoad();
-  if (!myTeam) { el.innerHTML = renderFantasySetup(); return; }
-  const {total, breakdown} = computePoints(myTeam.riders.map(r=>r.name));
-  const league = leagueLoad();
-  const allTeams = [{...myTeam, points:total, isMine:true},
-    ...league.map(t=>({...t, points:computePoints((t.riders||[]).map(r=>r.name)).total}))];
+function renderFantasy(){
+  const el=document.getElementById('sec-fantasy');
+  if(!el)return;
+  const myTeam=fantasyLoad();
+  if(!myTeam){el.innerHTML=renderFantasySetup();_fPicked=[];return;}
+  const{total,breakdown}=computePoints(myTeam.riders.map(r=>r.name));
+  const league=leagueLoad();
+  const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name)).total}))];
   allTeams.sort((a,b)=>b.points-a.points);
-  el.innerHTML =
-    renderLeagueTable(allTeams) +
-    renderMySquad(myTeam, total, breakdown) +
-    renderWatchlist(watchlist);
+  el.innerHTML=renderLeagueTable(allTeams)+renderMySquad(myTeam,total,breakdown)+renderWatchlist(watchLoad());
+  // Wire up delegated events after render
+  el.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>fPickRider(el.dataset.pick)));
+  el.querySelectorAll('[data-unpick]').forEach(el=>el.addEventListener('click',()=>fRemovePicked(el.dataset.unpick)));
+  el.querySelectorAll('[data-swap]').forEach(el=>el.addEventListener('click',()=>fOpenSwap(el.dataset.swap)));
+  el.querySelectorAll('[data-unwatch]').forEach(el=>el.addEventListener('click',()=>fRemoveWatch(el.dataset.unwatch)));
+  el.querySelectorAll('[data-doswap]').forEach(el=>el.addEventListener('click',()=>fDoSwap(el.dataset.doswap)));
+  el.querySelectorAll('[data-addwatch]').forEach(el=>el.addEventListener('click',()=>fAddWatch(el.dataset.addwatch,el.dataset.nat||'',el.dataset.slug||'')));
 }
 
-function renderFantasySetup() {
-  _fPicked = [];
-  return '<div style="max-width:480px;margin:0 auto;padding:16px">' +
-    '<div class="group-header" style="padding-top:4px">🏆 Create Your Fantasy Team</div>' +
-    '<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px">' +
-      '<div style="margin-bottom:12px">' +
-        '<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Team Name</label>' +
-        '<input id="fTeamName" type="text" placeholder="e.g. Alpe d&apos;Huez Allstars" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none">' +
-      '</div>' +
-      '<div style="margin-bottom:14px">' +
-        '<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Owner Name</label>' +
-        '<input id="fOwnerName" type="text" placeholder="Your name" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none">' +
-      '</div>' +
-      '<div style="font-size:.8rem;color:var(--muted);background:rgba(67,97,238,.1);border-radius:6px;padding:10px;margin-bottom:14px">' +
-        'Pick <strong style="color:var(--text)">12 riders</strong> for your squad. You get <strong style="color:var(--accent)">5 transfers</strong> for the whole season — choose wisely.' +
-      '</div>' +
-      '<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Add Riders <span id="fPickCount" style="color:var(--accent);font-weight:700">0</span>/12</label>' +
-      '<input id="fRiderSearch" type="search" placeholder="Search rider name…" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)">' +
-      '<div id="fRiderResults" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>' +
-    '</div>' +
-    '<div id="fPickedList" style="margin-bottom:14px"></div>' +
-    '<button onclick="fCreateTeam()" style="width:100%;padding:14px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer">✅ Create Team</button>' +
-  '</div>';
+function flag(nat){return nat?'<img src="https://cyclingflash.com/svg/flags/'+esc(nat)+'.svg" width="16" height="12" style="flex-shrink:0">'  :'';}
+
+// ── Setup form ───────────────────────────────────────────────────────────────
+
+function renderFantasySetup(){
+  return '<div style="max-width:480px;margin:0 auto;padding:16px">'
+    +'<div class="group-header" style="padding-top:4px">🏆 Create Your Fantasy Team</div>'
+    +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px">'
+      +'<div style="margin-bottom:12px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Team Name</label>'
+      +'<input id="fTeamName" type="text" placeholder="e.g. Alpe Allstars" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
+      +'<div style="margin-bottom:14px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Owner Name</label>'
+      +'<input id="fOwnerName" type="text" placeholder="Your name" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
+      +'<div style="font-size:.8rem;color:var(--muted);background:rgba(67,97,238,.1);border-radius:6px;padding:10px;margin-bottom:14px">'
+        +'Pick <strong style="color:var(--text)">12 riders</strong>. You get <strong style="color:var(--accent)">5 transfers</strong> for the whole season.</div>'
+      +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Add Riders <span id="fPickCount" style="color:var(--accent);font-weight:700">0</span>/12</label>'
+      +'<input id="fRiderSearch" type="search" placeholder="Search rider name…" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)">'
+      +'<div id="fRiderResults" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>'
+    +'</div>'
+    +'<div id="fPickedList" style="margin-bottom:14px"></div>'
+    +'<button onclick="fCreateTeam()" style="width:100%;padding:14px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer">✅ Create Team</button>'
+  +'</div>';
 }
 
-function fSearchRiders(q) {
-  const el = document.getElementById('fRiderResults');
-  if (!el) return;
-  q = q.trim().toLowerCase();
-  if (!q) { el.style.display='none'; return; }
-  const picked = new Set(_fPicked.map(r=>r.name));
-  const matches = getAllRiders().filter(r=>(r.name||'').toLowerCase().includes(q)&&!picked.has(r.name)).slice(0,15);
-  if (!matches.length) { el.style.display='block'; el.innerHTML='<div style="padding:12px;color:var(--muted);font-size:.85rem">No riders found</div>'; return; }
+function fSearchRiders(q){
+  const el=document.getElementById('fRiderResults');if(!el)return;
+  q=q.trim().toLowerCase();
+  if(!q){el.style.display='none';return;}
+  const picked=new Set(_fPicked.map(r=>r.name));
+  const matches=getAllRiders().filter(r=>(r.name||'').toLowerCase().includes(q)&&!picked.has(r.name)).slice(0,15);
+  if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:12px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
   el.style.display='block';
-  el.innerHTML = matches.map(r=>
-    '<div onclick="fPickRider('+JSON.stringify(r.name)+')" style="padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">' +
-      (r.nat ? '<img src="https://cyclingflash.com/svg/flags/'+esc(r.nat)+'.svg" width="16" height="12" style="flex-shrink:0">' : '') +
-      '<span style="flex:1;font-size:.9rem">'+esc(r.name)+'</span>' +
-      '<span style="font-size:.75rem;color:var(--muted)">'+esc(r.teamName||'')+'</span>' +
-      '<span style="color:var(--upcoming);font-weight:700">+</span>' +
-    '</div>'
+  el.innerHTML=matches.map(r=>
+    '<div data-pick="'+esc(r.name)+'" style="padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">'
+      +flag(r.nat)
+      +'<span style="flex:1;font-size:.9rem">'+esc(r.name)+'</span>'
+      +'<span style="font-size:.75rem;color:var(--muted)">'+esc(r.teamName||'')+'</span>'
+      +'<span style="color:var(--upcoming);font-weight:700">+</span>'
+    +'</div>'
   ).join('');
+  el.querySelectorAll('[data-pick]').forEach(node=>node.addEventListener('click',()=>fPickRider(node.dataset.pick)));
 }
 
-function fPickRider(name) {
-  if (_fPicked.length >= MAX_SQUAD) { alert('Squad full! Remove a rider first.'); return; }
-  const r = getAllRiders().find(r=>r.name===name);
-  if (!r || _fPicked.find(p=>p.name===name)) return;
+function fPickRider(name){
+  if(_fPicked.length>=MAX_SQUAD){alert('Squad full!');return;}
+  const r=getAllRiders().find(r=>r.name===name);
+  if(!r||_fPicked.find(p=>p.name===name))return;
   _fPicked.push(r);
-  const cnt = document.getElementById('fPickCount'); if(cnt) cnt.textContent=_fPicked.length;
-  const srch = document.getElementById('fRiderSearch'); if(srch) srch.value='';
-  const res = document.getElementById('fRiderResults'); if(res) res.style.display='none';
+  const cnt=document.getElementById('fPickCount');if(cnt)cnt.textContent=_fPicked.length;
+  const srch=document.getElementById('fRiderSearch');if(srch)srch.value='';
+  const res=document.getElementById('fRiderResults');if(res)res.style.display='none';
   renderPickedList();
 }
 
-function fRemovePicked(name) {
-  _fPicked = _fPicked.filter(r=>r.name!==name);
-  const cnt = document.getElementById('fPickCount'); if(cnt) cnt.textContent=_fPicked.length;
+function fRemovePicked(name){
+  _fPicked=_fPicked.filter(r=>r.name!==name);
+  const cnt=document.getElementById('fPickCount');if(cnt)cnt.textContent=_fPicked.length;
   renderPickedList();
 }
 
-function renderPickedList() {
-  const el = document.getElementById('fPickedList');
-  if (!el) return;
-  if (!_fPicked.length) { el.innerHTML=''; return; }
-  el.innerHTML = '<div style="font-size:.8rem;color:var(--muted);margin-bottom:8px">'+_fPicked.length+' rider'+(_fPicked.length>1?'s':'')+' selected</div>' +
-    '<div style="display:flex;flex-direction:column;gap:4px">' +
-    _fPicked.map(r=>
-      '<div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 12px;display:flex;align-items:center;gap:8px">' +
-        (r.nat?'<img src="https://cyclingflash.com/svg/flags/'+esc(r.nat)+'.svg" width="16" height="12">'  :'') +
-        '<span style="flex:1;font-size:.9rem;font-weight:600">'+esc(r.name)+'</span>' +
-        '<span style="font-size:.75rem;color:var(--muted)">'+esc(r.teamName||'')+'</span>' +
-        '<button onclick="fRemovePicked('+JSON.stringify(r.name)+')" style="background:none;border:none;color:var(--live);font-size:1rem;cursor:pointer;padding:0 4px">✕</button>' +
-      '</div>'
-    ).join('') +
-    '</div>';
+function renderPickedList(){
+  const el=document.getElementById('fPickedList');if(!el)return;
+  if(!_fPicked.length){el.innerHTML='';return;}
+  el.innerHTML='<div style="font-size:.8rem;color:var(--muted);margin-bottom:8px">'+_fPicked.length+' rider'+(_fPicked.length>1?'s':'')+' selected</div>'
+    +'<div style="display:flex;flex-direction:column;gap:4px">'
+    +_fPicked.map(r=>
+      '<div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 12px;display:flex;align-items:center;gap:8px">'
+        +flag(r.nat)
+        +'<span style="flex:1;font-size:.9rem;font-weight:600">'+esc(r.name)+'</span>'
+        +'<span style="font-size:.75rem;color:var(--muted)">'+esc(r.teamName||'')+'</span>'
+        +'<button data-unpick="'+esc(r.name)+'" style="background:none;border:none;color:var(--live);font-size:1rem;cursor:pointer;padding:0 4px">✕</button>'
+      +'</div>'
+    ).join('')
+    +'</div>';
+  el.querySelectorAll('[data-unpick]').forEach(node=>node.addEventListener('click',()=>fRemovePicked(node.dataset.unpick)));
 }
 
-function fCreateTeam() {
-  const nameEl  = document.getElementById('fTeamName');
-  const ownerEl = document.getElementById('fOwnerName');
-  const name  = nameEl  ? nameEl.value.trim()  : '';
-  const owner = ownerEl ? ownerEl.value.trim() : '';
-  if (!name||!owner) { alert('Please enter a team name and owner name.'); return; }
-  if (_fPicked.length < 1) { alert('Pick at least 1 rider to create your team.'); return; }
-  fantasySave({name, owner, riders:[..._fPicked], transfers_used:0, transfers_total:MAX_TRANSFERS, created_at:new Date().toISOString()});
+function fCreateTeam(){
+  const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName');
+  const name=nameEl?nameEl.value.trim():'',owner=ownerEl?ownerEl.value.trim():'';
+  if(!name||!owner){alert('Please enter a team name and owner name.');return;}
+  if(!_fPicked.length){alert('Pick at least 1 rider.');return;}
+  fantasySave({name,owner,riders:[..._fPicked],transfers_used:0,transfers_total:MAX_TRANSFERS,created_at:new Date().toISOString()});
   renderFantasy();
 }
 
-let _fSwapOutName = null;
+// ── My Squad ─────────────────────────────────────────────────────────────────
 
-function renderMySquad(team, total, breakdown) {
-  const left = team.transfers_total - (team.transfers_used||0);
-  const tCol = left===0?'var(--live)':left<=2?'var(--accent)':'#2dd36f';
+function renderMySquad(team,total,breakdown){
+  const left=team.transfers_total-(team.transfers_used||0);
+  const tCol=left===0?'var(--live)':left<=2?'var(--accent)':'#2dd36f';
 
-  const riderRows = team.riders.map(r=>{
-    const rpts = breakdown.filter(b=>normName(b.rider)===normName(r.name)).reduce((s,b)=>s+b.pts,0);
-    return '<div style="padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">' +
-      (r.nat?'<img src="https://cyclingflash.com/svg/flags/'+esc(r.nat)+'.svg" width="18" height="13" style="flex-shrink:0">'  :'<span style="width:18px;display:inline-block"></span>') +
-      '<span style="flex:1;font-size:.9rem;font-weight:600">'+esc(r.name)+'</span>' +
-      (rpts>0?'<span style="font-size:.82rem;font-weight:700;color:var(--gold)">'+rpts+' pts</span>':'<span style="font-size:.78rem;color:var(--muted)">—</span>') +
-      (left>0?'<button onclick="fOpenSwap('+JSON.stringify(r.name)+')" style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--muted);font-size:.72rem;padding:3px 7px;cursor:pointer">Swap</button>':'') +
-    '</div>';
+  const rows=team.riders.map(r=>{
+    const rpts=breakdown.filter(b=>normName(b.rider)===normName(r.name)).reduce((s,b)=>s+b.pts,0);
+    return '<div style="padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">'
+      +(r.nat?flag(r.nat):'<span style="width:16px;display:inline-block"></span>')
+      +'<span style="flex:1;font-size:.9rem;font-weight:600">'+esc(r.name)+'</span>'
+      +(rpts>0?'<span style="font-size:.82rem;font-weight:700;color:var(--gold)">'+rpts+' pts</span>':'<span style="font-size:.78rem;color:var(--muted)">—</span>')
+      +(left>0?'<button data-swap="'+esc(r.name)+'" style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--muted);font-size:.72rem;padding:3px 7px;cursor:pointer">Swap</button>':'')
+    +'</div>';
   }).join('');
 
-  let bdHtml = '';
-  if (breakdown.length) {
-    const byRace = {};
+  let bdHtml='';
+  if(breakdown.length){
+    const byRace={};
     for(const b of breakdown){if(!byRace[b.race])byRace[b.race]=[];byRace[b.race].push(b);}
-    bdHtml = '<details style="margin-top:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">' +
-      '<summary style="padding:12px 14px;font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer;letter-spacing:.8px;text-transform:uppercase;list-style:none">Points Breakdown ▾</summary>' +
-      Object.entries(byRace).map(([race,items])=>
-        '<div style="padding:8px 14px 10px;border-top:1px solid var(--border)">' +
-          '<div style="font-size:.8rem;color:var(--accent);font-weight:600;margin-bottom:6px">'+esc(race)+'</div>' +
-          items.map(b=>'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.82rem"><span style="color:var(--muted)">'+esc(b.rider)+' — '+esc(b.label)+' (P'+b.rank+')</span><span style="font-weight:700;color:var(--gold)">+'+b.pts+'</span></div>').join('') +
-        '</div>'
-      ).join('') +
-      '</details>';
+    bdHtml='<details style="margin-top:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">'
+      +'<summary style="padding:12px 14px;font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer;letter-spacing:.8px;text-transform:uppercase;list-style:none">Points Breakdown ▾</summary>'
+      +Object.entries(byRace).map(([race,items])=>
+        '<div style="padding:8px 14px 10px;border-top:1px solid var(--border)">'
+          +'<div style="font-size:.8rem;color:var(--accent);font-weight:600;margin-bottom:6px">'+esc(race)+'</div>'
+          +items.map(b=>'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.82rem"><span style="color:var(--muted)">'+esc(b.rider)+' — '+esc(b.label)+' (P'+b.rank+')</span><span style="font-weight:700;color:var(--gold)">+'+b.pts+'</span></div>').join('')
+        +'</div>'
+      ).join('')
+      +'</details>';
   }
 
-  const swapPanel = '<div id="fSwapPanel" style="display:none;padding:14px;border-top:1px solid var(--border);background:var(--surface2)">' +
-    '<div id="fSwapOut" style="font-size:.82rem;color:var(--muted);margin-bottom:8px"></div>' +
-    '<input id="fSwapSearch" type="search" placeholder="Search replacement rider…" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 12px;color:var(--text);font-size:.88rem;outline:none;margin-bottom:6px" oninput="fSearchSwap(this.value)">' +
-    '<div id="fSwapResults" style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface)"></div>' +
-    '<button onclick="document.getElementById('fSwapPanel').style.display='none'" style="margin-top:8px;padding:7px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:.82rem;cursor:pointer">Cancel</button>' +
-  '</div>';
+  const swapPanel='<div id="fSwapPanel" style="display:none;padding:14px;border-top:1px solid var(--border);background:var(--surface2)">'
+    +'<div id="fSwapLabel" style="font-size:.82rem;color:var(--muted);margin-bottom:8px"></div>'
+    +'<input id="fSwapSearch" type="search" placeholder="Search replacement rider…" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 12px;color:var(--text);font-size:.88rem;outline:none;margin-bottom:6px" oninput="fSearchSwap(this.value)">'
+    +'<div id="fSwapResults" style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface)"></div>'
+    +'<button onclick="fCloseSwap()" style="margin-top:8px;padding:7px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:.82rem;cursor:pointer">Cancel</button>'
+  +'</div>';
 
-  return '<div style="margin-bottom:16px">' +
-    '<div class="group-header">👕 My Squad — '+esc(team.name)+'</div>' +
-    '<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">' +
-      '<div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">' +
-        '<div style="flex:1"><div style="font-size:.8rem;color:var(--muted)">Owner</div><div style="font-weight:600">'+esc(team.owner)+'</div></div>' +
-        '<div style="text-align:center"><div style="font-size:1.8rem;font-weight:800;color:var(--gold)">'+total+'</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.8px">POINTS</div></div>' +
-        '<div style="text-align:right"><div style="font-size:1.2rem;font-weight:800;color:'+tCol+'">'+left+'</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.5px">TRANSFERS LEFT</div></div>' +
-      '</div>' +
-      riderRows +
-      swapPanel +
-    '</div>' +
-    bdHtml +
-    '<div style="display:flex;gap:8px;margin-top:12px">' +
-      '<button onclick="fExportTeam()" style="flex:1;padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;font-weight:600;cursor:pointer">📤 Export Code</button>' +
-      '<button onclick="fImportTeam()" style="flex:1;padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;font-weight:600;cursor:pointer">📥 Import Team</button>' +
-      '<button onclick="fDeleteTeam()" title="Delete my team" style="padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--live);font-size:.85rem;cursor:pointer">🗑</button>' +
-    '</div>' +
-  '</div>';
+  return '<div style="margin-bottom:16px">'
+    +'<div class="group-header">👕 My Squad — '+esc(team.name)+'</div>'
+    +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">'
+      +'<div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">'
+        +'<div style="flex:1"><div style="font-size:.8rem;color:var(--muted)">Owner</div><div style="font-weight:600">'+esc(team.owner)+'</div></div>'
+        +'<div style="text-align:center"><div style="font-size:1.8rem;font-weight:800;color:var(--gold)">'+total+'</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.8px">POINTS</div></div>'
+        +'<div style="text-align:right"><div style="font-size:1.2rem;font-weight:800;color:'+tCol+'">'+left+'</div><div style="font-size:.7rem;color:var(--muted)">TRANSFERS LEFT</div></div>'
+      +'</div>'
+      +rows+swapPanel
+    +'</div>'
+    +bdHtml
+    +'<div style="display:flex;gap:8px;margin-top:12px">'
+      +'<button onclick="fExportTeam()" style="flex:1;padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;font-weight:600;cursor:pointer">📤 Export Code</button>'
+      +'<button onclick="fImportTeam()" style="flex:1;padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;font-weight:600;cursor:pointer">📥 Import Team</button>'
+      +'<button onclick="fDeleteTeam()" style="padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--live);font-size:.85rem;cursor:pointer">🗑</button>'
+    +'</div>'
+  +'</div>';
 }
 
-function fOpenSwap(name) {
-  _fSwapOutName = name;
-  const panel = document.getElementById('fSwapPanel');
-  const label = document.getElementById('fSwapOut');
-  const srch  = document.getElementById('fSwapSearch');
-  const res   = document.getElementById('fSwapResults');
-  if (!panel) return;
-  if (label) label.textContent = 'Swapping out: '+name+' (costs 1 transfer)';
-  if (srch)  srch.value='';
-  if (res)   res.style.display='none';
+function fOpenSwap(name){
+  _fSwapOut=name;
+  const panel=document.getElementById('fSwapPanel');
+  const label=document.getElementById('fSwapLabel');
+  const srch=document.getElementById('fSwapSearch');
+  const res=document.getElementById('fSwapResults');
+  if(!panel)return;
+  if(label)label.textContent='Swapping out: '+name+' (costs 1 transfer)';
+  if(srch)srch.value='';
+  if(res)res.style.display='none';
   panel.style.display='';
 }
 
-function fSearchSwap(q) {
-  const el = document.getElementById('fSwapResults');
-  if (!el) return;
-  q = q.trim().toLowerCase();
-  if (!q) { el.style.display='none'; return; }
-  const team  = fantasyLoad();
-  const squad = new Set((team&&team.riders||[]).map(r=>r.name));
-  const matches = getAllRiders().filter(r=>(r.name||'').toLowerCase().includes(q)&&!squad.has(r.name)).slice(0,12);
-  if (!matches.length) { el.style.display='block'; el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.85rem">No riders found</div>'; return; }
+function fCloseSwap(){
+  const p=document.getElementById('fSwapPanel');if(p)p.style.display='none';
+}
+
+function fSearchSwap(q){
+  const el=document.getElementById('fSwapResults');if(!el)return;
+  q=q.trim().toLowerCase();
+  if(!q){el.style.display='none';return;}
+  const team=fantasyLoad();
+  const squad=new Set((team&&team.riders||[]).map(r=>r.name));
+  const matches=getAllRiders().filter(r=>(r.name||'').toLowerCase().includes(q)&&!squad.has(r.name)).slice(0,12);
+  if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
   el.style.display='block';
-  el.innerHTML = matches.map(r=>
-    '<div onclick="fDoSwap('+JSON.stringify(r.name)+')" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)">' +
-      (r.nat?'<img src="https://cyclingflash.com/svg/flags/'+esc(r.nat)+'.svg" width="16" height="12">'  :'') +
-      '<span style="flex:1;font-size:.88rem">'+esc(r.name)+'</span>' +
-      '<span style="font-size:.75rem;color:var(--muted)">'+esc(r.teamName||'')+'</span>' +
-      '<span style="color:#2dd36f;font-weight:700">IN</span>' +
-    '</div>'
+  el.innerHTML=matches.map(r=>
+    '<div data-doswap="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)">'
+      +flag(r.nat)
+      +'<span style="flex:1;font-size:.88rem">'+esc(r.name)+'</span>'
+      +'<span style="font-size:.75rem;color:var(--muted)">'+esc(r.teamName||'')+'</span>'
+      +'<span style="color:#2dd36f;font-weight:700">IN</span>'
+    +'</div>'
   ).join('');
+  el.querySelectorAll('[data-doswap]').forEach(node=>node.addEventListener('click',()=>fDoSwap(node.dataset.doswap)));
 }
 
-function fDoSwap(inName) {
-  const team = fantasyLoad();
-  if (!team) return;
-  if ((team.transfers_used||0) >= team.transfers_total) { alert('No transfers remaining!'); return; }
-  const inR = getAllRiders().find(r=>r.name===inName);
-  if (!inR) return;
-  team.riders = team.riders.map(r=>r.name===_fSwapOutName ? inR : r);
-  team.transfers_used = (team.transfers_used||0)+1;
-  fantasySave(team);
-  renderFantasy();
+function fDoSwap(inName){
+  const team=fantasyLoad();if(!team)return;
+  if((team.transfers_used||0)>=team.transfers_total){alert('No transfers remaining!');return;}
+  const inR=getAllRiders().find(r=>r.name===inName);if(!inR)return;
+  team.riders=team.riders.map(r=>r.name===_fSwapOut?inR:r);
+  team.transfers_used=(team.transfers_used||0)+1;
+  fantasySave(team);renderFantasy();
 }
 
-function renderLeagueTable(teams) {
-  const medals = ['🥇','🥈','🥉'];
-  const single = teams.length===1 && teams[0].isMine;
-  return '<div style="margin-bottom:16px">' +
-    '<div class="group-header">🏆 League Table</div>' +
-    '<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">' +
-      teams.map((t,i)=>
-        '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;'+(t.isMine?'background:rgba(67,97,238,.1)':'')+'">' +
-          '<span style="font-size:1.1rem;min-width:26px">'+(medals[i]||('<span style="color:var(--muted);font-weight:700">'+(i+1)+'</span>'))+'</span>' +
-          '<div style="flex:1;min-width:0">' +
-            '<div style="font-weight:600;font-size:.92rem;display:flex;align-items:center;gap:6px">'+esc(t.name)+(t.isMine?' <span style="font-size:.68rem;background:var(--upcoming);color:#fff;padding:1px 6px;border-radius:10px">YOU</span>':'')+'</div>' +
-            '<div style="font-size:.76rem;color:var(--muted)">'+esc(t.owner)+'</div>' +
-          '</div>' +
-          '<span style="font-size:1.2rem;font-weight:800;color:var(--gold)">'+t.points+'</span>' +
-        '</div>'
-      ).join('') +
-      '<div style="padding:10px 14px">' +
-        (single?'<div style="font-size:.82rem;color:var(--muted);margin-bottom:8px">Share your export code with friends — they import it here to build a league.</div>':'') +
-        '<button onclick="fImportTeam()" style="width:100%;padding:9px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.82rem;font-weight:600;cursor:pointer">+ Import a Friend's Team</button>' +
-      '</div>' +
-    '</div>' +
-  '</div>';
+// ── League Table ──────────────────────────────────────────────────────────────
+
+function renderLeagueTable(teams){
+  const medals=['🥇','🥈','🥉'];
+  const single=teams.length===1&&teams[0].isMine;
+  return '<div style="margin-bottom:16px">'
+    +'<div class="group-header">🏆 League Table</div>'
+    +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">'
+      +teams.map((t,i)=>
+        '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;'+(t.isMine?'background:rgba(67,97,238,.1)':'')+'">'
+          +'<span style="font-size:1.1rem;min-width:26px">'+(medals[i]||(i+1))+'</span>'
+          +'<div style="flex:1;min-width:0">'
+            +'<div style="font-weight:600;font-size:.92rem">'+esc(t.name)+(t.isMine?' <span style="font-size:.68rem;background:var(--upcoming);color:#fff;padding:1px 6px;border-radius:10px">YOU</span>':'')+'</div>'
+            +'<div style="font-size:.76rem;color:var(--muted)">'+esc(t.owner)+'</div>'
+          +'</div>'
+          +'<span style="font-size:1.2rem;font-weight:800;color:var(--gold)">'+t.points+'</span>'
+        +'</div>'
+      ).join('')
+      +'<div style="padding:10px 14px">'
+        +(single?'<div style="font-size:.82rem;color:var(--muted);margin-bottom:8px">Share your export code with friends to build a league.</div>':'')
+        +'<button onclick="fImportTeam()" style="width:100%;padding:9px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.82rem;font-weight:600;cursor:pointer">+ Import a Friend\'s Team</button>'
+      +'</div>'
+    +'</div>'
+  +'</div>';
 }
 
-function renderWatchlist(watchlist) {
-  const allRaces = [...(appData.recent||[]), ...(appData.live||[])];
-  const watched = watchlist.map(w=>{
-    let wins=0, top3=0, pts=0;
-    for (const race of allRaces) {
-      for (const stage of (race.stages||[])) {
+// ── Watchlist ─────────────────────────────────────────────────────────────────
+
+function renderWatchlist(watchlist){
+  const allRaces=[...(appData.recent||[]),...(appData.live||[])];
+  const watched=watchlist.map(w=>{
+    let wins=0,top3=0,pts=0;
+    for(const race of allRaces){
+      for(const stage of (race.stages||[])){
         const r=(stage.top10||[]).find(r=>normName(r.name)===normName(w.name));
         if(r){if(r.rank===1)wins++;if(r.rank<=3)top3++;pts+=(STAGE_PTS[r.rank]||0);}
       }
       const cl=race.classifications||{};
       for(const r of (cl.gc||[])){if(normName(r.name)===normName(w.name)){pts+=(GC_PTS[r.rank]||0);}}
     }
-    return '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;position:relative">' +
-      '<button onclick="fRemoveWatch('+JSON.stringify(w.name)+')" style="position:absolute;top:8px;right:8px;background:none;border:none;color:var(--muted);font-size:.85rem;cursor:pointer;line-height:1">✕</button>' +
-      (w.nat?'<img src="https://cyclingflash.com/svg/flags/'+esc(w.nat)+'.svg" width="22" height="16" style="margin-bottom:4px">':'') +
-      '<div style="font-size:.88rem;font-weight:700;margin-bottom:8px;padding-right:24px">'+esc(w.name)+'</div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center">' +
-        '<div style="background:var(--surface2);border-radius:5px;padding:6px 4px"><div style="font-size:1.1rem;font-weight:800;color:var(--gold)">'+wins+'</div><div style="font-size:.62rem;color:var(--muted);letter-spacing:.5px">WINS</div></div>' +
-        '<div style="background:var(--surface2);border-radius:5px;padding:6px 4px"><div style="font-size:1.1rem;font-weight:800">'+top3+'</div><div style="font-size:.62rem;color:var(--muted);letter-spacing:.5px">TOP 3</div></div>' +
-        '<div style="background:var(--surface2);border-radius:5px;padding:6px 4px"><div style="font-size:1.1rem;font-weight:800;color:var(--upcoming)">'+pts+'</div><div style="font-size:.62rem;color:var(--muted);letter-spacing:.5px">PTS</div></div>' +
-      '</div>' +
-    '</div>';
+    return '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;position:relative">'
+      +'<button data-unwatch="'+esc(w.name)+'" style="position:absolute;top:8px;right:8px;background:none;border:none;color:var(--muted);font-size:.85rem;cursor:pointer;line-height:1">✕</button>'
+      +(w.nat?'<img src="https://cyclingflash.com/svg/flags/'+esc(w.nat)+'.svg" width="22" height="16" style="margin-bottom:4px">':'')
+      +'<div style="font-size:.88rem;font-weight:700;margin-bottom:8px;padding-right:24px">'+esc(w.name)+'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center">'
+        +'<div style="background:var(--surface2);border-radius:5px;padding:6px 4px"><div style="font-size:1.1rem;font-weight:800;color:var(--gold)">'+wins+'</div><div style="font-size:.62rem;color:var(--muted)">WINS</div></div>'
+        +'<div style="background:var(--surface2);border-radius:5px;padding:6px 4px"><div style="font-size:1.1rem;font-weight:800">'+top3+'</div><div style="font-size:.62rem;color:var(--muted)">TOP 3</div></div>'
+        +'<div style="background:var(--surface2);border-radius:5px;padding:6px 4px"><div style="font-size:1.1rem;font-weight:800;color:var(--upcoming)">'+pts+'</div><div style="font-size:.62rem;color:var(--muted)">PTS</div></div>'
+      +'</div>'
+    +'</div>';
   });
 
-  const canAdd = watchlist.length < MAX_WATCH;
-  const addCard = canAdd ?
-    '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">' +
-      '<div style="font-size:.78rem;color:var(--muted);margin-bottom:6px">Follow a rider</div>' +
-      '<input id="fWatchSearch" type="search" placeholder="Search rider…" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:.85rem;outline:none" oninput="fSearchWatch(this.value)">' +
-      '<div id="fWatchResults" style="max-height:160px;overflow-y:auto;margin-top:6px;display:none;border:1px solid var(--border);border-radius:6px;background:var(--surface2)"></div>' +
-    '</div>' : '';
+  const canAdd=watchlist.length<MAX_WATCH;
+  const addCard=canAdd?'<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">'
+    +'<div style="font-size:.78rem;color:var(--muted);margin-bottom:6px">Follow a rider</div>'
+    +'<input id="fWatchSearch" type="search" placeholder="Search rider…" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:.85rem;outline:none" oninput="fSearchWatch(this.value)">'
+    +'<div id="fWatchResults" style="max-height:160px;overflow-y:auto;margin-top:6px;display:none;border:1px solid var(--border);border-radius:6px;background:var(--surface2)"></div>'
+  +'</div>':'';
 
-  return '<div>' +
-    '<div class="group-header">👁 Rider Watchlist ('+watchlist.length+'/'+MAX_WATCH+')</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
-      watched.join('') + addCard +
-    '</div>' +
-  '</div>';
+  return '<div>'
+    +'<div class="group-header">👁 Rider Watchlist ('+watchlist.length+'/'+MAX_WATCH+')</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
+      +watched.join('')+addCard
+    +'</div>'
+  +'</div>';
 }
 
-function fSearchWatch(q) {
-  const el = document.getElementById('fWatchResults');
-  if (!el) return;
-  q = q.trim().toLowerCase();
-  if (!q) { el.style.display='none'; return; }
-  const watched = new Set(watchLoad().map(w=>w.name));
-  const matches = getAllRiders().filter(r=>(r.name||'').toLowerCase().includes(q)&&!watched.has(r.name)).slice(0,10);
-  if (!matches.length) { el.style.display='block'; el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.82rem">No riders found</div>'; return; }
+function fSearchWatch(q){
+  const el=document.getElementById('fWatchResults');if(!el)return;
+  q=q.trim().toLowerCase();
+  if(!q){el.style.display='none';return;}
+  const watched=new Set(watchLoad().map(w=>w.name));
+  const matches=getAllRiders().filter(r=>(r.name||'').toLowerCase().includes(q)&&!watched.has(r.name)).slice(0,10);
+  if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.82rem">No riders found</div>';return;}
   el.style.display='block';
-  el.innerHTML = matches.map(r=>
-    '<div onclick="fAddWatch('+JSON.stringify(r.name)+','+JSON.stringify(r.nat||'')+','+JSON.stringify(r.slug||'')+' )" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)">' +
-      (r.nat?'<img src="https://cyclingflash.com/svg/flags/'+esc(r.nat)+'.svg" width="16" height="12">'  :'') +
-      '<span style="flex:1;font-size:.85rem">'+esc(r.name)+'</span>' +
-      '<span style="color:var(--upcoming);font-weight:700">+</span>' +
-    '</div>'
+  el.innerHTML=matches.map(r=>
+    '<div data-addwatch="'+esc(r.name)+'" data-nat="'+esc(r.nat||'')+'" data-slug="'+esc(r.slug||'')+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)">'
+      +flag(r.nat)
+      +'<span style="flex:1;font-size:.85rem">'+esc(r.name)+'</span>'
+      +'<span style="color:var(--upcoming);font-weight:700">+</span>'
+    +'</div>'
   ).join('');
+  el.querySelectorAll('[data-addwatch]').forEach(node=>node.addEventListener('click',()=>fAddWatch(node.dataset.addwatch,node.dataset.nat||'',node.dataset.slug||'')));
 }
 
-function fAddWatch(name, nat, slug) {
-  const w = watchLoad();
-  if (w.length >= MAX_WATCH || w.find(x=>x.name===name)) return;
-  watchSave([...w, {name, nat:nat||'', slug:slug||''}]);
+function fAddWatch(name,nat,slug){
+  const w=watchLoad();
+  if(w.length>=MAX_WATCH||w.find(x=>x.name===name))return;
+  watchSave([...w,{name,nat:nat||'',slug:slug||''}]);
   renderFantasy();
 }
 
-function fRemoveWatch(name) {
+function fRemoveWatch(name){
   watchSave(watchLoad().filter(w=>w.name!==name));
   renderFantasy();
 }
 
-function fExportTeam() {
-  const team = fantasyLoad();
-  if (!team) return;
-  const {total} = computePoints((team.riders||[]).map(r=>r.name));
-  const code = btoa(unescape(encodeURIComponent(JSON.stringify({...team, points:total}))));
-  navigator.clipboard && navigator.clipboard.writeText(code).catch(()=>{});
-  const box = document.createElement('div');
-  box.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;width:90%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.5)';
-  box.innerHTML =
-    '<div style="font-weight:700;margin-bottom:10px">📤 Your Team Code</div>' +
-    '<div style="font-size:.72rem;color:var(--muted);margin-bottom:8px">Share this with friends so they can import your team.</div>' +
-    '<textarea readonly style="width:100%;height:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-size:.72rem;resize:none;word-break:break-all;font-family:monospace">'+code+'</textarea>' +
-    '<div style="font-size:.75rem;color:#2dd36f;margin:6px 0">✓ Copied to clipboard</div>' +
-    '<button onclick="this.parentElement.remove()" style="width:100%;padding:10px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer;margin-top:4px">Done</button>';
+// ── Export / Import ───────────────────────────────────────────────────────────
+
+function fExportTeam(){
+  const team=fantasyLoad();if(!team)return;
+  const{total}=computePoints((team.riders||[]).map(r=>r.name));
+  const code=btoa(unescape(encodeURIComponent(JSON.stringify({...team,points:total}))));
+  navigator.clipboard&&navigator.clipboard.writeText(code).catch(()=>{});
+  const box=fModal(
+    '📤 Your Team Code',
+    '<div style="font-size:.72rem;color:var(--muted);margin-bottom:8px">Share this with friends so they can import your team.</div>'
+    +'<textarea readonly style="width:100%;height:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-size:.72rem;resize:none;word-break:break-all;font-family:monospace">'+esc(code)+'</textarea>'
+    +'<div style="font-size:.75rem;color:#2dd36f;margin:6px 0">✓ Copied to clipboard</div>'
+  );
+  box.querySelector('button').textContent='Done';
+}
+
+function fImportTeam(){
+  fModal(
+    '📥 Import a Team',
+    '<div style="font-size:.82rem;color:var(--muted);margin-bottom:10px">Paste a team export code:</div>'
+    +'<textarea id="fImportBox" style="width:100%;height:90px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-size:.72rem;font-family:monospace;resize:none;outline:none" placeholder="Paste code here…"></textarea>',
+    function(){
+      const box=document.getElementById('fImportBox');
+      if(box)fDoImport(box.value);
+    },'Import'
+  );
+}
+
+function fModal(title,body,onConfirm,confirmLabel){
+  const box=document.createElement('div');
+  box.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;width:90%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
+  const btns=onConfirm
+    ?'<button id="fModalCancel" style="flex:1;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-weight:600;cursor:pointer">Cancel</button>'
+     +'<button id="fModalOk" style="flex:1;padding:10px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">'+(confirmLabel||'OK')+'</button>'
+    :'<button id="fModalOk" style="width:100%;padding:10px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">Done</button>';
+  box.innerHTML='<div style="font-weight:700;margin-bottom:10px">'+title+'</div>'+body+'<div style="display:flex;gap:8px;margin-top:12px">'+btns+'</div>';
   document.body.appendChild(box);
+  box.querySelector('#fModalOk').addEventListener('click',()=>{if(onConfirm)onConfirm();box.remove();});
+  const cancel=box.querySelector('#fModalCancel');
+  if(cancel)cancel.addEventListener('click',()=>box.remove());
+  return box;
 }
 
-function fImportTeam() {
-  const box = document.createElement('div');
-  box.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;width:90%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.5)';
-  box.innerHTML =
-    '<div style="font-weight:700;margin-bottom:10px">📥 Import a Team</div>' +
-    '<div style="font-size:.82rem;color:var(--muted);margin-bottom:10px">Paste a team export code:</div>' +
-    '<textarea id="fImportBox" style="width:100%;height:90px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-size:.72rem;font-family:monospace;resize:none;outline:none" placeholder="Paste code here…"></textarea>' +
-    '<div style="display:flex;gap:8px;margin-top:10px">' +
-      '<button onclick="this.closest('div[style]').remove()" style="flex:1;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-weight:600;cursor:pointer">Cancel</button>' +
-      '<button onclick="fDoImport(document.getElementById('fImportBox').value);this.closest('div[style]').remove()" style="flex:1;padding:10px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">Import</button>' +
-    '</div>';
-  document.body.appendChild(box);
+function fDoImport(code){
+  try{
+    const team=JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
+    if(!team.name||!team.owner||!Array.isArray(team.riders))throw new Error('bad');
+    const league=leagueLoad();
+    const idx=league.findIndex(t=>t.owner===team.owner&&t.name===team.name);
+    if(idx>=0)league[idx]=team;else league.push(team);
+    leagueSave(league);renderFantasy();
+    alert('"'+team.name+'" ('+team.owner+') added!');
+  }catch(e){alert('Invalid code. Ask your friend to re-export.');}
 }
 
-function fDoImport(code) {
-  try {
-    const team = JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
-    if (!team.name||!team.owner||!Array.isArray(team.riders)) throw new Error('bad');
-    const league = leagueLoad();
-    const idx = league.findIndex(t=>t.owner===team.owner&&t.name===team.name);
-    if (idx>=0) league[idx]=team; else league.push(team);
-    leagueSave(league);
-    renderFantasy();
-    alert('"'+team.name+'" ('+team.owner+') added to league!');
-  } catch(e) { alert('Invalid code. Ask your friend to re-export.'); }
-}
-
-function fDeleteTeam() {
-  if (!confirm('Delete your fantasy team? This cannot be undone.')) return;
+function fDeleteTeam(){
+  if(!confirm('Delete your fantasy team? This cannot be undone.'))return;
   localStorage.removeItem(FANTASY_TEAM_KEY);
   renderFantasy();
 }
+
 
 </script>
 </body>
