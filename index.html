@@ -1244,6 +1244,7 @@ async function loadData(force=false) {
     renderUpcoming(appData.upcoming || []);
     renderRecent(appData.recent || []);
     renderTeams(appData.teams || []);
+    buildRiderCosts();
     if (currentTab === 'fantasy') renderFantasy();
     const defaultTab = (appData.live||[]).length ? 'live' : 'upcoming';
     showSec(defaultTab, document.getElementById('nav-' + defaultTab));
@@ -1340,12 +1341,57 @@ const FANTASY_WATCH_KEY  = 'fantasy_watchlist';
 const MAX_SQUAD     = 12;
 const MAX_TRANSFERS = 5;
 const MAX_WATCH     = 10;
+const FANTASY_BUDGET = 125;   // total credits per team
+const COST_FLOOR    = 4;      // cheapest rider
+const COST_CEIL     = 22;     // most expensive rider (sqrt-scaled from race results)
 const STAGE_PTS = {1:25,2:12,3:8,4:3,5:3,6:3,7:3,8:3,9:3,10:3};
 const GC_PTS    = {1:50,2:30,3:20,4:8,5:8,6:8,7:8,8:8,9:8,10:8};
 const JERSEY_PTS = 15;
 
 let _fPicked = [];
 let _fSwapOut = null;
+let _riderCosts = {};   // name → credit cost
+
+function buildRiderCosts(){
+  // Compute form score for every rider from race results
+  const scores={};
+  for(const section of ['recent','live']){
+    for(const race of (appData[section]||[])){
+      for(const stage of (race.stages||[])){
+        for(const r of (stage.top10||[])){
+          if(r.name) scores[r.name]=(scores[r.name]||0)+(STAGE_PTS[r.rank]||0);
+        }
+      }
+      const cl=race.classifications||{};
+      for(const r of (cl.gc||[])){
+        if(r.name) scores[r.name]=(scores[r.name]||0)+(GC_PTS[r.rank]||0);
+      }
+      for(const key of ['points','mountain','youth']){
+        const lst=cl[key]||[];
+        if(lst[0]&&lst[0].name) scores[lst[0].name]=(scores[lst[0].name]||0)+JERSEY_PTS;
+      }
+    }
+  }
+  const maxPts=Math.max(...Object.values(scores),1);
+  _riderCosts={};
+  for(const [name,pts] of Object.entries(scores)){
+    _riderCosts[name]=Math.max(COST_FLOOR, Math.round(COST_FLOOR+(COST_CEIL-COST_FLOOR)*Math.sqrt(pts/maxPts)));
+  }
+}
+
+function riderCost(name){ return _riderCosts[name]||COST_FLOOR; }
+function squadCost(riders){ return riders.reduce((s,r)=>s+riderCost(r.name||r),0); }
+
+function costColor(c){
+  if(c>=18) return '#ef4444';   // red — premium
+  if(c>=12) return '#f97316';   // orange — mid-tier
+  if(c>=8)  return '#eab308';   // yellow — value
+  return 'var(--muted)';         // grey — budget
+}
+function costBadge(name){
+  const c=riderCost(name);
+  return '<span style="font-size:.72rem;font-weight:700;color:'+costColor(c)+';background:rgba(0,0,0,.25);border-radius:4px;padding:1px 5px;min-width:22px;text-align:center">'+c+'</span>';
+}
 
 function fantasyLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_TEAM_KEY)||'null');}catch(e){return null;}}
 function fantasySave(t){localStorage.setItem(FANTASY_TEAM_KEY,JSON.stringify(t));}
@@ -1443,8 +1489,9 @@ function renderFantasySetup(){
       +'<input id="fTeamName" type="text" placeholder="e.g. Alpe Allstars" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
       +'<div style="margin-bottom:14px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Owner Name</label>'
       +'<input id="fOwnerName" type="text" placeholder="Your name" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
-      +'<div style="font-size:.8rem;color:var(--muted);background:rgba(67,97,238,.1);border-radius:6px;padding:10px;margin-bottom:14px">'
-        +'Pick <strong style="color:var(--text)">12 riders</strong>. You get <strong style="color:var(--accent)">5 transfers</strong> for the whole season.</div>'
+      +'<div style="font-size:.8rem;color:var(--muted);background:rgba(67,97,238,.1);border-radius:6px;padding:10px;margin-bottom:10px">'
+        +'Pick <strong style="color:var(--text)">12 riders</strong> within a <strong style="color:var(--accent)">'+FANTASY_BUDGET+' cr</strong> budget. You get <strong style="color:var(--accent)">5 transfers</strong> for the season.</div>'
+      +'<div id="fBudgetBar" style="margin-bottom:10px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:6px"></div>'
       +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Add Riders <span id="fPickCount" style="color:var(--accent);font-weight:700">0</span>/12</label>'
       +'<input id="fRiderSearch" type="search" placeholder="Type a name to search riders…" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)" onfocus="fSearchRiders(this.value)">'
       +'<div id="fRiderResults" style="max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>'
@@ -1452,6 +1499,7 @@ function renderFantasySetup(){
     +'<div id="fPickedList" style="margin-bottom:14px"></div>'
     +'<button onclick="fCreateTeam()" style="width:100%;padding:14px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer">✅ Create Team</button>'
   +'</div>';
+  setTimeout(()=>updateBudgetBar(squadCost(_fPicked)),0);
 }
 
 function fSearchRiders(q){
@@ -1477,14 +1525,18 @@ function fSearchRiders(q){
   }
   if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:12px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
   el.style.display='block';
-  el.innerHTML=matches.map(r=>
-    '<div data-pick="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:background .15s" onmouseenter="this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
+  const spent=squadCost(_fPicked);
+  const remaining=FANTASY_BUDGET-spent;
+  el.innerHTML=matches.map(r=>{
+    const c=riderCost(r.name);
+    const canAfford=c<=remaining&&_fPicked.length<MAX_SQUAD;
+    return '<div data-pick="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:background .15s;opacity:'+(canAfford?'1':'.45')+'" onmouseenter="this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
       +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
       +'<span style="flex:1;font-size:.9rem">'+esc(r.name)+'</span>'
-      +'<span style="font-size:.75rem;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.teamName||'')+'</span>'
-      +'<span style="color:var(--upcoming);font-weight:700;margin-left:6px">+</span>'
-    +'</div>'
-  ).join('');
+      +'<span style="font-size:.75rem;color:var(--muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.teamName||'')+'</span>'
+      +costBadge(r.name)
+    +'</div>';
+  }).join('');
   el.querySelectorAll('[data-pick]').forEach(node=>node.addEventListener('click',()=>fPickRider(node.dataset.pick)));
 }
 
@@ -1492,6 +1544,9 @@ function fPickRider(name){
   if(_fPicked.length>=MAX_SQUAD){alert('Squad full!');return;}
   const r=getAllRiders().find(r=>r.name===name);
   if(!r||_fPicked.find(p=>p.name===name))return;
+  const cost=riderCost(name);
+  const spent=squadCost(_fPicked);
+  if(spent+cost>FANTASY_BUDGET){alert('Not enough budget! '+name+' costs '+cost+' cr but you only have '+(FANTASY_BUDGET-spent)+' cr left.');return;}
   _fPicked.push(r);
   const cnt=document.getElementById('fPickCount');if(cnt)cnt.textContent=_fPicked.length;
   const srch=document.getElementById('fRiderSearch');if(srch)srch.value='';
@@ -1507,19 +1562,36 @@ function fRemovePicked(name){
 
 function renderPickedList(){
   const el=document.getElementById('fPickedList');if(!el)return;
-  if(!_fPicked.length){el.innerHTML='';return;}
-  el.innerHTML='<div style="font-size:.8rem;color:var(--muted);margin-bottom:8px">'+_fPicked.length+' rider'+(_fPicked.length>1?'s':'')+' selected</div>'
-    +'<div style="display:flex;flex-direction:column;gap:4px">'
+  if(!_fPicked.length){el.innerHTML='';updateBudgetBar(0);return;}
+  const spent=squadCost(_fPicked);
+  const remaining=FANTASY_BUDGET-spent;
+  el.innerHTML='<div style="display:flex;flex-direction:column;gap:4px">'
     +_fPicked.map(r=>
       '<div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 12px;display:flex;align-items:center;gap:8px">'
-        +flag(r.nat)
+        +(r.nat?flag(r.nat):'<span style="width:16px;display:inline-block"></span>')
         +'<span style="flex:1;font-size:.9rem;font-weight:600">'+esc(r.name)+'</span>'
-        +'<span style="font-size:.75rem;color:var(--muted)">'+esc(r.teamName||'')+'</span>'
+        +costBadge(r.name)
         +'<button data-unpick="'+esc(r.name)+'" style="background:none;border:none;color:var(--live);font-size:1rem;cursor:pointer;padding:0 4px">✕</button>'
       +'</div>'
     ).join('')
     +'</div>';
   el.querySelectorAll('[data-unpick]').forEach(node=>node.addEventListener('click',()=>fRemovePicked(node.dataset.unpick)));
+  updateBudgetBar(spent);
+}
+
+function updateBudgetBar(spent){
+  const bar=document.getElementById('fBudgetBar');if(!bar)return;
+  const pct=Math.min(100,Math.round(spent/FANTASY_BUDGET*100));
+  const remaining=FANTASY_BUDGET-spent;
+  const col=remaining<10?'var(--live)':remaining<30?'#f97316':'var(--upcoming)';
+  bar.innerHTML=
+    '<div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px">'
+      +'<span style="color:var(--muted)">Budget</span>'
+      +'<span><strong style="color:'+col+'">'+remaining+' cr left</strong> <span style="color:var(--muted)">/ '+FANTASY_BUDGET+'</span></span>'
+    +'</div>'
+    +'<div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">'
+      +'<div style="height:100%;width:'+pct+'%;background:'+col+';border-radius:3px;transition:width .3s"></div>'
+    +'</div>';
 }
 
 function fCreateTeam(){
@@ -1537,15 +1609,20 @@ function renderMySquad(team,total,breakdown){
   const left=team.transfers_total-(team.transfers_used||0);
   const tCol=left===0?'var(--live)':left<=2?'var(--accent)':'#2dd36f';
 
+  const totalCost=squadCost(team.riders);
   const rows=team.riders.map(r=>{
     const rpts=breakdown.filter(b=>normName(b.rider)===normName(r.name)).reduce((s,b)=>s+b.pts,0);
-    return '<div style="padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">'
+    return '<div style="padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px">'
       +(r.nat?flag(r.nat):'<span style="width:16px;display:inline-block"></span>')
-      +'<span style="flex:1;font-size:.9rem;font-weight:600">'+esc(r.name)+'</span>'
-      +(rpts>0?'<span style="font-size:.82rem;font-weight:700;color:var(--gold)">'+rpts+' pts</span>':'<span style="font-size:.78rem;color:var(--muted)">—</span>')
+      +'<span style="flex:1;font-size:.88rem;font-weight:600">'+esc(r.name)+'</span>'
+      +costBadge(r.name)
+      +(rpts>0?'<span style="font-size:.82rem;font-weight:700;color:var(--gold);min-width:42px;text-align:right">'+rpts+' pts</span>':'<span style="font-size:.78rem;color:var(--muted);min-width:42px;text-align:right">—</span>')
       +(left>0?'<button data-swap="'+esc(r.name)+'" style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--muted);font-size:.72rem;padding:3px 7px;cursor:pointer">Swap</button>':'')
     +'</div>';
-  }).join('');
+  }).join('')
+  +'<div style="padding:8px 16px;font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;border-top:2px solid var(--border)">'
+    +'<span>Squad cost</span><span style="font-weight:700;color:var(--text)">'+totalCost+' / '+FANTASY_BUDGET+' cr</span>'
+  +'</div>';
 
   let bdHtml='';
   if(breakdown.length){
@@ -1623,14 +1700,21 @@ function fSearchSwap(q){
   if(!all.length){el.style.display='block';el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.85rem">No rider data yet.</div>';return;}
   if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
   el.style.display='block';
-  el.innerHTML=matches.map(r=>
-    '<div data-doswap="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);transition:background .15s" onmouseenter="this.style.background=\'var(--surface2)\'" onmouseleave="this.style.background=\'\'">'
+  const curCost=squadCost(team&&team.riders||[]);
+  const outCost=riderCost(_fSwapOut||'');
+  el.innerHTML=matches.map(r=>{
+    const c=riderCost(r.name);
+    const netChange=c-outCost;
+    const affordable=(curCost-outCost+c)<=FANTASY_BUDGET;
+    const changeStr=netChange>0?'+'+netChange:netChange===0?'±0':''+netChange;
+    const changeCol=netChange>0?'var(--live)':netChange<0?'#2dd36f':'var(--muted)';
+    return '<div data-doswap="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);transition:background .15s;opacity:'+(affordable?'1':'.4')+'" onmouseenter="this.style.background=\'var(--surface2)\'" onmouseleave="this.style.background=\'\'">'
       +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
       +'<span style="flex:1;font-size:.88rem">'+esc(r.name)+'</span>'
-      +'<span style="font-size:.75rem;color:var(--muted);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.teamName||'')+'</span>'
-      +'<span style="color:#2dd36f;font-weight:700;margin-left:6px">IN</span>'
-    +'</div>'
-  ).join('');
+      +costBadge(r.name)
+      +'<span style="font-size:.72rem;font-weight:700;color:'+changeCol+';min-width:26px;text-align:right">'+changeStr+'</span>'
+    +'</div>';
+  }).join('');
   el.querySelectorAll('[data-doswap]').forEach(node=>node.addEventListener('click',()=>fDoSwap(node.dataset.doswap)));
 }
 
@@ -1638,6 +1722,12 @@ function fDoSwap(inName){
   const team=fantasyLoad();if(!team)return;
   if((team.transfers_used||0)>=team.transfers_total){alert('No transfers remaining!');return;}
   const inR=getAllRiders().find(r=>r.name===inName);if(!inR)return;
+  // Budget check: remove outgoing rider cost, add incoming
+  const outCost=riderCost(_fSwapOut);
+  const inCost=riderCost(inName);
+  const currentCost=squadCost(team.riders);
+  const newCost=currentCost-outCost+inCost;
+  if(newCost>FANTASY_BUDGET){alert('Over budget! Swapping in '+inName+' ('+inCost+' cr) would take your squad to '+newCost+' cr — budget is '+FANTASY_BUDGET+' cr.');return;}
   team.riders=team.riders.map(r=>r.name===_fSwapOut?inR:r);
   team.transfers_used=(team.transfers_used||0)+1;
   fantasySave(team);renderFantasy();
@@ -1813,4 +1903,4 @@ function fDeleteTeam(){
 
 </script>
 </body>
-</html>                                                          
+</html>                            
