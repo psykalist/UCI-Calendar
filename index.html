@@ -7,10 +7,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Kieran's UCI Calendar">
+<meta name="apple-mobile-web-app-title" content="Men's UCI Road Calendar">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Kieran's UCI Calendar</title>
+<title>Men's UCI Road Calendar</title>
 <style>
 :root {
   --bg:       #0f1117;
@@ -301,11 +301,12 @@ header h1 span { color: var(--accent); }
 
 /* ── Stage type badges & detail info ── */
 .stage-type-badge { display: inline-block; font-size: .62rem; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; vertical-align: middle; margin-right: 2px; flex-shrink: 0; }
-.stage-type-badge.mountain { background: #6c3483; color: #fff; }
-.stage-type-badge.hilly    { background: #c0392b; color: #fff; }
-.stage-type-badge.flat     { background: #27ae60; color: #fff; }
-.stage-type-badge.ITT      { background: #2980b9; color: #fff; }
-.stage-type-badge.TTT      { background: #16a085; color: #fff; }
+.stage-type-badge.mountain        { background: #6c3483; color: #fff; }
+.stage-type-badge.medium_mountain { background: #9b59b6; color: #fff; }
+.stage-type-badge.hilly           { background: #c0392b; color: #fff; }
+.stage-type-badge.flat            { background: #27ae60; color: #fff; }
+.stage-type-badge.ITT             { background: #2980b9; color: #fff; }
+.stage-type-badge.TTT             { background: #16a085; color: #fff; }
 .stage-info-line { font-size: .74rem; color: var(--muted); padding: 0 12px 7px; margin-top: -4px; }
 .stage-description { font-size: .82rem; line-height: 1.55; color: var(--text); padding: 8px 12px 12px; border-top: 1px solid var(--border); }
 
@@ -647,7 +648,7 @@ header h1 span { color: var(--accent); }
 
 <header>
   <div class="header-top">
-    <h1>🚴 Kieran's <span>UCI Calendar</span></h1>
+    <h1>🚴 Men's <span>UCI Road Calendar</span></h1>
     <div class="header-actions">
       <button id="install-btn" onclick="installPWA()">⬇ Install</button>
       <button class="refresh-btn" onclick="refreshData()" title="Refresh">↻</button>
@@ -664,6 +665,15 @@ header h1 span { color: var(--accent); }
   <span class="filter-chip race-chip" onclick="setFilter('PRO',this)">Pro Series</span>
   <span class="filter-chip team-chip" onclick="setFilter('PRO',this)" style="display:none">ProTeam</span>
   <span class="filter-chip race-chip" onclick="setFilter('1.1',this)">1.1 / 2.1</span>
+</div>
+<div class="filter-bar" id="filter-bar-stages" style="margin-top:4px">
+  <span style="font-size:0.72rem;opacity:0.6;align-self:center;margin-right:4px">Min stages:</span>
+  <span class="filter-chip stages-chip active" onclick="setMinStages(1,this)">All</span>
+  <span class="filter-chip stages-chip" onclick="setMinStages(2,this)">2+</span>
+  <span class="filter-chip stages-chip" onclick="setMinStages(5,this)">5+</span>
+  <span class="filter-chip stages-chip" onclick="setMinStages(7,this)">7+</span>
+  <span class="filter-chip stages-chip" onclick="setMinStages(14,this)">14+</span>
+  <span class="filter-chip stages-chip" onclick="setMinStages(21,this)">21 (GT)</span>
 </div>
 
 <main>
@@ -734,24 +744,36 @@ function showSec(name, btn) {
 // ── Filter ─────────────────────────────────────────────────────────────────────
 
 let curFilter = 'ALL';
+let curMinStages = 1;
 
 function setFilter(f, el) {
   curFilter = f;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('#filter-bar .filter-chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
-  applyFilter(f);
+  applyFilters();
 }
 
-function applyFilter(f) {
+function setMinStages(n, el) {
+  curMinStages = n;
+  document.querySelectorAll('.stages-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const f = curFilter;
+  const minS = curMinStages;
   // Race cards
   document.querySelectorAll('.race-card').forEach(card => {
     const cat = (card.dataset.cat || '').toUpperCase();
+    const stages = parseInt(card.dataset.stages || '1', 10);
     let show = true;
     if      (f === 'GRANDTOURS') show = card.dataset.grandtour === 'true';
     else if (f === 'MONUMENTS')  show = card.dataset.monument  === 'true';
     else if (f === 'UWT')        show = cat.includes('UWT');
     else if (f === 'PRO')        show = cat.includes('PRO');
     else if (f === '1.1')        show = cat.startsWith('1.') || (cat.startsWith('2.') && !cat.includes('UWT') && !cat.includes('PRO'));
+    if (show && minS > 1)        show = stages >= minS;
     card.style.display = show ? '' : 'none';
   });
   // Team cards — hide for race-specific filters
@@ -765,6 +787,8 @@ function applyFilter(f) {
     card.style.display = show ? '' : 'none';
   });
 }
+
+function applyFilter(f) { applyFilters(); }
 
 // ── Top-10 table ───────────────────────────────────────────────────────────────
 
@@ -837,7 +861,7 @@ function renderStageImages(s) {
 function renderStageBadge(s) {
   const t = s.stage_type;
   if (!t) return '';
-  const labels = { mountain: '⛰ Mountain', hilly: '〰 Hilly', flat: '▬ Flat', ITT: '⏱ ITT', TTT: '⏱ TTT' };
+  const labels = { mountain: '⛰ Mountain', medium_mountain: '🏔 Med Mountain', hilly: '〰 Hilly', flat: '▬ Flat', ITT: '⏱ ITT', TTT: '⏱ TTT' };
   return `<span class="stage-type-badge ${esc(t)}">${labels[t] || esc(t)}</span>`;
 }
 
@@ -938,7 +962,7 @@ function renderRaceCard(race, status) {
   const isMonument  = MONUMENT_NAMES.some(m => (race.name||'').includes(m));
   const isGrandTour = (race.total_stages||1) >= 21;
 
-  return `<div class="race-card ${status}-card" id="${id}" data-cat="${esc(race.category||'')}" data-monument="${isMonument}" data-grandtour="${isGrandTour}">
+  return `<div class="race-card ${status}-card" id="${id}" data-cat="${esc(race.category||'')}" data-monument="${isMonument}" data-grandtour="${isGrandTour}" data-stages="${total}">
     <div class="race-header" onclick="toggleCard('${id}')">
       <div class="race-title">
         <div class="race-name">${esc(race.name||race.slug)}</div>
