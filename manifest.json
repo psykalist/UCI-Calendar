@@ -1,7 +1,7 @@
 {
-  "name": "Kieran's UCI Calendar",
-  "short_name": "Kieran's UCI",
-  "description": "Live UCI cycling race calendar with results, stage winners and classifications",
+  "name": "Men's UCI Road Calendar",
+  "short_name": "UCI Road",
+  "description": "Live men's UCI road race calendar with results, stage winners and classifications",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",

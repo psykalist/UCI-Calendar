@@ -382,6 +382,20 @@ def parse_race_info(slug, html, debug=False):
     )
     if stage_nums:
         info["total_stages"] = max(int(n) for n in stage_nums)
+    else:
+        # Fallback: infer from date span when stage links aren't published yet.
+        # A span > 1 day means it's a stage race; use (span - rest_days_estimate) as count.
+        try:
+            from datetime import datetime as _dt
+            d1 = _dt.strptime(info.get("start_date", ""), "%Y-%m-%d")
+            d2 = _dt.strptime(info.get("end_date", ""), "%Y-%m-%d")
+            span = (d2 - d1).days + 1
+            if span >= 4:
+                # Subtract 1 rest day for races ≥7 days, 0 otherwise
+                rest = 1 if span >= 7 else 0
+                info["total_stages"] = span - rest
+        except Exception:
+            pass
 
     return info
 
@@ -490,7 +504,7 @@ def scrape_classification(slug, stage_num, cls_type):
 
 # ── Stage detail scraping ──────────────────────────────────────────────────────
 
-def scrape_stage_details(slug, stage_num):
+def scrape_stage_details(slug, stage_num, year=None):
     """Fetch /race/{slug}/stages/stage-{n} and return a details dict, or None."""
     url = f"{BASE_URL}/race/{slug}/stages/stage-{stage_num}"
     html = fetch(url)
@@ -554,18 +568,15 @@ def scrape_stage_details(slug, stage_num):
         if ev:
             elevation_m = int(ev.group(1).replace(",", ""))
 
-    # ── 4. Stage type classification ──────────────────────────────────────────
+    # ── 4. Stage type classification (with PCS fallback for elevation) ─────────
     type_combined = (type_raw + " " + stage_type_raw).lower()
-    if "team time trial" in type_combined:
-        stage_type = "TTT"
-    elif "time trial" in type_combined or "individual time trial" in type_combined:
-        stage_type = "ITT"
-    elif elevation_m and elevation_m > 2500:
-        stage_type = "mountain"
-    elif elevation_m and elevation_m > 1200:
-        stage_type = "hilly"
-    else:
-        stage_type = "flat"
+    pcs_parcours = None
+    if not elevation_m and year and "time trial" not in type_combined:
+        pcs_elev, pcs_parcours = fetch_pcs_elevation(slug, stage_num, year)
+        if pcs_elev:
+            elevation_m = pcs_elev
+            print(f"          [PCS] stage {stage_num}: {elevation_m}m")
+    stage_type = classify_stage_type(type_combined, elevation_m, pcs_parcours)
 
     # ── 5. Description paragraphs ─────────────────────────────────────────────
     body = re.sub(r'<(script|style|nav|header|footer)[^>]*>[\s\S]*?</\1>', '', html, flags=re.IGNORECASE)
@@ -595,6 +606,79 @@ def scrape_stage_details(slug, stage_num):
     if height_profile_img:
         details["height_profile_img"] = height_profile_img
     return details
+
+
+# ── ProCyclingStats fallback for elevation ─────────────────────────────────────
+PCS_BASE = "https://www.procyclingstats.com"
+
+# Maps cyclingflash slug (without year) → procyclingstats slug
+PCS_SLUG_MAP = {
+    "vuelta-a-espana":              "vuelta-a-espana",
+    "tour-de-france":               "tour-de-france",
+    "giro-ditalia":                 "giro-d-italia",
+    "tour-de-suisse":               "tour-de-suisse",
+    "postnord-tour-of-denmark":     "tour-of-denmark",
+    "critarium-du-dauphine":        "criterium-du-dauphine",
+    "paris-nice":                   "paris-nice",
+    "tirreno-adriatico":            "tirreno-adriatico",
+    "volta-a-catalunya":            "volta-a-catalunya",
+    "tour-of-the-basque-country":   "itzulia-basque-country",
+    "tour-de-romandie":             "tour-de-romandie",
+    "tour-de-wallonie":             "tour-de-wallonie",
+    "tour-de-pologne":              "tour-de-pologne",
+    "benelux-tour":                 "benelux-tour",
+    "tour-of-britain":              "tour-of-britain",
+    "vuelta-burgos":                "vuelta-a-burgos",
+}
+
+def _pcs_slug(cf_slug):
+    """Convert a cyclingflash race slug (may include year) to a PCS slug."""
+    base = re.sub(r'-20\d{2}$', '', cf_slug)
+    return PCS_SLUG_MAP.get(base, base)
+
+
+def fetch_pcs_elevation(cf_slug, stage_num, year):
+    """
+    Fallback: fetch vertical meters from procyclingstats.com.
+    Returns (elevation_m, parcours_str) or (None, None).
+    """
+    pcs_slug = _pcs_slug(cf_slug)
+    url = f"{PCS_BASE}/race/{pcs_slug}/{year}/stage-{stage_num}"
+    html = fetch(url)
+    if not html:
+        return None, None
+    vm_m = re.search(
+        r'Vertical meters[\s\S]{0,300}?<div[^>]*>([\d,]+)</div>',
+        html, re.IGNORECASE
+    )
+    elevation_m = int(vm_m.group(1).replace(',', '')) if vm_m else None
+    pt_m = re.search(r'parcours[_-]type[^"]*"[^>]*>\s*<img[^>]+alt="([^"]+)"', html, re.IGNORECASE)
+    parcours = pt_m.group(1).lower() if pt_m else None
+    return elevation_m, parcours
+
+
+def classify_stage_type(type_combined, elevation_m, parcours=None):
+    """Central stage type classifier."""
+    if "team time trial" in type_combined:
+        return "TTT"
+    if "time trial" in type_combined or "individual time trial" in type_combined:
+        return "ITT"
+    if parcours:
+        if "mountain" in parcours and "medium" not in parcours:
+            return "mountain"
+        if "medium" in parcours:
+            return "medium_mountain"
+        if "hilly" in parcours or "semi" in parcours or "uphill" in parcours:
+            return "hilly"
+        if "flat" in parcours:
+            return "flat"
+    if elevation_m:
+        if elevation_m > 2500:
+            return "mountain"
+        if elevation_m > 1000:
+            return "hilly"
+        return "flat"
+    return "flat"
 
 SKIP_SLUG = re.compile(r'-(we|wj|wu|mu|mj|ju)-|(-we|-wj|-wu|-mu|-mj|-ju)$')
 
@@ -987,7 +1071,7 @@ def main():
 
             # Fetch stage details (date, distance, elevation, type, description) if not cached
             if not has_details:
-                details = scrape_stage_details(slug, n)
+                details = scrape_stage_details(slug, n, year=year)
                 time.sleep(DELAY)
                 if details:
                     # Don't overwrite existing height_profile_img from result page
