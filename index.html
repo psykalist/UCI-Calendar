@@ -1408,13 +1408,11 @@ const normName = n => (n||'').toLowerCase().replace(/[^a-z]/g,' ').replace(/\s+/
 
 function getAllRiders(){
   const riders=[],seen=new Set();
-  // 1. Team rosters (full peloton once scraper has run)
   for(const team of (appData.teams||[])){
     for(const r of (team.riders||[])){
       if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:r.slug||'',nat:r.nat||'',photo:r.photo||'',teamName:team.name});}
     }
   }
-  // 2. Race results — always merged so no scorer is ever missing
   for(const section of ['recent','live','upcoming']){
     for(const race of (appData[section]||[])){
       for(const stage of (race.stages||[])){
@@ -1480,6 +1478,7 @@ function renderFantasy(){
   const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at).total}))];
   allTeams.sort((a,b)=>b.points-a.points);
   el.innerHTML='<div style="max-width:480px;margin:0 auto;padding:16px">'
+    +renderHowToPlay()
     +renderRulesCard()
     +'</div>'
     +renderLeagueTable(allTeams)+renderMySquad(myTeam,total,breakdown)+renderWatchlist(watchLoad());
@@ -1495,6 +1494,58 @@ function renderFantasy(){
 function flag(nat){return nat?'<img src="https://cyclingflash.com/svg/flags/'+esc(nat)+'.svg" width="16" height="12" style="flex-shrink:0">'  :'';}
 
 // ── Setup form ───────────────────────────────────────────────────────────────
+
+
+function renderHowToPlay(){
+  return '<details style="margin-bottom:14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden" open>'
+    +'<summary style="padding:14px 16px;font-weight:700;font-size:.95rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">'
+      +'<span>&#128101; How the League Works</span>'
+      +'<span style="font-size:.75rem;color:var(--muted);font-weight:400">tap to collapse</span>'
+    +'</summary>'
+    +'<div style="padding:0 16px 16px">'
+      // Step 1
+      +'<div style="display:flex;gap:12px;margin-bottom:14px;padding-top:4px">'
+        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">1&#65039;&#8419;</span>'
+        +'<div>'
+          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Everyone creates their own team</div>'
+          +'<div style="font-size:.82rem;color:var(--muted)">Pick 12 riders on your own phone or computer. Set a 4-digit PIN to protect your team. Points are counted from your creation date onwards.</div>'
+        +'</div>'
+      +'</div>'
+      // Step 2
+      +'<div style="display:flex;gap:12px;margin-bottom:14px">'
+        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">2&#65039;&#8419;</span>'
+        +'<div>'
+          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Share your team code</div>'
+          +'<div style="font-size:.82rem;color:var(--muted)">After creating your team, tap <strong>&#128228; Share Code</strong> in the My Squad section. A short code is copied to your clipboard — paste it into your group chat (WhatsApp, iMessage, etc.).</div>'
+        +'</div>'
+      +'</div>'
+      // Step 3
+      +'<div style="display:flex;gap:12px;margin-bottom:14px">'
+        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">3&#65039;&#8419;</span>'
+        +'<div>'
+          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Import your friends&#39; codes</div>'
+          +'<div style="font-size:.82rem;color:var(--muted)">Tap <strong>+ Import a Friend&#39;s Team</strong> at the bottom of the League Table and paste their code. Do this once for each friend.</div>'
+        +'</div>'
+      +'</div>'
+      // Step 4
+      +'<div style="display:flex;gap:12px;margin-bottom:14px">'
+        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">4&#65039;&#8419;</span>'
+        +'<div>'
+          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Points update daily</div>'
+          +'<div style="font-size:.82rem;color:var(--muted)">Race results are scraped every day. Open the app and the leaderboard refreshes automatically — no action needed.</div>'
+        +'</div>'
+      +'</div>'
+      // Step 5
+      +'<div style="display:flex;gap:12px">'
+        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">5&#65039;&#8419;</span>'
+        +'<div>'
+          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Made a transfer? Re-share your code</div>'
+          +'<div style="font-size:.82rem;color:var(--muted)">If you swap a rider, tap <strong>&#128228; Share Code</strong> again and paste the new code in the group chat. Friends tap <strong>+ Import</strong> to update their copy of your team.</div>'
+        +'</div>'
+      +'</div>'
+    +'</div>'
+  +'</details>';
+}
 
 function renderRulesCard(){
   return '<details style="background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden">'
@@ -1555,6 +1606,7 @@ function renderFantasySetup(){
   const draftOwner=(draft&&draft.owner)||'';
   const html = '<div style="max-width:480px;margin:0 auto;padding:16px">'
     +'<div class="group-header" style="padding-top:4px">&#127942; Create Your Fantasy Team</div>'
+    +renderHowToPlay()
     +renderRulesCard()
     +'<div style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px">'
       +'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">'
