@@ -1594,7 +1594,7 @@ function renderHowToPlay(){
       +'<div style="display:flex;gap:12px;margin-bottom:14px;padding-top:4px">'
         +'<span style="font-size:1.3rem;flex-shrink:0">1&#65039;&#8419;</span>'
         +'<div><div style="font-weight:700;font-size:.9rem;margin-bottom:2px">Everyone creates their own team</div>'
-        +'<div style="font-size:.82rem;color:var(--muted)">Pick 12 riders on your own phone or computer. Set a 4-digit PIN to protect your team. Points count from your creation date onwards.</div></div>'
+        +'<div style="font-size:.82rem;color:var(--muted)">Pick 9 riders on your own phone or computer. Set a 4-digit PIN to protect your team. Points count from your creation date onwards.</div></div>'
       +'</div>'
       +'<div style="display:flex;gap:12px;margin-bottom:14px">'
         +'<span style="font-size:1.3rem;flex-shrink:0">2&#65039;&#8419;</span>'
@@ -1686,14 +1686,14 @@ function renderFantasySetup(){
         +'<span style="font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase">Squad</span>'
         +'<span style="display:flex;align-items:baseline;gap:6px">'
           +'<span id="fPickCount" style="font-size:1.6rem;font-weight:800;color:'+progCol+';line-height:1">'+n+'</span>'
-          +'<span style="font-size:.78rem;color:var(--muted)">/ 12 riders</span>'
+          +'<span style="font-size:.78rem;color:var(--muted)">/ 9 riders</span>'
         +'</span>'
       +'</div>'
       +'<div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:4px">'
         +'<div id="fSquadBar" style="height:100%;width:'+progPct+'%;background:'+progCol+';border-radius:4px;transition:width .3s ease"></div>'
       +'</div>'
       +'<div id="fSquadMsg" style="font-size:.75rem;color:var(--muted);text-align:center">'
-        +(n===MAX_SQUAD?'Squad complete \u2014 ready to create!':(n===0?'Pick 12 riders to build your team':('Need '+(MAX_SQUAD-n)+' more rider'+(MAX_SQUAD-n===1?'':'s'))))
+        +(n===MAX_SQUAD?'Squad complete \u2014 ready to create!':(n===0?'Pick 9 riders to build your team':('Need '+(MAX_SQUAD-n)+' more rider'+(MAX_SQUAD-n===1?'':'s'))))
       +'</div>'
     +'</div>'
     +'<div id="fBudgetBar" style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px"></div>'
@@ -1711,7 +1711,7 @@ function renderFantasySetup(){
       +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Team PIN <span style="font-weight:400;font-size:.76rem">(4 digits — protects your team on this device)</span></label>'
       +'<input id="fTeamPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:1.2rem;letter-spacing:8px;outline:none">'
     +'</div>'
-    +'<button id="fCreateBtn" onclick="fCreateTeam()" style="width:100%;padding:14px;background:'+(n===MAX_SQUAD?'var(--upcoming)':'var(--border)')+';border:none;border-radius:8px;color:'+(n===MAX_SQUAD?'#fff':'var(--muted)')+';font-size:1rem;font-weight:700;cursor:'+(n===MAX_SQUAD?'pointer':'not-allowed')+'"'+(n===MAX_SQUAD?'':' disabled')+'>'+(n===MAX_SQUAD?'\u2705 Create Team':'Pick 12 Riders to Continue')+'</button>'
+    +'<button id="fCreateBtn" onclick="fCreateTeam()" style="width:100%;padding:14px;background:'+(n===MAX_SQUAD?'var(--upcoming)':'var(--border)')+';border:none;border-radius:8px;color:'+(n===MAX_SQUAD?'#fff':'var(--muted)')+';font-size:1rem;font-weight:700;cursor:'+(n===MAX_SQUAD?'pointer':'not-allowed')+'"'+(n===MAX_SQUAD?'':' disabled')+'>'+(n===MAX_SQUAD?'\u2705 Create Team':'Pick 9 Riders to Continue')+'</button>'
   +'</div>';
   setTimeout(()=>{updateBudgetBar(squadCost(_fPicked));renderPickedList();},0);
   return html;
@@ -1755,7 +1755,7 @@ function fSearchRiders(q){
 }
 
 function fPickRider(name){
-  if(_fPicked.length>=MAX_SQUAD){alert('Squad full! You need exactly 12 riders.');return;}
+  if(_fPicked.length>=MAX_SQUAD){alert('Squad full! You need exactly 9 riders.');return;}
   const r=getAllRiders().find(r=>r.name===name);
   if(!r||_fPicked.find(p=>p.name===name))return;
   const cost=riderCost(name);
@@ -1786,11 +1786,11 @@ function _fUpdateSquadUI(){
   const cnt=document.getElementById('fPickCount');if(cnt){cnt.textContent=n;cnt.style.color=progCol;}
   const bar=document.getElementById('fSquadBar');if(bar){bar.style.width=progPct+'%';bar.style.background=progCol;}
   const msg=document.getElementById('fSquadMsg');
-  if(msg)msg.textContent=n===MAX_SQUAD?'Squad complete — ready to create!':(n===0?'Pick 12 riders to build your team':('Need '+(MAX_SQUAD-n)+' more rider'+(MAX_SQUAD-n===1?'':'s')));
+  if(msg)msg.textContent=n===MAX_SQUAD?'Squad complete — ready to create!':(n===0?'Pick 9 riders to build your team':('Need '+(MAX_SQUAD-n)+' more rider'+(MAX_SQUAD-n===1?'':'s')));
   const btn=document.getElementById('fCreateBtn');
   if(btn){
     if(n===MAX_SQUAD){btn.disabled=false;btn.style.background='var(--upcoming)';btn.style.color='#fff';btn.style.cursor='pointer';btn.textContent='✅ Create Team';}
-    else{btn.disabled=true;btn.style.background='var(--border)';btn.style.color='var(--muted)';btn.style.cursor='not-allowed';btn.textContent='Pick 12 Riders to Continue';}
+    else{btn.disabled=true;btn.style.background='var(--border)';btn.style.color='var(--muted)';btn.style.cursor='not-allowed';btn.textContent='Pick 9 Riders to Continue';}
   }
 }
 
@@ -1849,7 +1849,7 @@ function fCreateTeam(){
   const name=nameEl?nameEl.value.trim():'',owner=ownerEl?ownerEl.value.trim():'';
   const pin=(pinEl?pinEl.value:'').trim();
   if(!name||!owner){alert('Please enter a team name and owner name.');return;}
-  if(_fPicked.length!==MAX_SQUAD){alert('You must pick exactly 12 riders. You have '+_fPicked.length+'.');return;}
+  if(_fPicked.length!==MAX_SQUAD){alert('You must pick exactly 9 riders. You have '+_fPicked.length+'.');return;}
   if(!/^\d{4}$/.test(pin)){alert('Please set a 4-digit PIN to protect your team.');return;}
   fantasySave({name,owner,riders:[..._fPicked],transfers_used:0,transfers_total:MAX_TRANSFERS,created_at:new Date().toISOString(),pin_hash:_pinHash(pin)});
   draftClear();
@@ -2135,51 +2135,4 @@ function fModal(title,body,onConfirm,confirmLabel){
   box.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;width:90%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
   const btns=onConfirm
     ?'<button id="fModalCancel" style="flex:1;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-weight:600;cursor:pointer">Cancel</button>'
-     +'<button id="fModalOk" style="flex:1;padding:10px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">'+(confirmLabel||'OK')+'</button>'
-    :'<button id="fModalOk" style="width:100%;padding:10px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">Done</button>';
-  box.innerHTML='<div style="font-weight:700;margin-bottom:10px">'+title+'</div>'+body+'<div style="display:flex;gap:8px;margin-top:12px">'+btns+'</div>';
-  document.body.appendChild(box);
-  box.querySelector('#fModalOk').addEventListener('click',()=>{if(onConfirm)onConfirm();box.remove();});
-  const cancel=box.querySelector('#fModalCancel');
-  if(cancel)cancel.addEventListener('click',()=>box.remove());
-  return box;
-}
-
-function fDoImport(code){
-  try{
-    const team=JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
-    if(!team.name||!team.owner||!Array.isArray(team.riders))throw new Error('bad');
-    const league=leagueLoad();
-    const idx=league.findIndex(t=>t.owner===team.owner&&t.name===team.name);
-    if(idx>=0)league[idx]=team;else league.push(team);
-    leagueSave(league);renderFantasy();
-    alert('"'+team.name+'" ('+team.owner+') added!');
-  }catch(e){alert('Invalid code. Ask your friend to re-export.');}
-}
-
-function fDeleteTeam(){
-  const team=fantasyLoad();if(!team)return;
-  if(!confirm('Delete your fantasy team? This cannot be undone.'))return;
-  fVerifyPin(team,'delete your team',()=>{
-    localStorage.removeItem(FANTASY_TEAM_KEY);
-    _fPicked=[];
-    renderFantasy();
-  });
-}
-
-
-
-
-// ── What's New banner ─────────────────────────────────────────────────────────
-const WN_SEEN_KEY = 'wn_last_seen';
-
-async function loadChangelog() {
-  try {
-    const res = await fetch('changelog.json?_=' + Date.now());
-    if (!res.ok) return;
-    const cl = await res.json();
-    const entries = cl.entries || [];
-    if (!entries.length) return;
-
-    const lastSeen = localStorage.getItem(WN_SEEN_KEY) || '';
-    const unseen = entries
+     +'<butto
