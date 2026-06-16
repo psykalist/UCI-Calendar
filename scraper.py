@@ -47,7 +47,7 @@ UCI_CATS = {"1.UWT", "2.UWT", "1.Pro", "2.Pro", "1.1", "2.1"}
 
 # ── Team lists (WorldTeam + ProTeam only) ──────────────────────────────────────
 
-MAX_NEW_RIDERS_PER_RUN = 9999  # No effective cap — fetch all outstanding profiles
+MAX_NEW_RIDERS_PER_RUN = 50    # Max new rider profiles per run (runs incrementally)
 
 WORLD_TEAMS = [
     "alpecin-premier-tech-2026",
@@ -125,21 +125,27 @@ def flag_emoji(code):
 # ── HTTP fetch ─────────────────────────────────────────────────────────────────
 
 def fetch(url, retries=3):
+    short = url.replace("https://cyclingflash.com", "").replace("https://www.procyclingstats.com", "[PCS]")
+    print(f"    GET {short}", flush=True)
     for attempt in range(retries):
         try:
             req = Request(url, headers=HEADERS)
             with urlopen(req, timeout=REQUEST_TIMEOUT) as r:
-                return r.read().decode("utf-8", errors="replace")
+                data = r.read().decode("utf-8", errors="replace")
+                print(f"        ✓ {len(data):,} chars", flush=True)
+                return data
         except HTTPError as e:
             if e.code in (404, 410):
-                return None          # Not found — don't retry
-            print(f"    HTTP {e.code} for {url}")
+                print(f"        ✗ HTTP {e.code} (skipping)", flush=True)
+                return None
+            print(f"        ✗ HTTP {e.code} (attempt {attempt+1}/{retries})", flush=True)
             if attempt < retries - 1:
                 time.sleep(2 ** attempt)
         except (URLError, OSError) as e:
-            print(f"    Fetch error {url}: {e}")
+            print(f"        ✗ {e} (attempt {attempt+1}/{retries})", flush=True)
             if attempt < retries - 1:
                 time.sleep(2 ** attempt)
+    print(f"        ✗ All retries failed", flush=True)
     return None
 
 
@@ -292,7 +298,7 @@ def parse_race_info(slug, html, debug=False):
         debug_path = f"debug_html_{slug}.txt"
         with open(debug_path, "w", encoding="utf-8") as f:
             f.write(html)
-        print(f"    [debug] HTML saved to {debug_path}")
+        print(f"    [debug] HTML saved to {debug_path}", flush=True)
 
     info = {"slug": slug, "total_stages": 1}
 
@@ -575,7 +581,7 @@ def scrape_stage_details(slug, stage_num, year=None):
         pcs_elev, pcs_parcours = fetch_pcs_elevation(slug, stage_num, year)
         if pcs_elev:
             elevation_m = pcs_elev
-            print(f"          [PCS] stage {stage_num}: {elevation_m}m")
+            print(f"          [PCS] stage {stage_num}: {elevation_m}m", flush=True)
     stage_type = classify_stage_type(type_combined, elevation_m, pcs_parcours)
 
     # ── 5. Description paragraphs ─────────────────────────────────────────────
@@ -712,13 +718,13 @@ def discover_races_from_calendar():
         html = fetch(url)
         time.sleep(DELAY)
         if not html:
-            print(f"    [calendar] Could not fetch {url}")
+            print(f"    [calendar] Could not fetch {url}", flush=True)
             continue
         slugs = _slugs_from_html(html)
         new = [s for s in slugs if s not in found]
         for s in new:
             found[s] = {"status": "unknown", "last_stage": None}
-        print(f"    [calendar] {url.split('/')[-1]}: {len(slugs)} slugs ({len(new)} new)")
+        print(f"    [calendar] {url.split('/')[-1]}: {len(slugs)} slugs ({len(new)} new)", flush=True)
     return found
 
 
@@ -919,14 +925,14 @@ def scrape_teams():
     teams = []
     pairs = [(s, 'UWT') for s in WORLD_TEAMS] + [(s, 'Pro') for s in PRO_TEAMS]
     for slug, cat in pairs:
-        print(f"  {slug}")
+        print(f"  {slug}", flush=True)
         team = scrape_team(slug, cat)
         time.sleep(DELAY)
         if team:
-            print(f"    {team['name']} — {len(team['riders'])} riders")
+            print(f"    {team['name']} — {len(team['riders'])} riders", flush=True)
             teams.append(team)
         else:
-            print(f"    [skip] fetch failed")
+            print(f"    [skip] fetch failed", flush=True)
     return teams
 
 
@@ -934,8 +940,8 @@ def scrape_teams():
 
 def main():
     now_human = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
-    print(f"\nUCI Scraper (CyclingFlash) — {now_human}")
-    print("=" * 60)
+    print(f"\nUCI Scraper (CyclingFlash) — {now_human}", flush=True)
+    print("=" * 60, flush=True)
 
     # Load existing cache for stage data we don't need to re-fetch
     cache = {}
@@ -943,9 +949,9 @@ def main():
         try:
             with open(OUTPUT_FILE, encoding="utf-8") as f:
                 cache = json.load(f)
-            print(f"  Cache: {OUTPUT_FILE} loaded")
+            print(f"  Cache: {OUTPUT_FILE} loaded", flush=True)
         except Exception as e:
-            print(f"  Cache: could not load ({e})")
+            print(f"  Cache: could not load ({e})", flush=True)
 
     cache_by_slug = {
         r["cf_slug"]: r
@@ -954,14 +960,14 @@ def main():
     }
 
     # ── 1. Discover races ─────────────────────────────────────────────────────
-    print("\n[1/4] Discovering races...")
+    print("\n[1/4] Discovering races...", flush=True)
 
     # Primary: structured calendar pages (full season)
-    print("  Scraping calendar pages...")
+    print("  Scraping calendar pages...", flush=True)
     discovered = discover_races_from_calendar()
 
     # Supplement with homepage (catches live races not yet on calendar)
-    print("  Supplementing with homepage...")
+    print("  Supplementing with homepage...", flush=True)
     for slug, info in discover_races_from_homepage().items():
         if slug not in discovered:
             discovered[slug] = info
@@ -971,10 +977,10 @@ def main():
         if slug not in discovered:
             discovered[slug] = {"status": "unknown", "last_stage": None}
 
-    print(f"  Found {len(discovered)} candidate races")
+    print(f"  Found {len(discovered)} candidate races", flush=True)
 
     # ── 2. Fetch race details ─────────────────────────────────────────────────
-    print("\n[2/4] Fetching race details...")
+    print("\n[2/4] Fetching race details...", flush=True)
 
     live_races     = []
     upcoming_races = []
@@ -982,13 +988,13 @@ def main():
     stage_winners_to_refresh = set()  # Stage winners from freshly scraped (non-cached) results
 
     for slug, disc in discovered.items():
-        print(f"\n  → {slug}")
+        print(f"\n  → {slug}", flush=True)
 
         # Fetch race info page
         info_html = fetch(f"{BASE_URL}/race/{slug}")
         time.sleep(DELAY)
         if not info_html:
-            print("    [skip] Could not fetch race info")
+            print("    [skip] Could not fetch race info", flush=True)
             continue
 
         # Enable debug for first qualifying race to inspect raw HTML
@@ -1000,18 +1006,18 @@ def main():
             info["name"], info["category"] = ALWAYS_INCLUDE[slug]
 
         if not info.get("name"):
-            print("    [skip] Could not parse race name")
+            print("    [skip] Could not parse race name", flush=True)
             continue
 
         # Skip cancelled races (CyclingFlash prefixes name with "CANCELLED:")
         if info["name"].upper().startswith("CANCELLED"):
-            print(f"    [skip] Cancelled race")
+            print(f"    [skip] Cancelled race", flush=True)
             continue
 
         # Filter by category
         cat = info.get("category", "")
         if slug not in ALWAYS_INCLUDE and not any(cat.startswith(c) for c in UCI_CATS):
-            print(f"    [skip] Category {cat!r} not in target list")
+            print(f"    [skip] Category {cat!r} not in target list", flush=True)
             continue
 
         start_date   = info.get("start_date", "")
@@ -1026,7 +1032,7 @@ def main():
         year_m = re.search(r'-(20\d\d)$', slug)
         year   = year_m.group(1) if year_m else ""
 
-        print(f"    {name} | {category} | {total_stages} stages | {status}")
+        print(f"    {name} | {category} | {total_stages} stages | {status}", flush=True)
 
         race_obj = {
             "slug":         re.sub(r'-20\d\d$', '', slug),   # short slug for compat
@@ -1064,7 +1070,7 @@ def main():
             continue
 
         # ── Multi-stage: find completed stages ───────────────────────────────
-        print(f"    Finding completed stages (probing 1-{total_stages})...")
+        print(f"    Finding completed stages (probing 1-{total_stages})...", flush=True)
         cached_race   = cache_by_slug.get(slug)
         cached_stages_results = {s["num"]: s for s in (cached_race or {}).get("stages", []) if s.get("top10")}
         cached_stages_details = {s["num"]: s for s in (cached_race or {}).get("stages", []) if s.get("distance_km")}
@@ -1084,7 +1090,7 @@ def main():
                 if completed_nums:
                     break  # First gap after results = not yet run
 
-        print(f"    Completed: {completed_nums}")
+        print(f"    Completed: {completed_nums}", flush=True)
         race_obj["stages_completed"] = len(completed_nums)
 
         # Build stages list
@@ -1096,7 +1102,7 @@ def main():
                 if n in cached_stages_results:
                     stage_obj = dict(cached_stages_results[n])
                     w = stage_obj.get("winner", "cached")
-                    print(f"      Stage {n}: cached ({w})")
+                    print(f"      Stage {n}: cached ({w})", flush=True)
                 else:
                     rows, winner, height_profile, route_img = scrape_stage(slug, n)
                     time.sleep(DELAY)
@@ -1115,13 +1121,13 @@ def main():
                         win_slug = winner.get("rider_url", "").replace("/profile/", "").strip("/")
                         if win_slug:
                             stage_winners_to_refresh.add(win_slug)
-                    print(f"      Stage {n}: {winner['name'] if winner else 'no data'}")
+                    print(f"      Stage {n}: {winner['name'] if winner else 'no data'}", flush=True)
             else:
                 # Upcoming stage — start from cached details or blank placeholder
                 if has_details:
                     stage_obj = dict(cached_stages_details[n])
                     stage_obj.setdefault("top10", [])
-                    print(f"      Stage {n}: upcoming (details cached)")
+                    print(f"      Stage {n}: upcoming (details cached)", flush=True)
                 else:
                     stage_obj = {
                         "num": n, "label": f"Stage {n}",
@@ -1139,7 +1145,7 @@ def main():
                     if stage_obj.get("height_profile_img"):
                         details.pop("height_profile_img", None)
                     stage_obj.update(details)
-                    print(f"        Stage {n} details: {details.get('distance_km','?')}km {details.get('stage_type','?')}")
+                    print(f"        Stage {n} details: {details.get('distance_km','?')}km {details.get('stage_type','?')}", flush=True)
 
             stages.append(stage_obj)
 
@@ -1155,7 +1161,7 @@ def main():
         # ── Classifications ───────────────────────────────────────────────────
         if completed_nums:
             last_n = completed_nums[-1]
-            print(f"    Classifications after stage {last_n}...")
+            print(f"    Classifications after stage {last_n}...", flush=True)
             cls_map = {
                 "gc":       ("gc_leader",     "gc_top10"),
                 "points":   ("points_leader", "points_top10"),
@@ -1168,133 +1174,4 @@ def main():
                 if rows:
                     leader = rows[0]
                     race_obj[leader_key] = f"{leader['flag']} {leader['name']}"
-                    race_obj[top10_key]  = rows
-                    print(f"      {cls_key}: {leader['name']}")
-                else:
-                    print(f"      {cls_key}: no data")
-
-        if status == "upcoming":
-            upcoming_races.append(race_obj)
-        elif status == "live":
-            live_races.append(race_obj)
-        else:
-            recent_races.append(race_obj)
-
-    # ── 3. Scrape teams ───────────────────────────────────────────────────────
-    print("\n[3/4] Scraping teams (WorldTeam + ProTeam)...")
-    teams_data = scrape_teams()
-    print(f"  Teams scraped: {len(teams_data)}")
-
-    # ── 3b. Rider profiles (incremental cache) ───────────────────────────────
-    print("\n[3b/4] Rider profiles (incremental)...")
-    rider_profiles = dict(cache.get("rider_profiles", {}))
-
-    # Collect slugs from race results first (stage top-10, GC/points/KOM/youth top-10)
-    result_slugs = []
-    seen = set()
-    for race in live_races + recent_races:
-        for stage in race.get("stages", []):
-            for row in stage.get("top10", []):
-                slug = row.get("rider_url", "").replace("/profile/", "").strip("/")
-                if slug and not row.get("is_ttt") and slug not in seen:
-                    result_slugs.append(slug)
-                    seen.add(slug)
-        for key in ("gc_top10", "points_top10", "kom_top10", "youth_top10"):
-            for row in race.get(key, []):
-                slug = row.get("rider_url", "").replace("/profile/", "").strip("/")
-                if slug and slug not in seen:
-                    result_slugs.append(slug)
-                    seen.add(slug)
-
-    # Then add team roster riders
-    roster_slugs = [
-        r["slug"]
-        for team in teams_data
-        for r in team.get("riders", [])
-        if r.get("slug") and r["slug"] not in seen
-    ]
-
-    # Priority order: result riders first, then roster
-    priority_order = result_slugs + roster_slugs
-    all_slugs = set(result_slugs) | set(roster_slugs)
-    uncached = [s for s in priority_order if s not in rider_profiles]
-    # Always re-fetch profiles for today's stage winners (palmares may have updated)
-    refresh_existing = [s for s in priority_order if s in stage_winners_to_refresh and s in rider_profiles]
-    to_fetch = refresh_existing + uncached[:MAX_NEW_RIDERS_PER_RUN]
-    print(f"  Riders total: {len(all_slugs)} | cached: {len(rider_profiles)} | new: {len(uncached)} | refreshing winners: {len(refresh_existing)} | fetching: {len(to_fetch)}")
-
-    for slug in to_fetch:
-        profile = scrape_rider_profile(slug)
-        if profile:
-            rider_profiles[slug] = profile
-            tag = "↺" if slug in stage_winners_to_refresh else "+"
-            print(f"  {tag} {profile.get('nat','??')} {slug}: {len(profile.get('wins',[]))} wins")
-        else:
-            print(f"  {slug}: failed")
-
-    # Merge photo + wins into each team's rider list
-    for team in teams_data:
-        for rider in team.get("riders", []):
-            p = rider_profiles.get(rider.get("slug", ""))
-            if p:
-                rider["photo"] = p.get("photo")
-                rider["dob"]   = p.get("dob")
-                rider["wins"]  = p.get("wins", [])
-
-    # ── 3c. Startlists for upcoming races ────────────────────────────────────
-    print("\n[3c/4] Scraping startlists for upcoming races...")
-    cached_startlists = {
-        r.get("cf_slug"): r.get("startlist", [])
-        for r in cache.get("upcoming", [])
-        if r.get("startlist")
-    }
-    for race_obj in upcoming_races:
-        cf_slug = race_obj.get("cf_slug", "")
-        start_date = race_obj.get("startdate", "") or race_obj.get("start_date", "")
-        # Only fetch if race starts within 14 days (avoids fetching far-future stubs)
-        try:
-            days_away = (datetime.strptime(start_date, "%Y-%m-%d").date() - datetime.now(timezone.utc).date()).days
-        except Exception:
-            days_away = 999
-        if cf_slug in cached_startlists:
-            race_obj["startlist"] = cached_startlists[cf_slug]
-            print(f"  {race_obj.get('name','?')}: startlist cached ({len(race_obj['startlist'])} riders)")
-        elif days_away <= 21:
-            year = race_obj.get("year", datetime.now(timezone.utc).year)
-            sl = scrape_startlist(cf_slug, year)
-            race_obj["startlist"] = sl
-            print(f"  {race_obj.get('name','?')}: {len(sl)} riders scraped")
-            time.sleep(0.5)
-        else:
-            race_obj["startlist"] = []
-            print(f"  {race_obj.get('name','?')}: {days_away}d away, skipping")
-
-    # ── 4. Write output ───────────────────────────────────────────────────────
-    print("\n[4/4] Writing data.json...")
-    now = datetime.now(timezone.utc)
-    all_data = {
-        "scraped_at":       now.isoformat(),
-        "scraped_at_human": now.strftime("%d %b %Y %H:%M UTC"),
-        "live":             live_races,
-        "upcoming":         upcoming_races,
-        "recent":           recent_races,
-        "teams":            teams_data,
-        "rider_profiles":   rider_profiles,
-    }
-
-    tmp = OUTPUT_FILE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(all_data, f, ensure_ascii=False, indent=2)
-    os.replace(tmp, OUTPUT_FILE)
-
-    size_kb = os.path.getsize(OUTPUT_FILE) // 1024
-    print(f"\n✓ data.json written ({size_kb} KB)")
-    print(f"  Live:     {len(live_races)}")
-    print(f"  Upcoming: {len(upcoming_races)}")
-    print(f"  Recent:   {len(recent_races)}")
-    print(f"  Teams:    {len(teams_data)}")
-    print(f"  Scraped:  {all_data['scraped_at_human']}")
-
-
-if __name__ == "__main__":
-    main()
+                    race_obj[top10_key]  = row
