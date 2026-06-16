@@ -853,6 +853,67 @@ def scrape_rider_profile(slug):
     }
 
 
+def scrape_startlist(cf_slug, year):
+    """
+    Fetch the startlist for a race from procyclingstats.com.
+    Returns list of {name, slug, nat, team} dicts, grouped by team.
+    Returns [] if not available.
+    """
+    pcs_slug = _pcs_slug(cf_slug)
+    url = f"{PCS_BASE}/race/{pcs_slug}/{year}/startlist"
+    html = fetch(url)
+    if not html:
+        return []
+
+    # Each team block: <ul class="riders"> containing <li> rider entries
+    # Pattern: team name in <b> then riders in <li> with flag + name + profile link
+    entries = []
+    seen = set()
+
+    # Find team blocks — each team has a div/li with team name and riders list
+    team_blocks = re.findall(
+        r'<b>([^<]{3,60})</b>.*?<ul[^>]*class="[^"]*riders[^"]*"[^>]*>(.*?)</ul>',
+        html, re.DOTALL
+    )
+
+    if not team_blocks:
+        # Fallback: just extract all rider profile links with names
+        riders_raw = re.findall(
+            r'href="/rider/([a-z0-9-]+)"[^>]*>\s*<span[^>]*>([^<]+)</span>',
+            html
+        )
+        for slug, name in riders_raw:
+            name = name.strip()
+            if name and name not in seen:
+                seen.add(name)
+                entries.append({'name': name, 'slug': slug, 'nat': '', 'team': ''})
+        return entries
+
+    for team_name, riders_html in team_blocks:
+        team_name = re.sub(r'\s+', ' ', team_name).strip()
+        rider_items = re.findall(
+            r'href="/rider/([a-z0-9-]+)"[^>]*>\s*<span[^>]*>([^<]+)</span>(?:.*?/svg/flags/(\w+)\.svg)?',
+            riders_html, re.DOTALL
+        )
+        # Also try flag before name pattern
+        if not rider_items:
+            rider_items = re.findall(
+                r'/svg/flags/(\w+)\.svg.*?href="/rider/([a-z0-9-]+)"[^>]*>\s*<span[^>]*>([^<]+)</span>',
+                riders_html, re.DOTALL
+            )
+            rider_items = [(slug, name, nat) for nat, slug, name in rider_items]
+
+        for item in rider_items:
+            slug = item[0].strip()
+            name = item[1].strip()
+            nat  = item[2].strip().lower() if len(item) > 2 and item[2] else ''
+            if name and name not in seen:
+                seen.add(name)
+                entries.append({'name': name, 'slug': slug, 'nat': nat, 'team': team_name})
+
+    return entries
+
+
 def scrape_teams():
     """Scrape all WorldTeam and ProTeam pages. Returns list of team dicts."""
     teams = []
@@ -1179,6 +1240,34 @@ def main():
                 rider["photo"] = p.get("photo")
                 rider["dob"]   = p.get("dob")
                 rider["wins"]  = p.get("wins", [])
+
+    # ── 3c. Startlists for upcoming races ────────────────────────────────────
+    print("\n[3c/4] Scraping startlists for upcoming races...")
+    cached_startlists = {
+        r.get("cf_slug"): r.get("startlist", [])
+        for r in cache.get("upcoming", [])
+        if r.get("startlist")
+    }
+    for race_obj in upcoming_races:
+        cf_slug = race_obj.get("cf_slug", "")
+        start_date = race_obj.get("startdate", "") or race_obj.get("start_date", "")
+        # Only fetch if race starts within 14 days (avoids fetching far-future stubs)
+        try:
+            days_away = (datetime.strptime(start_date, "%Y-%m-%d").date() - datetime.now(timezone.utc).date()).days
+        except Exception:
+            days_away = 999
+        if cf_slug in cached_startlists:
+            race_obj["startlist"] = cached_startlists[cf_slug]
+            print(f"  {race_obj.get('name','?')}: startlist cached ({len(race_obj['startlist'])} riders)")
+        elif days_away <= 21:
+            year = race_obj.get("year", datetime.now(timezone.utc).year)
+            sl = scrape_startlist(cf_slug, year)
+            race_obj["startlist"] = sl
+            print(f"  {race_obj.get('name','?')}: {len(sl)} riders scraped")
+            time.sleep(0.5)
+        else:
+            race_obj["startlist"] = []
+            print(f"  {race_obj.get('name','?')}: {days_away}d away, skipping")
 
     # ── 4. Write output ───────────────────────────────────────────────────────
     print("\n[4/4] Writing data.json...")
