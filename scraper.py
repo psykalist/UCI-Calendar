@@ -864,6 +864,16 @@ def scrape_startlist(cf_slug, year):
     """
     Fetch the PCS startlist for a race. Returns list of {name, slug, nat, team} dicts.
     Returns [] if not available.
+
+    PCS startlist page structure (2025+):
+      <div class="ridersCont">
+        <div>...<a class="team" href="team/SLUG">TEAM NAME</a>...</div>
+        <ul>
+          <li><span class="bib">1</span><span class="flag si"></span>
+              <a href="rider/tadej-pogacar">POGAČAR Tadej</a></li>
+          ...
+        </ul>
+      </div>
     """
     pcs_slug = _pcs_slug(cf_slug)
     url = f"{PCS_BASE}/race/{pcs_slug}/{year}/startlist"
@@ -874,31 +884,36 @@ def scrape_startlist(cf_slug, year):
     entries = []
     seen = set()
 
-    # Team blocks: <b>Team Name</b> ... <ul class="riders">...</ul>
-    team_blocks = re.findall(
-        r'<b>([^<]{3,60})</b>.*?<ul[^>]*class="[^"]*riders[^"]*"[^>]*>(.*?)</ul>',
-        html, re.DOTALL
-    )
+    # Split on each ridersCont block (one per team)
+    blocks = re.split(r'<div[^>]+class="ridersCont"', html)
 
-    if not team_blocks:
-        # Fallback: grab all rider profile links
-        for slug_r, name in re.findall(r'href="/rider/([a-z0-9-]+)"[^>]*>\s*<span[^>]*>([^<]+)</span>', html):
+    for block in blocks[1:]:
+        # Team name from <a class="team" ...>TEAM NAME</a>
+        team_m = re.search(r'class="team"[^>]*>([^<]+)</a>', block)
+        team_name = re.sub(r'\s+', ' ', team_m.group(1)).strip() if team_m else ''
+
+        # Each rider: <span class="flag XX"></span><a href="rider/SLUG">NAME</a>
+        for nat, slug_r, name in re.findall(
+            r'class="flag (\w+)"></span>\s*<a href="rider/([^"]+)">([^<]+)</a>',
+            block
+        ):
             name = name.strip()
             if name and name not in seen:
                 seen.add(name)
-                entries.append({'name': name, 'slug': slug_r, 'nat': '', 'team': ''})
-        return entries
+                entries.append({
+                    'name': name,
+                    'slug': slug_r,
+                    'nat':  nat.lower(),
+                    'team': team_name,
+                })
 
-    for team_name, riders_html in team_blocks:
-        team_name = re.sub(r'\s+', ' ', team_name).strip()
-        for item in re.findall(r'href="/rider/([a-z0-9-]+)"[^>]*>\s*<span[^>]*>([^<]+)</span>', riders_html):
-            slug_r, name = item[0].strip(), item[1].strip()
-            # Try to find nat flag nearby
-            nat_m = re.search(rf'/svg/flags/(\w+)\.svg', riders_html)
-            nat = nat_m.group(1).lower() if nat_m else ''
-            if name and name not in seen:
+    if not entries:
+        # Fallback: any rider link on the page (no nat info)
+        for slug_r, name in re.findall(r'href="rider/([a-z0-9-]+)">([^<]+)</a>', html):
+            name = name.strip()
+            if name and name not in seen and len(name) > 3:
                 seen.add(name)
-                entries.append({'name': name, 'slug': slug_r, 'nat': nat, 'team': team_name})
+                entries.append({'name': name, 'slug': slug_r, 'nat': '', 'team': ''})
 
     return entries
 

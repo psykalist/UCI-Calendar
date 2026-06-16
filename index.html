@@ -2118,6 +2118,20 @@ function fExportTeam(){
   box.querySelector('button').textContent='Done';
 }
 
+function fDoImport(code){
+  try{
+    const raw=JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
+    if(!raw||!Array.isArray(raw.riders)||!raw.riders.length) throw new Error('bad');
+    // Save as own team (own device) — strips pin so user sets their own
+    const t={name:raw.name||'Imported Team',owner:raw.owner||'',riders:raw.riders,
+      transfers_used:raw.transfers_used||0,transfers_total:raw.transfers_total||5,
+      created_at:raw.created_at||new Date().toISOString()};
+    fantasySave(t);
+    renderFantasy();
+    alert('✅ Team imported: '+t.name+' ('+t.riders.length+' riders)');
+  }catch(e){alert('❌ Invalid code — check you pasted it correctly.');}
+}
+
 function fImportTeam(){
   fModal(
     '📥 Import a Team',
