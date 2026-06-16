@@ -1359,7 +1359,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v19';
+const APP_VERSION = 'v20';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1423,10 +1423,10 @@ const FANTASY_TEAM_KEY   = 'fantasy_my_team';
 const FANTASY_LEAGUE_KEY = 'fantasy_league';
 const FANTASY_WATCH_KEY  = 'fantasy_watchlist';
 const FANTASY_DRAFT_KEY  = 'fantasy_draft';
-const MAX_SQUAD     = 12;
+const MAX_SQUAD     = 9;
 const MAX_TRANSFERS = 5;
 const MAX_WATCH     = 10;
-const FANTASY_BUDGET = 125;   // total credits per team
+const FANTASY_BUDGET = 100;   // total credits per team
 const COST_FLOOR    = 4;      // cheapest rider
 const COST_CEIL     = 22;     // most expensive rider (sqrt-scaled from race results)
 const STAGE_PTS = {1:25,2:12,3:8,4:3,5:3,6:3,7:3,8:3,9:3,10:3};
@@ -2182,62 +2182,4 @@ async function loadChangelog() {
     if (!entries.length) return;
 
     const lastSeen = localStorage.getItem(WN_SEEN_KEY) || '';
-    const unseen = entries.filter(e => e.timestamp > lastSeen);
-    if (!unseen.length) return;
-
-    const list = document.getElementById('wn-list');
-    list.innerHTML = unseen.slice(0, 8).map(e => {
-      const ago = timeAgo(e.timestamp);
-      return `<div class="wn-entry">
-        <span class="wn-icon">${e.icon || '📌'}</span>
-        <div><div class="wn-text">${esc(e.text)}</div><div class="wn-time">${ago}</div></div>
-      </div>`;
-    }).join('');
-
-    document.getElementById('whats-new-banner').classList.add('show');
-  } catch(e) {
-    // changelog.json not yet published — silently skip
-  }
-}
-
-function dismissBanner() {
-  document.getElementById('whats-new-banner').classList.remove('show');
-  localStorage.setItem(WN_SEEN_KEY, new Date().toISOString());
-}
-
-function timeAgo(iso) {
-  const diff = Date.now() - new Date(iso).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `${mins}m ago`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
-  return `${Math.floor(hrs/24)}d ago`;
-}
-
-// ── Fantasy leaderboard change detection ──────────────────────────────────────
-const FL_LEADER_KEY = 'fl_last_leader';
-
-function checkFantasyLeaderChange(teams) {
-  if (!teams || teams.length < 2) return;
-  const leader = teams[0];
-  if (!leader) return;
-  const lastLeader = localStorage.getItem(FL_LEADER_KEY);
-  const currentLeader = leader.name + '|' + leader.owner;
-  if (lastLeader && lastLeader !== currentLeader) {
-    // Leader changed — inject a synthetic banner entry
-    const list = document.getElementById('wn-list');
-    const prevName = lastLeader.split('|')[0];
-    const entry = `<div class="wn-entry">
-      <span class="wn-icon">🏆</span>
-      <div><div class="wn-text"><strong>${esc(leader.name)}</strong> (${esc(leader.owner)}) now leads the fantasy league!</div>
-      <div class="wn-time">Previously: ${esc(prevName)}</div></div>
-    </div>`;
-    list.innerHTML = entry + list.innerHTML;
-    document.getElementById('whats-new-banner').classList.add('show');
-  }
-  localStorage.setItem(FL_LEADER_KEY, currentLeader);
-}
-
-</script>
-</body>
-</html>
+    const unseen = entries
