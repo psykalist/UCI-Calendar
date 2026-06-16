@@ -668,7 +668,7 @@ header h1 span { color: var(--accent); }
   <span class="filter-chip" onclick="setFilter('THISWEEK',this)">📅 This Week</span>
 </div>
 <div class="filter-bar" id="filter-bar-stages" style="margin-top:4px">
-  <span style="font-size:0.72rem;opacity:0.6;align-self:center;margin-right:4px">Min stages:</span>
+  <span style="font-size:0.72rem;opacity:0.6;align-self:center;margin-right:4px">No of Days:</span>
   <span class="filter-chip stages-chip active" onclick="setMinStages(1,this)">All</span>
   <span class="filter-chip stages-chip" onclick="setMinStages(2,this)">2+</span>
   <span class="filter-chip stages-chip" onclick="setMinStages(5,this)">5+</span>
@@ -1275,7 +1275,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v10';
+const APP_VERSION = 'v13';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1467,7 +1467,10 @@ function renderFantasy(){
   const league=leagueLoad();
   const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name)).total}))];
   allTeams.sort((a,b)=>b.points-a.points);
-  el.innerHTML=renderLeagueTable(allTeams)+renderMySquad(myTeam,total,breakdown)+renderWatchlist(watchLoad());
+  el.innerHTML='<div style="max-width:480px;margin:0 auto;padding:16px">'
+    +renderRulesCard()
+    +'</div>'
+    +renderLeagueTable(allTeams)+renderMySquad(myTeam,total,breakdown)+renderWatchlist(watchLoad());
   // Wire up delegated events after render
   el.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>fPickRider(el.dataset.pick)));
   el.querySelectorAll('[data-unpick]').forEach(el=>el.addEventListener('click',()=>fRemovePicked(el.dataset.unpick)));
@@ -1481,17 +1484,66 @@ function flag(nat){return nat?'<img src="https://cyclingflash.com/svg/flags/'+es
 
 // ── Setup form ───────────────────────────────────────────────────────────────
 
+function renderRulesCard(){
+  return '<details style="background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden">'
+    +'<summary style="padding:12px 14px;font-size:.82rem;font-weight:700;color:var(--muted);cursor:pointer;letter-spacing:.8px;text-transform:uppercase;list-style:none;display:flex;justify-content:space-between;align-items:center">📋 Rules &amp; Scoring <span style="font-size:.9rem">▾</span></summary>'
+    +'<div style="padding:0 14px 14px">'
+      // Budget & squad
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">'
+        +'<div style="background:var(--surface2);border-radius:8px;padding:10px;text-align:center">'
+          +'<div style="font-size:1.4rem;font-weight:800;color:var(--accent)">'+FANTASY_BUDGET+'</div>'
+          +'<div style="font-size:.72rem;color:var(--muted);margin-top:2px">CREDIT BUDGET</div>'
+        +'</div>'
+        +'<div style="background:var(--surface2);border-radius:8px;padding:10px;text-align:center">'
+          +'<div style="font-size:1.4rem;font-weight:800;color:var(--text)">12</div>'
+          +'<div style="font-size:.72rem;color:var(--muted);margin-top:2px">SQUAD SIZE</div>'
+        +'</div>'
+        +'<div style="background:var(--surface2);border-radius:8px;padding:10px;text-align:center">'
+          +'<div style="font-size:1.4rem;font-weight:800;color:#2dd36f">5</div>'
+          +'<div style="font-size:.72rem;color:var(--muted);margin-top:2px">TRANSFERS</div>'
+        +'</div>'
+      +'</div>'
+      // Rider pricing guide
+      +'<div style="font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px">Rider Costs</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;font-size:.8rem">'
+        +'<div style="display:flex;align-items:center;gap:6px"><span style="font-weight:700;color:#ef4444;background:rgba(0,0,0,.25);border-radius:4px;padding:1px 6px">18–22</span> Star riders</div>'
+        +'<div style="display:flex;align-items:center;gap:6px"><span style="font-weight:700;color:#f97316;background:rgba(0,0,0,.25);border-radius:4px;padding:1px 6px">12–17</span> Mid-tier</div>'
+        +'<div style="display:flex;align-items:center;gap:6px"><span style="font-weight:700;color:#eab308;background:rgba(0,0,0,.25);border-radius:4px;padding:1px 6px">8–11</span> Value picks</div>'
+        +'<div style="display:flex;align-items:center;gap:6px"><span style="font-weight:700;color:var(--muted);background:rgba(0,0,0,.25);border-radius:4px;padding:1px 6px">4–7</span> Budget picks</div>'
+      +'</div>'
+      // Scoring
+      +'<div style="font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px">Points Scoring</div>'
+      +'<div style="font-size:.8rem;display:flex;flex-direction:column;gap:3px">'
+        +'<div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--surface2);border-radius:5px">'
+          +'<span>Stage win</span><span style="font-weight:700;color:var(--gold)">25 pts</span></div>'
+        +'<div style="display:flex;justify-content:space-between;padding:5px 8px">'
+          +'<span style="color:var(--muted)">Stage P2 / P3</span><span style="color:var(--muted)">12 / 8 pts</span></div>'
+        +'<div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--surface2);border-radius:5px">'
+          +'<span>Stage P4–10</span><span style="font-weight:700;color:var(--gold)">3 pts each</span></div>'
+        +'<div style="display:flex;justify-content:space-between;padding:5px 8px">'
+          +'<span style="color:var(--muted)">GC win</span><span style="color:var(--muted)">50 pts</span></div>'
+        +'<div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--surface2);border-radius:5px">'
+          +'<span>GC P2 / P3</span><span style="font-weight:700;color:var(--gold)">30 / 20 pts</span></div>'
+        +'<div style="display:flex;justify-content:space-between;padding:5px 8px">'
+          +'<span style="color:var(--muted)">GC P4–10</span><span style="color:var(--muted)">8 pts each</span></div>'
+        +'<div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--surface2);border-radius:5px">'
+          +'<span>Sprint / KOM / Youth jersey</span><span style="font-weight:700;color:var(--gold)">15 pts</span></div>'
+      +'</div>'
+    +'</div>'
+  +'</details>';
+}
+
 function renderFantasySetup(){
-  return '<div style="max-width:480px;margin:0 auto;padding:16px">'
+  const html = '<div style="max-width:480px;margin:0 auto;padding:16px">'
     +'<div class="group-header" style="padding-top:4px">🏆 Create Your Fantasy Team</div>'
+    +renderRulesCard()
+    // Budget meter — prominent, always visible
+    +'<div id="fBudgetBar" style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px"></div>'
     +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px">'
       +'<div style="margin-bottom:12px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Team Name</label>'
       +'<input id="fTeamName" type="text" placeholder="e.g. Alpe Allstars" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
       +'<div style="margin-bottom:14px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Owner Name</label>'
       +'<input id="fOwnerName" type="text" placeholder="Your name" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
-      +'<div style="font-size:.8rem;color:var(--muted);background:rgba(67,97,238,.1);border-radius:6px;padding:10px;margin-bottom:10px">'
-        +'Pick <strong style="color:var(--text)">12 riders</strong> within a <strong style="color:var(--accent)">'+FANTASY_BUDGET+' cr</strong> budget. You get <strong style="color:var(--accent)">5 transfers</strong> for the season.</div>'
-      +'<div id="fBudgetBar" style="margin-bottom:10px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:6px"></div>'
       +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Add Riders <span id="fPickCount" style="color:var(--accent);font-weight:700">0</span>/12</label>'
       +'<input id="fRiderSearch" type="search" placeholder="Type a name to search riders…" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)" onfocus="fSearchRiders(this.value)">'
       +'<div id="fRiderResults" style="max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>'
@@ -1500,6 +1552,7 @@ function renderFantasySetup(){
     +'<button onclick="fCreateTeam()" style="width:100%;padding:14px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer">✅ Create Team</button>'
   +'</div>';
   setTimeout(()=>updateBudgetBar(squadCost(_fPicked)),0);
+  return html;
 }
 
 function fSearchRiders(q){
@@ -1583,14 +1636,21 @@ function updateBudgetBar(spent){
   const bar=document.getElementById('fBudgetBar');if(!bar)return;
   const pct=Math.min(100,Math.round(spent/FANTASY_BUDGET*100));
   const remaining=FANTASY_BUDGET-spent;
-  const col=remaining<10?'var(--live)':remaining<30?'#f97316':'var(--upcoming)';
+  const col=remaining<10?'var(--live)':remaining<25?'#f97316':'var(--upcoming)';
   bar.innerHTML=
-    '<div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px">'
-      +'<span style="color:var(--muted)">Budget</span>'
-      +'<span><strong style="color:'+col+'">'+remaining+' cr left</strong> <span style="color:var(--muted)">/ '+FANTASY_BUDGET+'</span></span>'
+    '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">'
+      +'<span style="font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase">Budget</span>'
+      +'<span style="display:flex;align-items:baseline;gap:6px">'
+        +'<span style="font-size:1.6rem;font-weight:800;color:'+col+';line-height:1">'+remaining+'</span>'
+        +'<span style="font-size:.78rem;color:var(--muted)">/ '+FANTASY_BUDGET+' cr remaining</span>'
+      +'</span>'
     +'</div>'
-    +'<div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">'
-      +'<div style="height:100%;width:'+pct+'%;background:'+col+';border-radius:3px;transition:width .3s"></div>'
+    +'<div style="height:10px;background:var(--border);border-radius:5px;overflow:hidden">'
+      +'<div style="height:100%;width:'+pct+'%;background:'+col+';border-radius:5px;transition:width .35s ease"></div>'
+    +'</div>'
+    +'<div style="display:flex;justify-content:space-between;margin-top:4px;font-size:.72rem;color:var(--muted)">'
+      +'<span>Spent: '+spent+' cr</span>'
+      +'<span>'+pct+'% used</span>'
     +'</div>';
 }
 
@@ -1786,7 +1846,7 @@ function renderWatchlist(watchlist){
   });
 
   const canAdd=watchlist.length<MAX_WATCH;
-  const addCard=canAdd?'<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">'
+  const addCard=canAdd?'<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:90px">'
     +'<div style="font-size:.78rem;color:var(--muted);margin-bottom:6px">Follow a rider</div>'
     +'<input id="fWatchSearch" type="search" placeholder="Type name to search riders…" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:.85rem;outline:none" oninput="fSearchWatch(this.value)" onfocus="fSearchWatch(this.value)">'
     +'<div id="fWatchResults" style="max-height:160px;overflow-y:auto;margin-top:6px;display:none;border:1px solid var(--border);border-radius:6px;background:var(--surface2)"></div>'
@@ -1903,4 +1963,4 @@ function fDeleteTeam(){
 
 </script>
 </body>
-</html>                            
+</html>
