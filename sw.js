@@ -1,5 +1,5 @@
 // UCI Calendar 2026 - Service Worker
-const CACHE_NAME = 'uci-calendar-v13';
+const CACHE_NAME = 'uci-calendar-v14';
 const STATIC = ['./manifest.json', './icon-192.png', './icon-512.png'];
 
 // Install: pre-cache only truly static assets (NOT index.html)
@@ -36,30 +36,4 @@ self.addEventListener('fetch', event => {
   const isData = url.pathname.endsWith('data.json');
 
   if (isHtml || isData) {
-    // Network-first: always try to get fresh version, fall back to cache
-    event.respondWith(
-      fetch(event.request, { cache: 'no-cache' }).then(response => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        }
-        return response;
-      }).catch(() => caches.match(event.request))
-    );
-    return;
-  }
-
-  // Static assets - cache-first
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-      return fetch(event.request).then(response => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        }
-        return response;
-      });
-    })
-  );
-});
+    // Network-first: always try to get fresh versio

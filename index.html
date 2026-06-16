@@ -1275,7 +1275,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v13';
+const APP_VERSION = 'v14';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1338,6 +1338,7 @@ document.addEventListener('visibilitychange', () => {
 const FANTASY_TEAM_KEY   = 'fantasy_my_team';
 const FANTASY_LEAGUE_KEY = 'fantasy_league';
 const FANTASY_WATCH_KEY  = 'fantasy_watchlist';
+const FANTASY_DRAFT_KEY  = 'fantasy_draft';
 const MAX_SQUAD     = 12;
 const MAX_TRANSFERS = 5;
 const MAX_WATCH     = 10;
@@ -1398,6 +1399,9 @@ function fantasySave(t){localStorage.setItem(FANTASY_TEAM_KEY,JSON.stringify(t))
 function leagueLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_LEAGUE_KEY)||'[]');}catch(e){return[];}}
 function leagueSave(l){localStorage.setItem(FANTASY_LEAGUE_KEY,JSON.stringify(l));}
 function watchLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_WATCH_KEY)||'[]');}catch(e){return[];}}
+function draftLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_DRAFT_KEY)||'null');}catch(e){return null;}}
+function draftSave(d){localStorage.setItem(FANTASY_DRAFT_KEY,JSON.stringify(d));}
+function draftClear(){localStorage.removeItem(FANTASY_DRAFT_KEY);}
 function watchSave(w){localStorage.setItem(FANTASY_WATCH_KEY,JSON.stringify(w));}
 
 const normName = n => (n||'').toLowerCase().replace(/[^a-z]/g,' ').replace(/\s+/g,' ').trim();
@@ -1431,10 +1435,12 @@ function getAllRiders(){
   return riders.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
 }
 
-function computePoints(riderNames){
+function computePoints(riderNames,createdAt){
   const myNorm=new Set(riderNames.map(normName));
+  const cutoff=createdAt?new Date(createdAt):null;
   let pts=0;const breakdown=[];
   for(const race of [...(appData.recent||[]),...(appData.live||[])]){
+    if(cutoff&&race.end_date){const rd=new Date(race.end_date);if(rd<cutoff)continue;}
     for(const stage of (race.stages||[])){
       for(const r of (stage.top10||[])){
         if(r.rank>=1&&r.rank<=10&&myNorm.has(normName(r.name))){
@@ -1463,9 +1469,9 @@ function renderFantasy(){
   if(!el)return;
   const myTeam=fantasyLoad();
   if(!myTeam){el.innerHTML=renderFantasySetup();_fPicked=[];return;}
-  const{total,breakdown}=computePoints(myTeam.riders.map(r=>r.name));
+  const{total,breakdown}=computePoints(myTeam.riders.map(r=>r.name),myTeam.created_at);
   const league=leagueLoad();
-  const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name)).total}))];
+  const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at).total}))];
   allTeams.sort((a,b)=>b.points-a.points);
   el.innerHTML='<div style="max-width:480px;margin:0 auto;padding:16px">'
     +renderRulesCard()
@@ -1534,27 +1540,47 @@ function renderRulesCard(){
 }
 
 function renderFantasySetup(){
+  const draft=draftLoad();
+  if(draft&&draft.picked&&draft.picked.length){_fPicked=draft.picked;}
+  const n=_fPicked.length;
+  const progPct=Math.round(n/MAX_SQUAD*100);
+  const progCol=n===MAX_SQUAD?'var(--upcoming)':n>=8?'#f97316':'var(--accent)';
+  const draftName=(draft&&draft.name)||'';
+  const draftOwner=(draft&&draft.owner)||'';
   const html = '<div style="max-width:480px;margin:0 auto;padding:16px">'
-    +'<div class="group-header" style="padding-top:4px">🏆 Create Your Fantasy Team</div>'
+    +'<div class="group-header" style="padding-top:4px">&#127942; Create Your Fantasy Team</div>'
     +renderRulesCard()
-    // Budget meter — prominent, always visible
+    +'<div style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">'
+        +'<span style="font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase">Squad</span>'
+        +'<span style="display:flex;align-items:baseline;gap:6px">'
+          +'<span id="fPickCount" style="font-size:1.6rem;font-weight:800;color:'+progCol+';line-height:1">'+n+'</span>'
+          +'<span style="font-size:.78rem;color:var(--muted)">/ 12 riders</span>'
+        +'</span>'
+      +'</div>'
+      +'<div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:4px">'
+        +'<div id="fSquadBar" style="height:100%;width:'+progPct+'%;background:'+progCol+';border-radius:4px;transition:width .3s ease"></div>'
+      +'</div>'
+      +'<div id="fSquadMsg" style="font-size:.75rem;color:var(--muted);text-align:center">'
+        +(n===MAX_SQUAD?'Squad complete \u2014 ready to create!':(n===0?'Pick 12 riders to build your team':('Need '+(MAX_SQUAD-n)+' more rider'+(MAX_SQUAD-n===1?'':'s'))))
+      +'</div>'
+    +'</div>'
     +'<div id="fBudgetBar" style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px"></div>'
     +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px">'
       +'<div style="margin-bottom:12px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Team Name</label>'
-      +'<input id="fTeamName" type="text" placeholder="e.g. Alpe Allstars" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
+      +'<input id="fTeamName" type="text" placeholder="e.g. Alpe Allstars" value="'+draftName.replace(/"/g,'&quot;')+'" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
       +'<div style="margin-bottom:14px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Owner Name</label>'
-      +'<input id="fOwnerName" type="text" placeholder="Your name" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
-      +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Add Riders <span id="fPickCount" style="color:var(--accent);font-weight:700">0</span>/12</label>'
-      +'<input id="fRiderSearch" type="search" placeholder="Type a name to search riders…" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)" onfocus="fSearchRiders(this.value)">'
+      +'<input id="fOwnerName" type="text" placeholder="Your name" value="'+draftOwner.replace(/"/g,'&quot;')+'" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
+      +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Search &amp; Add Riders</label>'
+      +'<input id="fRiderSearch" type="search" placeholder="Type a name to search riders\u2026" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)" onfocus="fSearchRiders(this.value)">'
       +'<div id="fRiderResults" style="max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>'
     +'</div>'
     +'<div id="fPickedList" style="margin-bottom:14px"></div>'
-    +'<button onclick="fCreateTeam()" style="width:100%;padding:14px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer">✅ Create Team</button>'
+    +'<button id="fCreateBtn" onclick="fCreateTeam()" style="width:100%;padding:14px;background:'+(n===MAX_SQUAD?'var(--upcoming)':'var(--border)')+';border:none;border-radius:8px;color:'+(n===MAX_SQUAD?'#fff':'var(--muted)')+';font-size:1rem;font-weight:700;cursor:'+(n===MAX_SQUAD?'pointer':'not-allowed')+'"'+(n===MAX_SQUAD?'':' disabled')+'>'+(n===MAX_SQUAD?'\u2705 Create Team':'Pick 12 Riders to Continue')+'</button>'
   +'</div>';
-  setTimeout(()=>updateBudgetBar(squadCost(_fPicked)),0);
+  setTimeout(()=>{updateBudgetBar(squadCost(_fPicked));renderPickedList();},0);
   return html;
 }
-
 function fSearchRiders(q){
   const el=document.getElementById('fRiderResults');if(!el)return;
   const raw=q.trim();
@@ -1594,27 +1620,48 @@ function fSearchRiders(q){
 }
 
 function fPickRider(name){
-  if(_fPicked.length>=MAX_SQUAD){alert('Squad full!');return;}
+  if(_fPicked.length>=MAX_SQUAD){alert('Squad full! You need exactly 12 riders.');return;}
   const r=getAllRiders().find(r=>r.name===name);
   if(!r||_fPicked.find(p=>p.name===name))return;
   const cost=riderCost(name);
   const spent=squadCost(_fPicked);
   if(spent+cost>FANTASY_BUDGET){alert('Not enough budget! '+name+' costs '+cost+' cr but you only have '+(FANTASY_BUDGET-spent)+' cr left.');return;}
   _fPicked.push(r);
-  const cnt=document.getElementById('fPickCount');if(cnt)cnt.textContent=_fPicked.length;
   const srch=document.getElementById('fRiderSearch');if(srch)srch.value='';
   const res=document.getElementById('fRiderResults');if(res)res.style.display='none';
   renderPickedList();
+  _fSaveDraft();
 }
 
 function fRemovePicked(name){
   _fPicked=_fPicked.filter(r=>r.name!==name);
-  const cnt=document.getElementById('fPickCount');if(cnt)cnt.textContent=_fPicked.length;
   renderPickedList();
+  _fSaveDraft();
+}
+
+function _fSaveDraft(){
+  const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName');
+  draftSave({picked:[..._fPicked],name:nameEl?nameEl.value:'',owner:ownerEl?ownerEl.value:''});
+}
+
+function _fUpdateSquadUI(){
+  const n=_fPicked.length;
+  const progPct=Math.round(n/MAX_SQUAD*100);
+  const progCol=n===MAX_SQUAD?'var(--upcoming)':n>=8?'#f97316':'var(--accent)';
+  const cnt=document.getElementById('fPickCount');if(cnt){cnt.textContent=n;cnt.style.color=progCol;}
+  const bar=document.getElementById('fSquadBar');if(bar){bar.style.width=progPct+'%';bar.style.background=progCol;}
+  const msg=document.getElementById('fSquadMsg');
+  if(msg)msg.textContent=n===MAX_SQUAD?'Squad complete — ready to create!':(n===0?'Pick 12 riders to build your team':('Need '+(MAX_SQUAD-n)+' more rider'+(MAX_SQUAD-n===1?'':'s')));
+  const btn=document.getElementById('fCreateBtn');
+  if(btn){
+    if(n===MAX_SQUAD){btn.disabled=false;btn.style.background='var(--upcoming)';btn.style.color='#fff';btn.style.cursor='pointer';btn.textContent='✅ Create Team';}
+    else{btn.disabled=true;btn.style.background='var(--border)';btn.style.color='var(--muted)';btn.style.cursor='not-allowed';btn.textContent='Pick 12 Riders to Continue';}
+  }
 }
 
 function renderPickedList(){
   const el=document.getElementById('fPickedList');if(!el)return;
+  _fUpdateSquadUI();
   if(!_fPicked.length){el.innerHTML='';updateBudgetBar(0);return;}
   const spent=squadCost(_fPicked);
   const remaining=FANTASY_BUDGET-spent;
@@ -1658,8 +1705,10 @@ function fCreateTeam(){
   const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName');
   const name=nameEl?nameEl.value.trim():'',owner=ownerEl?ownerEl.value.trim():'';
   if(!name||!owner){alert('Please enter a team name and owner name.');return;}
-  if(!_fPicked.length){alert('Pick at least 1 rider.');return;}
+  if(_fPicked.length!==MAX_SQUAD){alert('You must pick exactly 12 riders. You have '+_fPicked.length+'.');return;}
   fantasySave({name,owner,riders:[..._fPicked],transfers_used:0,transfers_total:MAX_TRANSFERS,created_at:new Date().toISOString()});
+  draftClear();
+  _fPicked=[];
   renderFantasy();
 }
 
@@ -1798,19 +1847,28 @@ function fDoSwap(inName){
 function renderLeagueTable(teams){
   const medals=['🥇','🥈','🥉'];
   const single=teams.length===1&&teams[0].isMine;
+  const leaderPts=teams.length>0?teams[0].points:0;
+  function fmtDate(iso){if(!iso)return'';try{const d=new Date(iso);return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}catch(e){return'';}}
   return '<div style="margin-bottom:16px">'
     +'<div class="group-header">🏆 League Table</div>'
     +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">'
-      +teams.map((t,i)=>
-        '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;'+(t.isMine?'background:rgba(67,97,238,.1)':'')+'">'
+      +teams.map((t,i)=>{
+        const gap=i===0
+          ?'<span style="font-size:.7rem;font-weight:700;color:var(--upcoming);letter-spacing:.5px">LEADER</span>'
+          :'<span style="font-size:.78rem;color:var(--live);font-weight:600">−'+(leaderPts-t.points)+' pts</span>';
+        const created=t.created_at?'<span style="font-size:.7rem;color:var(--muted)"> · From '+fmtDate(t.created_at)+'</span>':'';
+        return '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;'+(t.isMine?'background:rgba(67,97,238,.1)':'')+'">'
           +'<span style="font-size:1.1rem;min-width:26px">'+(medals[i]||(i+1))+'</span>'
           +'<div style="flex:1;min-width:0">'
-            +'<div style="font-weight:600;font-size:.92rem">'+esc(t.name)+(t.isMine?' <span style="font-size:.68rem;background:var(--upcoming);color:#fff;padding:1px 6px;border-radius:10px">YOU</span>':'')+'</div>'
-            +'<div style="font-size:.76rem;color:var(--muted)">'+esc(t.owner)+'</div>'
+            +'<div style="font-weight:600;font-size:.92rem">'+esc(t.name)+(t.isMine?' <span style="font-size:.68rem;background:var(--upcoming);color:#fff;padding:1px 6px;border-radius:10px">YOU</span>':'')+' </div>'
+            +'<div style="font-size:.76rem;color:var(--muted)">'+esc(t.owner)+created+'</div>'
           +'</div>'
-          +'<span style="font-size:1.2rem;font-weight:800;color:var(--gold)">'+t.points+'</span>'
-        +'</div>'
-      ).join('')
+          +'<div style="text-align:right">'
+            +'<div style="font-size:1.2rem;font-weight:800;color:var(--gold)">'+t.points+'</div>'
+            +'<div style="margin-top:1px">'+gap+'</div>'
+          +'</div>'
+        +'</div>';
+      }).join('')
       +'<div style="padding:10px 14px">'
         +(single?'<div style="font-size:.82rem;color:var(--muted);margin-bottom:8px">Share your export code with friends to build a league.</div>':'')
         +'<button onclick="fImportTeam()" style="width:100%;padding:9px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.82rem;font-weight:600;cursor:pointer">+ Import a Friend\'s Team</button>'
@@ -1818,7 +1876,6 @@ function renderLeagueTable(teams){
     +'</div>'
   +'</div>';
 }
-
 // ── Watchlist ─────────────────────────────────────────────────────────────────
 
 function renderWatchlist(watchlist){
@@ -1903,7 +1960,7 @@ function fRemoveWatch(name){
 
 function fExportTeam(){
   const team=fantasyLoad();if(!team)return;
-  const{total}=computePoints((team.riders||[]).map(r=>r.name));
+  const{total}=computePoints((team.riders||[]).map(r=>r.name),team.created_at);
   const code=btoa(unescape(encodeURIComponent(JSON.stringify({...team,points:total}))));
   navigator.clipboard&&navigator.clipboard.writeText(code).catch(()=>{});
   const box=fModal(
