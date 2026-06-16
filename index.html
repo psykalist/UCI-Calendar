@@ -1275,7 +1275,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v14';
+const APP_VERSION = 'v15';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1468,7 +1468,16 @@ function renderFantasy(){
   const el=document.getElementById('sec-fantasy');
   if(!el)return;
   const myTeam=fantasyLoad();
-  if(!myTeam){el.innerHTML=renderFantasySetup();_fPicked=[];return;}
+  if(!myTeam||(myTeam.riders&&myTeam.riders.length<MAX_SQUAD)){
+    if(myTeam&&myTeam.riders&&myTeam.riders.length>0){
+      // Migrate partial saved team into draft so user can complete it
+      if(!draftLoad())draftSave({picked:myTeam.riders,name:myTeam.name||'',owner:myTeam.owner||''});
+      localStorage.removeItem(FANTASY_TEAM_KEY);
+    }
+    _fPicked=[];
+    el.innerHTML=renderFantasySetup();
+    return;
+  }
   const{total,breakdown}=computePoints(myTeam.riders.map(r=>r.name),myTeam.created_at);
   const league=leagueLoad();
   const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at).total}))];
@@ -1576,6 +1585,10 @@ function renderFantasySetup(){
       +'<div id="fRiderResults" style="max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>'
     +'</div>'
     +'<div id="fPickedList" style="margin-bottom:14px"></div>'
+    +'<div style="margin-bottom:10px">'
+      +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Team PIN <span style="font-weight:400;font-size:.76rem">(4 digits — required to delete or modify your team)</span></label>'
+      +'<input id="fTeamPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:1.2rem;letter-spacing:8px;outline:none">'
+    +'</div>'
     +'<button id="fCreateBtn" onclick="fCreateTeam()" style="width:100%;padding:14px;background:'+(n===MAX_SQUAD?'var(--upcoming)':'var(--border)')+';border:none;border-radius:8px;color:'+(n===MAX_SQUAD?'#fff':'var(--muted)')+';font-size:1rem;font-weight:700;cursor:'+(n===MAX_SQUAD?'pointer':'not-allowed')+'"'+(n===MAX_SQUAD?'':' disabled')+'>'+(n===MAX_SQUAD?'\u2705 Create Team':'Pick 12 Riders to Continue')+'</button>'
   +'</div>';
   setTimeout(()=>{updateBudgetBar(squadCost(_fPicked));renderPickedList();},0);
@@ -1701,12 +1714,24 @@ function updateBudgetBar(spent){
     +'</div>';
 }
 
+function _pinHash(p){return p.split('').reduce((h,c)=>((h<<5)-h+c.charCodeAt(0))|0,5381).toString(36);}
+
+function fVerifyPin(team,action,onOk){
+  if(!team.pin_hash){onOk();return;}// no PIN — legacy team, allow
+  const entered=(prompt('Enter your 4-digit PIN to '+action+':','')+'').trim();
+  if(!entered)return;
+  if(_pinHash(entered)!==team.pin_hash){alert('\u274c Incorrect PIN. Try again.');return;}
+  onOk();
+}
+
 function fCreateTeam(){
-  const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName');
+  const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName'),pinEl=document.getElementById('fTeamPin');
   const name=nameEl?nameEl.value.trim():'',owner=ownerEl?ownerEl.value.trim():'';
+  const pin=(pinEl?pinEl.value:'').trim();
   if(!name||!owner){alert('Please enter a team name and owner name.');return;}
   if(_fPicked.length!==MAX_SQUAD){alert('You must pick exactly 12 riders. You have '+_fPicked.length+'.');return;}
-  fantasySave({name,owner,riders:[..._fPicked],transfers_used:0,transfers_total:MAX_TRANSFERS,created_at:new Date().toISOString()});
+  if(!/^\d{4}$/.test(pin)){alert('Please set a 4-digit PIN to protect your team on this device.');return;}
+  fantasySave({name,owner,riders:[..._fPicked],transfers_used:0,transfers_total:MAX_TRANSFERS,created_at:new Date().toISOString(),pin_hash:_pinHash(pin)});
   draftClear();
   _fPicked=[];
   renderFantasy();
@@ -1831,15 +1856,16 @@ function fDoSwap(inName){
   const team=fantasyLoad();if(!team)return;
   if((team.transfers_used||0)>=team.transfers_total){alert('No transfers remaining!');return;}
   const inR=getAllRiders().find(r=>r.name===inName);if(!inR)return;
-  // Budget check: remove outgoing rider cost, add incoming
   const outCost=riderCost(_fSwapOut);
   const inCost=riderCost(inName);
   const currentCost=squadCost(team.riders);
   const newCost=currentCost-outCost+inCost;
   if(newCost>FANTASY_BUDGET){alert('Over budget! Swapping in '+inName+' ('+inCost+' cr) would take your squad to '+newCost+' cr — budget is '+FANTASY_BUDGET+' cr.');return;}
-  team.riders=team.riders.map(r=>r.name===_fSwapOut?inR:r);
-  team.transfers_used=(team.transfers_used||0)+1;
-  fantasySave(team);renderFantasy();
+  fVerifyPin(team,'confirm this transfer',()=>{
+    team.riders=team.riders.map(r=>r.name===_fSwapOut?inR:r);
+    team.transfers_used=(team.transfers_used||0)+1;
+    fantasySave(team);renderFantasy();
+  });
 }
 
 // ── League Table ──────────────────────────────────────────────────────────────
@@ -2012,9 +2038,13 @@ function fDoImport(code){
 }
 
 function fDeleteTeam(){
+  const team=fantasyLoad();if(!team)return;
   if(!confirm('Delete your fantasy team? This cannot be undone.'))return;
-  localStorage.removeItem(FANTASY_TEAM_KEY);
-  renderFantasy();
+  fVerifyPin(team,'delete your team',()=>{
+    localStorage.removeItem(FANTASY_TEAM_KEY);
+    _fPicked=[];
+    renderFantasy();
+  });
 }
 
 
