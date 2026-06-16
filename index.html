@@ -1408,26 +1408,24 @@ const normName = n => (n||'').toLowerCase().replace(/[^a-z]/g,' ').replace(/\s+/
 
 function getAllRiders(){
   const riders=[],seen=new Set();
-  // Primary: team roster data
+  // 1. Team rosters (full peloton once scraper has run)
   for(const team of (appData.teams||[])){
     for(const r of (team.riders||[])){
-      if(!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:r.slug||'',nat:r.nat||'',photo:r.photo||'',teamName:team.name});}
+      if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:r.slug||'',nat:r.nat||'',photo:r.photo||'',teamName:team.name});}
     }
   }
-  // Fallback: extract names from race result top10 / classifications
-  if(!riders.length){
-    for(const section of ['recent','live','upcoming']){
-      for(const race of (appData[section]||[])){
-        for(const stage of (race.stages||[])){
-          for(const r of (stage.top10||[])){
-            if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:r.nat||'',photo:'',teamName:r.team||''});}
-          }
+  // 2. Race results — always merged so no scorer is ever missing
+  for(const section of ['recent','live','upcoming']){
+    for(const race of (appData[section]||[])){
+      for(const stage of (race.stages||[])){
+        for(const r of (stage.top10||[])){
+          if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:r.nat||'',photo:'',teamName:r.team||''});}
         }
-        const cl=race.classifications||{};
-        for(const key of ['gc','points','mountain','youth']){
-          for(const r of (cl[key]||[])){
-            if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:r.nat||'',photo:'',teamName:r.team||''});}
-          }
+      }
+      const cl=race.classifications||{};
+      for(const key of ['gc','points','mountain','youth']){
+        for(const r of (cl[key]||[])){
+          if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:r.nat||'',photo:'',teamName:r.team||''});}
         }
       }
     }
@@ -1470,7 +1468,6 @@ function renderFantasy(){
   const myTeam=fantasyLoad();
   if(!myTeam||(myTeam.riders&&myTeam.riders.length<MAX_SQUAD)){
     if(myTeam&&myTeam.riders&&myTeam.riders.length>0){
-      // Migrate partial saved team into draft so user can complete it
       if(!draftLoad())draftSave({picked:myTeam.riders,name:myTeam.name||'',owner:myTeam.owner||''});
       localStorage.removeItem(FANTASY_TEAM_KEY);
     }
@@ -1586,7 +1583,7 @@ function renderFantasySetup(){
     +'</div>'
     +'<div id="fPickedList" style="margin-bottom:14px"></div>'
     +'<div style="margin-bottom:10px">'
-      +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Team PIN <span style="font-weight:400;font-size:.76rem">(4 digits — required to delete or modify your team)</span></label>'
+      +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Team PIN <span style="font-weight:400;font-size:.76rem">(4 digits — protects your team on this device)</span></label>'
       +'<input id="fTeamPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:1.2rem;letter-spacing:8px;outline:none">'
     +'</div>'
     +'<button id="fCreateBtn" onclick="fCreateTeam()" style="width:100%;padding:14px;background:'+(n===MAX_SQUAD?'var(--upcoming)':'var(--border)')+';border:none;border-radius:8px;color:'+(n===MAX_SQUAD?'#fff':'var(--muted)')+';font-size:1rem;font-weight:700;cursor:'+(n===MAX_SQUAD?'pointer':'not-allowed')+'"'+(n===MAX_SQUAD?'':' disabled')+'>'+(n===MAX_SQUAD?'\u2705 Create Team':'Pick 12 Riders to Continue')+'</button>'
@@ -1715,22 +1712,20 @@ function updateBudgetBar(spent){
 }
 
 function _pinHash(p){return p.split('').reduce((h,c)=>((h<<5)-h+c.charCodeAt(0))|0,5381).toString(36);}
-
 function fVerifyPin(team,action,onOk){
-  if(!team.pin_hash){onOk();return;}// no PIN — legacy team, allow
+  if(!team.pin_hash){onOk();return;}
   const entered=(prompt('Enter your 4-digit PIN to '+action+':','')+'').trim();
   if(!entered)return;
-  if(_pinHash(entered)!==team.pin_hash){alert('\u274c Incorrect PIN. Try again.');return;}
+  if(_pinHash(entered)!==team.pin_hash){alert('\u274c Incorrect PIN.');return;}
   onOk();
 }
-
 function fCreateTeam(){
   const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName'),pinEl=document.getElementById('fTeamPin');
   const name=nameEl?nameEl.value.trim():'',owner=ownerEl?ownerEl.value.trim():'';
   const pin=(pinEl?pinEl.value:'').trim();
   if(!name||!owner){alert('Please enter a team name and owner name.');return;}
   if(_fPicked.length!==MAX_SQUAD){alert('You must pick exactly 12 riders. You have '+_fPicked.length+'.');return;}
-  if(!/^\d{4}$/.test(pin)){alert('Please set a 4-digit PIN to protect your team on this device.');return;}
+  if(!/^\d{4}$/.test(pin)){alert('Please set a 4-digit PIN to protect your team.');return;}
   fantasySave({name,owner,riders:[..._fPicked],transfers_used:0,transfers_total:MAX_TRANSFERS,created_at:new Date().toISOString(),pin_hash:_pinHash(pin)});
   draftClear();
   _fPicked=[];
