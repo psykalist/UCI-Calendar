@@ -1408,22 +1408,26 @@ const normName = n => (n||'').toLowerCase().replace(/[^a-z]/g,' ').replace(/\s+/
 
 function getAllRiders(){
   const riders=[],seen=new Set();
+  // 1. Team rosters (full peloton once scraper has run)
   for(const team of (appData.teams||[])){
     for(const r of (team.riders||[])){
       if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:r.slug||'',nat:r.nat||'',photo:r.photo||'',teamName:team.name});}
     }
   }
+  // 2. Race results — nat_code field holds the country code (e.g. "GB")
   for(const section of ['recent','live','upcoming']){
     for(const race of (appData[section]||[])){
       for(const stage of (race.stages||[])){
         for(const r of (stage.top10||[])){
-          if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:r.nat||'',photo:'',teamName:r.team||''});}
+          const nat=r.nat_code||r.nat||'';
+          if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:nat.toLowerCase(),photo:'',teamName:r.team||''});}
         }
       }
       const cl=race.classifications||{};
       for(const key of ['gc','points','mountain','youth']){
         for(const r of (cl[key]||[])){
-          if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:r.nat||'',photo:'',teamName:r.team||''});}
+          const nat=r.nat_code||r.nat||'';
+          if(r.name&&!seen.has(r.name)){seen.add(r.name);riders.push({name:r.name,slug:'',nat:nat.toLowerCase(),photo:'',teamName:r.team||''});}
         }
       }
     }
@@ -1503,45 +1507,30 @@ function renderHowToPlay(){
       +'<span style="font-size:.75rem;color:var(--muted);font-weight:400">tap to collapse</span>'
     +'</summary>'
     +'<div style="padding:0 16px 16px">'
-      // Step 1
       +'<div style="display:flex;gap:12px;margin-bottom:14px;padding-top:4px">'
-        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">1&#65039;&#8419;</span>'
-        +'<div>'
-          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Everyone creates their own team</div>'
-          +'<div style="font-size:.82rem;color:var(--muted)">Pick 12 riders on your own phone or computer. Set a 4-digit PIN to protect your team. Points are counted from your creation date onwards.</div>'
-        +'</div>'
+        +'<span style="font-size:1.3rem;flex-shrink:0">1&#65039;&#8419;</span>'
+        +'<div><div style="font-weight:700;font-size:.9rem;margin-bottom:2px">Everyone creates their own team</div>'
+        +'<div style="font-size:.82rem;color:var(--muted)">Pick 12 riders on your own phone or computer. Set a 4-digit PIN to protect your team. Points count from your creation date onwards.</div></div>'
       +'</div>'
-      // Step 2
       +'<div style="display:flex;gap:12px;margin-bottom:14px">'
-        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">2&#65039;&#8419;</span>'
-        +'<div>'
-          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Share your team code</div>'
-          +'<div style="font-size:.82rem;color:var(--muted)">After creating your team, tap <strong>&#128228; Share Code</strong> in the My Squad section. A short code is copied to your clipboard — paste it into your group chat (WhatsApp, iMessage, etc.).</div>'
-        +'</div>'
+        +'<span style="font-size:1.3rem;flex-shrink:0">2&#65039;&#8419;</span>'
+        +'<div><div style="font-weight:700;font-size:.9rem;margin-bottom:2px">Share your team code</div>'
+        +'<div style="font-size:.82rem;color:var(--muted)">Tap <strong>&#128228; Share Code</strong> in My Squad. A short code is copied to clipboard — paste it in your group chat.</div></div>'
       +'</div>'
-      // Step 3
       +'<div style="display:flex;gap:12px;margin-bottom:14px">'
-        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">3&#65039;&#8419;</span>'
-        +'<div>'
-          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Import your friends&#39; codes</div>'
-          +'<div style="font-size:.82rem;color:var(--muted)">Tap <strong>+ Import a Friend&#39;s Team</strong> at the bottom of the League Table and paste their code. Do this once for each friend.</div>'
-        +'</div>'
+        +'<span style="font-size:1.3rem;flex-shrink:0">3&#65039;&#8419;</span>'
+        +'<div><div style="font-weight:700;font-size:.9rem;margin-bottom:2px">Import your friends&#39; codes</div>'
+        +'<div style="font-size:.82rem;color:var(--muted)">Tap <strong>+ Import a Friend&#39;s Team</strong> at the bottom of the League Table and paste their code. Do this once per friend.</div></div>'
       +'</div>'
-      // Step 4
       +'<div style="display:flex;gap:12px;margin-bottom:14px">'
-        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">4&#65039;&#8419;</span>'
-        +'<div>'
-          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Points update daily</div>'
-          +'<div style="font-size:.82rem;color:var(--muted)">Race results are scraped every day. Open the app and the leaderboard refreshes automatically — no action needed.</div>'
-        +'</div>'
+        +'<span style="font-size:1.3rem;flex-shrink:0">4&#65039;&#8419;</span>'
+        +'<div><div style="font-weight:700;font-size:.9rem;margin-bottom:2px">Points update daily automatically</div>'
+        +'<div style="font-size:.82rem;color:var(--muted)">Race results are scraped every day. Open the app and the leaderboard refreshes — no action needed.</div></div>'
       +'</div>'
-      // Step 5
       +'<div style="display:flex;gap:12px">'
-        +'<span style="font-size:1.4rem;line-height:1;flex-shrink:0">5&#65039;&#8419;</span>'
-        +'<div>'
-          +'<div style="font-weight:700;font-size:.9rem;margin-bottom:3px">Made a transfer? Re-share your code</div>'
-          +'<div style="font-size:.82rem;color:var(--muted)">If you swap a rider, tap <strong>&#128228; Share Code</strong> again and paste the new code in the group chat. Friends tap <strong>+ Import</strong> to update their copy of your team.</div>'
-        +'</div>'
+        +'<span style="font-size:1.3rem;flex-shrink:0">5&#65039;&#8419;</span>'
+        +'<div><div style="font-weight:700;font-size:.9rem;margin-bottom:2px">Made a transfer? Re-share your code</div>'
+        +'<div style="font-size:.82rem;color:var(--muted)">Tap <strong>&#128228; Share Code</strong> again and send the new code to the group. Friends re-import to update their leaderboard.</div></div>'
       +'</div>'
     +'</div>'
   +'</details>';
