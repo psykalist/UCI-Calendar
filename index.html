@@ -2149,7 +2149,7 @@ function fModal(title,body,onConfirm,confirmLabel){
   box.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;width:90%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
   const btns=onConfirm
     ?'<button id="fModalCancel" style="flex:1;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-weight:600;cursor:pointer">Cancel</button>'
-     n id="fModalOk" style="flex:1;padding:10px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">'+(confirmLabel||'OK')+'</button>'
+     +'<button id="fModalOk" style="flex:1;padding:10px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">'+(confirmLabel||'OK')+'</button>'
     :'<button onclick="this.closest(\'[data-modal]\').remove()" style="width:100%;padding:10px;background:var(--upcoming);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">'+(confirmLabel||'Close')+'</button>';
   box.innerHTML=
     '<div style="font-weight:700;font-size:1rem;margin-bottom:12px">'+title+'</div>'
