@@ -1359,7 +1359,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v20';
+const APP_VERSION = 'v21';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1478,8 +1478,22 @@ function costBadge(name){
   return '<span style="font-size:.72rem;font-weight:700;color:'+costColor(c)+';background:rgba(0,0,0,.25);border-radius:4px;padding:1px 5px;min-width:22px;text-align:center">'+c+'</span>';
 }
 
-function fantasyLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_TEAM_KEY)||'null');}catch(e){return null;}}
-function fantasySave(t){localStorage.setItem(FANTASY_TEAM_KEY,JSON.stringify(t));}
+const FANTASY_TEAMS_KEY  = 'fantasy_race_teams';   // {raceKey: team}
+const FANTASY_ACTIVE_KEY = 'fantasy_active_race';  // currently viewed race key
+
+function _raceKey(r){return r?(r.slug||r.name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''):'';}
+function _autoRace(){
+  const races=[...(appData.live||[]),...(appData.upcoming||[])];
+  for(const r of races){const k=_raceKey(r);if(k)return k;}
+  return '';
+}
+function fantasyLoadAll(){try{const s=localStorage.getItem(FANTASY_TEAMS_KEY);if(s)return JSON.parse(s);}catch(e){}return {};}
+function fantasySaveAll(d){localStorage.setItem(FANTASY_TEAMS_KEY,JSON.stringify(d));}
+function fantasyGetRace(){const k=localStorage.getItem(FANTASY_ACTIVE_KEY)||'';return k||_autoRace();}
+function fantasySetRace(k){localStorage.setItem(FANTASY_ACTIVE_KEY,k);}
+function fantasyLoad(){const d=fantasyLoadAll(),k=fantasyGetRace();return k?d[k]||null:null;}
+function fantasySave(t){const d=fantasyLoadAll(),k=fantasyGetRace();if(k){d[k]=t;fantasySaveAll(d);}}
+function fantasyDelete(){const d=fantasyLoadAll(),k=fantasyGetRace();if(k){delete d[k];fantasySaveAll(d);}}
 function leagueLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_LEAGUE_KEY)||'[]');}catch(e){return[];}}
 function leagueSave(l){localStorage.setItem(FANTASY_LEAGUE_KEY,JSON.stringify(l));}
 function watchLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_WATCH_KEY)||'[]');}catch(e){return[];}}
@@ -1548,6 +1562,35 @@ function computePoints(riderNames,createdAt){
   return{total:pts,breakdown};
 }
 
+function renderRaceSelector(){
+  const teams=fantasyLoadAll();
+  const activeKey=fantasyGetRace();
+  const races=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])];
+  const seen=new Set();
+  const unique=races.filter(r=>{const k=_raceKey(r);if(!k||seen.has(k))return false;seen.add(k);return true;}).slice(0,8);
+  if(!unique.length)return '';
+  return '<div style="margin-bottom:14px">'
+    +'<div style="font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:8px">🏁 Pick a Race</div>'
+    +'<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none">'
+      +unique.map(r=>{
+        const k=_raceKey(r);
+        const has=!!teams[k];
+        const active=k===activeKey;
+        const label=r.name.length>20?r.name.slice(0,20)+'…':r.name;
+        return '<button onclick="fSwitchRace(this.dataset.race)" data-race="'+k+'" style="flex:0 0 auto;padding:7px 12px;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;border:2px solid '+(active?'var(--upcoming)':'var(--border)')+';background:'+(active?'var(--upcoming)':'var(--surface)')+';color:'+(active?'#fff':'var(--text)')+';white-space:nowrap">'
+          +esc(label)+(has?' ✓':'')
+        +'</button>';
+      }).join('')
+    +'</div>'
+  +'</div>';
+}
+
+function fSwitchRace(key){
+  fantasySetRace(key);
+  draftClear();_fPicked=[];
+  renderFantasy();
+}
+
 function renderFantasy(){
   const el=document.getElementById('sec-fantasy');
   if(!el)return;
@@ -1555,7 +1598,7 @@ function renderFantasy(){
   if(!myTeam||(myTeam.riders&&myTeam.riders.length<MAX_SQUAD)){
     if(myTeam&&myTeam.riders&&myTeam.riders.length>0){
       if(!draftLoad())draftSave({picked:myTeam.riders,name:myTeam.name||'',owner:myTeam.owner||''});
-      localStorage.removeItem(FANTASY_TEAM_KEY);
+      fantasyDelete();
     }
     _fPicked=[];
     el.innerHTML=renderFantasySetup();
@@ -1565,7 +1608,12 @@ function renderFantasy(){
   const league=leagueLoad();
   const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at).total}))];
   allTeams.sort((a,b)=>b.points-a.points);
+  const _ark=fantasyGetRace();
+  const _arl=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_ark);
+  const _raceBanner=_arl?'<div style="font-size:.82rem;font-weight:700;color:var(--accent);margin-bottom:12px">🏁 '+esc(_arl.name)+'</div>':'';
   el.innerHTML='<div style="max-width:480px;margin:0 auto;padding:16px">'
+    +renderRaceSelector()
+    +_raceBanner
     +renderHowToPlay()
     +renderRulesCard()
     +'</div>'
@@ -1573,7 +1621,7 @@ function renderFantasy(){
   // Wire up delegated events after render
   el.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>fPickRider(el.dataset.pick)));
   el.querySelectorAll('[data-unpick]').forEach(el=>el.addEventListener('click',()=>fRemovePicked(el.dataset.unpick)));
-  el.querySelectorAll('[data-swap]').forEach(el=>el.addEventListener('click',()=>fOpenSwap(el.dataset.swap)));
+
   el.querySelectorAll('[data-unwatch]').forEach(el=>el.addEventListener('click',()=>fRemoveWatch(el.dataset.unwatch)));
   el.querySelectorAll('[data-doswap]').forEach(el=>el.addEventListener('click',()=>fDoSwap(el.dataset.doswap)));
   el.querySelectorAll('[data-addwatch]').forEach(el=>el.addEventListener('click',()=>fAddWatch(el.dataset.addwatch,el.dataset.nat||'',el.dataset.slug||'')));
@@ -1631,12 +1679,12 @@ function renderRulesCard(){
           +'<div style="font-size:.72rem;color:var(--muted);margin-top:2px">CREDIT BUDGET</div>'
         +'</div>'
         +'<div style="background:var(--surface2);border-radius:8px;padding:10px;text-align:center">'
-          +'<div style="font-size:1.4rem;font-weight:800;color:var(--text)">12</div>'
+          +'<div style="font-size:1.4rem;font-weight:800;color:var(--text)">9</div>'
           +'<div style="font-size:.72rem;color:var(--muted);margin-top:2px">SQUAD SIZE</div>'
         +'</div>'
         +'<div style="background:var(--surface2);border-radius:8px;padding:10px;text-align:center">'
-          +'<div style="font-size:1.4rem;font-weight:800;color:#2dd36f">5</div>'
-          +'<div style="font-size:.72rem;color:var(--muted);margin-top:2px">TRANSFERS</div>'
+          +'<div style="font-size:1.4rem;font-weight:800;color:#2dd36f">∞</div>'
+          +'<div style="font-size:.72rem;color:var(--muted);margin-top:2px">TEAMS</div>'
         +'</div>'
       +'</div>'
       // Rider pricing guide
@@ -1677,8 +1725,12 @@ function renderFantasySetup(){
   const progCol=n===MAX_SQUAD?'var(--upcoming)':n>=8?'#f97316':'var(--accent)';
   const draftName=(draft&&draft.name)||'';
   const draftOwner=(draft&&draft.owner)||'';
+  const _srk=fantasyGetRace();
+  const _srl=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_srk);
+  const _srLabel=_srl?_srl.name:'Select a race above';
   const html = '<div style="max-width:480px;margin:0 auto;padding:16px">'
-    +'<div class="group-header" style="padding-top:4px">&#127942; Create Your Fantasy Team</div>'
+    +renderRaceSelector()
+    +'<div class="group-header" style="padding-top:4px">🏁 '+esc(_srLabel)+'</div>'
     +renderHowToPlay()
     +renderRulesCard()
     +'<div style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px">'
@@ -1851,7 +1903,9 @@ function fCreateTeam(){
   if(!name||!owner){alert('Please enter a team name and owner name.');return;}
   if(_fPicked.length!==MAX_SQUAD){alert('You must pick exactly 9 riders. You have '+_fPicked.length+'.');return;}
   if(!/^\d{4}$/.test(pin)){alert('Please set a 4-digit PIN to protect your team.');return;}
-  fantasySave({name,owner,riders:[..._fPicked],transfers_used:0,transfers_total:MAX_TRANSFERS,created_at:new Date().toISOString(),pin_hash:_pinHash(pin)});
+    const _crk=fantasyGetRace();
+  const _craces=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_crk);
+  fantasySave({name,owner,riders:[..._fPicked],_race:_craces?_craces.name:'',created_at:new Date().toISOString(),pin_hash:_pinHash(pin)});
   draftClear();
   _fPicked=[];
   renderFantasy();
@@ -1871,7 +1925,7 @@ function renderMySquad(team,total,breakdown){
       +'<span style="flex:1;font-size:.88rem;font-weight:600">'+esc(r.name)+'</span>'
       +costBadge(r.name)
       +(rpts>0?'<span style="font-size:.82rem;font-weight:700;color:var(--gold);min-width:42px;text-align:right">'+rpts+' pts</span>':'<span style="font-size:.78rem;color:var(--muted);min-width:42px;text-align:right">—</span>')
-      +(left>0?'<button data-swap="'+esc(r.name)+'" style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--muted);font-size:.72rem;padding:3px 7px;cursor:pointer">Swap</button>':'')
+
     +'</div>';
   }).join('')
   +'<div style="padding:8px 16px;font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;border-top:2px solid var(--border)">'
@@ -1893,20 +1947,15 @@ function renderMySquad(team,total,breakdown){
       +'</details>';
   }
 
-  const swapPanel='<div id="fSwapPanel" style="display:none;padding:14px;border-top:1px solid var(--border);background:var(--surface2)">'
-    +'<div id="fSwapLabel" style="font-size:.82rem;color:var(--muted);margin-bottom:8px"></div>'
-    +'<input id="fSwapSearch" type="search" placeholder="Type name to search riders…" autocomplete="off" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 12px;color:var(--text);font-size:.88rem;outline:none;margin-bottom:6px" oninput="fSearchSwap(this.value)" onfocus="fSearchSwap(this.value)">'
-    +'<div id="fSwapResults" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface)"></div>'
-    +'<button onclick="fCloseSwap()" style="margin-top:8px;padding:7px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:.82rem;cursor:pointer">Cancel</button>'
-  +'</div>';
+  const swapPanel='';
 
   return '<div style="margin-bottom:16px">'
-    +'<div class="group-header">👕 My Squad — '+esc(team.name)+'</div>'
+    +'<div class="group-header">👕 '+esc(team.name)+(team._race?' — '+esc(team._race):'')+'</div>'
     +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">'
       +'<div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">'
         +'<div style="flex:1"><div style="font-size:.8rem;color:var(--muted)">Owner</div><div style="font-weight:600">'+esc(team.owner)+'</div></div>'
         +'<div style="text-align:center"><div style="font-size:1.8rem;font-weight:800;color:var(--gold)">'+total+'</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.8px">POINTS</div></div>'
-        +'<div style="text-align:right"><div style="font-size:1.2rem;font-weight:800;color:'+tCol+'">'+left+'</div><div style="font-size:.7rem;color:var(--muted)">TRANSFERS LEFT</div></div>'
+
       +'</div>'
       +rows+swapPanel
     +'</div>'
@@ -2124,7 +2173,6 @@ function fDoImport(code){
     if(!raw||!Array.isArray(raw.riders)||!raw.riders.length) throw new Error('bad');
     // Save as own team (own device) — strips pin so user sets their own
     const t={name:raw.name||'Imported Team',owner:raw.owner||'',riders:raw.riders,
-      transfers_used:raw.transfers_used||0,transfers_total:raw.transfers_total||5,
       created_at:raw.created_at||new Date().toISOString()};
     fantasySave(t);
     renderFantasy();
