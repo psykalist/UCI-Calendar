@@ -1299,6 +1299,267 @@ def main():
     print(f"  Teams:    {len(teams_data)}", flush=True)
     print(f"  Scraped:  {all_data['scraped_at_human']}", flush=True)
 
+    # Send push notifications (runs silently if push_subscriptions.json is absent)
+    print("\n[push] Checking notification triggers...", flush=True)
+    send_push_notifications(all_data)
+
+
+# ── Web Push notifications ─────────────────────────────────────────────────────
+# Requires: pip install pywebpush
+#
+# Push subscriptions are saved from the browser via the 🔔 button in the app.
+# They live in push_subscriptions.json alongside this script.
+#
+# VAPID keys (generated once — do not regenerate or existing subscriptions break):
+VAPID_PRIVATE_KEY_PEM = """-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIOuYOHJgseCwa9G9LrQsY9p1/GCLE1AvjTmmYn8LYrW/oAoGCCqGSM49
+AwEHoUQDQgAEuN/EJ/QjQWGCsln/bQRYw2N05npAl7SdiDjYqQiz0bH2ST/2Mm7o
+vdYapNrRl55xPHr24jRGixlKBWOp7lshLg==
+-----END EC PRIVATE KEY-----"""
+
+VAPID_CLAIMS = {"sub": "mailto:kieransemail@gmail.com"}
+
+
+def _load_push_subscriptions():
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "push_subscriptions.json")
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"  [push] Could not read push_subscriptions.json: {e}", flush=True)
+        return []
+
+
+def send_push_notifications(all_data):
+    """
+    Send Web Push notifications to all subscribed browsers.
+    Triggers:
+      • Race starting tomorrow → 'Set your team!' alert
+      • New stage result today → winner + GC leader
+    Call this at the end of main() once VAPID_PRIVATE_KEY_PEM is set.
+    """
+    try:
+        from pywebpush import webpush, WebPushException
+    except ImportError:
+        print("  [push] pywebpush not installed — run: pip install pywebpush", flush=True)
+        return
+
+    subscriptions = _load_push_subscriptions()
+    if not subscriptions:
+        print("  [push] No push subscriptions found", flush=True)
+        return
+
+    today    = date.today()
+    tomorrow = date.fromordinal(today.toordinal() + 1)
+    notifications = []
+
+    # Race starts tomorrow → remind to set fantasy team
+    for race in all_data.get("upcoming", []):
+        sd = race.get("start_date", "")
+        if not sd:
+            continue
+        try:
+            if date.fromisoformat(sd) == tomorrow:
+                sl_count = len(race.get("startlist", []))
+                notifications.append({
+                    "title": f"🚴 {race['name']} starts tomorrow!",
+                    "body":  f"Set your fantasy team before the flag drops — {race.get('total_stages',1)} stages · {race.get('category','')}",
+                    "tag":   f"race-start-{race.get('slug','')}",
+                })
+        except ValueError:
+            pass
+
+    # New stage results today
+    for race in all_data.get("live", []):
+        for stage in race.get("stages", []):
+            winner = stage.get("winner")
+            if not winner:
+                continue
+            # Rough date check: stage date_str contains today's day number
+            ds = stage.get("date_str", "")
+            if str(today.day) not in ds and str(today.strftime("%-d")) not in ds:
+                continue
+            gc     = race.get("classifications", {}).get("gc", [])
+            leader = gc[0]["name"] if gc else ""
+            body   = f"{winner} wins"
+            if leader:
+                body += f"  ·  GC: {leader}"
+            notifications.append({
+                "title": f"🏁 {race['name']} — Stage {stage['num']}",
+                "body":  body,
+                "tag":   f"stage-{race.get('slug','')}-{stage['num']}",
+            })
+
+    if not notifications:
+        print("  [push] No notification triggers matched today", flush=True)
+        return
+
+    sent = failed = 0
+    for sub in subscriptions:
+        for notif in notifications:
+            try:
+                webpush(
+                    subscription_info  = sub,
+                    data               = json.dumps(notif),
+                    vapid_private_key  = VAPID_PRIVATE_KEY_PEM,
+                    vapid_claims       = VAPID_CLAIMS,
+                )
+                sent += 1
+            except Exception as e:
+                failed += 1
+                print(f"  [push] Failed to send to subscription: {e}", flush=True)
+
+    print(f"  [push] {sent} sent, {failed} failed", flush=True)
+
+
+# ── Email notifications ────────────────────────────────────────────────────────
+# To activate: fill in SMTP_USER and SMTP_PASS below.
+# Recommended: create a Gmail App Password at
+#   https://myaccount.google.com/apppasswords
+# (requires 2FA enabled on your Google account).
+#
+# Then call send_notifications(all_data) at the end of main() if you want
+# automatic alerts.  The function reads subscribers.json from the same
+# folder as this script.
+
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = 587
+SMTP_USER = ""          # ← your Gmail address, e.g. "you@gmail.com"
+SMTP_PASS = ""          # ← your Gmail App Password (16-char, no spaces)
+FROM_ADDR = SMTP_USER   # can differ if using SendGrid etc.
+
+
+def _load_subscribers():
+    """Return list of subscriber dicts from subscribers.json, or []."""
+    path = os.path.join(os.path.dirname(__file__), "subscribers.json")
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"  [email] Could not read subscribers.json: {e}", flush=True)
+        return []
+
+
+def _send_email(to_addr, subject, body_html):
+    """Send a single HTML email via SMTP.  Returns True on success."""
+    if not SMTP_USER or not SMTP_PASS:
+        print(f"  [email] SMTP not configured — skipping send to {to_addr}", flush=True)
+        return False
+    import smtplib
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text import MIMEText
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"]    = FROM_ADDR
+    msg["To"]      = to_addr
+    msg.attach(MIMEText(body_html, "html", "utf-8"))
+    try:
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as s:
+            s.ehlo()
+            s.starttls()
+            s.login(SMTP_USER, SMTP_PASS)
+            s.sendmail(FROM_ADDR, to_addr, msg.as_string())
+        return True
+    except Exception as e:
+        print(f"  [email] Failed to send to {to_addr}: {e}", flush=True)
+        return False
+
+
+def send_notifications(all_data):
+    """
+    Send email notifications to subscribers.
+    Called automatically at the end of main() if SMTP is configured.
+
+    Triggers:
+      • Race starting within 24 h  → 'Set your team!' alert with startlist
+      • New stage result posted     → stage winner + updated GC top-5
+    """
+    subscribers = _load_subscribers()
+    if not subscribers:
+        print("  [email] No subscribers found in subscribers.json", flush=True)
+        return
+
+    today = date.today()
+    tomorrow = today.replace(day=today.day + 1) if today.day < 28 else (
+        date(today.year, today.month + 1, 1) if today.month < 12 else date(today.year + 1, 1, 1)
+    )
+
+    sent = 0
+    for race in all_data.get("upcoming", []):
+        sd = race.get("start_date", "")
+        if not sd:
+            continue
+        try:
+            start = date.fromisoformat(sd)
+        except ValueError:
+            continue
+        if start != tomorrow:
+            continue
+
+        # Build startlist summary (top 20 riders by bib if available)
+        sl = race.get("startlist", [])
+        rider_rows = "".join(
+            f"<tr><td style='padding:3px 8px'>{r.get('name','')}</td>"
+            f"<td style='padding:3px 8px;color:#888'>{r.get('team','')}</td></tr>"
+            for r in sl[:20]
+        ) or "<tr><td colspan='2' style='padding:3px 8px;color:#888'>Startlist not yet available</td></tr>"
+
+        subject = f"🚴 {race['name']} starts tomorrow — set your fantasy team!"
+        body = f"""
+<div style="font-family:sans-serif;max-width:520px;margin:auto;background:#0f1117;color:#e8eaf0;padding:24px;border-radius:12px">
+  <h2 style="color:#f4a261;margin-top:0">{race['name']}</h2>
+  <p style="color:#8890b0">{race.get('category','')} · {sd} → {race.get('end_date','')}</p>
+  <p><strong>The race starts tomorrow.</strong> Make sure your fantasy team is set before the gun goes!</p>
+  <h3 style="color:#4361ee;margin-bottom:6px">Startlist (first 20)</h3>
+  <table style="border-collapse:collapse;font-size:.9rem;width:100%">{rider_rows}</table>
+  <p style="margin-top:20px;font-size:.8rem;color:#8890b0">
+    Open the app: <a href="https://kieransemail.github.io/uci-calendar" style="color:#4361ee">UCI Calendar</a>
+  </p>
+</div>"""
+        for sub in subscribers:
+            if _send_email(sub["email"], subject, body):
+                sent += 1
+                print(f"  [email] Sent race-start alert to {sub['email']}", flush=True)
+
+    # Stage results: notify if any new stage winner appeared since last run
+    for race in all_data.get("live", []) + all_data.get("recent", []):
+        stages = race.get("stages", [])
+        new_stages = [s for s in stages if s.get("winner") and s.get("date_str", "").endswith(str(today.day))]
+        if not new_stages:
+            continue
+        s = new_stages[-1]
+        gc = race.get("classifications", {}).get("gc", [])
+        gc_rows = "".join(
+            f"<tr><td style='padding:3px 8px;color:#ffd700'>{'🥇' if r['rank']==1 else r['rank']}</td>"
+            f"<td style='padding:3px 8px'>{r.get('name','')}</td>"
+            f"<td style='padding:3px 8px;color:#888'>{r.get('time','')}</td></tr>"
+            for r in gc[:5]
+        ) or ""
+        subject = f"🏁 {race['name']} Stage {s['num']} — {s.get('winner','?')} wins"
+        body = f"""
+<div style="font-family:sans-serif;max-width:520px;margin:auto;background:#0f1117;color:#e8eaf0;padding:24px;border-radius:12px">
+  <h2 style="color:#f4a261;margin-top:0">{race['name']}</h2>
+  <h3 style="color:#e63946">Stage {s['num']} result</h3>
+  <p style="font-size:1.1rem">🏆 <strong>{s.get('winner','')}</strong></p>
+  {'<h3 style="color:#4361ee;margin-bottom:6px">GC Top 5</h3><table style="border-collapse:collapse;font-size:.9rem;width:100%">'+gc_rows+'</table>' if gc_rows else ''}
+  <p style="margin-top:20px;font-size:.8rem;color:#8890b0">
+    Open the app: <a href="https://kieransemail.github.io/uci-calendar" style="color:#4361ee">UCI Calendar</a>
+  </p>
+</div>"""
+        for sub in subscribers:
+            if _send_email(sub["email"], subject, body):
+                sent += 1
+                print(f"  [email] Sent stage result to {sub['email']}", flush=True)
+
+    if sent == 0:
+        print("  [email] No notifications sent (either SMTP not set, or no triggers matched)", flush=True)
+    else:
+        print(f"  [email] {sent} notification(s) sent", flush=True)
+
 
 if __name__ == "__main__":
     main()

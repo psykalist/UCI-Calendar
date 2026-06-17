@@ -703,6 +703,7 @@ header h1 span { color: var(--accent); }
     <h1>🚴 Men's <span>UCI Road Calendar</span></h1>
     <div class="header-actions">
       <button id="install-btn" onclick="installPWA()">⬇ Install</button>
+      <button id="notif-btn" onclick="toggleNotifications()" title="Enable push notifications" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center">🔔</button>
       <button class="refresh-btn" onclick="refreshData()" title="Refresh">↻</button>
     </div>
   </div>
@@ -1376,6 +1377,65 @@ if ('serviceWorker' in navigator) {
 
 loadData();
 
+// ── Push notifications ────────────────────────────────────────────────────────
+const VAPID_PUBLIC_KEY = 'BLjfxCf0I0FhgrJZ_20EWMNjdOZ6QJe0nYg42KkIs9Gx9kk_9jJu6L3WGqTa0ZeecTx69uI0RosZSgVjqe5bIS4';
+
+function _urlB64ToUint8(b64){
+  const pad='='.repeat((4-b64.length%4)%4);
+  const b=(b64+pad).replace(/-/g,'+').replace(/_/g,'/');
+  const raw=atob(b);
+  return new Uint8Array([...raw].map(c=>c.charCodeAt(0)));
+}
+
+function _notifSupported(){return 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;}
+
+function _updateNotifBtn(){
+  const btn=document.getElementById('notif-btn');if(!btn)return;
+  if(!_notifSupported()){btn.style.display='none';return;}
+  const p=Notification.permission;
+  btn.title=p==='granted'?'Notifications on — tap to save subscription file':p==='denied'?'Notifications blocked in browser settings':'Enable push notifications';
+  btn.style.color=p==='granted'?'var(--upcoming)':p==='denied'?'var(--live)':'var(--muted)';
+  btn.style.borderColor=p==='granted'?'var(--upcoming)':'var(--border)';
+}
+
+async function toggleNotifications(){
+  if(!_notifSupported()){alert('Push notifications are not supported in this browser or on file:// URLs. Open the app via a web server.');return;}
+  const p=await Notification.requestPermission();
+  _updateNotifBtn();
+  if(p!=='granted'){alert('Notifications blocked — you can re-enable them in your browser settings.');return;}
+  const reg=await navigator.serviceWorker.ready;
+  let sub=await reg.pushManager.getSubscription();
+  if(!sub){
+    try{
+      sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:_urlB64ToUint8(VAPID_PUBLIC_KEY)});
+    }catch(e){alert('Could not subscribe: '+e.message);return;}
+  }
+  // Save subscription file for the scraper
+  const json=JSON.stringify([sub.toJSON()],null,2);
+  if(window.showSaveFilePicker){
+    window.showSaveFilePicker({suggestedName:'push_subscriptions.json',types:[{description:'JSON',accept:{'application/json':['.json']}}]})
+      .then(async fh=>{const w=await fh.createWritable();await w.write(json);await w.close();showBanner('🔔 Push enabled — subscription saved');})
+      .catch(()=>{});
+  } else {
+    const blob=new Blob([json],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download='push_subscriptions.json';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+    showBanner('🔔 Push enabled — move push_subscriptions.json to project folder');
+  }
+}
+
+function _fireInAppNotif(title, body, tag){
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  try{
+    if(navigator.serviceWorker.controller){
+      navigator.serviceWorker.ready.then(r=>r.showNotification(title,{body,icon:'./icon-192.png',badge:'./icon-192.png',tag}));
+    } else {
+      new Notification(title,{body,icon:'./icon-192.png',tag});
+    }
+  }catch(e){}
+}
+
 // ── Background auto-refresh every 30 minutes ─────────────────────────────────
 let _lastScrapedAt = '';
 async function silentCheck() {
@@ -1384,12 +1444,35 @@ async function silentCheck() {
     if (!r.ok) return;
     const d = await r.json();
     if (d.scraped_at && d.scraped_at !== _lastScrapedAt) {
+      // Detect newly completed stages since last check
+      const prevLive = appData.live || [];
+      const prevWinners = new Set();
+      for(const race of prevLive) for(const s of (race.stages||[])) if(s.winner) prevWinners.add(`${race.slug}-${s.num}`);
+
       appData = d;
       _lastScrapedAt = d.scraped_at;
       document.getElementById('last-updated').textContent = `Updated ${d.scraped_at_human || '—'}`;
       renderLive(appData.live || []);
       renderUpcoming(appData.upcoming || []);
       renderRecent(appData.recent || []);
+
+      // Fire in-app notification for each new stage result
+      for(const race of (d.live||[])){
+        for(const s of (race.stages||[])){
+          const key=`${race.slug}-${s.num}`;
+          if(s.winner && !prevWinners.has(key)){
+            _fireInAppNotif(`🏁 ${race.name} — Stage ${s.num}`,`${s.winner} wins`,`stage-${key}`);
+          }
+        }
+      }
+      // Also notify about races going live today
+      for(const race of (d.live||[])){
+        const prevRaceSlugs=new Set(prevLive.map(r=>r.slug));
+        if(!prevRaceSlugs.has(race.slug)){
+          _fireInAppNotif(`🚴 ${race.name} has started`,`${race.total_stages} stages · ${race.category}`,'race-live-'+race.slug);
+        }
+      }
+
       showBanner('📡 New race data loaded');
     }
   } catch(e) {}
@@ -1406,9 +1489,10 @@ function showBanner(msg) {
   b.style.opacity = '1';
   setTimeout(() => { b.style.opacity = '0'; }, 3500);
 }
-// Capture initial scraped_at after first load
+// Capture initial scraped_at after first load; wire notification button state
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { _lastScrapedAt = appData.scraped_at || ''; }, 2000);
+  _updateNotifBtn();
 });
 setInterval(silentCheck, 30 * 60 * 1000); // every 30 min
 // Also check when tab becomes visible again (phone unlock / tab switch)
@@ -1504,6 +1588,30 @@ function draftClear(){localStorage.removeItem(FANTASY_DRAFT_KEY);}
 function watchSave(w){localStorage.setItem(FANTASY_WATCH_KEY,JSON.stringify(w));}
 
 const normName = n => (n||'').toLowerCase().replace(/[^a-z]/g,' ').replace(/\s+/g,' ').trim();
+
+function getRaceRiders(){
+  // Return riders from the active race's startlist, enriched with team roster data where possible.
+  // Falls back to full peloton if no startlist exists.
+  const raceKey=fantasyGetRace();
+  const race=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===raceKey);
+  const sl=race&&race.startlist&&race.startlist.length?race.startlist:null;
+  if(!sl) return getAllRiders();
+  // Build a lookup from the full roster for enrichment (photo, slug)
+  const rosterMap=new Map();
+  for(const team of (appData.teams||[])){
+    for(const r of (team.riders||[])){
+      if(r.name) rosterMap.set(normName(r.name),{...r,teamName:team.name});
+    }
+  }
+  const riders=[],seen=new Set();
+  for(const r of sl){
+    if(!r.name||seen.has(r.name))continue;
+    seen.add(r.name);
+    const enriched=rosterMap.get(normName(r.name))||{};
+    riders.push({name:r.name,slug:r.slug||enriched.slug||'',nat:(r.nat||enriched.nat||'').toLowerCase(),photo:enriched.photo||'',teamName:enriched.teamName||r.team||''});
+  }
+  return riders.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+}
 
 function getAllRiders(){
   const riders=[],seen=new Set();
@@ -1752,6 +1860,8 @@ function renderFantasySetup(){
       +'<input id="fTeamName" type="text" placeholder="e.g. Alpe Allstars" value="'+draftName.replace(/"/g,'&quot;')+'" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
       +'<div style="margin-bottom:14px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Owner Name</label>'
       +'<input id="fOwnerName" type="text" placeholder="Your name" value="'+draftOwner.replace(/"/g,'&quot;')+'" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
+      +'<div style="margin-bottom:14px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Email <span style="font-weight:400;font-size:.76rem;color:var(--muted)">(optional — get notified before races &amp; when results come in)</span></label>'
+      +'<input id="fOwnerEmail" type="email" placeholder="you@example.com" value="'+(((draft&&draft.email)||'').replace(/"/g,'&quot;'))+'" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
       +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Search &amp; Add Riders</label>'
       +'<input id="fRiderSearch" type="search" placeholder="Type a name to search riders\u2026" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)" onfocus="fSearchRiders(this.value)">'
       +'<div id="fRiderResults" style="max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>'
@@ -1770,7 +1880,7 @@ function fSearchRiders(q){
   const el=document.getElementById('fRiderResults');if(!el)return;
   const raw=q.trim();
   const picked=new Set(_fPicked.map(r=>r.name));
-  const all=getAllRiders().filter(r=>!picked.has(r.name));
+  const all=getRaceRiders().filter(r=>!picked.has(r.name));
   let matches;
   if(!raw){
     // show first 20 alphabetically on focus/empty
@@ -1825,8 +1935,8 @@ function fRemovePicked(name){
 }
 
 function _fSaveDraft(){
-  const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName');
-  draftSave({picked:[..._fPicked],name:nameEl?nameEl.value:'',owner:ownerEl?ownerEl.value:''});
+  const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName'),emailEl=document.getElementById('fOwnerEmail');
+  draftSave({picked:[..._fPicked],name:nameEl?nameEl.value:'',owner:ownerEl?ownerEl.value:'',email:emailEl?emailEl.value:''});
 }
 
 function _fUpdateSquadUI(){
@@ -1895,18 +2005,26 @@ function fVerifyPin(team,action,onOk){
   onOk();
 }
 function fCreateTeam(){
-  const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName'),pinEl=document.getElementById('fTeamPin');
+  const nameEl=document.getElementById('fTeamName'),ownerEl=document.getElementById('fOwnerName'),pinEl=document.getElementById('fTeamPin'),emailEl=document.getElementById('fOwnerEmail');
   const name=nameEl?nameEl.value.trim():'',owner=ownerEl?ownerEl.value.trim():'';
+  const email=(emailEl?emailEl.value.trim():'');
   const pin=(pinEl?pinEl.value:'').trim();
   if(!name||!owner){alert('Please enter a team name and owner name.');return;}
   if(_fPicked.length!==MAX_SQUAD){alert('You must pick exactly 9 riders. You have '+_fPicked.length+'.');return;}
   if(!/^\d{4}$/.test(pin)){alert('Please set a 4-digit PIN to protect your team.');return;}
-    const _crk=fantasyGetRace();
+  if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email address (or leave it blank).');return;}
+  const _crk=fantasyGetRace();
   const _craces=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_crk);
-  fantasySave({name,owner,riders:[..._fPicked],_race:_craces?_craces.name:'',created_at:new Date().toISOString(),pin_hash:_pinHash(pin)});
+  fantasySave({name,owner,email:email||'',riders:[..._fPicked],_race:_craces?_craces.name:'',created_at:new Date().toISOString(),pin_hash:_pinHash(pin)});
   draftClear();
   _fPicked=[];
+  if(email) _notifySubscribersExportNeeded();
   renderFantasy();
+}
+
+function _notifySubscribersExportNeeded(){
+  // Set a flag so the My Squad view prompts to re-export subscribers.json
+  try{localStorage.setItem('uci_subscribers_dirty','1');}catch(e){}
 }
 
 // ── My Squad ─────────────────────────────────────────────────────────────────
@@ -1951,7 +2069,7 @@ function renderMySquad(team,total,breakdown){
     +'<div class="group-header">👕 '+esc(team.name)+(team._race?' — '+esc(team._race):'')+'</div>'
     +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">'
       +'<div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">'
-        +'<div style="flex:1"><div style="font-size:.8rem;color:var(--muted)">Owner</div><div style="font-weight:600">'+esc(team.owner)+'</div></div>'
+        +'<div style="flex:1"><div style="font-size:.8rem;color:var(--muted)">Owner</div><div style="font-weight:600">'+esc(team.owner)+'</div>'+(team.email?'<div style="font-size:.72rem;color:var(--muted);margin-top:1px">✉ '+esc(team.email)+'</div>':'<div style="font-size:.72rem;color:var(--muted);margin-top:1px;font-style:italic">no email set</div>')+'</div>'
         +'<div style="text-align:center"><div style="font-size:1.8rem;font-weight:800;color:var(--gold)">'+total+'</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.8px">POINTS</div></div>'
 
       +'</div>'
@@ -1963,6 +2081,11 @@ function renderMySquad(team,total,breakdown){
       +'<button onclick="fImportTeam()" style="flex:1;padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;font-weight:600;cursor:pointer">📥 Import Team</button>'
       +'<button onclick="fDeleteTeam()" style="padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--live);font-size:.85rem;cursor:pointer">🗑</button>'
     +'</div>'
+    +(localStorage.getItem('uci_subscribers_dirty')?
+      '<button onclick="exportSubscribers()" style="width:100%;margin-top:8px;padding:11px;background:rgba(67,97,238,.18);border:1px solid var(--upcoming);border-radius:8px;color:var(--upcoming);font-size:.85rem;font-weight:700;cursor:pointer">📧 Save subscribers.json — needed for email notifications</button>'
+    :
+      '<button onclick="exportSubscribers()" style="width:100%;margin-top:8px;padding:9px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.8rem;cursor:pointer">📧 Export subscriber list</button>'
+    )
   +'</div>';
 }
 
@@ -2212,6 +2335,51 @@ function fModal(title,body,onConfirm,confirmLabel){
   const okBtn=box.querySelector('#fModalOk');
   if(okBtn) okBtn.addEventListener('click',()=>{if(onConfirm)onConfirm();close();});
   return box;
+}
+
+// ── Subscriber export ─────────────────────────────────────────────────────────
+function exportSubscribers(){
+  const all=[];
+  const seen=new Set();
+  function addTeam(t,source){
+    if(!t||!t.email)return;
+    const e=t.email.trim().toLowerCase();
+    if(!e||seen.has(e))return;
+    seen.add(e);
+    all.push({email:t.email.trim(),name:t.owner||'',team:t.name||'',race:t._race||'',source,added:t.created_at||new Date().toISOString()});
+  }
+  addTeam(fantasyLoad(),'own');
+  for(const t of leagueLoad()) addTeam(t,'imported');
+  if(!all.length){
+    alert('No subscribers yet — team owners need to enter an email when creating their team.');
+    return;
+  }
+  const json=JSON.stringify(all,null,2);
+  if(window.showSaveFilePicker){
+    window.showSaveFilePicker({
+      suggestedName:'subscribers.json',
+      types:[{description:'JSON',accept:{'application/json':['.json']}}]
+    }).then(async fh=>{
+      const w=await fh.createWritable();
+      await w.write(json);
+      await w.close();
+      localStorage.removeItem('uci_subscribers_dirty');
+      alert('✅ subscribers.json saved — the scraper will use it for email notifications.');
+      renderFantasy();
+    }).catch(()=>{});
+    return;
+  }
+  // Fallback: trigger download
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='subscribers.json';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  localStorage.removeItem('uci_subscribers_dirty');
+  alert('✅ Downloaded — move subscribers.json to the UCI Calendar & Results folder so the scraper can find it.');
+  renderFantasy();
 }
 
 // ── Service Worker ─────────────────────────────────────────────────────────
