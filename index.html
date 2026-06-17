@@ -1361,7 +1361,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v24';
+const APP_VERSION = 'v25';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1589,7 +1589,7 @@ function draftSave(d){localStorage.setItem(FANTASY_DRAFT_KEY,JSON.stringify(d));
 function draftClear(){localStorage.removeItem(FANTASY_DRAFT_KEY);}
 function watchSave(w){localStorage.setItem(FANTASY_WATCH_KEY,JSON.stringify(w));}
 
-const normName = n => (n||'').toLowerCase().replace(/[^a-z]/g,' ').replace(/\s+/g,' ').trim();
+const normName = n => (n||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,' ').replace(/\s+/g,' ').trim();
 
 function getRaceRiders(){
   // Return riders from the active race's startlist, enriched with team roster data where possible.

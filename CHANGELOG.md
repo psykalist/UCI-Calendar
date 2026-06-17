@@ -4,6 +4,10 @@ All notable changes to UCI Road Calendar are documented here.
 
 ---
 
+## v25 — 2026-06-18
+- Fix: `normName()` now strips Unicode combining marks (NFD decomposition) so accented names like Pogačar, Möbius etc. correctly match across data sources
+- Riders with diacritics no longer fall back to 4cr floor cost
+
 ## v24 — 2026-06-18
 - Fix: `riderCost()` now normalises input via `normName()` before lookup
 - Fix: `buildRiderCosts()` stores all keys as `normName()` so case/punctuation differences never cause misses

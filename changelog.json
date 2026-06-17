@@ -1,7 +1,16 @@
 {
-  "current_version": "v24",
+  "current_version": "v25",
   "generated_at": "2026-06-18T00:00:00Z",
   "entries": [
+    {
+      "version": "v25",
+      "date": "2026-06-18",
+      "summary": "Fix accented rider names (Pogačar etc.) costing 4cr",
+      "changes": [
+        "normName() now applies NFD Unicode decomposition and strips combining marks before ASCII conversion",
+        "Pogačar, Møller, Martínez and all accented names now match correctly across CyclingFlash results and PCS startlists"
+      ]
+    },
     {
       "version": "v24",
       "date": "2026-06-18",
