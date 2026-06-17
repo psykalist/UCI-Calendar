@@ -1525,7 +1525,7 @@ let _riderCosts = {};   // name → credit cost
 function buildRiderCosts(){
   // Compute form score for every rider from race results
   const scores={};
-  for(const section of ['recent','live']){
+  for(const section of ['recent','live','upcoming']){
     for(const race of (appData[section]||[])){
       for(const stage of (race.stages||[])){
         for(const r of (stage.top10||[])){
