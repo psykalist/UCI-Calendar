@@ -4,6 +4,11 @@ All notable changes to UCI Road Calendar are documented here.
 
 ---
 
+## v24 — 2026-06-18
+- Fix: `riderCost()` now normalises input via `normName()` before lookup
+- Fix: `buildRiderCosts()` stores all keys as `normName()` so case/punctuation differences never cause misses
+- Both fixes together resolve TdF (and all PCS-startlist) riders showing 4cr floor cost
+
 ## v23 — 2026-06-18
 - Fix: rider costs now reflect season results for PCS-format startlists (e.g. TdF)
 - Frontend: `buildRiderCosts` indexes both "Firstname Surname" and "SURNAME Firstname" orderings

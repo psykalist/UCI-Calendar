@@ -1361,7 +1361,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v23';
+const APP_VERSION = 'v24';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1523,38 +1523,35 @@ let _fSwapOut = null;
 let _riderCosts = {};   // name → credit cost
 
 function buildRiderCosts(){
-  // Compute form score for every rider from race results
+  // All keys stored as normName() so riderCost() lookup is case/punctuation-insensitive.
+  // Both "Firstname Surname" and "SURNAME Firstname" orderings are indexed so PCS startlist
+  // names match CyclingFlash result names regardless of word order.
   const scores={};
+  const add=(name,pts)=>{if(!name)return;const k=normName(name);scores[k]=(scores[k]||0)+pts;};
   for(const section of ['recent','live','upcoming']){
     for(const race of (appData[section]||[])){
       for(const stage of (race.stages||[])){
-        for(const r of (stage.top10||[])){
-          if(r.name) scores[r.name]=(scores[r.name]||0)+(STAGE_PTS[r.rank]||0);
-        }
+        for(const r of (stage.top10||[])) add(r.name,STAGE_PTS[r.rank]||0);
       }
       const cl=race.classifications||{};
-      for(const r of (cl.gc||[])){
-        if(r.name) scores[r.name]=(scores[r.name]||0)+(GC_PTS[r.rank]||0);
-      }
+      for(const r of (cl.gc||[])) add(r.name,GC_PTS[r.rank]||0);
       for(const key of ['points','mountain','youth']){
         const lst=cl[key]||[];
-        if(lst[0]&&lst[0].name) scores[lst[0].name]=(scores[lst[0].name]||0)+JERSEY_PTS;
+        if(lst[0]) add(lst[0].name,JERSEY_PTS);
       }
     }
   }
   const maxPts=Math.max(...Object.values(scores),1);
   _riderCosts={};
-  for(const [name,pts] of Object.entries(scores)){
-    const cost=Math.max(COST_FLOOR, Math.round(COST_FLOOR+(COST_CEIL-COST_FLOOR)*Math.sqrt(pts/maxPts)));
-    _riderCosts[name]=cost;
-    // PCS startlists use "SURNAME Firstname" order; results use "Firstname Surname".
-    // Index both orderings so lookups match regardless of source.
-    const rev=name.split(' ').reverse().join(' ');
-    if(rev!==name)_riderCosts[rev]=cost;
+  for(const [key,pts] of Object.entries(scores)){
+    const cost=Math.max(COST_FLOOR,Math.round(COST_FLOOR+(COST_CEIL-COST_FLOOR)*Math.sqrt(pts/maxPts)));
+    _riderCosts[key]=cost;
+    const rev=key.split(' ').reverse().join(' ');
+    if(rev!==key)_riderCosts[rev]=cost;
   }
 }
 
-function riderCost(name){ return _riderCosts[name]||COST_FLOOR; }
+function riderCost(name){ return _riderCosts[normName(name)]||COST_FLOOR; }
 function squadCost(riders){ return riders.reduce((s,r)=>s+riderCost(r.name||r),0); }
 
 function costColor(c){

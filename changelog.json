@@ -1,7 +1,17 @@
 {
-  "current_version": "v23",
+  "current_version": "v24",
   "generated_at": "2026-06-18T00:00:00Z",
   "entries": [
+    {
+      "version": "v24",
+      "date": "2026-06-18",
+      "summary": "Fix rider cost lookup — TdF riders now priced correctly",
+      "changes": [
+        "riderCost() now calls normName() on input so case/punctuation differences never cause a miss",
+        "buildRiderCosts() stores all score keys as normName() output for consistent lookup",
+        "Both name orderings (Firstname Surname and SURNAME Firstname) indexed under normalised keys"
+      ]
+    },
     {
       "version": "v23",
       "date": "2026-06-18",
