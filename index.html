@@ -1360,7 +1360,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v21b';
+const APP_VERSION = 'v21c';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1568,21 +1568,20 @@ function renderRaceSelector(){
   const activeKey=fantasyGetRace();
   const races=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])];
   const seen=new Set();
-  const unique=races.filter(r=>{const k=_raceKey(r);if(!k||seen.has(k))return false;seen.add(k);return true;}).slice(0,8);
+  const unique=races.filter(r=>{const k=_raceKey(r);if(!k||seen.has(k))return false;seen.add(k);return true;});
   if(!unique.length)return '';
+  const opts=unique.map(r=>{
+    const k=_raceKey(r);
+    const has=!!teams[k];
+    const label=esc(r.name)+(has?' ✓':'');
+    return '<option value="'+k+'"'+(k===activeKey?' selected':'')+'>'+label+'</option>';
+  }).join('');
   return '<div style="margin-bottom:14px">'
-    +'<div style="font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:8px">🏁 Pick a Race</div>'
-    +'<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none">'
-      +unique.map(r=>{
-        const k=_raceKey(r);
-        const has=!!teams[k];
-        const active=k===activeKey;
-        const label=r.name.length>20?r.name.slice(0,20)+'…':r.name;
-        return '<button onclick="fSwitchRace(this.dataset.race)" data-race="'+k+'" style="flex:0 0 auto;padding:7px 12px;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;border:2px solid '+(active?'var(--upcoming)':'var(--border)')+';background:'+(active?'var(--upcoming)':'var(--surface)')+';color:'+(active?'#fff':'var(--text)')+';white-space:nowrap">'
-          +esc(label)+(has?' ✓':'')
-        +'</button>';
-      }).join('')
-    +'</div>'
+    +'<label style="display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:6px">🏁 Pick a Race</label>'
+    +'<select onchange="fSwitchRace(this.value)" style="width:100%;padding:10px 12px;border-radius:8px;border:2px solid var(--upcoming);background:var(--surface);color:var(--text);font-size:.88rem;font-weight:600;cursor:pointer;appearance:auto">'
+      +'<option value="" disabled'+(activeKey?'':' selected')+'>— choose a race —</option>'
+      +opts
+    +'</select>'
   +'</div>';
 }
 
@@ -1613,10 +1612,9 @@ function renderFantasy(){
   const _arl=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_ark);
   const _raceBanner=_arl?'<div style="font-size:.82rem;font-weight:700;color:var(--accent);margin-bottom:12px">🏁 '+esc(_arl.name)+'</div>':'';
   el.innerHTML='<div style="max-width:480px;margin:0 auto;padding:16px">'
-    +renderRaceSelector()
-    +_raceBanner
     +renderHowToPlay()
     +renderRulesCard()
+    +renderRaceSelector()
     +'</div>'
     +renderLeagueTable(allTeams)+renderMySquad(myTeam,total,breakdown)+renderWatchlist(watchLoad());
   // Wire up delegated events after render
@@ -1730,10 +1728,9 @@ function renderFantasySetup(){
   const _srl=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_srk);
   const _srLabel=_srl?_srl.name:'Select a race above';
   const html = '<div style="max-width:480px;margin:0 auto;padding:16px">'
-    +renderRaceSelector()
-    +'<div class="group-header" style="padding-top:4px">🏁 '+esc(_srLabel)+'</div>'
     +renderHowToPlay()
     +renderRulesCard()
+    +renderRaceSelector()
     +'<div style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px">'
       +'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">'
         +'<span style="font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase">Squad</span>'
