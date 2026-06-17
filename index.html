@@ -1862,9 +1862,9 @@ function renderFantasySetup(){
       +'<input id="fOwnerName" type="text" placeholder="Your name" value="'+draftOwner.replace(/"/g,'&quot;')+'" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
       +'<div style="margin-bottom:14px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Email <span style="font-weight:400;font-size:.76rem;color:var(--muted)">(optional — get notified before races &amp; when results come in)</span></label>'
       +'<input id="fOwnerEmail" type="email" placeholder="you@example.com" value="'+(((draft&&draft.email)||'').replace(/"/g,'&quot;'))+'" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
-      +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Search &amp; Add Riders</label>'
-      +'<input id="fRiderSearch" type="search" placeholder="Type a name to search riders\u2026" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)" onfocus="fSearchRiders(this.value)">'
-      +'<div id="fRiderResults" style="max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;display:none;background:var(--surface2)"></div>'
+      +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Add Riders <span id="fRiderCount" style="font-weight:400;font-size:.76rem;color:var(--muted)"></span></label>'
+      +'<input id="fRiderSearch" type="search" placeholder="Filter by name\u2026" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)">'
+      +'<div id="fRiderResults" style="max-height:300px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;background:var(--surface2)"></div>'
     +'</div>'
     +'<div id="fPickedList" style="margin-bottom:14px"></div>'
     +'<div style="margin-bottom:10px">'
@@ -1873,40 +1873,41 @@ function renderFantasySetup(){
     +'</div>'
     +'<button id="fCreateBtn" onclick="fCreateTeam()" style="width:100%;padding:14px;background:'+(n===MAX_SQUAD?'var(--upcoming)':'var(--border)')+';border:none;border-radius:8px;color:'+(n===MAX_SQUAD?'#fff':'var(--muted)')+';font-size:1rem;font-weight:700;cursor:'+(n===MAX_SQUAD?'pointer':'not-allowed')+'"'+(n===MAX_SQUAD?'':' disabled')+'>'+(n===MAX_SQUAD?'\u2705 Create Team':'Pick 9 Riders to Continue')+'</button>'
   +'</div>';
-  setTimeout(()=>{updateBudgetBar(squadCost(_fPicked));renderPickedList();},0);
+  setTimeout(()=>{updateBudgetBar(squadCost(_fPicked));renderPickedList();fSearchRiders('');},0);
   return html;
 }
 function fSearchRiders(q){
   const el=document.getElementById('fRiderResults');if(!el)return;
-  const raw=q.trim();
+  const raw=(q||'').trim();
   const picked=new Set(_fPicked.map(r=>r.name));
   const all=getRaceRiders().filter(r=>!picked.has(r.name));
-  let matches;
-  if(!raw){
-    // show first 20 alphabetically on focus/empty
-    matches=all.slice(0,20);
-  } else {
-    const lq=raw.toLowerCase();
-    // prioritise names that START with query, then contains
-    const starts=all.filter(r=>(r.name||'').toLowerCase().startsWith(lq));
-    const contains=all.filter(r=>!(r.name||'').toLowerCase().startsWith(lq)&&(r.name||'').toLowerCase().includes(lq));
-    matches=[...starts,...contains].slice(0,20);
-  }
+  const lbl=document.getElementById('fRiderCount');
   if(!all.length){
-    el.style.display='block';
+    if(lbl)lbl.textContent='';
     el.innerHTML='<div style="padding:12px;color:var(--muted);font-size:.85rem">No rider data yet — run the scraper first.</div>';
     return;
   }
-  if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:12px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
-  el.style.display='block';
+  let matches;
+  if(!raw){
+    matches=all; // show every available rider alphabetically
+  } else {
+    const lq=raw.toLowerCase();
+    const starts=all.filter(r=>(r.name||'').toLowerCase().startsWith(lq));
+    const contains=all.filter(r=>!(r.name||'').toLowerCase().startsWith(lq)&&(r.name||'').toLowerCase().includes(lq));
+    matches=[...starts,...contains];
+  }
+  if(lbl)lbl.textContent='— '+matches.length+' available';
+  if(!matches.length){el.innerHTML='<div style="padding:12px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
   const spent=squadCost(_fPicked);
   const remaining=FANTASY_BUDGET-spent;
   el.innerHTML=matches.map(r=>{
     const c=riderCost(r.name);
     const canAfford=c<=remaining&&_fPicked.length<MAX_SQUAD;
-    return '<div data-pick="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:background .15s;opacity:'+(canAfford?'1':'.45')+'" onmouseenter="this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
+    const restrictedBadge=r.restricted?'<span style="font-size:.68rem;font-weight:700;color:#f97316;background:rgba(249,115,22,.15);border-radius:3px;padding:1px 5px;flex-shrink:0">DNS?</span>':'';
+    return '<div data-pick="'+esc(r.name)+'" style="padding:9px 12px;cursor:'+(canAfford?'pointer':'default')+';display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:background .15s;opacity:'+(canAfford?'1':'.45')+'" onmouseenter="if('+(canAfford?'true':'false')+')this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
       +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
       +'<span style="flex:1;font-size:.9rem">'+esc(r.name)+'</span>'
+      +restrictedBadge
       +'<span style="font-size:.75rem;color:var(--muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.teamName||'')+'</span>'
       +costBadge(r.name)
     +'</div>';
@@ -1916,21 +1917,23 @@ function fSearchRiders(q){
 
 function fPickRider(name){
   if(_fPicked.length>=MAX_SQUAD){alert('Squad full! You need exactly 9 riders.');return;}
-  const r=getAllRiders().find(r=>r.name===name);
+  const r=getRaceRiders().find(r=>r.name===name)||getAllRiders().find(r=>r.name===name);
   if(!r||_fPicked.find(p=>p.name===name))return;
   const cost=riderCost(name);
   const spent=squadCost(_fPicked);
   if(spent+cost>FANTASY_BUDGET){alert('Not enough budget! '+name+' costs '+cost+' cr but you only have '+(FANTASY_BUDGET-spent)+' cr left.');return;}
   _fPicked.push(r);
-  const srch=document.getElementById('fRiderSearch');if(srch)srch.value='';
-  const res=document.getElementById('fRiderResults');if(res)res.style.display='none';
   renderPickedList();
+  const srch=document.getElementById('fRiderSearch');
+  fSearchRiders(srch?srch.value:'');
   _fSaveDraft();
 }
 
 function fRemovePicked(name){
   _fPicked=_fPicked.filter(r=>r.name!==name);
   renderPickedList();
+  const srch=document.getElementById('fRiderSearch');
+  fSearchRiders(srch?srch.value:'');
   _fSaveDraft();
 }
 
