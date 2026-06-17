@@ -1,0 +1,49 @@
+name: Update UCI Race Data
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 6am UTC daily (morning results from overnight races)
+    - cron: '0 16 * * *'  # 4pm UTC daily (afternoon stage finishes)
+  workflow_dispatch:        # Manual trigger from GitHub Actions tab
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Save old data.json for change detection
+        run: cp data.json data_old.json 2>/dev/null || echo '{"live":[],"upcoming":[],"recent":[],"teams":[]}' > data_old.json
+
+      - name: Run scraper
+        run: python3 scraper.py
+
+      - name: Detect changes and update changelog
+        run: python3 detect_changes.py data_old.json data.json changelog.json
+
+      - name: Clean up temp file
+        run: rm -f data_old.json
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name "UCI Calendar Bot"
+          git config user.email "uci-bot@users.noreply.github.com"
+          git add data.json changelog.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "chore: auto-scrape ${TIMESTAMP}"
+            git push
+          fi

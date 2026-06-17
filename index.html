@@ -778,7 +778,8 @@ function dateRange(s, e) {
 }
 function daysUntil(iso) {
   if (!iso) return 999;
-  return Math.round((new Date(iso+'T00:00:00') - new Date()) / 86400000);
+  const today = new Date(); today.setHours(0,0,0,0);
+  return Math.round((new Date(iso+'T00:00:00') - today) / 86400000);
 }
 
 // ── Tab switching ──────────────────────────────────────────────────────────────
@@ -1359,7 +1360,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v21';
+const APP_VERSION = 'v21b';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
