@@ -898,6 +898,11 @@ def scrape_startlist(cf_slug, year):
             block
         ):
             name = name.strip()
+            # PCS stores names as "SURNAME Firstname" — convert to "Firstname Surname" title case
+            # to match CyclingFlash result names used for scoring.
+            parts = name.split()
+            if parts and parts[0].isupper() and len(parts) > 1:
+                name = ' '.join(parts[1:] + [parts[0].title()])
             if name and name not in seen:
                 seen.add(name)
                 entries.append({

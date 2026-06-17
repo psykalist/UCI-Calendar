@@ -4,6 +4,11 @@ All notable changes to UCI Road Calendar are documented here.
 
 ---
 
+## v23 — 2026-06-18
+- Fix: rider costs now reflect season results for PCS-format startlists (e.g. TdF)
+- Frontend: `buildRiderCosts` indexes both "Firstname Surname" and "SURNAME Firstname" orderings
+- Scraper: normalize PCS startlist names from "SURNAME Firstname" to "Firstname Surname" on scrape
+
 ## v22 — 2026-06-18
 - Push notification support (bell button in header, VAPID subscription flow)
 - Restricted start riders shown on startlist cards

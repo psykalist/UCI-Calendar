@@ -1361,7 +1361,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v22';
+const APP_VERSION = 'v23';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1545,7 +1545,12 @@ function buildRiderCosts(){
   const maxPts=Math.max(...Object.values(scores),1);
   _riderCosts={};
   for(const [name,pts] of Object.entries(scores)){
-    _riderCosts[name]=Math.max(COST_FLOOR, Math.round(COST_FLOOR+(COST_CEIL-COST_FLOOR)*Math.sqrt(pts/maxPts)));
+    const cost=Math.max(COST_FLOOR, Math.round(COST_FLOOR+(COST_CEIL-COST_FLOOR)*Math.sqrt(pts/maxPts)));
+    _riderCosts[name]=cost;
+    // PCS startlists use "SURNAME Firstname" order; results use "Firstname Surname".
+    // Index both orderings so lookups match regardless of source.
+    const rev=name.split(' ').reverse().join(' ');
+    if(rev!==name)_riderCosts[rev]=cost;
   }
 }
 

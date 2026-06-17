@@ -1,7 +1,16 @@
 {
-  "current_version": "v22",
+  "current_version": "v23",
   "generated_at": "2026-06-18T00:00:00Z",
   "entries": [
+    {
+      "version": "v23",
+      "date": "2026-06-18",
+      "summary": "Fix rider costs for PCS-format startlists",
+      "changes": [
+        "buildRiderCosts now indexes both 'Firstname Surname' and 'SURNAME Firstname' name orderings so TdF and other PCS startlist riders get correct costs",
+        "Scraper normalizes PCS startlist names to 'Firstname Surname' title case on scrape"
+      ]
+    },
     {
       "version": "v22",
       "date": "2026-06-18",
