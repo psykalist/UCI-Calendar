@@ -2,5 +2,51 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
-setup-auto-update.ps1
+
+# Secrets — never commit
+vapid_keys.json
+push_subscriptions.json
+
+# Logs
 *.log
+push.log
+
+# Debug / one-off files
+debug_*.txt
+debug_*.py
+debug_*.html
+diagnose_*.py
+repair_*.py
+restore_*.py
+probe_*.py
+patch_*.py
+fix_*.py
+
+# Setup scripts (local only)
+setup-auto-update.ps1
+setup_playwright.bat
+
+# Placeholder files created by Windows Explorer path confusion
+App
+cd
+day
+dir
+Desktop
+Documents
+Downloads
+Favorites
+Links
+Music
+old
+parkview
+py
+Tamariu
+TamariuBackup
+Tamariuchalet
+UCI
+update
+Videos
+Dorchester
+main
+.VirtualBox
+Notepad++

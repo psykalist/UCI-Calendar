@@ -1,1 +1,55 @@
-{"generated_at": "2026-06-16T00:00:00Z", "entries": []}
+{
+  "current_version": "v22",
+  "generated_at": "2026-06-18T00:00:00Z",
+  "entries": [
+    {
+      "version": "v22",
+      "date": "2026-06-18",
+      "summary": "Push notifications, restricted start riders",
+      "changes": [
+        "Push notification support with VAPID subscription flow",
+        "Restricted start riders shown on startlist cards",
+        "Scraper detects restricted riders from PCS startlist pages",
+        "Service worker cache bumped to uci-calendar-v22",
+        "In-app notifications fired on new stage results during background refresh"
+      ]
+    },
+    {
+      "version": "v21c",
+      "date": "2026-06-17",
+      "summary": "Race selector as dropdown, all races selectable",
+      "changes": [
+        "Race selector rendered as dropdown below instructions",
+        "All races selectable, not just live races"
+      ]
+    },
+    {
+      "version": "v21b",
+      "date": "2026-06-17",
+      "summary": "daysUntil rounding bug fix",
+      "changes": [
+        "Fixed daysUntil() rounding bug so today's races appear in Upcoming tab"
+      ]
+    },
+    {
+      "version": "v21",
+      "date": "2026-06-16",
+      "summary": "Race-keyed fantasy teams, no swaps",
+      "changes": [
+        "Fantasy teams are now race-keyed — each race has its own team",
+        "No mid-race swaps allowed",
+        "Team codes are race-scoped"
+      ]
+    },
+    {
+      "version": "v20",
+      "date": "2026-06-15",
+      "summary": "9-rider fantasy, import fix, modal fix",
+      "changes": [
+        "9-rider fantasy squads",
+        "Fixed import for team codes",
+        "Fixed fModal syntax error"
+      ]
+    }
+  ]
+}
