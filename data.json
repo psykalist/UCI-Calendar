@@ -80906,8 +80906,34 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:33:27.319045+00:00"
+      "fetched_at": "2026-06-20T17:33:27.319045+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1459,
+          "bar": 100
+        },
+        "gc": {
+          "score": 350,
+          "bar": 24
+        },
+        "time-trial": {
+          "score": 14,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 1121,
+          "bar": 77
+        },
+        "climbers": {
+          "score": 190,
+          "bar": 13
+        },
+        "hills": {
+          "score": 1216,
+          "bar": 83
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:56:54.997827+00:00"
     },
     "matthew-brennan": {
       "slug": "matthew-brennan",
@@ -81078,8 +81104,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:33:47.848073+00:00"
+      "fetched_at": "2026-06-20T17:33:47.848073+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 788,
+          "bar": 100
+        },
+        "gc": {
+          "score": 286,
+          "bar": 36
+        },
+        "time-trial": {
+          "score": 112,
+          "bar": 14
+        },
+        "sprint": {
+          "score": 643,
+          "bar": 82
+        },
+        "climbers": {
+          "score": 158,
+          "bar": 20
+        },
+        "hills": {
+          "score": 754,
+          "bar": 96
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:57:00.343615+00:00"
     },
     "sam-welsford": {
       "slug": "sam-welsford",
@@ -82468,7 +82520,9 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-19T19:30:45.772330+00:00"
+      "fetched_at": "2026-06-19T19:30:45.772330+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:57:05.660059+00:00"
     },
     "mauro-schmid": {
       "slug": "mauro-schmid",
@@ -82561,8 +82615,34 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:32:43.017250+00:00"
+      "fetched_at": "2026-06-20T17:32:43.017250+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1358,
+          "bar": 99
+        },
+        "gc": {
+          "score": 1306,
+          "bar": 95
+        },
+        "time-trial": {
+          "score": 820,
+          "bar": 60
+        },
+        "sprint": {
+          "score": 6,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 1269,
+          "bar": 93
+        },
+        "hills": {
+          "score": 1371,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:57:11.181786+00:00"
     },
     "andreas-kron": {
       "slug": "andreas-kron",
@@ -82811,7 +82891,9 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-16T14:34:22.160534+00:00"
+      "fetched_at": "2026-06-16T14:34:22.160534+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:57:16.779963+00:00"
     },
     "adam-yates": {
       "slug": "adam-yates",
@@ -83882,7 +83964,9 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-16T14:35:00.139263+00:00"
+      "fetched_at": "2026-06-16T14:35:00.139263+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:57:22.238023+00:00"
     },
     "anthon-charmig": {
       "slug": "anthon-charmig",
@@ -84874,7 +84958,9 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-16T14:35:47.124923+00:00"
+      "fetched_at": "2026-06-16T14:35:47.124923+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:57:27.614041+00:00"
     },
     "martin-bugge-urianstad": {
       "slug": "martin-bugge-urianstad",
@@ -84882,7 +84968,9 @@
       "dob": "1999-02-06",
       "nat": "Norway",
       "wins": [],
-      "fetched_at": "2026-06-16T14:35:50.992323+00:00"
+      "fetched_at": "2026-06-16T14:35:50.992323+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:57:32.937136+00:00"
     },
     "pepijn-reinderink": {
       "slug": "pepijn-reinderink",
@@ -85412,8 +85500,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:33:53.078936+00:00"
+      "fetched_at": "2026-06-20T17:33:53.078936+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 678,
+          "bar": 31
+        },
+        "gc": {
+          "score": 1949,
+          "bar": 90
+        },
+        "time-trial": {
+          "score": 226,
+          "bar": 10
+        },
+        "sprint": {
+          "score": 43,
+          "bar": 2
+        },
+        "climbers": {
+          "score": 2161,
+          "bar": 100
+        },
+        "hills": {
+          "score": 888,
+          "bar": 41
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:57:38.768430+00:00"
     },
     "michael-leonard": {
       "slug": "michael-leonard",
@@ -85990,7 +86104,9 @@
           "cat": "2"
         }
       ],
-      "fetched_at": "2026-06-16T15:44:35.323320+00:00"
+      "fetched_at": "2026-06-16T15:44:35.323320+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:57:44.769990+00:00"
     },
     "cees-bol": {
       "slug": "cees-bol",
@@ -88261,8 +88377,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:33:58.281256+00:00"
+      "fetched_at": "2026-06-20T17:33:58.281256+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 223,
+          "bar": 100
+        },
+        "gc": {
+          "score": 60,
+          "bar": 27
+        },
+        "time-trial": {
+          "score": 154,
+          "bar": 69
+        },
+        "sprint": {
+          "score": 87,
+          "bar": 39
+        },
+        "climbers": {
+          "score": 31,
+          "bar": 14
+        },
+        "hills": {
+          "score": 100,
+          "bar": 45
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:57:50.176126+00:00"
     },
     "florian-vermeersch": {
       "slug": "florian-vermeersch",
@@ -88601,7 +88743,9 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T15:45:44.595233+00:00"
+      "fetched_at": "2026-06-16T15:45:44.595233+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:57:55.475979+00:00"
     },
     "felix-gall": {
       "slug": "felix-gall",
@@ -91195,7 +91339,9 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-16T15:47:22.311759+00:00"
+      "fetched_at": "2026-06-16T15:47:22.311759+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:58:00.852213+00:00"
     },
     "milan-fretin": {
       "slug": "milan-fretin",
@@ -91438,8 +91584,9 @@
           "cat": "CC"
         }
       ],
+      "fetched_at": "2026-06-20T17:32:48.408422+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:32:48.408422+00:00"
+      "specialties_fetched_at": "2026-06-20T18:58:06.173810+00:00"
     },
     "mike-teunissen": {
       "slug": "mike-teunissen",
@@ -93992,8 +94139,9 @@
           "cat": "2.1"
         }
       ],
+      "fetched_at": "2026-06-20T17:33:22.228466+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:33:22.228466+00:00"
+      "specialties_fetched_at": "2026-06-20T18:58:11.479927+00:00"
     },
     "bryan-coquard": {
       "slug": "bryan-coquard",
@@ -94752,7 +94900,9 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-16T18:34:40.189867+00:00"
+      "fetched_at": "2026-06-16T18:34:40.189867+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:58:16.890738+00:00"
     },
     "alex-baudin": {
       "slug": "alex-baudin",
@@ -95145,7 +95295,9 @@
           "cat": "CJ"
         }
       ],
-      "fetched_at": "2026-06-16T18:35:02.552103+00:00"
+      "fetched_at": "2026-06-16T18:35:02.552103+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:58:22.371880+00:00"
     },
     "carlos-rodriguez-cano": {
       "slug": "carlos-rodriguez-cano",
@@ -95598,8 +95750,34 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:03.503270+00:00"
+      "fetched_at": "2026-06-20T17:34:03.503270+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1254,
+          "bar": 19
+        },
+        "gc": {
+          "score": 1106,
+          "bar": 17
+        },
+        "time-trial": {
+          "score": 6442,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 308,
+          "bar": 5
+        },
+        "climbers": {
+          "score": 312,
+          "bar": 5
+        },
+        "hills": {
+          "score": 1164,
+          "bar": 18
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:58:27.857358+00:00"
     },
     "thymen-arensman": {
       "slug": "thymen-arensman",
@@ -99016,8 +99194,34 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:32:31.714788+00:00"
+      "fetched_at": "2026-06-20T17:32:31.714788+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 8836,
+          "bar": 100
+        },
+        "gc": {
+          "score": 1324,
+          "bar": 15
+        },
+        "time-trial": {
+          "score": 1150,
+          "bar": 13
+        },
+        "sprint": {
+          "score": 1820,
+          "bar": 21
+        },
+        "climbers": {
+          "score": 1165,
+          "bar": 13
+        },
+        "hills": {
+          "score": 4570,
+          "bar": 52
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:58:33.221694+00:00"
     },
     "giulio-pellizzari": {
       "slug": "giulio-pellizzari",
@@ -100358,8 +100562,34 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:33:05.113387+00:00"
+      "fetched_at": "2026-06-20T17:33:05.113387+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 6129,
+          "bar": 92
+        },
+        "gc": {
+          "score": 649,
+          "bar": 10
+        },
+        "time-trial": {
+          "score": 155,
+          "bar": 2
+        },
+        "sprint": {
+          "score": 6682,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 204,
+          "bar": 3
+        },
+        "hills": {
+          "score": 2593,
+          "bar": 39
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:58:38.572299+00:00"
     },
     "paul-magnier": {
       "slug": "paul-magnier",
@@ -100614,8 +100844,34 @@
           "cat": "2"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:08.839169+00:00"
+      "fetched_at": "2026-06-20T17:34:08.839169+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1463,
+          "bar": 100
+        },
+        "gc": {
+          "score": 82,
+          "bar": 6
+        },
+        "time-trial": {
+          "score": 16,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 1326,
+          "bar": 91
+        },
+        "climbers": {
+          "score": 167,
+          "bar": 11
+        },
+        "hills": {
+          "score": 1148,
+          "bar": 78
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:58:43.923684+00:00"
     },
     "ivan-garcia-cortina": {
       "slug": "ivan-garcia-cortina",
@@ -101998,8 +102254,34 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:14.180556+00:00"
+      "fetched_at": "2026-06-20T17:34:14.180556+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 8637,
+          "bar": 100
+        },
+        "gc": {
+          "score": 1283,
+          "bar": 15
+        },
+        "time-trial": {
+          "score": 3102,
+          "bar": 36
+        },
+        "sprint": {
+          "score": 2378,
+          "bar": 28
+        },
+        "climbers": {
+          "score": 2172,
+          "bar": 25
+        },
+        "hills": {
+          "score": 5179,
+          "bar": 60
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:58:49.371424+00:00"
     },
     "ben-healy": {
       "slug": "ben-healy",
@@ -102434,8 +102716,34 @@
           "cat": "1.2U"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:19.374448+00:00"
+      "fetched_at": "2026-06-20T17:34:19.374448+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 578,
+          "bar": 88
+        },
+        "gc": {
+          "score": 398,
+          "bar": 61
+        },
+        "time-trial": {
+          "score": 8,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 114,
+          "bar": 17
+        },
+        "climbers": {
+          "score": 120,
+          "bar": 18
+        },
+        "hills": {
+          "score": 656,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:58:54.968054+00:00"
     },
     "giovanni-lonardi": {
       "slug": "giovanni-lonardi",
@@ -102545,7 +102853,9 @@
       "dob": "1996-03-04",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T19:59:14.282662+00:00"
+      "fetched_at": "2026-06-16T19:59:14.282662+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:59:00.284604+00:00"
     },
     "joan-bou-company": {
       "slug": "joan-bou-company",
@@ -102553,7 +102863,9 @@
       "dob": "1997-01-16",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T19:59:18.000960+00:00"
+      "fetched_at": "2026-06-16T19:59:18.000960+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:59:05.629711+00:00"
     },
     "timo-kielich": {
       "slug": "timo-kielich",
@@ -103894,8 +104206,34 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:24.362977+00:00"
+      "fetched_at": "2026-06-20T17:34:24.362977+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 3589,
+          "bar": 100
+        },
+        "gc": {
+          "score": 1671,
+          "bar": 47
+        },
+        "time-trial": {
+          "score": 149,
+          "bar": 4
+        },
+        "sprint": {
+          "score": 394,
+          "bar": 11
+        },
+        "climbers": {
+          "score": 2816,
+          "bar": 78
+        },
+        "hills": {
+          "score": 2394,
+          "bar": 67
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:59:10.991484+00:00"
     },
     "simone-gualdi": {
       "slug": "simone-gualdi",
@@ -104114,7 +104452,9 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T20:00:06.340146+00:00"
+      "fetched_at": "2026-06-16T20:00:06.340146+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:59:16.292738+00:00"
     },
     "magnus-cort-nielsen": {
       "slug": "magnus-cort-nielsen",
@@ -104825,8 +105165,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:30.311730+00:00"
+      "fetched_at": "2026-06-20T17:34:30.311730+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 139,
+          "bar": 31
+        },
+        "gc": {
+          "score": 29,
+          "bar": 7
+        },
+        "time-trial": {
+          "score": 1,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 443,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 2,
+          "bar": 0
+        },
+        "hills": {
+          "score": 182,
+          "bar": 41
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:59:21.635338+00:00"
     },
     "ivo-emanuel-oliveira-alves": {
       "slug": "ivo-emanuel-oliveira-alves",
@@ -104901,7 +105267,9 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T20:00:29.065288+00:00"
+      "fetched_at": "2026-06-16T20:00:29.065288+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:59:27.019528+00:00"
     },
     "toon-aerts": {
       "slug": "toon-aerts",
@@ -105143,7 +105511,9 @@
       "dob": "2003-06-30",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T20:00:36.661949+00:00"
+      "fetched_at": "2026-06-16T20:00:36.661949+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:59:32.321094+00:00"
     },
     "davide-piganzoli": {
       "slug": "davide-piganzoli",
@@ -106788,8 +107158,34 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:35.681122+00:00"
+      "fetched_at": "2026-06-20T17:34:35.681122+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 209,
+          "bar": 87
+        },
+        "gc": {
+          "score": 241,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 3,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 50,
+          "bar": 21
+        },
+        "climbers": {
+          "score": 60,
+          "bar": 25
+        },
+        "hills": {
+          "score": 200,
+          "bar": 83
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:59:37.662030+00:00"
     },
     "jaume-guardeno-roma": {
       "slug": "jaume-guardeno-roma",
@@ -106797,7 +107193,9 @@
       "dob": "2003-02-20",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T20:01:43.283537+00:00"
+      "fetched_at": "2026-06-16T20:01:43.283537+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:59:43.025141+00:00"
     },
     "jan-castellon-ribalta": {
       "slug": "jan-castellon-ribalta",
@@ -106805,7 +107203,9 @@
       "dob": "2003-07-31",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T21:22:42.264477+00:00"
+      "fetched_at": "2026-06-16T21:22:42.264477+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:59:48.329438+00:00"
     },
     "jakob-omrzel": {
       "slug": "jakob-omrzel",
@@ -107360,8 +107760,34 @@
           "cat": "C2"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:42.007801+00:00"
+      "fetched_at": "2026-06-20T17:34:42.007801+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 997,
+          "bar": 100
+        },
+        "gc": {
+          "score": 507,
+          "bar": 51
+        },
+        "time-trial": {
+          "score": 318,
+          "bar": 32
+        },
+        "sprint": {
+          "score": 2,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 980,
+          "bar": 98
+        },
+        "hills": {
+          "score": 188,
+          "bar": 19
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T18:59:53.689390+00:00"
     },
     "felix-grossschartner": {
       "slug": "felix-grossschartner",
@@ -107850,7 +108276,9 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-16T21:23:17.414903+00:00"
+      "fetched_at": "2026-06-16T21:23:17.414903+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T18:59:59.094350+00:00"
     },
     "guillaume-martin": {
       "slug": "guillaume-martin",
@@ -108135,7 +108563,9 @@
           "cat": "U19"
         }
       ],
-      "fetched_at": "2026-06-19T19:31:09.563947+00:00"
+      "fetched_at": "2026-06-19T19:31:09.563947+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:00:04.503154+00:00"
     },
     "christian-scaroni": {
       "slug": "christian-scaroni",
@@ -108360,7 +108790,9 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-16T21:23:35.310247+00:00"
+      "fetched_at": "2026-06-16T21:23:35.310247+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:00:10.140704+00:00"
     },
     "juan-pedro-lopez-perez": {
       "slug": "juan-pedro-lopez-perez",
@@ -108387,7 +108819,9 @@
           "cat": "2.2U"
         }
       ],
-      "fetched_at": "2026-06-16T21:23:38.894603+00:00"
+      "fetched_at": "2026-06-16T21:23:38.894603+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:00:16.162795+00:00"
     },
     "javier-romo-oliver": {
       "slug": "javier-romo-oliver",
@@ -108408,7 +108842,9 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T21:23:42.557963+00:00"
+      "fetched_at": "2026-06-16T21:23:42.557963+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:00:21.825717+00:00"
     },
     "raul-garcia-pierna": {
       "slug": "raul-garcia-pierna",
@@ -108681,8 +109117,34 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:47.472905+00:00"
+      "fetched_at": "2026-06-20T17:34:47.472905+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 756,
+          "bar": 76
+        },
+        "gc": {
+          "score": 308,
+          "bar": 31
+        },
+        "time-trial": {
+          "score": 19,
+          "bar": 2
+        },
+        "sprint": {
+          "score": 483,
+          "bar": 49
+        },
+        "climbers": {
+          "score": 382,
+          "bar": 39
+        },
+        "hills": {
+          "score": 992,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:00:27.428293+00:00"
     },
     "emiel-verstrynge": {
       "slug": "emiel-verstrynge",
@@ -108912,7 +109374,9 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T21:24:10.728172+00:00"
+      "fetched_at": "2026-06-16T21:24:10.728172+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:00:32.824052+00:00"
     },
     "johannes-kulset": {
       "slug": "johannes-kulset",
@@ -109999,8 +110463,34 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:32:19.871396+00:00"
+      "fetched_at": "2026-06-20T17:32:19.871396+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 9983,
+          "bar": 99
+        },
+        "gc": {
+          "score": 7594,
+          "bar": 75
+        },
+        "time-trial": {
+          "score": 3407,
+          "bar": 34
+        },
+        "sprint": {
+          "score": 360,
+          "bar": 4
+        },
+        "climbers": {
+          "score": 10062,
+          "bar": 100
+        },
+        "hills": {
+          "score": 4410,
+          "bar": 44
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:00:38.224881+00:00"
     },
     "albert-withen-philipsen": {
       "slug": "albert-withen-philipsen",
@@ -110249,7 +110739,9 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-16T21:24:39.068620+00:00"
+      "fetched_at": "2026-06-16T21:24:39.068620+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:00:43.545665+00:00"
     },
     "jefferson-albeiro-cepeda": {
       "slug": "jefferson-albeiro-cepeda",
@@ -110318,7 +110810,9 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-16T21:24:42.742250+00:00"
+      "fetched_at": "2026-06-16T21:24:42.742250+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:00:48.910002+00:00"
     },
     "davide-toneatti": {
       "slug": "davide-toneatti",
@@ -110855,7 +111349,9 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-16T21:24:53.403252+00:00"
+      "fetched_at": "2026-06-16T21:24:53.403252+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:00:54.241771+00:00"
     },
     "clement-berthet": {
       "slug": "clement-berthet",
@@ -112496,8 +112992,34 @@
           "cat": "CJ"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:32:25.250397+00:00"
+      "fetched_at": "2026-06-20T17:32:25.250397+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1850,
+          "bar": 100
+        },
+        "gc": {
+          "score": 1012,
+          "bar": 55
+        },
+        "time-trial": {
+          "score": 304,
+          "bar": 16
+        },
+        "sprint": {
+          "score": 71,
+          "bar": 4
+        },
+        "climbers": {
+          "score": 1426,
+          "bar": 77
+        },
+        "hills": {
+          "score": 1804,
+          "bar": 98
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:00:59.654280+00:00"
     },
     "marcel-camprubi-pijuan": {
       "slug": "marcel-camprubi-pijuan",
@@ -112505,7 +113027,9 @@
       "dob": "2001-09-15",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-18T19:56:59.892308+00:00"
+      "fetched_at": "2026-06-18T19:56:59.892308+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:01:04.968831+00:00"
     },
     "bart-lemmen": {
       "slug": "bart-lemmen",
@@ -112568,7 +113092,9 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-18T19:57:07.237910+00:00"
+      "fetched_at": "2026-06-18T19:57:07.237910+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:01:10.370554+00:00"
     },
     "remy-rochas": {
       "slug": "remy-rochas",
@@ -113711,8 +114237,34 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:32:54.513318+00:00"
+      "fetched_at": "2026-06-20T17:32:54.513318+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 4562,
+          "bar": 73
+        },
+        "gc": {
+          "score": 144,
+          "bar": 2
+        },
+        "time-trial": {
+          "score": 3,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 6208,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 4,
+          "bar": 0
+        },
+        "hills": {
+          "score": 561,
+          "bar": 9
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:01:15.803294+00:00"
     },
     "soren-waerenskjold": {
       "slug": "soren-waerenskjold",
@@ -114309,7 +114861,9 @@
           "cat": "CC"
         }
       ],
-      "fetched_at": "2026-06-18T19:57:52.715329+00:00"
+      "fetched_at": "2026-06-18T19:57:52.715329+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:01:21.105209+00:00"
     },
     "olav-kooij": {
       "slug": "olav-kooij",
@@ -115198,7 +115752,9 @@
       "dob": "1997-12-23",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-18T19:58:24.777827+00:00"
+      "fetched_at": "2026-06-18T19:58:24.777827+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:01:26.419455+00:00"
     },
     "lorenzo-masciarelli": {
       "slug": "lorenzo-masciarelli",
@@ -117416,8 +117972,34 @@
           "cat": "CM"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:32:37.537926+00:00"
+      "fetched_at": "2026-06-20T17:32:37.537926+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1885,
+          "bar": 83
+        },
+        "gc": {
+          "score": 787,
+          "bar": 35
+        },
+        "time-trial": {
+          "score": 30,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 378,
+          "bar": 17
+        },
+        "climbers": {
+          "score": 690,
+          "bar": 30
+        },
+        "hills": {
+          "score": 2269,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:01:31.850408+00:00"
     },
     "michael-matthews": {
       "slug": "michael-matthews",
@@ -118127,7 +118709,9 @@
           "cat": "C2"
         }
       ],
-      "fetched_at": "2026-06-19T19:32:44.336467+00:00"
+      "fetched_at": "2026-06-19T19:32:44.336467+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:01:37.252789+00:00"
     },
     "matyas-kopecky": {
       "slug": "matyas-kopecky",
@@ -118986,7 +119570,9 @@
       "dob": "2007-04-02",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-19T19:33:19.290281+00:00"
+      "fetched_at": "2026-06-19T19:33:19.290281+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:01:42.561278+00:00"
     },
     "ryan-gal": {
       "slug": "ryan-gal",
@@ -119132,7 +119718,9 @@
       "dob": "1996-02-15",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-19T19:33:34.839717+00:00"
+      "fetched_at": "2026-06-19T19:33:34.839717+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:01:47.927679+00:00"
     },
     "samuel-fernandez-garcia": {
       "slug": "samuel-fernandez-garcia",
@@ -119302,7 +119890,9 @@
       "dob": "1997-09-10",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-19T19:33:50.269145+00:00"
+      "fetched_at": "2026-06-19T19:33:50.269145+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:01:53.295344+00:00"
     },
     "marcel-gladek": {
       "slug": "marcel-gladek",
@@ -119574,7 +120164,9 @@
       "dob": "2001-04-17",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-19T19:34:08.714792+00:00"
+      "fetched_at": "2026-06-19T19:34:08.714792+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:01:58.639735+00:00"
     },
     "ronan-auge": {
       "slug": "ronan-auge",
@@ -120794,7 +121386,34 @@
           "cat": "CJ"
         }
       ],
-      "fetched_at": "2026-06-20T10:20:59.509093+00:00"
+      "fetched_at": "2026-06-20T10:20:59.509093+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 853,
+          "bar": 100
+        },
+        "gc": {
+          "score": 438,
+          "bar": 51
+        },
+        "time-trial": {
+          "score": 261,
+          "bar": 31
+        },
+        "sprint": {
+          "score": 782,
+          "bar": 92
+        },
+        "climbers": {
+          "score": 70,
+          "bar": 8
+        },
+        "hills": {
+          "score": 548,
+          "bar": 64
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:02:05.767502+00:00"
     },
     "enaut-urcaregui-sanz": {
       "slug": "enaut-urcaregui-sanz",
@@ -120815,7 +121434,9 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:06.573214+00:00"
+      "fetched_at": "2026-06-20T10:21:06.573214+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:02:11.091233+00:00"
     },
     "edoardo-zamperini": {
       "slug": "edoardo-zamperini",
@@ -120842,7 +121463,34 @@
           "cat": "1.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:11.560708+00:00"
+      "fetched_at": "2026-06-20T10:21:11.560708+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 72,
+          "bar": 100
+        },
+        "gc": {
+          "score": 4,
+          "bar": 6
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 56,
+          "bar": 78
+        },
+        "climbers": {
+          "score": 46,
+          "bar": 64
+        },
+        "hills": {
+          "score": 70,
+          "bar": 97
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:02:17.874370+00:00"
     },
     "habteab-yoel-ghebregergish": {
       "slug": "habteab-yoel-ghebregergish",
@@ -120863,7 +121511,9 @@
           "cat": "CC"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:16.734038+00:00"
+      "fetched_at": "2026-06-20T10:21:16.734038+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:02:23.224252+00:00"
     },
     "martin-tjotta": {
       "slug": "martin-tjotta",
@@ -120884,7 +121534,34 @@
           "cat": "1.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:21.755868+00:00"
+      "fetched_at": "2026-06-20T10:21:21.755868+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 56,
+          "bar": 30
+        },
+        "gc": {
+          "score": 184,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 16,
+          "bar": 9
+        },
+        "climbers": {
+          "score": 176,
+          "bar": 96
+        },
+        "hills": {
+          "score": 176,
+          "bar": 96
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:02:29.488804+00:00"
     },
     "dylan-groenewegen": {
       "slug": "dylan-groenewegen",
@@ -121475,8 +122152,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:52.453643+00:00"
+      "fetched_at": "2026-06-20T17:34:52.453643+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 4872,
+          "bar": 61
+        },
+        "gc": {
+          "score": 435,
+          "bar": 5
+        },
+        "time-trial": {
+          "score": 15,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 7935,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 38,
+          "bar": 0
+        },
+        "hills": {
+          "score": 1067,
+          "bar": 13
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:02:34.923751+00:00"
     },
     "davide-ballerini": {
       "slug": "davide-ballerini",
@@ -121563,7 +122266,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:32.503691+00:00"
+      "fetched_at": "2026-06-20T10:21:32.503691+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1835,
+          "bar": 100
+        },
+        "gc": {
+          "score": 290,
+          "bar": 16
+        },
+        "time-trial": {
+          "score": 133,
+          "bar": 7
+        },
+        "sprint": {
+          "score": 968,
+          "bar": 53
+        },
+        "climbers": {
+          "score": 276,
+          "bar": 15
+        },
+        "hills": {
+          "score": 1698,
+          "bar": 93
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:02:40.288962+00:00"
     },
     "ben-turner": {
       "slug": "ben-turner",
@@ -121614,7 +122344,34 @@
           "cat": "C1"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:37.598407+00:00"
+      "fetched_at": "2026-06-20T10:21:37.598407+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 533,
+          "bar": 82
+        },
+        "gc": {
+          "score": 352,
+          "bar": 54
+        },
+        "time-trial": {
+          "score": 268,
+          "bar": 41
+        },
+        "sprint": {
+          "score": 337,
+          "bar": 52
+        },
+        "climbers": {
+          "score": 141,
+          "bar": 22
+        },
+        "hills": {
+          "score": 652,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:02:45.624863+00:00"
     },
     "diego-ulissi": {
       "slug": "diego-ulissi",
@@ -121983,7 +122740,34 @@
           "cat": "U19"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:43.178509+00:00"
+      "fetched_at": "2026-06-20T10:21:43.178509+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 5734,
+          "bar": 100
+        },
+        "gc": {
+          "score": 5701,
+          "bar": 99
+        },
+        "time-trial": {
+          "score": 1117,
+          "bar": 19
+        },
+        "sprint": {
+          "score": 202,
+          "bar": 4
+        },
+        "climbers": {
+          "score": 5136,
+          "bar": 90
+        },
+        "hills": {
+          "score": 4905,
+          "bar": 86
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:02:50.990939+00:00"
     },
     "lorenzo-milesi": {
       "slug": "lorenzo-milesi",
@@ -122022,7 +122806,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:48.182878+00:00"
+      "fetched_at": "2026-06-20T10:21:48.182878+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 222,
+          "bar": 47
+        },
+        "gc": {
+          "score": 151,
+          "bar": 32
+        },
+        "time-trial": {
+          "score": 472,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 36,
+          "bar": 8
+        },
+        "climbers": {
+          "score": 180,
+          "bar": 38
+        },
+        "hills": {
+          "score": 264,
+          "bar": 56
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:02:56.326730+00:00"
     },
     "gianmarco-garofoli": {
       "slug": "gianmarco-garofoli",
@@ -122049,7 +122860,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:53.360983+00:00"
+      "fetched_at": "2026-06-20T10:21:53.360983+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 193,
+          "bar": 43
+        },
+        "gc": {
+          "score": 204,
+          "bar": 46
+        },
+        "time-trial": {
+          "score": 24,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 35,
+          "bar": 8
+        },
+        "climbers": {
+          "score": 446,
+          "bar": 100
+        },
+        "hills": {
+          "score": 300,
+          "bar": 67
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:01.755182+00:00"
     },
     "koen-bouwman": {
       "slug": "koen-bouwman",
@@ -122100,7 +122938,34 @@
           "cat": "2.2U"
         }
       ],
-      "fetched_at": "2026-06-20T10:21:58.757532+00:00"
+      "fetched_at": "2026-06-20T10:21:58.757532+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 161,
+          "bar": 16
+        },
+        "gc": {
+          "score": 1027,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 445,
+          "bar": 43
+        },
+        "sprint": {
+          "score": 48,
+          "bar": 5
+        },
+        "climbers": {
+          "score": 728,
+          "bar": 71
+        },
+        "hills": {
+          "score": 386,
+          "bar": 38
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:07.108774+00:00"
     },
     "alec-segaert": {
       "slug": "alec-segaert",
@@ -122205,8 +123070,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:34:57.529532+00:00"
+      "fetched_at": "2026-06-20T17:34:57.529532+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 528,
+          "bar": 70
+        },
+        "gc": {
+          "score": 451,
+          "bar": 60
+        },
+        "time-trial": {
+          "score": 756,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 176,
+          "bar": 23
+        },
+        "climbers": {
+          "score": 36,
+          "bar": 5
+        },
+        "hills": {
+          "score": 265,
+          "bar": 35
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:12.462178+00:00"
     },
     "luca-mozzato": {
       "slug": "luca-mozzato",
@@ -122251,7 +123142,34 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:09.160899+00:00"
+      "fetched_at": "2026-06-20T10:22:09.160899+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 2373,
+          "bar": 100
+        },
+        "gc": {
+          "score": 186,
+          "bar": 8
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 1380,
+          "bar": 58
+        },
+        "climbers": {
+          "score": 18,
+          "bar": 1
+        },
+        "hills": {
+          "score": 871,
+          "bar": 37
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:17.820841+00:00"
     },
     "filippo-magli": {
       "slug": "filippo-magli",
@@ -122266,7 +123184,9 @@
           "cat": "1.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:14.232279+00:00"
+      "fetched_at": "2026-06-20T10:22:14.232279+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:03:23.120584+00:00"
     },
     "jai-hindley": {
       "slug": "jai-hindley",
@@ -122347,7 +123267,34 @@
           "cat": "1.2U"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:19.710094+00:00"
+      "fetched_at": "2026-06-20T10:22:19.710094+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 535,
+          "bar": 14
+        },
+        "gc": {
+          "score": 3821,
+          "bar": 98
+        },
+        "time-trial": {
+          "score": 180,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 16,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 3914,
+          "bar": 100
+        },
+        "hills": {
+          "score": 921,
+          "bar": 24
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:28.569374+00:00"
     },
     "wout-poels": {
       "slug": "wout-poels",
@@ -122578,7 +123525,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:25.237670+00:00"
+      "fetched_at": "2026-06-20T10:22:25.237670+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1090,
+          "bar": 21
+        },
+        "gc": {
+          "score": 5228,
+          "bar": 99
+        },
+        "time-trial": {
+          "score": 916,
+          "bar": 17
+        },
+        "sprint": {
+          "score": 78,
+          "bar": 1
+        },
+        "climbers": {
+          "score": 5292,
+          "bar": 100
+        },
+        "hills": {
+          "score": 1802,
+          "bar": 34
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:33.951139+00:00"
     },
     "sepp-kuss": {
       "slug": "sepp-kuss",
@@ -122665,7 +123639,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:30.442252+00:00"
+      "fetched_at": "2026-06-20T10:22:30.442252+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 207,
+          "bar": 5
+        },
+        "gc": {
+          "score": 3062,
+          "bar": 79
+        },
+        "time-trial": {
+          "score": 331,
+          "bar": 9
+        },
+        "sprint": {
+          "score": 36,
+          "bar": 1
+        },
+        "climbers": {
+          "score": 3860,
+          "bar": 100
+        },
+        "hills": {
+          "score": 612,
+          "bar": 16
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:39.423946+00:00"
     },
     "sjoerd-bax": {
       "slug": "sjoerd-bax",
@@ -122728,7 +123729,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:35.364657+00:00"
+      "fetched_at": "2026-06-20T10:22:35.364657+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 321,
+          "bar": 98
+        },
+        "gc": {
+          "score": 321,
+          "bar": 98
+        },
+        "time-trial": {
+          "score": 329,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 78,
+          "bar": 24
+        },
+        "climbers": {
+          "score": 105,
+          "bar": 32
+        },
+        "hills": {
+          "score": 310,
+          "bar": 94
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:44.779741+00:00"
     },
     "johan-price-pejtersen": {
       "slug": "johan-price-pejtersen",
@@ -122779,7 +123807,34 @@
           "cat": "CM"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:40.302337+00:00"
+      "fetched_at": "2026-06-20T10:22:40.302337+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 15,
+          "bar": 2
+        },
+        "gc": {
+          "score": 58,
+          "bar": 6
+        },
+        "time-trial": {
+          "score": 895,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 17,
+          "bar": 2
+        },
+        "climbers": {
+          "score": 0,
+          "bar": 0
+        },
+        "hills": {
+          "score": 0,
+          "bar": 0
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:50.126560+00:00"
     },
     "mikkel-bjerg": {
       "slug": "mikkel-bjerg",
@@ -122854,7 +123909,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:45.225214+00:00"
+      "fetched_at": "2026-06-20T10:22:45.225214+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 530,
+          "bar": 22
+        },
+        "gc": {
+          "score": 477,
+          "bar": 20
+        },
+        "time-trial": {
+          "score": 2434,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 145,
+          "bar": 6
+        },
+        "climbers": {
+          "score": 152,
+          "bar": 6
+        },
+        "hills": {
+          "score": 350,
+          "bar": 14
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:03:55.469496+00:00"
     },
     "niklas-larsen": {
       "slug": "niklas-larsen",
@@ -122971,7 +124053,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:50.310782+00:00"
+      "fetched_at": "2026-06-20T10:22:50.310782+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 298,
+          "bar": 59
+        },
+        "gc": {
+          "score": 459,
+          "bar": 91
+        },
+        "time-trial": {
+          "score": 504,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 292,
+          "bar": 58
+        },
+        "climbers": {
+          "score": 20,
+          "bar": 4
+        },
+        "hills": {
+          "score": 200,
+          "bar": 40
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:04:00.820233+00:00"
     },
     "enric-mas-nicolau": {
       "slug": "enric-mas-nicolau",
@@ -123040,7 +124149,9 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T10:22:55.340726+00:00"
+      "fetched_at": "2026-06-20T10:22:55.340726+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:04:06.172367+00:00"
     },
     "chris-harper": {
       "slug": "chris-harper",
@@ -123091,7 +124202,34 @@
           "cat": "CC"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:01.518682+00:00"
+      "fetched_at": "2026-06-20T10:23:01.518682+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 451,
+          "bar": 33
+        },
+        "gc": {
+          "score": 1349,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 318,
+          "bar": 24
+        },
+        "sprint": {
+          "score": 68,
+          "bar": 5
+        },
+        "climbers": {
+          "score": 1116,
+          "bar": 83
+        },
+        "hills": {
+          "score": 303,
+          "bar": 22
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:04:11.525009+00:00"
     },
     "warren-barguil": {
       "slug": "warren-barguil",
@@ -123208,7 +124346,34 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:06.967841+00:00"
+      "fetched_at": "2026-06-20T10:23:06.967841+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 2746,
+          "bar": 68
+        },
+        "gc": {
+          "score": 3141,
+          "bar": 78
+        },
+        "time-trial": {
+          "score": 100,
+          "bar": 2
+        },
+        "sprint": {
+          "score": 104,
+          "bar": 3
+        },
+        "climbers": {
+          "score": 4021,
+          "bar": 100
+        },
+        "hills": {
+          "score": 1990,
+          "bar": 49
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:04:16.898876+00:00"
     },
     "alberto-bettiol": {
       "slug": "alberto-bettiol",
@@ -123295,7 +124460,34 @@
           "cat": "CC"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:12.353929+00:00"
+      "fetched_at": "2026-06-20T10:23:12.353929+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 2675,
+          "bar": 100
+        },
+        "gc": {
+          "score": 1186,
+          "bar": 44
+        },
+        "time-trial": {
+          "score": 1152,
+          "bar": 43
+        },
+        "sprint": {
+          "score": 170,
+          "bar": 6
+        },
+        "climbers": {
+          "score": 1088,
+          "bar": 41
+        },
+        "hills": {
+          "score": 2364,
+          "bar": 88
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:04:22.256932+00:00"
     },
     "mark-donovan": {
       "slug": "mark-donovan",
@@ -123340,7 +124532,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:17.925761+00:00"
+      "fetched_at": "2026-06-20T10:23:17.925761+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 254,
+          "bar": 34
+        },
+        "gc": {
+          "score": 751,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 113,
+          "bar": 15
+        },
+        "sprint": {
+          "score": 22,
+          "bar": 3
+        },
+        "climbers": {
+          "score": 496,
+          "bar": 66
+        },
+        "hills": {
+          "score": 307,
+          "bar": 41
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:04:27.625032+00:00"
     },
     "joshua-kench": {
       "slug": "joshua-kench",
@@ -123373,7 +124592,9 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:23.233768+00:00"
+      "fetched_at": "2026-06-20T10:23:23.233768+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:04:32.926174+00:00"
     },
     "markus-hoelgaard": {
       "slug": "markus-hoelgaard",
@@ -123430,7 +124651,34 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:28.410838+00:00"
+      "fetched_at": "2026-06-20T10:23:28.410838+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 948,
+          "bar": 100
+        },
+        "gc": {
+          "score": 819,
+          "bar": 86
+        },
+        "time-trial": {
+          "score": 24,
+          "bar": 3
+        },
+        "sprint": {
+          "score": 164,
+          "bar": 17
+        },
+        "climbers": {
+          "score": 368,
+          "bar": 39
+        },
+        "hills": {
+          "score": 878,
+          "bar": 93
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:04:38.293544+00:00"
     },
     "jan-hirt": {
       "slug": "jan-hirt",
@@ -123505,7 +124753,34 @@
           "cat": "U19"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:33.592187+00:00"
+      "fetched_at": "2026-06-20T10:23:33.592187+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 129,
+          "bar": 6
+        },
+        "gc": {
+          "score": 2010,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 30,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 8,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 1796,
+          "bar": 89
+        },
+        "hills": {
+          "score": 146,
+          "bar": 7
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:04:43.734548+00:00"
     },
     "egan-arley-bernal-gomez": {
       "slug": "egan-arley-bernal-gomez",
@@ -123730,7 +125005,9 @@
           "cat": ""
         }
       ],
-      "fetched_at": "2026-06-20T10:23:38.621661+00:00"
+      "fetched_at": "2026-06-20T10:23:38.621661+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:04:49.046562+00:00"
     },
     "fredrik-dversnes": {
       "slug": "fredrik-dversnes",
@@ -123793,7 +125070,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:43.911296+00:00"
+      "fetched_at": "2026-06-20T10:23:43.911296+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 603,
+          "bar": 100
+        },
+        "gc": {
+          "score": 436,
+          "bar": 72
+        },
+        "time-trial": {
+          "score": 130,
+          "bar": 22
+        },
+        "sprint": {
+          "score": 173,
+          "bar": 29
+        },
+        "climbers": {
+          "score": 139,
+          "bar": 23
+        },
+        "hills": {
+          "score": 323,
+          "bar": 54
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:04:54.394056+00:00"
     },
     "mirco-maestri": {
       "slug": "mirco-maestri",
@@ -123832,7 +125136,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:49.357704+00:00"
+      "fetched_at": "2026-06-20T10:23:49.357704+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 279,
+          "bar": 45
+        },
+        "gc": {
+          "score": 422,
+          "bar": 69
+        },
+        "time-trial": {
+          "score": 215,
+          "bar": 35
+        },
+        "sprint": {
+          "score": 295,
+          "bar": 48
+        },
+        "climbers": {
+          "score": 60,
+          "bar": 10
+        },
+        "hills": {
+          "score": 614,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:04:59.757457+00:00"
     },
     "martin-marcellusi": {
       "slug": "martin-marcellusi",
@@ -123847,7 +125178,34 @@
           "cat": "1.2U"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:54.368529+00:00"
+      "fetched_at": "2026-06-20T10:23:54.368529+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 409,
+          "bar": 98
+        },
+        "gc": {
+          "score": 208,
+          "bar": 50
+        },
+        "time-trial": {
+          "score": 3,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 141,
+          "bar": 34
+        },
+        "climbers": {
+          "score": 160,
+          "bar": 38
+        },
+        "hills": {
+          "score": 418,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:05:05.114730+00:00"
     },
     "mattia-bais": {
       "slug": "mattia-bais",
@@ -123862,7 +125220,34 @@
           "cat": "2.2U"
         }
       ],
-      "fetched_at": "2026-06-20T10:23:59.645678+00:00"
+      "fetched_at": "2026-06-20T10:23:59.645678+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 230,
+          "bar": 78
+        },
+        "gc": {
+          "score": 296,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 25,
+          "bar": 8
+        },
+        "sprint": {
+          "score": 53,
+          "bar": 18
+        },
+        "climbers": {
+          "score": 286,
+          "bar": 97
+        },
+        "hills": {
+          "score": 193,
+          "bar": 65
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:05:10.461523+00:00"
     },
     "paul-penhoet": {
       "slug": "paul-penhoet",
@@ -123907,7 +125292,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:04.701685+00:00"
+      "fetched_at": "2026-06-20T10:24:04.701685+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 994,
+          "bar": 96
+        },
+        "gc": {
+          "score": 322,
+          "bar": 31
+        },
+        "time-trial": {
+          "score": 6,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 1032,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 34,
+          "bar": 3
+        },
+        "hills": {
+          "score": 745,
+          "bar": 72
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:05:15.801228+00:00"
     },
     "einer-rubio-reyes": {
       "slug": "einer-rubio-reyes",
@@ -123952,7 +125364,9 @@
           "cat": "2.2U"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:09.650084+00:00"
+      "fetched_at": "2026-06-20T10:24:09.650084+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:05:21.554172+00:00"
     },
     "david-de-la-cruz-melgarejo": {
       "slug": "david-de-la-cruz-melgarejo",
@@ -123997,7 +125411,9 @@
           "cat": "2.UWT"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:15.506480+00:00"
+      "fetched_at": "2026-06-20T10:24:15.506480+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:05:26.891910+00:00"
     },
     "manuele-tarozzi": {
       "slug": "manuele-tarozzi",
@@ -124024,7 +125440,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:20.673203+00:00"
+      "fetched_at": "2026-06-20T10:24:20.673203+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 22,
+          "bar": 11
+        },
+        "gc": {
+          "score": 204,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 2,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 72,
+          "bar": 35
+        },
+        "climbers": {
+          "score": 124,
+          "bar": 61
+        },
+        "hills": {
+          "score": 127,
+          "bar": 62
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:05:32.315614+00:00"
     },
     "jardi-christiaan-van-der-lee": {
       "slug": "jardi-christiaan-van-der-lee",
@@ -124032,7 +125475,34 @@
       "dob": "2001-08-06",
       "nat": "Netherlands",
       "wins": [],
-      "fetched_at": "2026-06-20T10:24:25.923011+00:00"
+      "fetched_at": "2026-06-20T10:24:25.923011+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 64,
+          "bar": 49
+        },
+        "gc": {
+          "score": 130,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 6,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 92,
+          "bar": 71
+        },
+        "hills": {
+          "score": 25,
+          "bar": 19
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:05:37.670397+00:00"
     },
     "kevin-vermaerke": {
       "slug": "kevin-vermaerke",
@@ -124053,7 +125523,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:30.796561+00:00"
+      "fetched_at": "2026-06-20T10:24:30.796561+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 613,
+          "bar": 74
+        },
+        "gc": {
+          "score": 826,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 29,
+          "bar": 4
+        },
+        "sprint": {
+          "score": 16,
+          "bar": 2
+        },
+        "climbers": {
+          "score": 726,
+          "bar": 88
+        },
+        "hills": {
+          "score": 590,
+          "bar": 71
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:05:43.078611+00:00"
     },
     "rudy-molard": {
       "slug": "rudy-molard",
@@ -124080,7 +125577,34 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:35.625218+00:00"
+      "fetched_at": "2026-06-20T10:24:35.625218+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1563,
+          "bar": 85
+        },
+        "gc": {
+          "score": 1807,
+          "bar": 98
+        },
+        "time-trial": {
+          "score": 161,
+          "bar": 9
+        },
+        "sprint": {
+          "score": 102,
+          "bar": 6
+        },
+        "climbers": {
+          "score": 1842,
+          "bar": 100
+        },
+        "hills": {
+          "score": 1178,
+          "bar": 64
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:05:48.454906+00:00"
     },
     "henri-francois-renard-haquin": {
       "slug": "henri-francois-renard-haquin",
@@ -124095,7 +125619,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:41.023171+00:00"
+      "fetched_at": "2026-06-20T10:24:41.023171+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 37,
+          "bar": 59
+        },
+        "gc": {
+          "score": 15,
+          "bar": 24
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 19,
+          "bar": 30
+        },
+        "climbers": {
+          "score": 55,
+          "bar": 87
+        },
+        "hills": {
+          "score": 63,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:05:53.784277+00:00"
     },
     "vlad-van-mechelen": {
       "slug": "vlad-van-mechelen",
@@ -124122,7 +125673,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:46.551485+00:00"
+      "fetched_at": "2026-06-20T10:24:46.551485+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 127,
+          "bar": 92
+        },
+        "gc": {
+          "score": 74,
+          "bar": 54
+        },
+        "time-trial": {
+          "score": 72,
+          "bar": 52
+        },
+        "sprint": {
+          "score": 138,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 52,
+          "bar": 38
+        },
+        "hills": {
+          "score": 92,
+          "bar": 67
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:05:59.196278+00:00"
     },
     "benjamin-thomas": {
       "slug": "benjamin-thomas",
@@ -124269,7 +125847,34 @@
           "cat": "CM"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:51.602445+00:00"
+      "fetched_at": "2026-06-20T10:24:51.602445+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 0,
+          "bar": 0
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 0,
+          "bar": 0
+        },
+        "hills": {
+          "score": 0,
+          "bar": 0
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:04.534126+00:00"
     },
     "jordan-jegat": {
       "slug": "jordan-jegat",
@@ -124284,7 +125889,34 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-20T10:24:56.823017+00:00"
+      "fetched_at": "2026-06-20T10:24:56.823017+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 557,
+          "bar": 63
+        },
+        "gc": {
+          "score": 750,
+          "bar": 85
+        },
+        "time-trial": {
+          "score": 17,
+          "bar": 2
+        },
+        "sprint": {
+          "score": 3,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 882,
+          "bar": 100
+        },
+        "hills": {
+          "score": 590,
+          "bar": 67
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:09.874196+00:00"
     },
     "nadav-raisberg": {
       "slug": "nadav-raisberg",
@@ -124305,7 +125937,34 @@
           "cat": "2"
         }
       ],
-      "fetched_at": "2026-06-20T10:25:01.878640+00:00"
+      "fetched_at": "2026-06-20T10:25:01.878640+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 75,
+          "bar": 83
+        },
+        "gc": {
+          "score": 85,
+          "bar": 94
+        },
+        "time-trial": {
+          "score": 50,
+          "bar": 56
+        },
+        "sprint": {
+          "score": 17,
+          "bar": 19
+        },
+        "climbers": {
+          "score": 32,
+          "bar": 36
+        },
+        "hills": {
+          "score": 90,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:15.219116+00:00"
     },
     "maxim-van-gils": {
       "slug": "maxim-van-gils",
@@ -124368,7 +126027,34 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-20T10:25:06.687203+00:00"
+      "fetched_at": "2026-06-20T10:25:06.687203+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1840,
+          "bar": 100
+        },
+        "gc": {
+          "score": 531,
+          "bar": 29
+        },
+        "time-trial": {
+          "score": 117,
+          "bar": 6
+        },
+        "sprint": {
+          "score": 72,
+          "bar": 4
+        },
+        "climbers": {
+          "score": 1432,
+          "bar": 78
+        },
+        "hills": {
+          "score": 1255,
+          "bar": 68
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:20.585532+00:00"
     },
     "quinn-simmons": {
       "slug": "quinn-simmons",
@@ -124521,7 +126207,34 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-20T10:25:11.798433+00:00"
+      "fetched_at": "2026-06-20T10:25:11.798433+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 836,
+          "bar": 100
+        },
+        "gc": {
+          "score": 514,
+          "bar": 61
+        },
+        "time-trial": {
+          "score": 38,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 87,
+          "bar": 10
+        },
+        "climbers": {
+          "score": 713,
+          "bar": 85
+        },
+        "hills": {
+          "score": 840,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:25.970022+00:00"
     },
     "marco-frigo": {
       "slug": "marco-frigo",
@@ -124554,7 +126267,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T10:25:16.845082+00:00"
+      "fetched_at": "2026-06-20T10:25:16.845082+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 121,
+          "bar": 22
+        },
+        "gc": {
+          "score": 370,
+          "bar": 67
+        },
+        "time-trial": {
+          "score": 228,
+          "bar": 41
+        },
+        "sprint": {
+          "score": 20,
+          "bar": 4
+        },
+        "climbers": {
+          "score": 550,
+          "bar": 100
+        },
+        "hills": {
+          "score": 334,
+          "bar": 61
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:31.334149+00:00"
     },
     "lars-craps": {
       "slug": "lars-craps",
@@ -124562,7 +126302,34 @@
       "dob": "2001-10-17",
       "nat": "Belgium",
       "wins": [],
-      "fetched_at": "2026-06-20T11:35:57.510125+00:00"
+      "fetched_at": "2026-06-20T11:35:57.510125+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 50,
+          "bar": 27
+        },
+        "gc": {
+          "score": 186,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 4,
+          "bar": 2
+        },
+        "sprint": {
+          "score": 26,
+          "bar": 14
+        },
+        "climbers": {
+          "score": 128,
+          "bar": 69
+        },
+        "hills": {
+          "score": 119,
+          "bar": 64
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:36.673157+00:00"
     },
     "hugo-hofstetter": {
       "slug": "hugo-hofstetter",
@@ -124595,7 +126362,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:02.352623+00:00"
+      "fetched_at": "2026-06-20T11:36:02.352623+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 3408,
+          "bar": 100
+        },
+        "gc": {
+          "score": 175,
+          "bar": 5
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 2376,
+          "bar": 70
+        },
+        "climbers": {
+          "score": 29,
+          "bar": 1
+        },
+        "hills": {
+          "score": 1017,
+          "bar": 30
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:42.143365+00:00"
     },
     "phil-bauhaus": {
       "slug": "phil-bauhaus",
@@ -124760,7 +126554,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:07.541884+00:00"
+      "fetched_at": "2026-06-20T11:36:07.541884+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1072,
+          "bar": 39
+        },
+        "gc": {
+          "score": 291,
+          "bar": 10
+        },
+        "time-trial": {
+          "score": 1,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 2782,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 0,
+          "bar": 0
+        },
+        "hills": {
+          "score": 1702,
+          "bar": 61
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:47.507373+00:00"
     },
     "pablo-torres-arias": {
       "slug": "pablo-torres-arias",
@@ -124787,7 +126608,34 @@
           "cat": "2.2U"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:12.582105+00:00"
+      "fetched_at": "2026-06-20T11:36:12.582105+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 0,
+          "bar": 0
+        },
+        "gc": {
+          "score": 159,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 51,
+          "bar": 32
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 158,
+          "bar": 99
+        },
+        "hills": {
+          "score": 50,
+          "bar": 31
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:06:52.931146+00:00"
     },
     "cristian-rodriguez-martin": {
       "slug": "cristian-rodriguez-martin",
@@ -124814,7 +126662,9 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:17.731946+00:00"
+      "fetched_at": "2026-06-20T11:36:17.731946+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:06:58.875079+00:00"
     },
     "lennart-jasch": {
       "slug": "lennart-jasch",
@@ -124841,7 +126691,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:22.607072+00:00"
+      "fetched_at": "2026-06-20T11:36:22.607072+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 14,
+          "bar": 12
+        },
+        "gc": {
+          "score": 90,
+          "bar": 74
+        },
+        "time-trial": {
+          "score": 1,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 4,
+          "bar": 3
+        },
+        "climbers": {
+          "score": 121,
+          "bar": 100
+        },
+        "hills": {
+          "score": 28,
+          "bar": 23
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:07:04.247760+00:00"
     },
     "juan-ayuso-pesquera": {
       "slug": "juan-ayuso-pesquera",
@@ -125018,7 +126895,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:27.667812+00:00"
+      "fetched_at": "2026-06-20T11:36:27.667812+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1277,
+          "bar": 50
+        },
+        "gc": {
+          "score": 2385,
+          "bar": 93
+        },
+        "time-trial": {
+          "score": 1303,
+          "bar": 51
+        },
+        "sprint": {
+          "score": 12,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 2576,
+          "bar": 100
+        },
+        "hills": {
+          "score": 928,
+          "bar": 36
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:07:09.595763+00:00"
     },
     "jose-felix-parra-cuerda": {
       "slug": "jose-felix-parra-cuerda",
@@ -125045,7 +126949,9 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:32.725515+00:00"
+      "fetched_at": "2026-06-20T11:36:32.725515+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:07:14.895794+00:00"
     },
     "laurens-de-plus": {
       "slug": "laurens-de-plus",
@@ -125072,7 +126978,34 @@
           "cat": "2.2U"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:37.901437+00:00"
+      "fetched_at": "2026-06-20T11:36:37.901437+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 263,
+          "bar": 17
+        },
+        "gc": {
+          "score": 1533,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 446,
+          "bar": 29
+        },
+        "sprint": {
+          "score": 7,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 1066,
+          "bar": 70
+        },
+        "hills": {
+          "score": 592,
+          "bar": 39
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:07:20.272507+00:00"
     },
     "lorrenzo-manzin": {
       "slug": "lorrenzo-manzin",
@@ -125141,7 +127074,34 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:42.959682+00:00"
+      "fetched_at": "2026-06-20T11:36:42.959682+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 855,
+          "bar": 70
+        },
+        "gc": {
+          "score": 302,
+          "bar": 25
+        },
+        "time-trial": {
+          "score": 25,
+          "bar": 2
+        },
+        "sprint": {
+          "score": 1216,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 26,
+          "bar": 2
+        },
+        "hills": {
+          "score": 511,
+          "bar": 42
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:07:25.640885+00:00"
     },
     "hugo-page": {
       "slug": "hugo-page",
@@ -125186,7 +127146,34 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:47.777935+00:00"
+      "fetched_at": "2026-06-20T11:36:47.777935+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 730,
+          "bar": 100
+        },
+        "gc": {
+          "score": 192,
+          "bar": 26
+        },
+        "time-trial": {
+          "score": 77,
+          "bar": 11
+        },
+        "sprint": {
+          "score": 304,
+          "bar": 42
+        },
+        "climbers": {
+          "score": 53,
+          "bar": 7
+        },
+        "hills": {
+          "score": 666,
+          "bar": 91
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:07:31.001043+00:00"
     },
     "fernando-gaviria-rendon": {
       "slug": "fernando-gaviria-rendon",
@@ -125525,7 +127512,9 @@
           "cat": "CC"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:53.111698+00:00"
+      "fetched_at": "2026-06-20T11:36:53.111698+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:07:36.390881+00:00"
     },
     "timo-de-jong": {
       "slug": "timo-de-jong",
@@ -125588,7 +127577,34 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:36:58.308333+00:00"
+      "fetched_at": "2026-06-20T11:36:58.308333+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 90,
+          "bar": 32
+        },
+        "gc": {
+          "score": 43,
+          "bar": 15
+        },
+        "time-trial": {
+          "score": 41,
+          "bar": 15
+        },
+        "sprint": {
+          "score": 278,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 4,
+          "bar": 1
+        },
+        "hills": {
+          "score": 97,
+          "bar": 35
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:07:41.833759+00:00"
     },
     "aivaras-mikutis": {
       "slug": "aivaras-mikutis",
@@ -125645,7 +127661,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:37:03.665751+00:00"
+      "fetched_at": "2026-06-20T11:37:03.665751+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 91,
+          "bar": 49
+        },
+        "gc": {
+          "score": 43,
+          "bar": 23
+        },
+        "time-trial": {
+          "score": 187,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 54,
+          "bar": 29
+        },
+        "climbers": {
+          "score": 3,
+          "bar": 2
+        },
+        "hills": {
+          "score": 53,
+          "bar": 28
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:07:47.201641+00:00"
     },
     "jason-tesson": {
       "slug": "jason-tesson",
@@ -125738,7 +127781,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:37:08.921114+00:00"
+      "fetched_at": "2026-06-20T11:37:08.921114+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1044,
+          "bar": 82
+        },
+        "gc": {
+          "score": 77,
+          "bar": 6
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 1269,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 4,
+          "bar": 0
+        },
+        "hills": {
+          "score": 225,
+          "bar": 18
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:07:52.593333+00:00"
     },
     "milan-vader": {
       "slug": "milan-vader",
@@ -125861,7 +127931,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:37:15.025539+00:00"
+      "fetched_at": "2026-06-20T11:37:15.025539+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 88,
+          "bar": 23
+        },
+        "gc": {
+          "score": 380,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 1,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 30,
+          "bar": 8
+        },
+        "climbers": {
+          "score": 107,
+          "bar": 28
+        },
+        "hills": {
+          "score": 204,
+          "bar": 54
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:07:57.933839+00:00"
     },
     "mauri-vansevenant": {
       "slug": "mauri-vansevenant",
@@ -125894,7 +127991,34 @@
           "cat": "2.2U"
         }
       ],
-      "fetched_at": "2026-06-20T11:37:21.442979+00:00"
+      "fetched_at": "2026-06-20T11:37:21.442979+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 897,
+          "bar": 83
+        },
+        "gc": {
+          "score": 890,
+          "bar": 82
+        },
+        "time-trial": {
+          "score": 65,
+          "bar": 6
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 1084,
+          "bar": 100
+        },
+        "hills": {
+          "score": 682,
+          "bar": 63
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:03.386492+00:00"
     },
     "frits-biesterbos": {
       "slug": "frits-biesterbos",
@@ -125909,7 +128033,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:37:29.419326+00:00"
+      "fetched_at": "2026-06-20T11:37:29.419326+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 266,
+          "bar": 100
+        },
+        "gc": {
+          "score": 6,
+          "bar": 2
+        },
+        "time-trial": {
+          "score": 51,
+          "bar": 19
+        },
+        "sprint": {
+          "score": 160,
+          "bar": 60
+        },
+        "climbers": {
+          "score": 1,
+          "bar": 0
+        },
+        "hills": {
+          "score": 60,
+          "bar": 23
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:08.722035+00:00"
     },
     "bert-van-lerberghe": {
       "slug": "bert-van-lerberghe",
@@ -125924,7 +128075,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:37:37.273788+00:00"
+      "fetched_at": "2026-06-20T11:37:37.273788+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1224,
+          "bar": 100
+        },
+        "gc": {
+          "score": 196,
+          "bar": 16
+        },
+        "time-trial": {
+          "score": 48,
+          "bar": 4
+        },
+        "sprint": {
+          "score": 864,
+          "bar": 71
+        },
+        "climbers": {
+          "score": 0,
+          "bar": 0
+        },
+        "hills": {
+          "score": 140,
+          "bar": 11
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:15.775978+00:00"
     },
     "byron-munton": {
       "slug": "byron-munton",
@@ -125951,7 +128129,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:37:45.474023+00:00"
+      "fetched_at": "2026-06-20T11:37:45.474023+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 42,
+          "bar": 26
+        },
+        "gc": {
+          "score": 125,
+          "bar": 79
+        },
+        "time-trial": {
+          "score": 157,
+          "bar": 99
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 159,
+          "bar": 100
+        },
+        "hills": {
+          "score": 42,
+          "bar": 26
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:21.108529+00:00"
     },
     "juan-pedro-lozano-navarro": {
       "slug": "juan-pedro-lozano-navarro",
@@ -125972,7 +128177,9 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T11:37:50.411873+00:00"
+      "fetched_at": "2026-06-20T11:37:50.411873+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:08:26.404882+00:00"
     },
     "federico-iacomoni": {
       "slug": "federico-iacomoni",
@@ -125980,7 +128187,34 @@
       "dob": "2002-07-10",
       "nat": "Italy",
       "wins": [],
-      "fetched_at": "2026-06-20T11:37:55.470857+00:00"
+      "fetched_at": "2026-06-20T11:37:55.470857+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 13,
+          "bar": 13
+        },
+        "gc": {
+          "score": 16,
+          "bar": 16
+        },
+        "time-trial": {
+          "score": 5,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 38,
+          "bar": 39
+        },
+        "climbers": {
+          "score": 98,
+          "bar": 100
+        },
+        "hills": {
+          "score": 96,
+          "bar": 98
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:31.757907+00:00"
     },
     "stefan-de-bod": {
       "slug": "stefan-de-bod",
@@ -126037,7 +128271,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:02.365041+00:00"
+      "fetched_at": "2026-06-20T11:38:02.365041+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 195,
+          "bar": 24
+        },
+        "gc": {
+          "score": 655,
+          "bar": 81
+        },
+        "time-trial": {
+          "score": 812,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 68,
+          "bar": 8
+        },
+        "climbers": {
+          "score": 309,
+          "bar": 38
+        },
+        "hills": {
+          "score": 116,
+          "bar": 14
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:37.172070+00:00"
     },
     "tommaso-dati": {
       "slug": "tommaso-dati",
@@ -126094,7 +128355,34 @@
           "cat": "1.2U"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:07.400024+00:00"
+      "fetched_at": "2026-06-20T11:38:07.400024+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 48,
+          "bar": 34
+        },
+        "gc": {
+          "score": 29,
+          "bar": 20
+        },
+        "time-trial": {
+          "score": 30,
+          "bar": 21
+        },
+        "sprint": {
+          "score": 52,
+          "bar": 37
+        },
+        "climbers": {
+          "score": 72,
+          "bar": 51
+        },
+        "hills": {
+          "score": 142,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:42.610188+00:00"
     },
     "carl-frederik-bevort": {
       "slug": "carl-frederik-bevort",
@@ -126151,7 +128439,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:12.417266+00:00"
+      "fetched_at": "2026-06-20T11:38:12.417266+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 125,
+          "bar": 100
+        },
+        "gc": {
+          "score": 37,
+          "bar": 30
+        },
+        "time-trial": {
+          "score": 116,
+          "bar": 93
+        },
+        "sprint": {
+          "score": 68,
+          "bar": 54
+        },
+        "climbers": {
+          "score": 2,
+          "bar": 2
+        },
+        "hills": {
+          "score": 103,
+          "bar": 82
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:48.074259+00:00"
     },
     "alberto-bruttomesso": {
       "slug": "alberto-bruttomesso",
@@ -126178,7 +128493,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:17.429707+00:00"
+      "fetched_at": "2026-06-20T11:38:17.429707+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 109,
+          "bar": 53
+        },
+        "gc": {
+          "score": 6,
+          "bar": 3
+        },
+        "time-trial": {
+          "score": 27,
+          "bar": 13
+        },
+        "sprint": {
+          "score": 206,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 22,
+          "bar": 11
+        },
+        "hills": {
+          "score": 160,
+          "bar": 78
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:53.411214+00:00"
     },
     "tommaso-nencini": {
       "slug": "tommaso-nencini",
@@ -126193,7 +128535,34 @@
           "cat": "1.2"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:22.518736+00:00"
+      "fetched_at": "2026-06-20T11:38:22.518736+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 38,
+          "bar": 75
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 5,
+          "bar": 10
+        },
+        "sprint": {
+          "score": 51,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 0,
+          "bar": 0
+        },
+        "hills": {
+          "score": 47,
+          "bar": 92
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:08:58.746569+00:00"
     },
     "mikel-retegi-goni": {
       "slug": "mikel-retegi-goni",
@@ -126201,7 +128570,9 @@
       "dob": "2001-04-27",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-20T11:38:27.867792+00:00"
+      "fetched_at": "2026-06-20T11:38:27.867792+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:09:04.047090+00:00"
     },
     "clement-alleno": {
       "slug": "clement-alleno",
@@ -126222,7 +128593,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:32.964322+00:00"
+      "fetched_at": "2026-06-20T11:38:32.964322+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 134,
+          "bar": 59
+        },
+        "gc": {
+          "score": 212,
+          "bar": 94
+        },
+        "time-trial": {
+          "score": 6,
+          "bar": 3
+        },
+        "sprint": {
+          "score": 87,
+          "bar": 38
+        },
+        "climbers": {
+          "score": 38,
+          "bar": 17
+        },
+        "hills": {
+          "score": 226,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:09:09.376038+00:00"
     },
     "mathias-norsgaard-jorgensen": {
       "slug": "mathias-norsgaard-jorgensen",
@@ -126291,7 +128689,9 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:38.014206+00:00"
+      "fetched_at": "2026-06-20T11:38:38.014206+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:09:14.671167+00:00"
     },
     "ivan-romeo-abad": {
       "slug": "ivan-romeo-abad",
@@ -126360,7 +128760,9 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:45.178939+00:00"
+      "fetched_at": "2026-06-20T11:38:45.178939+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:09:19.992796+00:00"
     },
     "adne-holter": {
       "slug": "adne-holter",
@@ -126375,7 +128777,34 @@
           "cat": "1.2"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:50.103832+00:00"
+      "fetched_at": "2026-06-20T11:38:50.103832+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 141,
+          "bar": 36
+        },
+        "gc": {
+          "score": 387,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 87,
+          "bar": 22
+        },
+        "sprint": {
+          "score": 20,
+          "bar": 5
+        },
+        "climbers": {
+          "score": 136,
+          "bar": 35
+        },
+        "hills": {
+          "score": 162,
+          "bar": 42
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:09:25.324919+00:00"
     },
     "jonathan-vervenne": {
       "slug": "jonathan-vervenne",
@@ -126414,7 +128843,34 @@
           "cat": "1.2"
         }
       ],
-      "fetched_at": "2026-06-20T11:38:55.464082+00:00"
+      "fetched_at": "2026-06-20T11:38:55.464082+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 63,
+          "bar": 43
+        },
+        "gc": {
+          "score": 2,
+          "bar": 1
+        },
+        "time-trial": {
+          "score": 145,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 34,
+          "bar": 23
+        },
+        "climbers": {
+          "score": 0,
+          "bar": 0
+        },
+        "hills": {
+          "score": 55,
+          "bar": 38
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:09:30.659578+00:00"
     },
     "joao-almeida": {
       "slug": "joao-almeida",
@@ -126603,7 +129059,34 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:00.444765+00:00"
+      "fetched_at": "2026-06-20T11:39:00.444765+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 431,
+          "bar": 8
+        },
+        "gc": {
+          "score": 5449,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 2996,
+          "bar": 55
+        },
+        "sprint": {
+          "score": 127,
+          "bar": 2
+        },
+        "climbers": {
+          "score": 4868,
+          "bar": 89
+        },
+        "hills": {
+          "score": 1494,
+          "bar": 27
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:09:36.014777+00:00"
     },
     "riley-sheehan": {
       "slug": "riley-sheehan",
@@ -126666,7 +129149,34 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:05.526701+00:00"
+      "fetched_at": "2026-06-20T11:39:05.526701+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 731,
+          "bar": 100
+        },
+        "gc": {
+          "score": 393,
+          "bar": 54
+        },
+        "time-trial": {
+          "score": 58,
+          "bar": 8
+        },
+        "sprint": {
+          "score": 96,
+          "bar": 13
+        },
+        "climbers": {
+          "score": 132,
+          "bar": 18
+        },
+        "hills": {
+          "score": 447,
+          "bar": 61
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:09:41.362993+00:00"
     },
     "viktor-soenens": {
       "slug": "viktor-soenens",
@@ -126681,7 +129191,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:10.545113+00:00"
+      "fetched_at": "2026-06-20T11:39:10.545113+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 13,
+          "bar": 13
+        },
+        "gc": {
+          "score": 92,
+          "bar": 90
+        },
+        "time-trial": {
+          "score": 7,
+          "bar": 7
+        },
+        "sprint": {
+          "score": 3,
+          "bar": 3
+        },
+        "climbers": {
+          "score": 54,
+          "bar": 53
+        },
+        "hills": {
+          "score": 102,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:09:46.715518+00:00"
     },
     "emil-herzog": {
       "slug": "emil-herzog",
@@ -126762,7 +129299,34 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:15.900953+00:00"
+      "fetched_at": "2026-06-20T11:39:15.900953+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 93,
+          "bar": 89
+        },
+        "gc": {
+          "score": 83,
+          "bar": 80
+        },
+        "time-trial": {
+          "score": 37,
+          "bar": 36
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 81,
+          "bar": 78
+        },
+        "hills": {
+          "score": 104,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:09:52.057686+00:00"
     },
     "jasper-schoofs": {
       "slug": "jasper-schoofs",
@@ -126813,7 +129377,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:20.736265+00:00"
+      "fetched_at": "2026-06-20T11:39:20.736265+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1,
+          "bar": 3
+        },
+        "gc": {
+          "score": 4,
+          "bar": 12
+        },
+        "time-trial": {
+          "score": 14,
+          "bar": 41
+        },
+        "sprint": {
+          "score": 19,
+          "bar": 56
+        },
+        "climbers": {
+          "score": 25,
+          "bar": 74
+        },
+        "hills": {
+          "score": 34,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:09:57.397909+00:00"
     },
     "sven-erik-bystrom": {
       "slug": "sven-erik-bystrom",
@@ -126846,7 +129437,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:25.640710+00:00"
+      "fetched_at": "2026-06-20T11:39:25.640710+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 838,
+          "bar": 100
+        },
+        "gc": {
+          "score": 829,
+          "bar": 99
+        },
+        "time-trial": {
+          "score": 125,
+          "bar": 15
+        },
+        "sprint": {
+          "score": 141,
+          "bar": 17
+        },
+        "climbers": {
+          "score": 352,
+          "bar": 42
+        },
+        "hills": {
+          "score": 735,
+          "bar": 88
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:10:03.233439+00:00"
     },
     "diego-uriarte-belzunegi": {
       "slug": "diego-uriarte-belzunegi",
@@ -126861,7 +129479,34 @@
           "cat": "2.Pro"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:30.554273+00:00"
+      "fetched_at": "2026-06-20T11:39:30.554273+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 0,
+          "bar": 0
+        },
+        "gc": {
+          "score": 63,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 31,
+          "bar": 49
+        },
+        "sprint": {
+          "score": 60,
+          "bar": 95
+        },
+        "climbers": {
+          "score": 15,
+          "bar": 24
+        },
+        "hills": {
+          "score": 35,
+          "bar": 56
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:10:08.570533+00:00"
     },
     "danny-van-der-tuuk": {
       "slug": "danny-van-der-tuuk",
@@ -126876,7 +129521,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:35.393755+00:00"
+      "fetched_at": "2026-06-20T11:39:35.393755+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 10,
+          "bar": 27
+        },
+        "gc": {
+          "score": 5,
+          "bar": 14
+        },
+        "time-trial": {
+          "score": 37,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 22,
+          "bar": 59
+        },
+        "climbers": {
+          "score": 4,
+          "bar": 11
+        },
+        "hills": {
+          "score": 3,
+          "bar": 8
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:10:13.924406+00:00"
     },
     "julien-bernard": {
       "slug": "julien-bernard",
@@ -126897,7 +129569,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:40.438405+00:00"
+      "fetched_at": "2026-06-20T11:39:40.438405+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 294,
+          "bar": 36
+        },
+        "gc": {
+          "score": 822,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 43,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 22,
+          "bar": 3
+        },
+        "climbers": {
+          "score": 424,
+          "bar": 52
+        },
+        "hills": {
+          "score": 314,
+          "bar": 38
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:10:19.494611+00:00"
     },
     "carlos-garcia-pierna": {
       "slug": "carlos-garcia-pierna",
@@ -126912,7 +129611,34 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:45.564720+00:00"
+      "fetched_at": "2026-06-20T11:39:45.564720+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 19,
+          "bar": 23
+        },
+        "gc": {
+          "score": 81,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 12,
+          "bar": 15
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 46,
+          "bar": 57
+        },
+        "hills": {
+          "score": 40,
+          "bar": 49
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:10:24.850768+00:00"
     },
     "steff-cras": {
       "slug": "steff-cras",
@@ -126933,7 +129659,34 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:51.192478+00:00"
+      "fetched_at": "2026-06-20T11:39:51.192478+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 335,
+          "bar": 31
+        },
+        "gc": {
+          "score": 1081,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 82,
+          "bar": 8
+        },
+        "sprint": {
+          "score": 6,
+          "bar": 1
+        },
+        "climbers": {
+          "score": 982,
+          "bar": 91
+        },
+        "hills": {
+          "score": 466,
+          "bar": 43
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:10:30.335440+00:00"
     },
     "pau-marti-soriano": {
       "slug": "pau-marti-soriano",
@@ -126966,7 +129719,34 @@
           "cat": "C2"
         }
       ],
-      "fetched_at": "2026-06-20T11:39:56.127905+00:00"
+      "fetched_at": "2026-06-20T11:39:56.127905+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 143,
+          "bar": 100
+        },
+        "gc": {
+          "score": 69,
+          "bar": 48
+        },
+        "time-trial": {
+          "score": 44,
+          "bar": 31
+        },
+        "sprint": {
+          "score": 20,
+          "bar": 14
+        },
+        "climbers": {
+          "score": 132,
+          "bar": 92
+        },
+        "hills": {
+          "score": 140,
+          "bar": 98
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:10:35.732107+00:00"
     },
     "andrii-ponomar": {
       "slug": "andrii-ponomar",
@@ -127029,7 +129809,34 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-20T11:40:01.072945+00:00"
+      "fetched_at": "2026-06-20T11:40:01.072945+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 182,
+          "bar": 100
+        },
+        "gc": {
+          "score": 79,
+          "bar": 43
+        },
+        "time-trial": {
+          "score": 9,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 14,
+          "bar": 8
+        },
+        "climbers": {
+          "score": 75,
+          "bar": 41
+        },
+        "hills": {
+          "score": 75,
+          "bar": 41
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:10:41.100490+00:00"
     },
     "sebastian-molano": {
       "slug": "sebastian-molano",
@@ -127224,7 +130031,9 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:40:06.402594+00:00"
+      "fetched_at": "2026-06-20T11:40:06.402594+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:10:46.408533+00:00"
     },
     "amaury-capiot": {
       "slug": "amaury-capiot",
@@ -127269,7 +130078,34 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:40:11.407055+00:00"
+      "fetched_at": "2026-06-20T11:40:11.407055+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 2145,
+          "bar": 100
+        },
+        "gc": {
+          "score": 306,
+          "bar": 14
+        },
+        "time-trial": {
+          "score": 58,
+          "bar": 3
+        },
+        "sprint": {
+          "score": 1424,
+          "bar": 66
+        },
+        "climbers": {
+          "score": 128,
+          "bar": 6
+        },
+        "hills": {
+          "score": 869,
+          "bar": 41
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:10:51.770916+00:00"
     },
     "roger-adria-oliveras": {
       "slug": "roger-adria-oliveras",
@@ -127296,7 +130132,9 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-20T11:40:16.496481+00:00"
+      "fetched_at": "2026-06-20T11:40:16.496481+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T19:10:57.076821+00:00"
     },
     "sebastian-berwick": {
       "slug": "sebastian-berwick",
@@ -127347,7 +130185,34 @@
           "cat": "CC"
         }
       ],
-      "fetched_at": "2026-06-20T11:40:21.590448+00:00"
+      "fetched_at": "2026-06-20T11:40:21.590448+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 111,
+          "bar": 17
+        },
+        "gc": {
+          "score": 648,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 9,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 25,
+          "bar": 4
+        },
+        "climbers": {
+          "score": 350,
+          "bar": 54
+        },
+        "hills": {
+          "score": 226,
+          "bar": 35
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:02.445879+00:00"
     },
     "tobias-foss": {
       "slug": "tobias-foss",
@@ -127410,8 +130275,34 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:02.583588+00:00"
+      "fetched_at": "2026-06-20T17:35:02.583588+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 145,
+          "bar": 7
+        },
+        "gc": {
+          "score": 804,
+          "bar": 41
+        },
+        "time-trial": {
+          "score": 1973,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 29,
+          "bar": 1
+        },
+        "climbers": {
+          "score": 518,
+          "bar": 26
+        },
+        "hills": {
+          "score": 359,
+          "bar": 18
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:07.798856+00:00"
     },
     "sander-de-pestel": {
       "slug": "sander-de-pestel",
@@ -127438,8 +130329,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:07.836360+00:00"
+      "fetched_at": "2026-06-20T17:35:07.836360+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 246,
+          "bar": 100
+        },
+        "gc": {
+          "score": 79,
+          "bar": 32
+        },
+        "time-trial": {
+          "score": 224,
+          "bar": 91
+        },
+        "sprint": {
+          "score": 102,
+          "bar": 41
+        },
+        "climbers": {
+          "score": 4,
+          "bar": 2
+        },
+        "hills": {
+          "score": 82,
+          "bar": 33
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:13.157906+00:00"
     },
     "naud-de-clercq": {
       "slug": "naud-de-clercq",
@@ -127447,8 +130364,34 @@
       "dob": "2007-08-12",
       "nat": "Belgium",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:12.388680+00:00"
+      "fetched_at": "2026-06-20T17:35:12.388680+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 0,
+          "bar": 0
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 13,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 0,
+          "bar": 0
+        },
+        "hills": {
+          "score": 0,
+          "bar": 0
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:18.487096+00:00"
     },
     "alessandro-fancellu": {
       "slug": "alessandro-fancellu",
@@ -127475,8 +130418,34 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:17.379792+00:00"
+      "fetched_at": "2026-06-20T17:35:17.379792+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 105,
+          "bar": 22
+        },
+        "gc": {
+          "score": 474,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 12,
+          "bar": 3
+        },
+        "sprint": {
+          "score": 10,
+          "bar": 2
+        },
+        "climbers": {
+          "score": 296,
+          "bar": 62
+        },
+        "hills": {
+          "score": 326,
+          "bar": 69
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:23.825768+00:00"
     },
     "alex-tolio": {
       "slug": "alex-tolio",
@@ -127484,8 +130453,34 @@
       "dob": "2000-03-30",
       "nat": "Italy",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:22.644844+00:00"
+      "fetched_at": "2026-06-20T17:35:22.644844+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 64,
+          "bar": 23
+        },
+        "gc": {
+          "score": 280,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 5,
+          "bar": 2
+        },
+        "sprint": {
+          "score": 1,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 202,
+          "bar": 72
+        },
+        "hills": {
+          "score": 118,
+          "bar": 42
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:29.161198+00:00"
     },
     "luca-covili": {
       "slug": "luca-covili",
@@ -127493,8 +130488,34 @@
       "dob": "1997-02-10",
       "nat": "Italy",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:27.726548+00:00"
+      "fetched_at": "2026-06-20T17:35:27.726548+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 81,
+          "bar": 15
+        },
+        "gc": {
+          "score": 544,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 6,
+          "bar": 1
+        },
+        "sprint": {
+          "score": 6,
+          "bar": 1
+        },
+        "climbers": {
+          "score": 416,
+          "bar": 76
+        },
+        "hills": {
+          "score": 146,
+          "bar": 27
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:34.508301+00:00"
     },
     "fausto-masnada": {
       "slug": "fausto-masnada",
@@ -127551,8 +130572,34 @@
           "cat": "1.2U"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:32.783700+00:00"
+      "fetched_at": "2026-06-20T17:35:32.783700+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 729,
+          "bar": 45
+        },
+        "gc": {
+          "score": 1624,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 178,
+          "bar": 11
+        },
+        "sprint": {
+          "score": 50,
+          "bar": 3
+        },
+        "climbers": {
+          "score": 1250,
+          "bar": 77
+        },
+        "hills": {
+          "score": 562,
+          "bar": 35
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:39.869154+00:00"
     },
     "jon-pritrznik": {
       "slug": "jon-pritrznik",
@@ -127560,8 +130607,34 @@
       "dob": "2006-12-26",
       "nat": "Slovenia",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:37.777322+00:00"
+      "fetched_at": "2026-06-20T17:35:37.777322+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 0,
+          "bar": 0
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 0,
+          "bar": 0
+        },
+        "hills": {
+          "score": 3,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:45.236242+00:00"
     },
     "ibon-ruiz-sedano": {
       "slug": "ibon-ruiz-sedano",
@@ -127576,8 +130649,9 @@
           "cat": "1.1"
         }
       ],
+      "fetched_at": "2026-06-20T17:35:42.758153+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:35:42.758153+00:00"
+      "specialties_fetched_at": "2026-06-20T19:11:50.558203+00:00"
     },
     "axel-mariault": {
       "slug": "axel-mariault",
@@ -127585,8 +130659,34 @@
       "dob": "1998-06-07",
       "nat": "France",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:47.947963+00:00"
+      "fetched_at": "2026-06-20T17:35:47.947963+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 343,
+          "bar": 99
+        },
+        "gc": {
+          "score": 214,
+          "bar": 62
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 6,
+          "bar": 2
+        },
+        "climbers": {
+          "score": 185,
+          "bar": 53
+        },
+        "hills": {
+          "score": 346,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:11:55.898196+00:00"
     },
     "antonio-eric-fagundez-lima": {
       "slug": "antonio-eric-fagundez-lima",
@@ -127619,8 +130719,9 @@
           "cat": "CN"
         }
       ],
+      "fetched_at": "2026-06-20T17:35:52.722247+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:35:52.722247+00:00"
+      "specialties_fetched_at": "2026-06-20T19:12:01.253363+00:00"
     },
     "urko-berrade-fernandez": {
       "slug": "urko-berrade-fernandez",
@@ -127641,8 +130742,34 @@
           "cat": "2.UWT"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:35:57.997871+00:00"
+      "fetched_at": "2026-06-20T17:35:57.997871+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 189,
+          "bar": 33
+        },
+        "gc": {
+          "score": 569,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 210,
+          "bar": 37
+        },
+        "sprint": {
+          "score": 16,
+          "bar": 3
+        },
+        "climbers": {
+          "score": 378,
+          "bar": 66
+        },
+        "hills": {
+          "score": 315,
+          "bar": 55
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:12:06.664825+00:00"
     },
     "jokin-murguialday-elorza": {
       "slug": "jokin-murguialday-elorza",
@@ -127650,8 +130777,34 @@
       "dob": "2000-03-19",
       "nat": "Spain",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:36:02.935722+00:00"
+      "fetched_at": "2026-06-20T17:36:02.935722+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 15,
+          "bar": 6
+        },
+        "gc": {
+          "score": 237,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 7,
+          "bar": 3
+        },
+        "sprint": {
+          "score": 6,
+          "bar": 3
+        },
+        "climbers": {
+          "score": 88,
+          "bar": 37
+        },
+        "hills": {
+          "score": 52,
+          "bar": 22
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:12:12.012948+00:00"
     },
     "thomas-champion": {
       "slug": "thomas-champion",
@@ -127659,8 +130812,34 @@
       "dob": "1999-09-08",
       "nat": "France",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:36:08.578422+00:00"
+      "fetched_at": "2026-06-20T17:36:08.578422+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 75,
+          "bar": 41
+        },
+        "gc": {
+          "score": 183,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 31,
+          "bar": 17
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 86,
+          "bar": 47
+        },
+        "hills": {
+          "score": 20,
+          "bar": 11
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:12:17.356539+00:00"
     },
     "iker-mintegi-claver": {
       "slug": "iker-mintegi-claver",
@@ -127668,8 +130847,34 @@
       "dob": "2002-11-15",
       "nat": "Spain",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:36:13.586519+00:00"
+      "fetched_at": "2026-06-20T17:36:13.586519+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 46,
+          "bar": 63
+        },
+        "gc": {
+          "score": 73,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 15,
+          "bar": 21
+        },
+        "climbers": {
+          "score": 38,
+          "bar": 52
+        },
+        "hills": {
+          "score": 24,
+          "bar": 33
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:12:22.752649+00:00"
     },
     "dario-giuliano": {
       "slug": "dario-giuliano",
@@ -127677,8 +130882,34 @@
       "dob": "2005-02-04",
       "nat": "France",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:36:18.416677+00:00"
+      "fetched_at": "2026-06-20T17:36:18.416677+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 11,
+          "bar": 100
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 3,
+          "bar": 27
+        },
+        "climbers": {
+          "score": 6,
+          "bar": 55
+        },
+        "hills": {
+          "score": 7,
+          "bar": 64
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:12:28.093428+00:00"
     },
     "edward-cruz-martinez": {
       "slug": "edward-cruz-martinez",
@@ -127686,8 +130917,9 @@
       "dob": "2006-07-05",
       "nat": "Colombia",
       "wins": [],
+      "fetched_at": "2026-06-20T17:36:23.414439+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:36:23.414439+00:00"
+      "specialties_fetched_at": "2026-06-20T19:12:33.500495+00:00"
     },
     "pablo-carrascosa-miller": {
       "slug": "pablo-carrascosa-miller",
@@ -127695,8 +130927,9 @@
       "dob": "2002-10-07",
       "nat": "Spain",
       "wins": [],
+      "fetched_at": "2026-06-20T17:36:28.479824+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:36:28.479824+00:00"
+      "specialties_fetched_at": "2026-06-20T19:12:38.798587+00:00"
     },
     "thomas-bonnet": {
       "slug": "thomas-bonnet",
@@ -127741,8 +130974,34 @@
           "cat": "C2"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:36:33.585722+00:00"
+      "fetched_at": "2026-06-20T17:36:33.585722+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 129,
+          "bar": 100
+        },
+        "gc": {
+          "score": 92,
+          "bar": 71
+        },
+        "time-trial": {
+          "score": 10,
+          "bar": 8
+        },
+        "sprint": {
+          "score": 68,
+          "bar": 53
+        },
+        "climbers": {
+          "score": 56,
+          "bar": 43
+        },
+        "hills": {
+          "score": 108,
+          "bar": 84
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:12:45.611195+00:00"
     },
     "fernando-diego-pescador-castro": {
       "slug": "fernando-diego-pescador-castro",
@@ -127750,8 +131009,9 @@
       "dob": "2004-12-21",
       "nat": "Colombia",
       "wins": [],
+      "fetched_at": "2026-06-20T17:36:43.445238+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:36:43.445238+00:00"
+      "specialties_fetched_at": "2026-06-20T19:12:51.274026+00:00"
     },
     "stanislaw-aniolkowski": {
       "slug": "stanislaw-aniolkowski",
@@ -127868,8 +131128,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:36:48.788232+00:00"
+      "fetched_at": "2026-06-20T17:36:48.788232+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1171,
+          "bar": 66
+        },
+        "gc": {
+          "score": 407,
+          "bar": 23
+        },
+        "time-trial": {
+          "score": 123,
+          "bar": 7
+        },
+        "sprint": {
+          "score": 1769,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 52,
+          "bar": 3
+        },
+        "hills": {
+          "score": 758,
+          "bar": 43
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:12:56.645785+00:00"
     },
     "louis-rouland": {
       "slug": "louis-rouland",
@@ -127877,8 +131163,34 @@
       "dob": "2002-10-21",
       "nat": "France",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:36:54.396515+00:00"
+      "fetched_at": "2026-06-20T17:36:54.396515+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 59,
+          "bar": 38
+        },
+        "gc": {
+          "score": 154,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 19,
+          "bar": 12
+        },
+        "climbers": {
+          "score": 133,
+          "bar": 86
+        },
+        "hills": {
+          "score": 34,
+          "bar": 22
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:02.369893+00:00"
     },
     "patryk-goszczurny": {
       "slug": "patryk-goszczurny",
@@ -127893,8 +131205,34 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:36:59.463285+00:00"
+      "fetched_at": "2026-06-20T17:36:59.463285+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 7,
+          "bar": 22
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 31,
+          "bar": 97
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 18,
+          "bar": 56
+        },
+        "hills": {
+          "score": 32,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:08.112170+00:00"
     },
     "niels-driesen": {
       "slug": "niels-driesen",
@@ -127921,8 +131259,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:04.464142+00:00"
+      "fetched_at": "2026-06-20T17:37:04.464142+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 19,
+          "bar": 37
+        },
+        "gc": {
+          "score": 52,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 17,
+          "bar": 33
+        },
+        "climbers": {
+          "score": 44,
+          "bar": 85
+        },
+        "hills": {
+          "score": 35,
+          "bar": 67
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:13.691964+00:00"
     },
     "sam-maisonobe": {
       "slug": "sam-maisonobe",
@@ -127949,8 +131313,34 @@
           "cat": "2.2U"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:09.586757+00:00"
+      "fetched_at": "2026-06-20T17:37:09.586757+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 72,
+          "bar": 51
+        },
+        "gc": {
+          "score": 142,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 15,
+          "bar": 11
+        },
+        "sprint": {
+          "score": 2,
+          "bar": 1
+        },
+        "climbers": {
+          "score": 108,
+          "bar": 76
+        },
+        "hills": {
+          "score": 96,
+          "bar": 68
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:19.780599+00:00"
     },
     "jordi-meeus": {
       "slug": "jordi-meeus",
@@ -128097,8 +131487,34 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:15.302401+00:00"
+      "fetched_at": "2026-06-20T17:37:15.302401+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 2856,
+          "bar": 100
+        },
+        "gc": {
+          "score": 116,
+          "bar": 4
+        },
+        "time-trial": {
+          "score": 61,
+          "bar": 2
+        },
+        "sprint": {
+          "score": 2234,
+          "bar": 78
+        },
+        "climbers": {
+          "score": 32,
+          "bar": 1
+        },
+        "hills": {
+          "score": 1226,
+          "bar": 43
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:25.126578+00:00"
     },
     "kaden-groves": {
       "slug": "kaden-groves",
@@ -128269,8 +131685,34 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:20.352939+00:00"
+      "fetched_at": "2026-06-20T17:37:20.352939+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 531,
+          "bar": 26
+        },
+        "gc": {
+          "score": 291,
+          "bar": 14
+        },
+        "time-trial": {
+          "score": 359,
+          "bar": 17
+        },
+        "sprint": {
+          "score": 1575,
+          "bar": 76
+        },
+        "climbers": {
+          "score": 225,
+          "bar": 11
+        },
+        "hills": {
+          "score": 2064,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:30.492239+00:00"
     },
     "john-degenkolb": {
       "slug": "john-degenkolb",
@@ -128705,8 +132147,34 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:25.811694+00:00"
+      "fetched_at": "2026-06-20T17:37:25.811694+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 6519,
+          "bar": 100
+        },
+        "gc": {
+          "score": 1236,
+          "bar": 19
+        },
+        "time-trial": {
+          "score": 297,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 4672,
+          "bar": 72
+        },
+        "climbers": {
+          "score": 316,
+          "bar": 5
+        },
+        "hills": {
+          "score": 3345,
+          "bar": 51
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:35.957774+00:00"
     },
     "thomas-gloag": {
       "slug": "thomas-gloag",
@@ -128733,8 +132201,34 @@
           "cat": "2.2U"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:31.107078+00:00"
+      "fetched_at": "2026-06-20T17:37:31.107078+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 80,
+          "bar": 19
+        },
+        "gc": {
+          "score": 411,
+          "bar": 100
+        },
+        "time-trial": {
+          "score": 1,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 14,
+          "bar": 3
+        },
+        "climbers": {
+          "score": 332,
+          "bar": 81
+        },
+        "hills": {
+          "score": 194,
+          "bar": 47
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:41.919491+00:00"
     },
     "stefan-kung": {
       "slug": "stefan-kung",
@@ -128983,8 +132477,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:36.946401+00:00"
+      "fetched_at": "2026-06-20T17:37:36.946401+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 2900,
+          "bar": 47
+        },
+        "gc": {
+          "score": 1694,
+          "bar": 27
+        },
+        "time-trial": {
+          "score": 6230,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 412,
+          "bar": 7
+        },
+        "climbers": {
+          "score": 552,
+          "bar": 9
+        },
+        "hills": {
+          "score": 1756,
+          "bar": 28
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:47.363213+00:00"
     },
     "santiago-mesa-pietralunga": {
       "slug": "santiago-mesa-pietralunga",
@@ -128999,8 +132519,34 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:41.852744+00:00"
+      "fetched_at": "2026-06-20T17:37:41.852744+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 0,
+          "bar": 0
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 60,
+          "bar": 79
+        },
+        "climbers": {
+          "score": 6,
+          "bar": 8
+        },
+        "hills": {
+          "score": 76,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:52.709937+00:00"
     },
     "jarno-widar": {
       "slug": "jarno-widar",
@@ -129201,8 +132747,34 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:46.750542+00:00"
+      "fetched_at": "2026-06-20T17:37:46.750542+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 181,
+          "bar": 63
+        },
+        "gc": {
+          "score": 205,
+          "bar": 71
+        },
+        "time-trial": {
+          "score": 40,
+          "bar": 14
+        },
+        "sprint": {
+          "score": 4,
+          "bar": 1
+        },
+        "climbers": {
+          "score": 289,
+          "bar": 100
+        },
+        "hills": {
+          "score": 98,
+          "bar": 34
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:13:58.113389+00:00"
     },
     "dylan-van-baarle": {
       "slug": "dylan-van-baarle",
@@ -129409,8 +132981,34 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:37:51.777180+00:00"
+      "fetched_at": "2026-06-20T17:37:51.777180+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 2724,
+          "bar": 100
+        },
+        "gc": {
+          "score": 1510,
+          "bar": 55
+        },
+        "time-trial": {
+          "score": 1346,
+          "bar": 49
+        },
+        "sprint": {
+          "score": 618,
+          "bar": 23
+        },
+        "climbers": {
+          "score": 534,
+          "bar": 20
+        },
+        "hills": {
+          "score": 1526,
+          "bar": 56
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:14:03.507091+00:00"
     },
     "rafael-andrade-hugo-nunes": {
       "slug": "rafael-andrade-hugo-nunes",
@@ -129431,8 +133029,9 @@
           "cat": "2.1"
         }
       ],
+      "fetched_at": "2026-06-20T17:37:57.316074+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:37:57.316074+00:00"
+      "specialties_fetched_at": "2026-06-20T19:14:08.819166+00:00"
     },
     "tomas-contte": {
       "slug": "tomas-contte",
@@ -129447,8 +133046,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:38:02.415589+00:00"
+      "fetched_at": "2026-06-20T17:38:02.415589+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 57,
+          "bar": 77
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 54,
+          "bar": 73
+        },
+        "climbers": {
+          "score": 40,
+          "bar": 54
+        },
+        "hills": {
+          "score": 74,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:14:14.578999+00:00"
     },
     "julian-alaphilippe": {
       "slug": "julian-alaphilippe",
@@ -129835,8 +133460,34 @@
           "cat": "CDM"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:38:07.727059+00:00"
+      "fetched_at": "2026-06-20T17:38:07.727059+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 7025,
+          "bar": 100
+        },
+        "gc": {
+          "score": 2982,
+          "bar": 42
+        },
+        "time-trial": {
+          "score": 1457,
+          "bar": 21
+        },
+        "sprint": {
+          "score": 703,
+          "bar": 10
+        },
+        "climbers": {
+          "score": 5618,
+          "bar": 80
+        },
+        "hills": {
+          "score": 5092,
+          "bar": 72
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:14:20.592197+00:00"
     },
     "german-nicolas-tivani-perez": {
       "slug": "german-nicolas-tivani-perez",
@@ -129959,8 +133610,34 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:38:12.709651+00:00"
+      "fetched_at": "2026-06-20T17:38:12.709651+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 373,
+          "bar": 88
+        },
+        "gc": {
+          "score": 271,
+          "bar": 64
+        },
+        "time-trial": {
+          "score": 75,
+          "bar": 18
+        },
+        "sprint": {
+          "score": 422,
+          "bar": 100
+        },
+        "climbers": {
+          "score": 98,
+          "bar": 23
+        },
+        "hills": {
+          "score": 190,
+          "bar": 45
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:14:25.944110+00:00"
     },
     "tobias-bayer": {
       "slug": "tobias-bayer",
@@ -129999,8 +133676,34 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:38:17.726772+00:00"
+      "fetched_at": "2026-06-20T17:38:17.726772+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 225,
+          "bar": 100
+        },
+        "gc": {
+          "score": 204,
+          "bar": 91
+        },
+        "time-trial": {
+          "score": 36,
+          "bar": 16
+        },
+        "sprint": {
+          "score": 88,
+          "bar": 39
+        },
+        "climbers": {
+          "score": 114,
+          "bar": 51
+        },
+        "hills": {
+          "score": 180,
+          "bar": 80
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:14:31.288101+00:00"
     },
     "guillermo-juan-martinez-huertas": {
       "slug": "guillermo-juan-martinez-huertas",
@@ -130008,8 +133711,9 @@
       "dob": "2004-11-21",
       "nat": "Colombia",
       "wins": [],
+      "fetched_at": "2026-06-20T17:38:25.134218+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:38:25.134218+00:00"
+      "specialties_fetched_at": "2026-06-20T19:14:36.641592+00:00"
     },
     "duarte-domingues": {
       "slug": "duarte-domingues",
@@ -130017,8 +133721,34 @@
       "dob": "2004-02-29",
       "nat": "Portugal",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:38:30.369980+00:00"
+      "fetched_at": "2026-06-20T17:38:30.369980+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 0,
+          "bar": 0
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 0,
+          "bar": 0
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 1,
+          "bar": 100
+        },
+        "hills": {
+          "score": 0,
+          "bar": 0
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:14:42.256549+00:00"
     },
     "rodrigues-goncalo-tavares": {
       "slug": "rodrigues-goncalo-tavares",
@@ -130039,8 +133769,9 @@
           "cat": "CN"
         }
       ],
+      "fetched_at": "2026-06-20T17:38:35.450899+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:38:35.450899+00:00"
+      "specialties_fetched_at": "2026-06-20T19:14:47.791510+00:00"
     },
     "rafael-elvas-barbas": {
       "slug": "rafael-elvas-barbas",
@@ -130055,8 +133786,34 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:38:40.890763+00:00"
+      "fetched_at": "2026-06-20T17:38:40.890763+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 0,
+          "bar": 0
+        },
+        "gc": {
+          "score": 12,
+          "bar": 40
+        },
+        "time-trial": {
+          "score": 30,
+          "bar": 100
+        },
+        "sprint": {
+          "score": 0,
+          "bar": 0
+        },
+        "climbers": {
+          "score": 20,
+          "bar": 67
+        },
+        "hills": {
+          "score": 9,
+          "bar": 30
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:14:53.128535+00:00"
     },
     "jens-verbrugghe": {
       "slug": "jens-verbrugghe",
@@ -130089,8 +133846,34 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:38:45.872895+00:00"
+      "fetched_at": "2026-06-20T17:38:45.872895+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 57,
+          "bar": 100
+        },
+        "gc": {
+          "score": 0,
+          "bar": 0
+        },
+        "time-trial": {
+          "score": 50,
+          "bar": 88
+        },
+        "sprint": {
+          "score": 44,
+          "bar": 77
+        },
+        "climbers": {
+          "score": 2,
+          "bar": 4
+        },
+        "hills": {
+          "score": 20,
+          "bar": 35
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:14:58.462571+00:00"
     },
     "pablo-lospitao-gonzalez": {
       "slug": "pablo-lospitao-gonzalez",
@@ -130105,8 +133888,9 @@
           "cat": "2.1"
         }
       ],
+      "fetched_at": "2026-06-20T17:38:50.946740+00:00",
       "specialties": {},
-      "fetched_at": "2026-06-20T17:38:50.946740+00:00"
+      "specialties_fetched_at": "2026-06-20T19:15:03.782793+00:00"
     },
     "christophe-laporte": {
       "slug": "christophe-laporte",
@@ -130331,8 +134115,34 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:38:56.654002+00:00"
+      "fetched_at": "2026-06-20T17:38:56.654002+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 4815,
+          "bar": 100
+        },
+        "gc": {
+          "score": 1055,
+          "bar": 22
+        },
+        "time-trial": {
+          "score": 989,
+          "bar": 21
+        },
+        "sprint": {
+          "score": 2439,
+          "bar": 51
+        },
+        "climbers": {
+          "score": 389,
+          "bar": 8
+        },
+        "hills": {
+          "score": 2016,
+          "bar": 42
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:15:09.149241+00:00"
     },
     "bastien-tronchon": {
       "slug": "bastien-tronchon",
@@ -130353,8 +134163,34 @@
           "cat": "2.Pro"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:39:01.895428+00:00"
+      "fetched_at": "2026-06-20T17:39:01.895428+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 461,
+          "bar": 100
+        },
+        "gc": {
+          "score": 296,
+          "bar": 64
+        },
+        "time-trial": {
+          "score": 14,
+          "bar": 3
+        },
+        "sprint": {
+          "score": 119,
+          "bar": 26
+        },
+        "climbers": {
+          "score": 173,
+          "bar": 38
+        },
+        "hills": {
+          "score": 435,
+          "bar": 94
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:15:14.611978+00:00"
     },
     "alfred-wright": {
       "slug": "alfred-wright",
@@ -130387,8 +134223,34 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:39:07.184733+00:00"
+      "fetched_at": "2026-06-20T17:39:07.184733+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1051,
+          "bar": 66
+        },
+        "gc": {
+          "score": 545,
+          "bar": 34
+        },
+        "time-trial": {
+          "score": 500,
+          "bar": 31
+        },
+        "sprint": {
+          "score": 252,
+          "bar": 16
+        },
+        "climbers": {
+          "score": 375,
+          "bar": 24
+        },
+        "hills": {
+          "score": 1592,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:15:20.012059+00:00"
     },
     "nicolo-buratti": {
       "slug": "nicolo-buratti",
@@ -130433,8 +134295,34 @@
           "cat": "1.2U"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:39:12.145317+00:00"
+      "fetched_at": "2026-06-20T17:39:12.145317+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 185,
+          "bar": 60
+        },
+        "gc": {
+          "score": 69,
+          "bar": 23
+        },
+        "time-trial": {
+          "score": 36,
+          "bar": 12
+        },
+        "sprint": {
+          "score": 86,
+          "bar": 28
+        },
+        "climbers": {
+          "score": 44,
+          "bar": 14
+        },
+        "hills": {
+          "score": 306,
+          "bar": 100
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:15:25.353883+00:00"
     },
     "michiel-lambrecht": {
       "slug": "michiel-lambrecht",
@@ -130442,8 +134330,34 @@
       "dob": "2003-02-10",
       "nat": "Belgium",
       "wins": [],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:39:17.407113+00:00"
+      "fetched_at": "2026-06-20T17:39:17.407113+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 98,
+          "bar": 100
+        },
+        "gc": {
+          "score": 30,
+          "bar": 31
+        },
+        "time-trial": {
+          "score": 5,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 69,
+          "bar": 70
+        },
+        "climbers": {
+          "score": 16,
+          "bar": 16
+        },
+        "hills": {
+          "score": 88,
+          "bar": 90
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:15:30.692436+00:00"
     },
     "sandy-dujardin": {
       "slug": "sandy-dujardin",
@@ -130476,8 +134390,34 @@
           "cat": "C2"
         }
       ],
-      "specialties": {},
-      "fetched_at": "2026-06-20T17:39:22.473963+00:00"
+      "fetched_at": "2026-06-20T17:39:22.473963+00:00",
+      "specialties": {
+        "one-day-races": {
+          "score": 1297,
+          "bar": 100
+        },
+        "gc": {
+          "score": 106,
+          "bar": 8
+        },
+        "time-trial": {
+          "score": 68,
+          "bar": 5
+        },
+        "sprint": {
+          "score": 366,
+          "bar": 28
+        },
+        "climbers": {
+          "score": 120,
+          "bar": 9
+        },
+        "hills": {
+          "score": 565,
+          "bar": 44
+        }
+      },
+      "specialties_fetched_at": "2026-06-20T19:15:36.109189+00:00"
     }
   }
 }

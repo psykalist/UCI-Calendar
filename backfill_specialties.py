@@ -46,7 +46,7 @@ def fetch(url):
             if e.code == 404:
                 return None
             time.sleep(2 ** attempt)
-        except URLError:
+        except (URLError, TimeoutError, OSError):
             time.sleep(2 ** attempt)
     return None
 
