@@ -1491,9 +1491,15 @@ def main():
     for slug in to_fetch:
         profile = scrape_rider_profile(slug)
         if profile:
+            # Preserve existing specialty data if new fetch returned empty
+            # (PCS blocks CI/server IPs — local runs populate specialties, CI must not overwrite)
+            if not profile.get('specialties') and rider_profiles.get(slug, {}).get('specialties'):
+                profile['specialties'] = rider_profiles[slug]['specialties']
+                print(f"    (kept cached specialties)", flush=True)
             rider_profiles[slug] = profile
             tag = "↺" if slug in stage_winners_to_refresh else "+"
-            print(f"  {tag} {profile.get('nat','??')} {slug}: {len(profile.get('wins',[]))} wins", flush=True)
+            spec_count = len(profile.get('specialties') or {})
+            print(f"  {tag} {profile.get('nat','??')} {slug}: {len(profile.get('wins',[]))} wins, {spec_count} specialties", flush=True)
         else:
             print(f"  {slug}: failed", flush=True)
 
