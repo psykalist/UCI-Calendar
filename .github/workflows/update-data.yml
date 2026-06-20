@@ -2,8 +2,8 @@ name: Update UCI Race Data
 
 on:
   schedule:
-    - cron: '30 17 * * *'  # 18:30 Irish time (UTC+1)
-  workflow_dispatch:              # Allow manual trigger from GitHub UI
+    - cron: '30 17 * * *'   # 18:30 Irish time (UTC+1)
+  workflow_dispatch:          # Allow manual trigger from GitHub UI
 
 permissions:
   contents: write
@@ -12,10 +12,11 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  scrape-and-deploy:
+  scrape:
     runs-on: ubuntu-latest
 
     steps:
+      # ── Setup ──────────────────────────────────────────────────────────────
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
@@ -26,19 +27,157 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Pull latest data before scraping
+      - name: Configure git + pull latest
         run: |
-          git config --global user.name 'UCI Calendar Bot'
+          git config --global user.name  'UCI Calendar Bot'
           git config --global user.email 'uci-bot@users.noreply.github.com'
-          git pull origin main
+          git pull --rebase origin main || git pull origin main
 
-      - name: Run scraper (best-effort)
-        run: python scraper.py || echo "Scraper encountered errors — using partial/cached data"
-
-      - name: Commit updated data.json
+      # ── Pre-scrape checks ──────────────────────────────────────────────────
+      - name: Pre-scrape checks
         run: |
-          git add data.json
-          git diff --staged --quiet && echo "No changes to commit" || (
+          python3 - <<'PYEOF'
+          import json, os, sys, urllib.request
+
+          print("=== Pre-scrape checks ===")
+          ok = True
+
+          # 1. Source site reachable
+          try:
+              req = urllib.request.Request(
+                  "https://cyclingflash.com",
+                  headers={"User-Agent": "Mozilla/5.0"}
+              )
+              with urllib.request.urlopen(req, timeout=15) as r:
+                  body = r.read(2000).decode("utf-8", errors="replace")
+              if "cyclingflash" in body.lower() or r.status == 200:
+                  print("✓ cyclingflash.com reachable")
+              else:
+                  print("⚠ cyclingflash.com returned unexpected content")
+          except Exception as e:
+              print(f"✗ cyclingflash.com unreachable: {e}")
+              ok = False
+
+          # 2. Existing data.json valid (save copy for change detection)
+          if os.path.exists("data.json"):
+              try:
+                  d = json.load(open("data.json", encoding="utf-8"))
+                  live     = len(d.get("live", []))
+                  upcoming = len(d.get("upcoming", []))
+                  recent   = len(d.get("recent", []))
+                  print(f"✓ Existing data.json valid — {live} live, {upcoming} upcoming, {recent} recent")
+                  import shutil
+                  shutil.copy("data.json", "data_old.json")
+                  print("✓ Saved data_old.json for change detection")
+              except Exception as e:
+                  print(f"⚠ Existing data.json unreadable ({e}) — will create fresh")
+          else:
+              print("ℹ No existing data.json — fresh scrape")
+
+          if not ok:
+              print("\n✗ Pre-scrape checks failed — aborting to avoid overwriting good data")
+              sys.exit(1)
+
+          print("=== Pre-scrape checks passed ===")
+          PYEOF
+
+      # ── Scrape ─────────────────────────────────────────────────────────────
+      - name: Run scraper
+        run: python3 scraper.py
+
+      # ── Post-scrape validation ─────────────────────────────────────────────
+      - name: Validate output
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, sys
+
+          print("=== Post-scrape validation ===")
+          errors = []
+
+          # 1. File exists
+          if not os.path.exists("data.json"):
+              print("✗ FATAL: data.json missing after scrape")
+              sys.exit(1)
+
+          # 2. Valid JSON
+          try:
+              d = json.load(open("data.json", encoding="utf-8"))
+          except Exception as e:
+              print(f"✗ FATAL: data.json invalid JSON: {e}")
+              sys.exit(1)
+
+          # 3. Required top-level keys
+          for key in ("live", "upcoming", "recent", "scraped_at"):
+              if key not in d:
+                  errors.append(f"missing key '{key}'")
+
+          # 4. At least some races exist
+          total = sum(len(d.get(s, [])) for s in ("live", "upcoming", "recent"))
+          if total == 0:
+              errors.append("zero races across all buckets — likely full scrape failure")
+
+          # 5. File did not shrink vs old data (>20% loss = suspect)
+          if os.path.exists("data_old.json"):
+              old_sz = os.path.getsize("data_old.json")
+              new_sz = os.path.getsize("data.json")
+              if old_sz > 0 and new_sz < old_sz * 0.80:
+                  errors.append(
+                      f"file shrank >20%: {old_sz//1024} KB → {new_sz//1024} KB"
+                  )
+              else:
+                  print(f"✓ File size OK: {old_sz//1024} KB → {new_sz//1024} KB")
+
+          # 6. Each live race has a name and slug
+          for r in d.get("live", []):
+              if not r.get("name") or not (r.get("slug") or r.get("cf_slug")):
+                  errors.append(f"live race missing name/slug: {r}")
+                  break
+
+          live     = len(d.get("live", []))
+          upcoming = len(d.get("upcoming", []))
+          recent   = len(d.get("recent", []))
+
+          if errors:
+              for e in errors:
+                  print(f"✗ {e}")
+              sys.exit(1)
+
+          print(f"✓ data.json valid — {live} live, {upcoming} upcoming, {recent} recent")
+          print(f"  scraped_at: {d.get('scraped_at_human', d.get('scraped_at', '?'))}")
+          print("=== Validation passed ===")
+          PYEOF
+
+      # ── Change detection (non-critical) ───────────────────────────────────
+      - name: Detect changes and update changelog
+        continue-on-error: true
+        run: |
+          if [ -f data_old.json ]; then
+            python3 detect_changes.py data_old.json data.json changelog.json \
+              && echo "✓ Changelog updated" \
+              || echo "⚠ detect_changes.py failed — continuing without changelog update"
+          else
+            echo "ℹ No data_old.json — skipping change detection"
+          fi
+
+      # ── Cleanup (always runs) ──────────────────────────────────────────────
+      - name: Clean up temp files
+        if: always()
+        run: rm -f data_old.json
+
+      # ── Commit & push ──────────────────────────────────────────────────────
+      - name: Commit and push
+        run: |
+          git add data.json changelog.json
+          if git diff --staged --quiet; then
+            echo "ℹ No changes to commit"
+          else
             git commit -m "chore: update race data $(date -u '+%Y-%m-%d %H:%M UTC')"
-            git push
-          )
+            # Retry once on push conflict (another push may have landed during scrape)
+            git push origin main || (
+              echo "Push rejected — pulling and retrying..."
+              git pull --rebase origin main \
+                && git push origin main \
+                || (echo "✗ Push failed after retry" && exit 1)
+            )
+            echo "✓ Pushed to GitHub"
+          fi
