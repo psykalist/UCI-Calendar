@@ -610,6 +610,12 @@ header h1 span { color: var(--accent); }
   padding-bottom: 5px; margin: 14px 0 8px;
 }
 .rider-modal-no-data { font-size: .85rem; color: var(--muted); font-style: italic; }
+.spec-bars { padding: 4px 0 8px; }
+.spec-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.spec-label { font-size: .72rem; color: var(--muted); width: 64px; flex-shrink: 0; text-align: right; }
+.spec-track { flex: 1; height: 7px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+.spec-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
+.spec-score { font-size: .72rem; color: var(--fg); width: 44px; text-align: right; flex-shrink: 0; }
 .rider-name-link {
   cursor: pointer;
   text-decoration: underline;
@@ -1289,6 +1295,31 @@ function openRiderModal(slug) {
     ? wins.map(w => `<div class="win-entry"><span class="win-year">${esc(w.year)}</span><span class="win-race">${esc(w.race)}</span><span class="win-cat">${esc(w.cat)}</span></div>`).join('')
     : `<p class="rider-modal-no-data">No wins data yet — check back after next scrape</p>`;
 
+  // Specialty bars
+  const specialties = (profile || {}).specialties || {};
+  const SPEC_ORDER = [
+    { key: 'gc',             label: 'GC',          color: '#e63946' },
+    { key: 'one-day-races',  label: 'One Day',      color: '#f4a261' },
+    { key: 'climber',        label: 'Climber',      color: '#2a9d8f' },
+    { key: 'sprint',         label: 'Sprint',       color: '#e9c46a' },
+    { key: 'time-trial',     label: 'Time Trial',   color: '#4361ee' },
+    { key: 'hills',          label: 'Hills',        color: '#8ecae6' },
+  ];
+  const specHTML = Object.keys(specialties).length
+    ? `<div class="spec-bars">${SPEC_ORDER.map(({key, label, color}) => {
+        const s = specialties[key];
+        if (!s) return '';
+        const bar = Math.max(s.bar || 0, s.score > 0 ? 2 : 0);
+        return `<div class="spec-row">
+          <div class="spec-label">${label}</div>
+          <div class="spec-track">
+            <div class="spec-fill" style="width:${bar}%;background:${color}"></div>
+          </div>
+          <div class="spec-score">${s.score.toLocaleString()}</div>
+        </div>`;
+      }).join('')}</div>`
+    : `<p class="rider-modal-no-data">Specialty data loads on next full scrape</p>`;
+
   content.innerHTML = `
     <div class="rider-modal-header">
       ${photoEl}
@@ -1297,6 +1328,8 @@ function openRiderModal(slug) {
         ${meta ? `<div class="rider-modal-meta">${meta}</div>` : ''}
       </div>
     </div>
+    <div class="rider-modal-section">⭐ Specialties</div>
+    ${specHTML}
     <div class="rider-modal-section">🏆 Palmares (${wins.length} wins)</div>
     <div class="wins-panel" style="display:block">${winsHTML}</div>
   `;

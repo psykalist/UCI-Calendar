@@ -893,13 +893,34 @@ def scrape_rider_profile(slug):
                     'cat':  strip_tags(tds[4]) if len(tds) > 4 else '',
                 })
 
+    # 3. PCS rider page -> specialty scores (GC, One day, Sprint, TT, Climber, Hills)
+    specialties = {}
+    pcs_html = fetch(f"{PCS_BASE}/rider/{slug}")
+    time.sleep(DELAY)
+    if pcs_html:
+        pps_m = re.search(r'<ul[^>]+class="pps[^"]*"[^>]*>(.*?)</ul>', pcs_html, re.DOTALL)
+        if pps_m:
+            pps_block = pps_m.group(1)
+            for li_m in re.finditer(r'<li[^>]*>(.*?)</li>', pps_block, re.DOTALL):
+                li = li_m.group(1)
+                score_m = re.search(r'class="xvalue[^"]*">(\d+)<', li)
+                cat_m   = re.search(r'career-points-([a-z-]+)"', li)
+                bar_m   = re.search(r'class="w(\d+)\s', li)
+                if score_m and cat_m:
+                    key = cat_m.group(1)
+                    specialties[key] = {
+                        'score': int(score_m.group(1)),
+                        'bar':   int(bar_m.group(1)) if bar_m else 0,
+                    }
+
     return {
-        'slug':       slug,
-        'photo':      photo,
-        'dob':        dob,
-        'nat':        nat,
-        'wins':       wins,
-        'fetched_at': datetime.now(timezone.utc).isoformat(),
+        'slug':         slug,
+        'photo':        photo,
+        'dob':          dob,
+        'nat':          nat,
+        'wins':         wins,
+        'specialties':  specialties,
+        'fetched_at':   datetime.now(timezone.utc).isoformat(),
     }
 
 
