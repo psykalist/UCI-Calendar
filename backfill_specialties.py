@@ -1,12 +1,11 @@
 """
-fetch_one_rider.py — fetch one rider's PCS specialty stats and save to data.json.
+backfill_specialties.py — one-shot bulk fetch of all missing PCS specialty data.
 
-Run via Windows Task Scheduler every minute to politely backfill specialty data
-without hammering procyclingstats.com.
+Run once from the command line:
+    py backfill_specialties.py
 
-Exit codes:
-  0 — fetched one rider successfully (or nothing left to do)
-  1 — fetch failed (will retry next minute)
+Fetches all riders missing specialties with a 5-second delay between each.
+Saves progress after every rider so it's safe to Ctrl+C and resume.
 """
 
 import json
@@ -21,12 +20,11 @@ from urllib.error import URLError, HTTPError
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-DATA_FILE     = os.path.join(os.path.dirname(__file__), "data.json")
-LOCK_FILE     = os.path.join(os.path.dirname(__file__), ".specialty_last_run")
-WRITE_LOCK    = os.path.join(os.path.dirname(__file__), ".data_write.lock")
-MIN_INTERVAL  = 50   # seconds — skip run if called sooner than this
-PCS_BASE      = "https://www.procyclingstats.com"
+DATA_FILE       = os.path.join(os.path.dirname(__file__), "data.json")
+WRITE_LOCK      = os.path.join(os.path.dirname(__file__), ".data_write.lock")
+PCS_BASE        = "https://www.procyclingstats.com"
 REQUEST_TIMEOUT = 20
+DELAY_SECONDS   = 5   # polite delay between requests
 
 HEADERS = {
     "User-Agent": (
@@ -54,7 +52,6 @@ def fetch(url):
 
 
 def scrape_specialties(slug):
-    """Fetch PCS rider page and return specialty dict."""
     html = fetch(f"{PCS_BASE}/rider/{slug}")
     if not html:
         return None
@@ -76,13 +73,7 @@ def scrape_specialties(slug):
     return specialties
 
 
-def load_data():
-    with open(DATA_FILE, encoding='utf-8') as f:
-        return json.load(f)
-
-
 def acquire_write_lock(timeout=10):
-    """Spin-wait for exclusive write access (max timeout seconds)."""
     deadline = time.time() + timeout
     while time.time() < deadline:
         try:
@@ -114,52 +105,48 @@ def save_data(data):
 
 
 def main():
-    # Throttle: skip if called too soon after the last run
-    now_ts = time.time()
-    try:
-        last_run = float(open(LOCK_FILE).read().strip())
-        if now_ts - last_run < MIN_INTERVAL:
-            sys.exit(0)  # silent exit — too soon
-    except Exception:
-        pass
-    with open(LOCK_FILE, 'w') as f:
-        f.write(str(now_ts))
-
-    data = load_data()
+    with open(DATA_FILE, encoding='utf-8') as f:
+        data = json.load(f)
     profiles = data.get('rider_profiles', {})
 
-    # Find next rider missing specialty data
-    # Note: specialties={} means "checked, none found" — exclude those too
     missing = [slug for slug, p in profiles.items() if 'specialties' not in p]
+    total = len(missing)
 
-    if not missing:
-        print(f"[{datetime.now().strftime('%H:%M:%S')}] All {len(profiles)} riders have specialty data. Nothing to do.")
-        sys.exit(0)
+    if not total:
+        print("All riders already have specialty data. Nothing to do.")
+        return
 
-    slug = missing[0]
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] Fetching specialties for {slug} ({len(missing)} remaining)...", flush=True)
+    print(f"Backfilling specialties for {total} riders (~{total * DELAY_SECONDS // 60} min)...")
+    print("Safe to Ctrl+C — progress is saved after each rider.\n")
 
-    specialties = scrape_specialties(slug)
+    ok = skipped = failed = 0
 
-    if specialties is None:
-        print(f"  Failed to fetch {slug} — will retry next run.", flush=True)
-        sys.exit(1)
+    for i, slug in enumerate(missing, 1):
+        print(f"[{i}/{total}] {slug}...", end=" ", flush=True)
+        specialties = scrape_specialties(slug)
 
-    if specialties:
-        profiles[slug]['specialties'] = specialties
-        profiles[slug]['specialties_fetched_at'] = datetime.now(timezone.utc).isoformat()
-        save_data(data)
-        cats = ", ".join(f"{k}:{v['score']}" for k, v in specialties.items())
-        print(f"  OK: {cats}", flush=True)
-        print(f"  {len(missing)-1} riders still missing specialties.", flush=True)
-    else:
-        # PCS page loaded but no specialty block — mark as attempted so we skip it
-        profiles[slug]['specialties'] = {}
-        profiles[slug]['specialties_fetched_at'] = datetime.now(timezone.utc).isoformat()
-        save_data(data)
-        print(f"  No specialty data on PCS for {slug} (marked as checked).", flush=True)
+        if specialties is None:
+            print("FAILED (fetch error — will retry next run)")
+            failed += 1
+        elif specialties:
+            profiles[slug]['specialties'] = specialties
+            profiles[slug]['specialties_fetched_at'] = datetime.now(timezone.utc).isoformat()
+            save_data(data)
+            cats = ", ".join(f"{k}:{v['score']}" for k, v in specialties.items())
+            print(f"OK — {cats}")
+            ok += 1
+        else:
+            profiles[slug]['specialties'] = {}
+            profiles[slug]['specialties_fetched_at'] = datetime.now(timezone.utc).isoformat()
+            save_data(data)
+            print("no PCS data (marked)")
+            skipped += 1
 
-    sys.exit(0)
+        if i < total:
+            time.sleep(DELAY_SECONDS)
+
+    print(f"\nDone. {ok} fetched, {skipped} no PCS data, {failed} failed.")
+    print("Run again to retry any failures, then git add data.json && git push.")
 
 
 if __name__ == "__main__":

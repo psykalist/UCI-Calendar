@@ -78236,7 +78236,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:27.700204+00:00"
     },
     "matthew-brennan": {
@@ -78408,7 +78407,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:33.586139+00:00"
     },
     "sam-welsford": {
@@ -79798,9 +79796,7 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-19T19:30:45.772330+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:22:26.510631+00:00"
+      "fetched_at": "2026-06-19T19:30:45.772330+00:00"
     },
     "mauro-schmid": {
       "slug": "mauro-schmid",
@@ -79893,7 +79889,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:38.888501+00:00"
     },
     "andreas-kron": {
@@ -80143,9 +80138,7 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-16T14:34:22.160534+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:35:32.323191+00:00"
+      "fetched_at": "2026-06-16T14:34:22.160534+00:00"
     },
     "adam-yates": {
       "slug": "adam-yates",
@@ -81216,9 +81209,7 @@
           "cat": "2.1"
         }
       ],
-      "fetched_at": "2026-06-16T14:35:00.139263+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:36:26.771653+00:00"
+      "fetched_at": "2026-06-16T14:35:00.139263+00:00"
     },
     "anthon-charmig": {
       "slug": "anthon-charmig",
@@ -82210,9 +82201,7 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-16T14:35:47.124923+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:37:34.464700+00:00"
+      "fetched_at": "2026-06-16T14:35:47.124923+00:00"
     },
     "martin-bugge-urianstad": {
       "slug": "martin-bugge-urianstad",
@@ -82220,9 +82209,7 @@
       "dob": "1999-02-06",
       "nat": "Norway",
       "wins": [],
-      "fetched_at": "2026-06-16T14:35:50.992323+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:37:39.746269+00:00"
+      "fetched_at": "2026-06-16T14:35:50.992323+00:00"
     },
     "pepijn-reinderink": {
       "slug": "pepijn-reinderink",
@@ -82752,7 +82739,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:44.268999+00:00"
     },
     "michael-leonard": {
@@ -83330,9 +83316,7 @@
           "cat": "2"
         }
       ],
-      "fetched_at": "2026-06-16T15:44:35.323320+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:39:08.452591+00:00"
+      "fetched_at": "2026-06-16T15:44:35.323320+00:00"
     },
     "cees-bol": {
       "slug": "cees-bol",
@@ -85603,7 +85587,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:49.360147+00:00"
     },
     "florian-vermeersch": {
@@ -85943,9 +85926,7 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T15:45:44.595233+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:40:44.484404+00:00"
+      "fetched_at": "2026-06-16T15:45:44.595233+00:00"
     },
     "felix-gall": {
       "slug": "felix-gall",
@@ -88539,9 +88520,7 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-16T15:47:22.311759+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:43:06.411607+00:00"
+      "fetched_at": "2026-06-16T15:47:22.311759+00:00"
     },
     "milan-fretin": {
       "slug": "milan-fretin",
@@ -88784,7 +88763,6 @@
           "cat": "CC"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:12.534420+00:00"
     },
     "mike-teunissen": {
@@ -91338,7 +91316,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:55.153164+00:00"
     },
     "bryan-coquard": {
@@ -92098,9 +92075,7 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-16T18:34:40.189867+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:45:16.770528+00:00"
+      "fetched_at": "2026-06-16T18:34:40.189867+00:00"
     },
     "alex-baudin": {
       "slug": "alex-baudin",
@@ -92493,9 +92468,7 @@
           "cat": "CJ"
         }
       ],
-      "fetched_at": "2026-06-16T18:35:02.552103+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:45:48.731378+00:00"
+      "fetched_at": "2026-06-16T18:35:02.552103+00:00"
     },
     "carlos-rodriguez-cano": {
       "slug": "carlos-rodriguez-cano",
@@ -92948,7 +92921,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:00.337212+00:00"
     },
     "thymen-arensman": {
@@ -96366,7 +96338,6 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:02.213805+00:00"
     },
     "giulio-pellizzari": {
@@ -97708,7 +97679,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:22.577928+00:00"
     },
     "paul-magnier": {
@@ -97964,7 +97934,6 @@
           "cat": "2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:05.781674+00:00"
     },
     "ivan-garcia-cortina": {
@@ -99348,7 +99317,6 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:11.003930+00:00"
     },
     "ben-healy": {
@@ -99784,7 +99752,6 @@
           "cat": "1.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:16.570656+00:00"
     },
     "giovanni-lonardi": {
@@ -99895,9 +99862,7 @@
       "dob": "1996-03-04",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T19:59:14.282662+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:47:46.361470+00:00"
+      "fetched_at": "2026-06-16T19:59:14.282662+00:00"
     },
     "joan-bou-company": {
       "slug": "joan-bou-company",
@@ -99905,9 +99870,7 @@
       "dob": "1997-01-16",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T19:59:18.000960+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:47:51.638993+00:00"
+      "fetched_at": "2026-06-16T19:59:18.000960+00:00"
     },
     "timo-kielich": {
       "slug": "timo-kielich",
@@ -101248,7 +101211,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:22.027438+00:00"
     },
     "simone-gualdi": {
@@ -101468,9 +101430,7 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T20:00:06.340146+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:48:55.574162+00:00"
+      "fetched_at": "2026-06-16T20:00:06.340146+00:00"
     },
     "magnus-cort-nielsen": {
       "slug": "magnus-cort-nielsen",
@@ -102181,7 +102141,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:27.231584+00:00"
     },
     "ivo-emanuel-oliveira-alves": {
@@ -102257,9 +102216,7 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T20:00:29.065288+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:49:22.313631+00:00"
+      "fetched_at": "2026-06-16T20:00:29.065288+00:00"
     },
     "toon-aerts": {
       "slug": "toon-aerts",
@@ -102501,9 +102458,7 @@
       "dob": "2003-06-30",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T20:00:36.661949+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:49:33.118250+00:00"
+      "fetched_at": "2026-06-16T20:00:36.661949+00:00"
     },
     "davide-piganzoli": {
       "slug": "davide-piganzoli",
@@ -104132,7 +104087,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:32.801386+00:00"
     },
     "jaume-guardeno-roma": {
@@ -104141,9 +104095,7 @@
       "dob": "2003-02-20",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T20:01:43.283537+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:51:09.596922+00:00"
+      "fetched_at": "2026-06-16T20:01:43.283537+00:00"
     },
     "jan-castellon-ribalta": {
       "slug": "jan-castellon-ribalta",
@@ -104151,9 +104103,7 @@
       "dob": "2003-07-31",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-16T21:22:42.264477+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:51:14.882443+00:00"
+      "fetched_at": "2026-06-16T21:22:42.264477+00:00"
     },
     "jakob-omrzel": {
       "slug": "jakob-omrzel",
@@ -104708,7 +104658,6 @@
           "cat": "C2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:37.730221+00:00"
     },
     "felix-grossschartner": {
@@ -105198,9 +105147,7 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-16T21:23:17.414903+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:52:04.005750+00:00"
+      "fetched_at": "2026-06-16T21:23:17.414903+00:00"
     },
     "guillaume-martin": {
       "slug": "guillaume-martin",
@@ -105485,9 +105432,7 @@
           "cat": "U19"
         }
       ],
-      "fetched_at": "2026-06-19T19:31:09.563947+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:52:21.044858+00:00"
+      "fetched_at": "2026-06-19T19:31:09.563947+00:00"
     },
     "christian-scaroni": {
       "slug": "christian-scaroni",
@@ -105712,9 +105657,7 @@
           "cat": "1.1"
         }
       ],
-      "fetched_at": "2026-06-16T21:23:35.310247+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:52:31.657312+00:00"
+      "fetched_at": "2026-06-16T21:23:35.310247+00:00"
     },
     "juan-pedro-lopez-perez": {
       "slug": "juan-pedro-lopez-perez",
@@ -105741,9 +105684,7 @@
           "cat": "2.2U"
         }
       ],
-      "fetched_at": "2026-06-16T21:23:38.894603+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:52:37.059796+00:00"
+      "fetched_at": "2026-06-16T21:23:38.894603+00:00"
     },
     "javier-romo-oliver": {
       "slug": "javier-romo-oliver",
@@ -105764,9 +105705,7 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T21:23:42.557963+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:52:42.345123+00:00"
+      "fetched_at": "2026-06-16T21:23:42.557963+00:00"
     },
     "raul-garcia-pierna": {
       "slug": "raul-garcia-pierna",
@@ -106039,7 +105978,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:42.723105+00:00"
     },
     "emiel-verstrynge": {
@@ -106270,9 +106208,7 @@
           "cat": "CN"
         }
       ],
-      "fetched_at": "2026-06-16T21:24:10.728172+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:53:20.472953+00:00"
+      "fetched_at": "2026-06-16T21:24:10.728172+00:00"
     },
     "johannes-kulset": {
       "slug": "johannes-kulset",
@@ -107353,7 +107289,6 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:33:51.997255+00:00"
     },
     "albert-withen-philipsen": {
@@ -107603,9 +107538,7 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-16T21:24:39.068620+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:54:01.482727+00:00"
+      "fetched_at": "2026-06-16T21:24:39.068620+00:00"
     },
     "jefferson-albeiro-cepeda": {
       "slug": "jefferson-albeiro-cepeda",
@@ -107674,9 +107607,7 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-16T21:24:42.742250+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:54:06.832928+00:00"
+      "fetched_at": "2026-06-16T21:24:42.742250+00:00"
     },
     "davide-toneatti": {
       "slug": "davide-toneatti",
@@ -108213,9 +108144,7 @@
           "cat": "2.NCUP"
         }
       ],
-      "fetched_at": "2026-06-16T21:24:53.403252+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:54:24.165641+00:00"
+      "fetched_at": "2026-06-16T21:24:53.403252+00:00"
     },
     "clement-berthet": {
       "slug": "clement-berthet",
@@ -109856,7 +109785,6 @@
           "cat": "CJ"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:33:56.752715+00:00"
     },
     "marcel-camprubi-pijuan": {
@@ -109865,9 +109793,7 @@
       "dob": "2001-09-15",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-18T19:56:59.892308+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:55:48.769071+00:00"
+      "fetched_at": "2026-06-18T19:56:59.892308+00:00"
     },
     "bart-lemmen": {
       "slug": "bart-lemmen",
@@ -109930,9 +109856,7 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-18T19:57:07.237910+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:55:59.374840+00:00"
+      "fetched_at": "2026-06-18T19:57:07.237910+00:00"
     },
     "remy-rochas": {
       "slug": "remy-rochas",
@@ -111075,7 +110999,6 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:17.521973+00:00"
     },
     "soren-waerenskjold": {
@@ -111673,9 +111596,7 @@
           "cat": "CC"
         }
       ],
-      "fetched_at": "2026-06-18T19:57:52.715329+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:56:58.558948+00:00"
+      "fetched_at": "2026-06-18T19:57:52.715329+00:00"
     },
     "olav-kooij": {
       "slug": "olav-kooij",
@@ -112559,9 +112480,7 @@
       "dob": "1997-12-23",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-18T19:58:24.777827+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T15:57:46.275577+00:00"
+      "fetched_at": "2026-06-18T19:58:24.777827+00:00"
     },
     "lorenzo-masciarelli": {
       "slug": "lorenzo-masciarelli",
@@ -114779,7 +114698,6 @@
           "cat": "CM"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:34:07.430665+00:00"
     },
     "michael-matthews": {
@@ -115490,9 +115408,7 @@
           "cat": "C2"
         }
       ],
-      "fetched_at": "2026-06-19T19:32:44.336467+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T16:00:26.617229+00:00"
+      "fetched_at": "2026-06-19T19:32:44.336467+00:00"
     },
     "matyas-kopecky": {
       "slug": "matyas-kopecky",
@@ -116351,9 +116267,7 @@
       "dob": "2007-04-02",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-19T19:33:19.290281+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T16:01:15.471870+00:00"
+      "fetched_at": "2026-06-19T19:33:19.290281+00:00"
     },
     "ryan-gal": {
       "slug": "ryan-gal",
@@ -116499,9 +116413,7 @@
       "dob": "1996-02-15",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-19T19:33:34.839717+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T16:01:37.614984+00:00"
+      "fetched_at": "2026-06-19T19:33:34.839717+00:00"
     },
     "samuel-fernandez-garcia": {
       "slug": "samuel-fernandez-garcia",
@@ -116671,9 +116583,7 @@
       "dob": "1997-09-10",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-19T19:33:50.269145+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T16:02:00.330767+00:00"
+      "fetched_at": "2026-06-19T19:33:50.269145+00:00"
     },
     "marcel-gladek": {
       "slug": "marcel-gladek",
@@ -116945,9 +116855,7 @@
       "dob": "2001-04-17",
       "nat": "Spain",
       "wins": [],
-      "fetched_at": "2026-06-19T19:34:08.714792+00:00",
-      "specialties": {},
-      "specialties_fetched_at": "2026-06-20T16:02:28.040732+00:00"
+      "fetched_at": "2026-06-19T19:34:08.714792+00:00"
     },
     "ronan-auge": {
       "slug": "ronan-auge",
@@ -118167,7 +118075,6 @@
           "cat": "CJ"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:20:59.509093+00:00"
     },
     "enaut-urcaregui-sanz": {
@@ -118189,7 +118096,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:06.573214+00:00"
     },
     "edoardo-zamperini": {
@@ -118217,7 +118123,6 @@
           "cat": "1.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:11.560708+00:00"
     },
     "habteab-yoel-ghebregergish": {
@@ -118239,7 +118144,6 @@
           "cat": "CC"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:16.734038+00:00"
     },
     "martin-tjotta": {
@@ -118261,7 +118165,6 @@
           "cat": "1.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:21.755868+00:00"
     },
     "dylan-groenewegen": {
@@ -118853,7 +118756,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:47.772187+00:00"
     },
     "davide-ballerini": {
@@ -118941,7 +118843,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:32.503691+00:00"
     },
     "ben-turner": {
@@ -118993,7 +118894,6 @@
           "cat": "C1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:37.598407+00:00"
     },
     "diego-ulissi": {
@@ -119363,7 +119263,6 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:43.178509+00:00"
     },
     "lorenzo-milesi": {
@@ -119403,7 +119302,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:48.182878+00:00"
     },
     "gianmarco-garofoli": {
@@ -119431,7 +119329,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:53.360983+00:00"
     },
     "koen-bouwman": {
@@ -119483,7 +119380,6 @@
           "cat": "2.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:21:58.757532+00:00"
     },
     "alec-segaert": {
@@ -119589,7 +119485,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:52.743689+00:00"
     },
     "luca-mozzato": {
@@ -119635,7 +119530,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:09.160899+00:00"
     },
     "filippo-magli": {
@@ -119651,7 +119545,6 @@
           "cat": "1.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:14.232279+00:00"
     },
     "jai-hindley": {
@@ -119733,7 +119626,6 @@
           "cat": "1.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:19.710094+00:00"
     },
     "wout-poels": {
@@ -119965,7 +119857,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:25.237670+00:00"
     },
     "sepp-kuss": {
@@ -120053,7 +119944,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:30.442252+00:00"
     },
     "sjoerd-bax": {
@@ -120117,7 +120007,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:35.364657+00:00"
     },
     "johan-price-pejtersen": {
@@ -120169,7 +120058,6 @@
           "cat": "CM"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:40.302337+00:00"
     },
     "mikkel-bjerg": {
@@ -120245,7 +120133,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:45.225214+00:00"
     },
     "niklas-larsen": {
@@ -120363,7 +120250,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:50.310782+00:00"
     },
     "enric-mas-nicolau": {
@@ -120433,7 +120319,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:22:55.340726+00:00"
     },
     "chris-harper": {
@@ -120485,7 +120370,6 @@
           "cat": "CC"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:01.518682+00:00"
     },
     "warren-barguil": {
@@ -120603,7 +120487,6 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:06.967841+00:00"
     },
     "alberto-bettiol": {
@@ -120691,7 +120574,6 @@
           "cat": "CC"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:12.353929+00:00"
     },
     "mark-donovan": {
@@ -120737,7 +120619,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:17.925761+00:00"
     },
     "joshua-kench": {
@@ -120771,7 +120652,6 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:23.233768+00:00"
     },
     "markus-hoelgaard": {
@@ -120829,7 +120709,6 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:28.410838+00:00"
     },
     "jan-hirt": {
@@ -120905,7 +120784,6 @@
           "cat": "U19"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:33.592187+00:00"
     },
     "egan-arley-bernal-gomez": {
@@ -121131,7 +121009,6 @@
           "cat": ""
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:38.621661+00:00"
     },
     "fredrik-dversnes": {
@@ -121195,7 +121072,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:43.911296+00:00"
     },
     "mirco-maestri": {
@@ -121235,7 +121111,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:49.357704+00:00"
     },
     "martin-marcellusi": {
@@ -121251,7 +121126,6 @@
           "cat": "1.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:54.368529+00:00"
     },
     "mattia-bais": {
@@ -121267,7 +121141,6 @@
           "cat": "2.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:23:59.645678+00:00"
     },
     "paul-penhoet": {
@@ -121313,7 +121186,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:04.701685+00:00"
     },
     "einer-rubio-reyes": {
@@ -121359,7 +121231,6 @@
           "cat": "2.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:09.650084+00:00"
     },
     "david-de-la-cruz-melgarejo": {
@@ -121405,7 +121276,6 @@
           "cat": "2.UWT"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:15.506480+00:00"
     },
     "manuele-tarozzi": {
@@ -121433,7 +121303,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:20.673203+00:00"
     },
     "jardi-christiaan-van-der-lee": {
@@ -121442,7 +121311,6 @@
       "dob": "2001-08-06",
       "nat": "Netherlands",
       "wins": [],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:25.923011+00:00"
     },
     "kevin-vermaerke": {
@@ -121464,7 +121332,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:30.796561+00:00"
     },
     "rudy-molard": {
@@ -121492,7 +121359,6 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:35.625218+00:00"
     },
     "henri-francois-renard-haquin": {
@@ -121508,7 +121374,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:41.023171+00:00"
     },
     "vlad-van-mechelen": {
@@ -121536,7 +121401,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:46.551485+00:00"
     },
     "benjamin-thomas": {
@@ -121684,7 +121548,6 @@
           "cat": "CM"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:51.602445+00:00"
     },
     "jordan-jegat": {
@@ -121700,7 +121563,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:24:56.823017+00:00"
     },
     "nadav-raisberg": {
@@ -121722,7 +121584,6 @@
           "cat": "2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:25:01.878640+00:00"
     },
     "maxim-van-gils": {
@@ -121786,7 +121647,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:25:06.687203+00:00"
     },
     "quinn-simmons": {
@@ -121940,7 +121800,6 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:25:11.798433+00:00"
     },
     "marco-frigo": {
@@ -121974,7 +121833,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T10:25:16.845082+00:00"
     },
     "lars-craps": {
@@ -121983,7 +121841,6 @@
       "dob": "2001-10-17",
       "nat": "Belgium",
       "wins": [],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:35:57.510125+00:00"
     },
     "hugo-hofstetter": {
@@ -122017,7 +121874,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:02.352623+00:00"
     },
     "phil-bauhaus": {
@@ -122183,7 +122039,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:07.541884+00:00"
     },
     "pablo-torres-arias": {
@@ -122211,7 +122066,6 @@
           "cat": "2.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:12.582105+00:00"
     },
     "cristian-rodriguez-martin": {
@@ -122239,7 +122093,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:17.731946+00:00"
     },
     "lennart-jasch": {
@@ -122267,7 +122120,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:22.607072+00:00"
     },
     "juan-ayuso-pesquera": {
@@ -122445,7 +122297,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:27.667812+00:00"
     },
     "jose-felix-parra-cuerda": {
@@ -122473,7 +122324,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:32.725515+00:00"
     },
     "laurens-de-plus": {
@@ -122501,7 +122351,6 @@
           "cat": "2.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:37.901437+00:00"
     },
     "lorrenzo-manzin": {
@@ -122571,7 +122420,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:42.959682+00:00"
     },
     "hugo-page": {
@@ -122617,7 +122465,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:47.777935+00:00"
     },
     "fernando-gaviria-rendon": {
@@ -122957,7 +122804,6 @@
           "cat": "CC"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:53.111698+00:00"
     },
     "timo-de-jong": {
@@ -123021,7 +122867,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:36:58.308333+00:00"
     },
     "aivaras-mikutis": {
@@ -123079,7 +122924,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:37:03.665751+00:00"
     },
     "jason-tesson": {
@@ -123173,7 +123017,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:37:08.921114+00:00"
     },
     "milan-vader": {
@@ -123297,7 +123140,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:37:15.025539+00:00"
     },
     "mauri-vansevenant": {
@@ -123331,7 +123173,6 @@
           "cat": "2.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:37:21.442979+00:00"
     },
     "frits-biesterbos": {
@@ -123347,7 +123188,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:37:29.419326+00:00"
     },
     "bert-van-lerberghe": {
@@ -123363,7 +123203,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:37:37.273788+00:00"
     },
     "byron-munton": {
@@ -123391,7 +123230,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:37:45.474023+00:00"
     },
     "juan-pedro-lozano-navarro": {
@@ -123413,7 +123251,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:37:50.411873+00:00"
     },
     "federico-iacomoni": {
@@ -123422,7 +123259,6 @@
       "dob": "2002-07-10",
       "nat": "Italy",
       "wins": [],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:37:55.470857+00:00"
     },
     "stefan-de-bod": {
@@ -123480,7 +123316,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:02.365041+00:00"
     },
     "tommaso-dati": {
@@ -123538,7 +123373,6 @@
           "cat": "1.2U"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:07.400024+00:00"
     },
     "carl-frederik-bevort": {
@@ -123596,7 +123430,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:12.417266+00:00"
     },
     "alberto-bruttomesso": {
@@ -123624,7 +123457,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:17.429707+00:00"
     },
     "tommaso-nencini": {
@@ -123640,7 +123472,6 @@
           "cat": "1.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:22.518736+00:00"
     },
     "mikel-retegi-goni": {
@@ -123649,7 +123480,6 @@
       "dob": "2001-04-27",
       "nat": "Spain",
       "wins": [],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:27.867792+00:00"
     },
     "clement-alleno": {
@@ -123671,7 +123501,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:32.964322+00:00"
     },
     "mathias-norsgaard-jorgensen": {
@@ -123741,7 +123570,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:38.014206+00:00"
     },
     "ivan-romeo-abad": {
@@ -123811,7 +123639,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:45.178939+00:00"
     },
     "adne-holter": {
@@ -123827,7 +123654,6 @@
           "cat": "1.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:50.103832+00:00"
     },
     "jonathan-vervenne": {
@@ -123867,7 +123693,6 @@
           "cat": "1.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:38:55.464082+00:00"
     },
     "joao-almeida": {
@@ -124057,7 +123882,6 @@
           "cat": "CN"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:00.444765+00:00"
     },
     "riley-sheehan": {
@@ -124121,7 +123945,6 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:05.526701+00:00"
     },
     "viktor-soenens": {
@@ -124137,7 +123960,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:10.545113+00:00"
     },
     "emil-herzog": {
@@ -124219,7 +124041,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:15.900953+00:00"
     },
     "jasper-schoofs": {
@@ -124271,7 +124092,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:20.736265+00:00"
     },
     "sven-erik-bystrom": {
@@ -124305,7 +124125,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:25.640710+00:00"
     },
     "diego-uriarte-belzunegi": {
@@ -124321,7 +124140,6 @@
           "cat": "2.Pro"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:30.554273+00:00"
     },
     "danny-van-der-tuuk": {
@@ -124337,7 +124155,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:35.393755+00:00"
     },
     "julien-bernard": {
@@ -124359,7 +124176,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:40.438405+00:00"
     },
     "carlos-garcia-pierna": {
@@ -124375,7 +124191,6 @@
           "cat": "2.2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:45.564720+00:00"
     },
     "steff-cras": {
@@ -124397,7 +124212,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:51.192478+00:00"
     },
     "pau-marti-soriano": {
@@ -124431,7 +124245,6 @@
           "cat": "C2"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:39:56.127905+00:00"
     },
     "andrii-ponomar": {
@@ -124495,7 +124308,6 @@
           "cat": "2.NCUP"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:40:01.072945+00:00"
     },
     "sebastian-molano": {
@@ -124691,7 +124503,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:40:06.402594+00:00"
     },
     "amaury-capiot": {
@@ -124737,7 +124548,6 @@
           "cat": "1.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:40:11.407055+00:00"
     },
     "roger-adria-oliveras": {
@@ -124765,7 +124575,6 @@
           "cat": "2.1"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:40:16.496481+00:00"
     },
     "sebastian-berwick": {
@@ -124817,7 +124626,6 @@
           "cat": "CC"
         }
       ],
-      "specialties": {},
       "fetched_at": "2026-06-20T11:40:21.590448+00:00"
     }
   }
