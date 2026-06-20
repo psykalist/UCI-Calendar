@@ -79555,7 +79555,9 @@
           "cat": "2.2"
         }
       ],
-      "fetched_at": "2026-06-19T19:30:45.772330+00:00"
+      "fetched_at": "2026-06-19T19:30:45.772330+00:00",
+      "specialties": {},
+      "specialties_fetched_at": "2026-06-20T15:22:26.510631+00:00"
     },
     "mauro-schmid": {
       "slug": "mauro-schmid",
