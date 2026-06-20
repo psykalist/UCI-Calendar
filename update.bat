@@ -12,13 +12,13 @@ cd /d "C:\DataDrive\Documents\Claude\Projects\UCI Calendar & Results"
 call :log "========================================"
 call :log "UPDATE STARTED"
 
-REM Run scraper
-call :log "Running scraper..."
-py scraper.py >> "%LOG%" 2>&1
+REM Run scraper (results-only: skips static calendar/team data, only fetches new stage results)
+call :log "Running scraper (results-only)..."
+py scraper.py --results-only >> "%LOG%" 2>&1
 if %errorlevel% neq 0 (
-    python3 scraper.py >> "%LOG%" 2>&1
+    python3 scraper.py --results-only >> "%LOG%" 2>&1
     if %errorlevel% neq 0 (
-        python scraper.py >> "%LOG%" 2>&1
+        python scraper.py --results-only >> "%LOG%" 2>&1
         if %errorlevel% neq 0 (
             call :log "ERROR: Scraper failed to run"
             set STATUS=SCRAPER_FAILED

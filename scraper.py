@@ -939,6 +939,145 @@ def scrape_teams():
     return teams
 
 
+
+# ── Results-only mode ──────────────────────────────────────────────────────────
+
+def main_results_only():
+    """
+    Lightweight daily update: load cache, fix status buckets, fetch only
+    missing stage results + classifications for live races.
+    Skips calendar discovery, team scraping, rider profiles, startlists.
+    Run via:  py scraper.py --results-only
+    """
+    now_human = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
+    print(f"\nUCI Scraper — RESULTS ONLY — {now_human}", flush=True)
+    print("=" * 60, flush=True)
+
+    if not os.path.exists(OUTPUT_FILE):
+        print("  No data.json found — run a full scrape first.", flush=True)
+        return
+
+    with open(OUTPUT_FILE, encoding="utf-8") as f:
+        d = json.load(f)
+    print(f"  Cache: {len(d.get('live',[]))} live | {len(d.get('upcoming',[]))} upcoming | {len(d.get('recent',[]))} recent", flush=True)
+
+    today = date.today()
+
+    # Promote upcoming → live
+    still_upcoming = []
+    for r in d.get("upcoming", []):
+        sd, ed = r.get("start_date"), r.get("end_date")
+        if sd and ed and date.fromisoformat(sd) <= today <= date.fromisoformat(ed):
+            r["status"] = "live"
+            if r["name"] not in {x["name"] for x in d.get("live", [])}:
+                d.setdefault("live", []).append(r)
+                print(f"  → Live: {r['name']}", flush=True)
+        else:
+            still_upcoming.append(r)
+    d["upcoming"] = still_upcoming
+
+    # Demote live → recent
+    still_live = []
+    for r in d.get("live", []):
+        ed = r.get("end_date")
+        if ed and date.fromisoformat(ed) < today:
+            r["status"] = "recent"
+            d.setdefault("recent", []).insert(0, r)
+            print(f"  → Recent: {r['name']}", flush=True)
+        else:
+            still_live.append(r)
+    d["live"] = still_live
+
+    # Fetch missing results for live races only
+    stages_updated = 0
+    for race in d["live"]:
+        slug   = race.get("cf_slug") or f"{race.get('slug','')}-{race.get('year','2026')}"
+        name   = race.get("name", slug)
+        stages = race.get("stages", [])
+        total  = race.get("total_stages", len(stages))
+        print(f"\n  {name}", flush=True)
+
+        # Find which stages are done (use cache first, probe for new ones)
+        completed_nums = []
+        for n in range(1, total + 1):
+            cached = next((s for s in stages if s.get("num") == n), None)
+            if cached and cached.get("top10"):
+                completed_nums.append(n)
+                continue
+            html = fetch(f"{BASE_URL}/race/{slug}/result/stage-{n}")
+            time.sleep(DELAY)
+            if html and re.search(r'<td[^>]*>\s*1\s*</td>', html):
+                completed_nums.append(n)
+            elif completed_nums:
+                break  # gap = not yet run
+
+        print(f"    Completed: {completed_nums}", flush=True)
+
+        for n in completed_nums:
+            stage_obj = next((s for s in stages if s.get("num") == n), None)
+            if stage_obj is None:
+                stage_obj = {"num": n, "label": f"Stage {n}",
+                             "result_url": f"/race/{slug}/result/stage-{n}",
+                             "winner": None, "winner_flag": "", "winner_nat": "", "top10": []}
+                stages.append(stage_obj)
+
+            if stage_obj.get("top10"):
+                print(f"      Stage {n}: cached ({stage_obj.get('winner','?')})", flush=True)
+                continue
+
+            rows, winner, hpi, _ = scrape_stage(slug, n)
+            time.sleep(DELAY)
+            if winner:
+                stage_obj["winner"]           = winner["name"]
+                stage_obj["winner_flag"]      = winner.get("flag", "")
+                stage_obj["winner_nat"]       = winner.get("nat_code", "")
+                stage_obj["top10"]            = rows or []
+                if hpi and not stage_obj.get("height_profile_img"):
+                    stage_obj["height_profile_img"] = hpi
+                stages_updated += 1
+                print(f"      Stage {n}: {winner['name']}", flush=True)
+            else:
+                print(f"      Stage {n}: no result yet", flush=True)
+
+        race["stages"] = sorted(stages, key=lambda s: s.get("num", 0))
+        done = [s for s in race["stages"] if s.get("winner")]
+        if done:
+            last = done[-1]
+            race["last_stage_winner"]      = last["winner"]
+            race["last_stage_winner_flag"] = last.get("winner_flag", "")
+            race["last_stage_num"]         = last["num"]
+
+        # Update classifications after latest completed stage
+        if completed_nums:
+            last_n = completed_nums[-1]
+            for cls_key, (lk, tk) in {"gc": ("gc_leader","gc_top10"),
+                                        "points": ("points_leader","points_top10"),
+                                        "mountain": ("kom_leader","kom_top10"),
+                                        "youth": ("youth_leader","youth_top10")}.items():
+                rows = scrape_classification(slug, last_n, cls_key)
+                time.sleep(DELAY)
+                if rows:
+                    race[lk] = f"{rows[0]['flag']} {rows[0]['name']}"
+                    race[tk] = rows
+                    print(f"      {cls_key}: {rows[0]['name']}", flush=True)
+
+    # Write output
+    now = datetime.now(timezone.utc)
+    d["scraped_at"]       = now.isoformat()
+    d["scraped_at_human"] = now.strftime("%d %b %Y %H:%M UTC")
+
+    tmp = OUTPUT_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f, ensure_ascii=False, separators=(",", ":"))
+    import os as _os; _os.replace(tmp, OUTPUT_FILE)
+
+    size_kb = os.path.getsize(OUTPUT_FILE) // 1024
+    print(f"\n✓ data.json written ({size_kb} KB) — {stages_updated} stages updated", flush=True)
+    print(f"  Live: {len(d['live'])} | Upcoming: {len(d['upcoming'])} | Recent: {len(d.get('recent',[]))}", flush=True)
+
+    print("\n[push] Checking notification triggers...", flush=True)
+    send_push_notifications(d)
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -1384,7 +1523,7 @@ def send_push_notifications(all_data):
                 continue
             # Rough date check: stage date_str contains today's day number
             ds = stage.get("date_str", "")
-            if str(today.day) not in ds and str(today.strftime("%-d")) not in ds:
+            if str(today.day) not in ds:
                 continue
             gc     = race.get("classifications", {}).get("gc", [])
             leader = gc[0]["name"] if gc else ""
@@ -1567,4 +1706,8 @@ def send_notifications(all_data):
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if "--results-only" in sys.argv:
+        main_results_only()
+    else:
+        main()
