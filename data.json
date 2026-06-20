@@ -1,11 +1,6 @@
 {
-<<<<<<< Updated upstream
   "scraped_at": "2026-06-20T10:25:20.878634+00:00",
   "scraped_at_human": "20 Jun 2026 10:25 UTC",
-=======
-  "scraped_at": "2026-06-20T10:55:27.343073+00:00",
-  "scraped_at_human": "20 Jun 2026 10:55 UTC",
->>>>>>> Stashed changes
   "live": [
     {
       "slug": "tour-de-suisse",
@@ -75980,11 +75975,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:19:36.118516+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:46.184294+00:00"
->>>>>>> Stashed changes
     },
     "matthew-brennan": {
       "slug": "matthew-brennan",
@@ -76156,11 +76147,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:19:41.596794+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:52.052063+00:00"
->>>>>>> Stashed changes
     },
     "sam-welsford": {
       "slug": "sam-welsford",
@@ -77400,11 +77387,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:19:46.930250+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:57.665082+00:00"
->>>>>>> Stashed changes
     },
     "andreas-kron": {
       "slug": "andreas-kron",
@@ -79472,11 +79455,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:19:52.149220+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:02.814634+00:00"
->>>>>>> Stashed changes
     },
     "michael-leonard": {
       "slug": "michael-leonard",
@@ -81758,11 +81737,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:19:57.096096+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:07.862765+00:00"
->>>>>>> Stashed changes
     },
     "florian-vermeersch": {
       "slug": "florian-vermeersch",
@@ -84156,11 +84131,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:19:16.293236+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:29.700537+00:00"
->>>>>>> Stashed changes
     },
     "mike-teunissen": {
       "slug": "mike-teunissen",
@@ -86174,11 +86145,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:02.480581+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:12.787972+00:00"
->>>>>>> Stashed changes
     },
     "bryan-coquard": {
       "slug": "bryan-coquard",
@@ -87568,11 +87535,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:09.799458+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:18.299867+00:00"
->>>>>>> Stashed changes
     },
     "thymen-arensman": {
       "slug": "thymen-arensman",
@@ -90855,11 +90818,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:18:55.135453+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:19.453569+00:00"
->>>>>>> Stashed changes
     },
     "giulio-pellizzari": {
       "slug": "giulio-pellizzari",
@@ -92012,11 +91971,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:19:31.001684+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:40.879918+00:00"
->>>>>>> Stashed changes
     },
     "paul-magnier": {
       "slug": "paul-magnier",
@@ -92272,11 +92227,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:15.038707+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:23.506260+00:00"
->>>>>>> Stashed changes
     },
     "ivan-garcia-cortina": {
       "slug": "ivan-garcia-cortina",
@@ -93579,11 +93530,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:20.549407+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:29.145582+00:00"
->>>>>>> Stashed changes
     },
     "ben-healy": {
       "slug": "ben-healy",
@@ -93911,11 +93858,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:25.648283+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:34.056872+00:00"
->>>>>>> Stashed changes
     },
     "giovanni-lonardi": {
       "slug": "giovanni-lonardi",
@@ -95132,11 +95075,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:30.979052+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:39.197875+00:00"
->>>>>>> Stashed changes
     },
     "simone-gualdi": {
       "slug": "simone-gualdi",
@@ -95878,11 +95817,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:36.239575+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:44.130673+00:00"
->>>>>>> Stashed changes
     },
     "ivo-emanuel-oliveira-alves": {
       "slug": "ivo-emanuel-oliveira-alves",
@@ -97370,11 +97305,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:41.718755+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:49.207055+00:00"
->>>>>>> Stashed changes
     },
     "jaume-guardeno-roma": {
       "slug": "jaume-guardeno-roma",
@@ -97838,11 +97769,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:46.743533+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:54.177413+00:00"
->>>>>>> Stashed changes
     },
     "felix-grossschartner": {
       "slug": "felix-grossschartner",
@@ -98893,11 +98820,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:54.447855+00:00"
-=======
-      "fetched_at": "2026-06-20T10:50:59.226792+00:00"
->>>>>>> Stashed changes
     },
     "emiel-verstrynge": {
       "slug": "emiel-verstrynge",
@@ -99993,11 +99916,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:18:43.665578+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:07.574641+00:00"
->>>>>>> Stashed changes
     },
     "albert-withen-philipsen": {
       "slug": "albert-withen-philipsen",
@@ -102035,11 +101954,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:18:49.363407+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:13.444587+00:00"
->>>>>>> Stashed changes
     },
     "marcel-camprubi-pijuan": {
       "slug": "marcel-camprubi-pijuan",
@@ -103065,11 +102980,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:19:25.985202+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:35.060653+00:00"
->>>>>>> Stashed changes
     },
     "soren-waerenskjold": {
       "slug": "soren-waerenskjold",
@@ -105770,11 +105681,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:19:00.428873+00:00"
-=======
-      "fetched_at": "2026-06-20T10:49:24.697153+00:00"
->>>>>>> Stashed changes
     },
     "michael-matthews": {
       "slug": "michael-matthews",
@@ -108018,11 +107925,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:20:59.509093+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:04.306326+00:00"
->>>>>>> Stashed changes
     },
     "enaut-urcaregui-sanz": {
       "slug": "enaut-urcaregui-sanz",
@@ -108044,11 +107947,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:06.573214+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:09.824457+00:00"
->>>>>>> Stashed changes
     },
     "edoardo-zamperini": {
       "slug": "edoardo-zamperini",
@@ -108076,11 +107975,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:11.560708+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:14.718866+00:00"
->>>>>>> Stashed changes
     },
     "habteab-yoel-ghebregergish": {
       "slug": "habteab-yoel-ghebregergish",
@@ -108102,11 +107997,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:16.734038+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:19.858745+00:00"
->>>>>>> Stashed changes
     },
     "martin-tjotta": {
       "slug": "martin-tjotta",
@@ -108128,11 +108019,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:21.755868+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:24.981360+00:00"
->>>>>>> Stashed changes
     },
     "dylan-groenewegen": {
       "slug": "dylan-groenewegen",
@@ -108724,11 +108611,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:27.014303+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:30.305045+00:00"
->>>>>>> Stashed changes
     },
     "davide-ballerini": {
       "slug": "davide-ballerini",
@@ -108816,11 +108699,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:32.503691+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:35.375574+00:00"
->>>>>>> Stashed changes
     },
     "ben-turner": {
       "slug": "ben-turner",
@@ -108872,11 +108751,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:37.598407+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:41.578611+00:00"
->>>>>>> Stashed changes
     },
     "diego-ulissi": {
       "slug": "diego-ulissi",
@@ -109246,11 +109121,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:43.178509+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:47.017692+00:00"
->>>>>>> Stashed changes
     },
     "lorenzo-milesi": {
       "slug": "lorenzo-milesi",
@@ -109290,11 +109161,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:48.182878+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:52.143258+00:00"
->>>>>>> Stashed changes
     },
     "gianmarco-garofoli": {
       "slug": "gianmarco-garofoli",
@@ -109322,11 +109189,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:53.360983+00:00"
-=======
-      "fetched_at": "2026-06-20T10:51:57.109204+00:00"
->>>>>>> Stashed changes
     },
     "koen-bouwman": {
       "slug": "koen-bouwman",
@@ -109378,11 +109241,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:21:58.757532+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:02.185694+00:00"
->>>>>>> Stashed changes
     },
     "alec-segaert": {
       "slug": "alec-segaert",
@@ -109488,11 +109347,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:03.803439+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:07.318385+00:00"
->>>>>>> Stashed changes
     },
     "luca-mozzato": {
       "slug": "luca-mozzato",
@@ -109538,11 +109393,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:09.160899+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:12.452328+00:00"
->>>>>>> Stashed changes
     },
     "filippo-magli": {
       "slug": "filippo-magli",
@@ -109558,11 +109409,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:14.232279+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:20.011717+00:00"
->>>>>>> Stashed changes
     },
     "jai-hindley": {
       "slug": "jai-hindley",
@@ -109644,11 +109491,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:19.710094+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:25.192410+00:00"
->>>>>>> Stashed changes
     },
     "wout-poels": {
       "slug": "wout-poels",
@@ -109880,11 +109723,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:25.237670+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:30.744421+00:00"
->>>>>>> Stashed changes
     },
     "sepp-kuss": {
       "slug": "sepp-kuss",
@@ -109972,11 +109811,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:30.442252+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:36.058110+00:00"
->>>>>>> Stashed changes
     },
     "sjoerd-bax": {
       "slug": "sjoerd-bax",
@@ -110040,11 +109875,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:35.364657+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:41.383739+00:00"
->>>>>>> Stashed changes
     },
     "johan-price-pejtersen": {
       "slug": "johan-price-pejtersen",
@@ -110096,11 +109927,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:40.302337+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:46.411131+00:00"
->>>>>>> Stashed changes
     },
     "mikkel-bjerg": {
       "slug": "mikkel-bjerg",
@@ -110176,11 +110003,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:45.225214+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:51.397097+00:00"
->>>>>>> Stashed changes
     },
     "niklas-larsen": {
       "slug": "niklas-larsen",
@@ -110298,11 +110121,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:50.310782+00:00"
-=======
-      "fetched_at": "2026-06-20T10:52:56.674355+00:00"
->>>>>>> Stashed changes
     },
     "enric-mas-nicolau": {
       "slug": "enric-mas-nicolau",
@@ -110372,11 +110191,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:22:55.340726+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:01.667139+00:00"
->>>>>>> Stashed changes
     },
     "chris-harper": {
       "slug": "chris-harper",
@@ -110428,11 +110243,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:01.518682+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:07.612713+00:00"
->>>>>>> Stashed changes
     },
     "warren-barguil": {
       "slug": "warren-barguil",
@@ -110550,11 +110361,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:06.967841+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:13.212344+00:00"
->>>>>>> Stashed changes
     },
     "alberto-bettiol": {
       "slug": "alberto-bettiol",
@@ -110642,11 +110449,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:12.353929+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:18.408079+00:00"
->>>>>>> Stashed changes
     },
     "mark-donovan": {
       "slug": "mark-donovan",
@@ -110692,11 +110495,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:17.925761+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:24.058307+00:00"
->>>>>>> Stashed changes
     },
     "joshua-kench": {
       "slug": "joshua-kench",
@@ -110730,11 +110529,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:23.233768+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:28.930761+00:00"
->>>>>>> Stashed changes
     },
     "markus-hoelgaard": {
       "slug": "markus-hoelgaard",
@@ -110792,11 +110587,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:28.410838+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:34.824340+00:00"
->>>>>>> Stashed changes
     },
     "jan-hirt": {
       "slug": "jan-hirt",
@@ -110872,11 +110663,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:33.592187+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:40.021853+00:00"
->>>>>>> Stashed changes
     },
     "egan-arley-bernal-gomez": {
       "slug": "egan-arley-bernal-gomez",
@@ -111102,11 +110889,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:38.621661+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:45.745034+00:00"
->>>>>>> Stashed changes
     },
     "fredrik-dversnes": {
       "slug": "fredrik-dversnes",
@@ -111170,11 +110953,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:43.911296+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:50.640421+00:00"
->>>>>>> Stashed changes
     },
     "mirco-maestri": {
       "slug": "mirco-maestri",
@@ -111214,11 +110993,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:49.357704+00:00"
-=======
-      "fetched_at": "2026-06-20T10:53:55.800519+00:00"
->>>>>>> Stashed changes
     },
     "martin-marcellusi": {
       "slug": "martin-marcellusi",
@@ -111234,11 +111009,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:54.368529+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:00.781551+00:00"
->>>>>>> Stashed changes
     },
     "mattia-bais": {
       "slug": "mattia-bais",
@@ -111254,11 +111025,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:23:59.645678+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:05.792368+00:00"
->>>>>>> Stashed changes
     },
     "paul-penhoet": {
       "slug": "paul-penhoet",
@@ -111304,11 +111071,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:04.701685+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:10.736681+00:00"
->>>>>>> Stashed changes
     },
     "einer-rubio-reyes": {
       "slug": "einer-rubio-reyes",
@@ -111354,11 +111117,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:09.650084+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:15.668153+00:00"
->>>>>>> Stashed changes
     },
     "david-de-la-cruz-melgarejo": {
       "slug": "david-de-la-cruz-melgarejo",
@@ -111404,11 +111163,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:15.506480+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:20.817744+00:00"
->>>>>>> Stashed changes
     },
     "manuele-tarozzi": {
       "slug": "manuele-tarozzi",
@@ -111436,11 +111191,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:20.673203+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:27.242117+00:00"
->>>>>>> Stashed changes
     },
     "jardi-christiaan-van-der-lee": {
       "slug": "jardi-christiaan-van-der-lee",
@@ -111449,11 +111200,7 @@
       "nat": "Netherlands",
       "wins": [],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:25.923011+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:32.400716+00:00"
->>>>>>> Stashed changes
     },
     "kevin-vermaerke": {
       "slug": "kevin-vermaerke",
@@ -111475,11 +111222,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:30.796561+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:37.941799+00:00"
->>>>>>> Stashed changes
     },
     "rudy-molard": {
       "slug": "rudy-molard",
@@ -111507,11 +111250,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:35.625218+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:43.090338+00:00"
->>>>>>> Stashed changes
     },
     "henri-francois-renard-haquin": {
       "slug": "henri-francois-renard-haquin",
@@ -111527,11 +111266,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:41.023171+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:48.460546+00:00"
->>>>>>> Stashed changes
     },
     "vlad-van-mechelen": {
       "slug": "vlad-van-mechelen",
@@ -111559,11 +111294,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:46.551485+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:53.393559+00:00"
->>>>>>> Stashed changes
     },
     "benjamin-thomas": {
       "slug": "benjamin-thomas",
@@ -111711,11 +111442,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:51.602445+00:00"
-=======
-      "fetched_at": "2026-06-20T10:54:58.375053+00:00"
->>>>>>> Stashed changes
     },
     "jordan-jegat": {
       "slug": "jordan-jegat",
@@ -111731,11 +111458,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:24:56.823017+00:00"
-=======
-      "fetched_at": "2026-06-20T10:55:03.375109+00:00"
->>>>>>> Stashed changes
     },
     "nadav-raisberg": {
       "slug": "nadav-raisberg",
@@ -111757,11 +111480,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:25:01.878640+00:00"
-=======
-      "fetched_at": "2026-06-20T10:55:08.426315+00:00"
->>>>>>> Stashed changes
     },
     "maxim-van-gils": {
       "slug": "maxim-van-gils",
@@ -111825,11 +111544,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:25:06.687203+00:00"
-=======
-      "fetched_at": "2026-06-20T10:55:13.396153+00:00"
->>>>>>> Stashed changes
     },
     "quinn-simmons": {
       "slug": "quinn-simmons",
@@ -111983,11 +111698,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:25:11.798433+00:00"
-=======
-      "fetched_at": "2026-06-20T10:55:18.534723+00:00"
->>>>>>> Stashed changes
     },
     "marco-frigo": {
       "slug": "marco-frigo",
@@ -112021,11 +111732,7 @@
         }
       ],
       "specialties": {},
-<<<<<<< Updated upstream
       "fetched_at": "2026-06-20T10:25:16.845082+00:00"
-=======
-      "fetched_at": "2026-06-20T10:55:23.537146+00:00"
->>>>>>> Stashed changes
     }
   }
 }
