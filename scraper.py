@@ -132,6 +132,18 @@ def fetch(url, retries=3):
             req = Request(url, headers=HEADERS)
             with urlopen(req, timeout=REQUEST_TIMEOUT) as r:
                 data = r.read().decode("utf-8", errors="replace")
+                # Sanity-check: reject very short responses and obvious error pages
+                if len(data) < 500:
+                    print(f"        ✗ Response too short ({len(data)} chars) — likely error page", flush=True)
+                    if attempt < retries - 1:
+                        time.sleep(2 ** attempt)
+                        continue
+                    return None
+                lowered = data[:2000].lower()
+                if any(sig in lowered for sig in ("404 not found", "page not found", "race not found",
+                                                   "error occurred", "internal server error")):
+                    print(f"        ✗ Error page detected ({len(data):,} chars) — skipping", flush=True)
+                    return None
                 print(f"        ✓ {len(data):,} chars", flush=True)
                 return data
         except HTTPError as e:
@@ -471,6 +483,27 @@ def parse_ttt_rows(html, max_rows=10):
     return results
 
 
+
+def validate_result_rows(rows, context="result", min_riders=3):
+    """
+    Returns (ok, reason) — ok=True means rows look trustworthy.
+    Checks: minimum rider count, no empty names, no HTML artefacts in names.
+    """
+    if not rows:
+        return False, "no rows returned"
+    if len(rows) < min_riders:
+        return False, f"only {len(rows)} rider(s) — expected ≥{min_riders}"
+    for r in rows:
+        name = r.get("name", "").strip()
+        if not name:
+            return False, "empty rider name in result"
+        if any(c in name for c in ("<", ">", "&", "\n", "\t")):
+            return False, f"HTML artefact in rider name: {name!r}"
+        if len(name) > 60:
+            return False, f"suspiciously long rider name: {name!r}"
+    return True, "ok"
+
+
 def scrape_stage(slug, stage_num):
     """Fetch a stage result page and return (top10_list, winner_dict, height_profile_img, route_img) or (None, None, None, None)."""
     if stage_num == 0:
@@ -489,6 +522,11 @@ def scrape_stage(slug, stage_num):
     if not rows:
         return None, None, None, None
 
+    ok, reason = validate_result_rows(rows, context=f"stage {stage_num}")
+    if not ok:
+        print(f"        ✗ Stage {stage_num} result failed validation: {reason}", flush=True)
+        return None, None, None, None
+
     height_profile = _cdn_url(html, '___heightProfile')
     route_img      = _cdn_url(html, '___route_')
 
@@ -504,7 +542,13 @@ def scrape_classification(slug, stage_num, cls_type):
     if not html:
         return None
     rows = parse_result_rows(html, max_rows=10)
-    return rows if rows else None
+    if not rows:
+        return None
+    ok, reason = validate_result_rows(rows, context=f"classification/{cls_type}", min_riders=3)
+    if not ok:
+        print(f"        ✗ Classification {cls_type} failed validation: {reason}", flush=True)
+        return None
+    return rows
 
 
 
@@ -1061,19 +1105,71 @@ def main_results_only():
                     race[tk] = rows
                     print(f"      {cls_key}: {rows[0]['name']}", flush=True)
 
-    # Write output
+    # ── Write output with backup + post-write validation ────────────────────────
     now = datetime.now(timezone.utc)
     d["scraped_at"]       = now.isoformat()
     d["scraped_at_human"] = now.strftime("%d %b %Y %H:%M UTC")
 
+    # Snapshot pre-write size for regression check
+    pre_write_size = os.path.getsize(OUTPUT_FILE) if os.path.exists(OUTPUT_FILE) else 0
+    backup_file    = OUTPUT_FILE + ".bak"
+
+    # Keep a backup of the last known-good file
+    if os.path.exists(OUTPUT_FILE):
+        import shutil as _shutil
+        _shutil.copy2(OUTPUT_FILE, backup_file)
+
     tmp = OUTPUT_FILE + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(d, f, ensure_ascii=False, separators=(",", ":"))
-    import os as _os; _os.replace(tmp, OUTPUT_FILE)
+    os.replace(tmp, OUTPUT_FILE)
+
+    # ── Post-write validation ─────────────────────────────────────────────────
+    write_ok = True
+    fail_reason = ""
+
+    # 1. JSON round-trip
+    try:
+        with open(OUTPUT_FILE, encoding="utf-8") as f:
+            d_check = json.load(f)
+    except Exception as e:
+        write_ok, fail_reason = False, f"JSON parse failed after write: {e}"
+
+    if write_ok:
+        # 2. Required top-level keys present
+        for key in ("live", "upcoming", "recent", "scraped_at"):
+            if key not in d_check:
+                write_ok, fail_reason = False, f"missing key '{key}' in written file"
+                break
+
+    if write_ok:
+        # 3. File did not shrink by more than 10%
+        new_size = os.path.getsize(OUTPUT_FILE)
+        if pre_write_size > 0 and new_size < pre_write_size * 0.90:
+            write_ok, fail_reason = False, (
+                f"file shrank by {(pre_write_size - new_size) // 1024} KB "
+                f"({pre_write_size // 1024} KB → {new_size // 1024} KB) — possible truncation"
+            )
+
+    if write_ok:
+        # 4. Each live race still has a name and slug
+        for race in d_check.get("live", []):
+            if not race.get("name") or not (race.get("slug") or race.get("cf_slug")):
+                write_ok, fail_reason = False, f"live race missing name/slug: {race.get('name','?')}"
+                break
+
+    if not write_ok:
+        print(f"\n✗ POST-WRITE VALIDATION FAILED: {fail_reason}", flush=True)
+        if os.path.exists(backup_file):
+            os.replace(backup_file, OUTPUT_FILE)
+            print(f"  Restored backup ({os.path.getsize(OUTPUT_FILE) // 1024} KB)", flush=True)
+        raise RuntimeError(f"data.json validation failed: {fail_reason}")
 
     size_kb = os.path.getsize(OUTPUT_FILE) // 1024
     print(f"\n✓ data.json written ({size_kb} KB) — {stages_updated} stages updated", flush=True)
     print(f"  Live: {len(d['live'])} | Upcoming: {len(d['upcoming'])} | Recent: {len(d.get('recent',[]))}", flush=True)
+    if os.path.exists(backup_file):
+        os.remove(backup_file)
 
     print("\n[push] Checking notification triggers...", flush=True)
     send_push_notifications(d)
