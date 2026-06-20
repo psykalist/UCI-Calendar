@@ -154,7 +154,7 @@ def main():
 
     # Load existing changelog
     changelog = load(cl_path, {"entries": []})
-    existing_ids = {e["id"] for e in changelog.get("entries", [])}
+    existing_ids = {e["id"] for e in changelog.get("entries", []) if "id" in e}
 
     # Prune old entries
     cutoff = (datetime.now(timezone.utc) - timedelta(days=CHANGELOG_MAX_DAYS)).isoformat()
