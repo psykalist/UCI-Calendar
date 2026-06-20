@@ -1,6 +1,6 @@
 {
-  "scraped_at": "2026-06-20T10:25:20.878634+00:00",
-  "scraped_at_human": "20 Jun 2026 10:25 UTC",
+  "scraped_at": "2026-06-20T11:40:25.389522+00:00",
+  "scraped_at_human": "20 Jun 2026 11:40 UTC",
   "live": [
     {
       "slug": "tour-de-suisse",
@@ -37677,7 +37677,167 @@
           "slug": "phil-bauhaus",
           "name": "Phil Bauhaus",
           "nat": "de",
-          "age": "31"
+          "age": "31",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34639/01KE6N061D4T2KB0ZWMNH0Y9RZ.jpg",
+          "dob": "1994-07-08",
+          "wins": [
+            {
+              "year": "2024",
+              "date": "13-06-2024",
+              "race": "Tour of Slovenia - Stage 2",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2024",
+              "date": "06-03-2024",
+              "race": "Tirreno-Adriatico - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2023",
+              "date": "18-01-2023",
+              "race": "Santos Tour Down Under - Stage 1",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2022",
+              "date": "03-08-2022",
+              "race": "Tour de Pologne - Stage 5",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2022",
+              "date": "13-03-2022",
+              "race": "Tirreno-Adriatico - Stage 7",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2021",
+              "date": "28-09-2021",
+              "race": "Cro Race - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2021",
+              "date": "09-08-2021",
+              "race": "Tour de Pologne - Stage 1",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2021",
+              "date": "09-06-2021",
+              "race": "Tour of Slovenia - Stage 1",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2021",
+              "date": "14-05-2021",
+              "race": "Tour de Hongrie - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2021",
+              "date": "12-05-2021",
+              "race": "Tour de Hongrie - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2021",
+              "date": "14-02-2021",
+              "race": "Tour de la Provence - Stage 4",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2020",
+              "date": "08-02-2020",
+              "race": "Saudi Tour",
+              "cat": "2.1"
+            },
+            {
+              "year": "2020",
+              "date": "08-02-2020",
+              "race": "Saudi Tour - Stage 5",
+              "cat": "2.1"
+            },
+            {
+              "year": "2020",
+              "date": "06-02-2020",
+              "race": "Saudi Tour - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2019",
+              "date": "15-09-2019",
+              "race": "Coppa Bernocchi",
+              "cat": "1.1"
+            },
+            {
+              "year": "2018",
+              "date": "23-02-2018",
+              "race": "Abu Dhabi Tour - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "08-06-2017",
+              "race": "Critérium du Dauphiné - Stage 5",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2016",
+              "date": "31-07-2016",
+              "race": "Post Danmark Rundt - Tour of Denmark - Stage 5",
+              "cat": "2.HC"
+            },
+            {
+              "year": "2016",
+              "date": "17-06-2016",
+              "race": "Oberösterreichrundfahrt - Stage 2",
+              "cat": "2.2"
+            },
+            {
+              "year": "2016",
+              "date": "04-05-2016",
+              "race": "Tour d'Azerbaïdjan - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2014",
+              "date": "07-09-2014",
+              "race": "Kernen Omloop Echt-Susteren",
+              "cat": "1.2"
+            },
+            {
+              "year": "2014",
+              "date": "24-08-2014",
+              "race": "Baltic Chain Tour - Stage 5",
+              "cat": "2.2"
+            },
+            {
+              "year": "2014",
+              "date": "05-08-2014",
+              "race": "Volta a Portugal - Stage 6",
+              "cat": "2.1"
+            },
+            {
+              "year": "2014",
+              "date": "31-07-2014",
+              "race": "Volta a Portugal - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2014",
+              "date": "02-05-2014",
+              "race": "Skive-Løbet",
+              "cat": "1.2"
+            },
+            {
+              "year": "2013",
+              "date": "01-09-2013",
+              "race": "Tour of Bulgaria - Stage 1a",
+              "cat": "2.2"
+            }
+          ]
         },
         {
           "slug": "pello-bilbao-lopez-de-armentia",
@@ -37813,7 +37973,29 @@
           "slug": "alberto-bruttomesso",
           "name": "Alberto Bruttomesso",
           "nat": "it",
-          "age": "22"
+          "age": "22",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34630/01KE6MSZAFH80J43G8XT7ZYKH0.jpg",
+          "dob": "2003-10-30",
+          "wins": [
+            {
+              "year": "2023",
+              "date": "02-05-2023",
+              "race": "Carpathian Couriers Race in memory of Waclaw Felczak - Stage 4",
+              "cat": "2.2U"
+            },
+            {
+              "year": "2022",
+              "date": "11-06-2022",
+              "race": "Baby Giro - Stage 1",
+              "cat": "2.2U"
+            },
+            {
+              "year": "2021",
+              "date": "03-09-2021",
+              "race": "45° Giro Della Lunigiana - Stage 2a",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "santiago-buitrago-sanchez",
@@ -43610,7 +43792,29 @@
           "slug": "laurens-de-plus",
           "name": "Laurens De Plus",
           "nat": "be",
-          "age": "30"
+          "age": "30",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/163740/01KVAFMSDN17QTMSC400NMCEPB.jpg",
+          "dob": "1995-09-04",
+          "wins": [
+            {
+              "year": "2019",
+              "date": "02-09-2019",
+              "race": "Dernyfestival Wetteren",
+              "cat": "Cri"
+            },
+            {
+              "year": "2019",
+              "date": "18-08-2019",
+              "race": "Binck Bank Tour",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2015",
+              "date": "15-07-2015",
+              "race": "Giro Ciclistico della Valle d-Aosta Mont Blanc - Stage 1",
+              "cat": "2.2U"
+            }
+          ]
         },
         {
           "slug": "tobias-foss",
@@ -45154,7 +45358,179 @@
           "slug": "juan-ayuso-pesquera",
           "name": "Juan Ayuso Pesquera",
           "nat": "es",
-          "age": "23"
+          "age": "23",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/35816/01KERSM1HAG217300PEJ93M175.jpg",
+          "dob": "2002-09-16",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "22-02-2026",
+              "race": "Volta ao Algarve em Bicicleta",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2026",
+              "date": "22-02-2026",
+              "race": "Volta ao Algarve em Bicicleta - Stage 5",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2025",
+              "date": "04-09-2025",
+              "race": "Vuelta a España - Stage 12",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "29-08-2025",
+              "race": "Vuelta a España - Stage 7",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "16-05-2025",
+              "race": "Giro d'Italia - Stage 7",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "26-03-2025",
+              "race": "Volta Ciclista a Catalunya - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "16-03-2025",
+              "race": "Tirreno-Adriatico",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "15-03-2025",
+              "race": "Tirreno-Adriatico - Stage 6",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "05-03-2025",
+              "race": "Trofeo Laigueglia",
+              "cat": "1.Pro"
+            },
+            {
+              "year": "2025",
+              "date": "02-03-2025",
+              "race": "Faun Drome Classic",
+              "cat": "1.Pro"
+            },
+            {
+              "year": "2024",
+              "date": "21-09-2024",
+              "race": "Skoda Tour de Luxembourg - Stage 4",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2024",
+              "date": "06-04-2024",
+              "race": "Itzulia Basque Country",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2024",
+              "date": "04-03-2024",
+              "race": "Tirreno-Adriatico - Stage 1",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2024",
+              "date": "24-02-2024",
+              "race": "Faun-Ardèche Classic",
+              "cat": "1.Pro"
+            },
+            {
+              "year": "2023",
+              "date": "18-06-2023",
+              "race": "Tour de Suisse - Stage 8",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2023",
+              "date": "15-06-2023",
+              "race": "Tour de Suisse - Stage 5",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2023",
+              "date": "28-04-2023",
+              "race": "Tour de Romandie - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2022",
+              "date": "31-07-2022",
+              "race": "Circuito de Getxo - Memorial Hermanos Otxoa",
+              "cat": "1.1"
+            },
+            {
+              "year": "2021",
+              "date": "12-06-2021",
+              "race": "Baby Giro",
+              "cat": "2.2U"
+            },
+            {
+              "year": "2021",
+              "date": "09-06-2021",
+              "race": "Baby Giro - Stage 7",
+              "cat": "2.2U"
+            },
+            {
+              "year": "2021",
+              "date": "07-06-2021",
+              "race": "Baby Giro - Stage 5",
+              "cat": "2.2U"
+            },
+            {
+              "year": "2021",
+              "date": "04-06-2021",
+              "race": "Baby Giro - Stage 2",
+              "cat": "2.2U"
+            },
+            {
+              "year": "2021",
+              "date": "05-04-2021",
+              "race": "82° Giro del Belvedere",
+              "cat": "1.2U"
+            },
+            {
+              "year": "2021",
+              "date": "04-04-2021",
+              "race": "72° Trofeo Piva",
+              "cat": "1.2U"
+            },
+            {
+              "year": "2020",
+              "date": "06-09-2020",
+              "race": "National Road Championships - Spain U19",
+              "cat": "CN"
+            },
+            {
+              "year": "2020",
+              "date": "04-09-2020",
+              "race": "National Road Championships - Spain TT U19",
+              "cat": "CN"
+            },
+            {
+              "year": "2020",
+              "date": "30-08-2020",
+              "race": "XXVI. Gipuzkoa Klasika",
+              "cat": "1.1"
+            },
+            {
+              "year": "2019",
+              "date": "19-08-2019",
+              "race": "National Road Championships - Spain U19",
+              "cat": "CN"
+            }
+          ]
         },
         {
           "slug": "andrea-bagioli",
@@ -45260,7 +45636,23 @@
           "slug": "julien-bernard",
           "name": "Julien Bernard",
           "nat": "fr",
-          "age": "36"
+          "age": "36",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/35811/01KERSG69RVFAGWQKHMJDKPAF7.jpg",
+          "dob": "1990-03-01",
+          "wins": [
+            {
+              "year": "2021",
+              "date": "22-07-2021",
+              "race": "Criterium d'Après Tour de Dijon",
+              "cat": "CRTP"
+            },
+            {
+              "year": "2020",
+              "date": "23-02-2020",
+              "race": "Tour du Var et des Alpes Maritimes - Stage 3",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "giulio-ciccone",
@@ -45758,7 +46150,71 @@
           "slug": "mathias-norsgaard-jorgensen",
           "name": "Mathias Norsgaard Jørgensen",
           "nat": "dk",
-          "age": "29"
+          "age": "29",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/35814/01KERSHYGTEQBKB2WC9CR6M9ZW.jpg",
+          "dob": "1997-05-05",
+          "wins": [
+            {
+              "year": "2023",
+              "date": "13-05-2023",
+              "race": "Grand Prix Herning",
+              "cat": "1.2"
+            },
+            {
+              "year": "2022",
+              "date": "23-06-2022",
+              "race": "National Road Championships - Denmark TT",
+              "cat": "CN"
+            },
+            {
+              "year": "2019",
+              "date": "15-09-2019",
+              "race": "Duo Normand",
+              "cat": "1.1"
+            },
+            {
+              "year": "2019",
+              "date": "15-08-2019",
+              "race": "Tour de l'Avenir - Stage 1",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2018",
+              "date": "14-10-2018",
+              "race": "Chrono des Nations U23",
+              "cat": "1.2U"
+            },
+            {
+              "year": "2017",
+              "date": "15-10-2017",
+              "race": "Chrono des Nations U23",
+              "cat": "1.2U"
+            },
+            {
+              "year": "2015",
+              "date": "07-08-2015",
+              "race": "Liège - La Gleize - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2015",
+              "date": "02-05-2015",
+              "race": "La Coupe du Président de la Ville de Grudziadz - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2014",
+              "date": "23-07-2014",
+              "race": "Tour de l'Abitibi Desjardins - Stage 2",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2014",
+              "date": "01-05-2014",
+              "race": "La Coupe du Président de la Ville de Grudziadz - Stage 1b",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "thibau-nys",
@@ -47089,7 +47545,10 @@
           "slug": "lars-craps",
           "name": "Lars Craps",
           "nat": "be",
-          "age": "24"
+          "age": "24",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44587/01KFZSM0WASG8329KD83CCKX5W.jpeg",
+          "dob": "2001-10-17",
+          "wins": []
         },
         {
           "slug": "jasper-de-buyst",
@@ -48030,7 +48489,29 @@
           "slug": "roger-adria-oliveras",
           "name": "Roger Adria Oliveras",
           "nat": "es",
-          "age": "28"
+          "age": "28",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/36139/01KEXXHXECYC572CKN2HH97735.jpg",
+          "dob": "1998-04-18",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "05-08-2025",
+              "race": "Vuelta a Burgos - Stage 1",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2024",
+              "date": "18-09-2024",
+              "race": "Grand Prix de Wallonie",
+              "cat": "1.Pro"
+            },
+            {
+              "year": "2022",
+              "date": "17-06-2022",
+              "race": "La Route d'Occitanie - La Dépêche du Midi - Stage 2",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "jorge-arcas-pena",
@@ -49122,7 +49603,71 @@
           "slug": "ivan-romeo-abad",
           "name": "Iván Romeo Abad",
           "nat": "es",
-          "age": "22"
+          "age": "22",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/36144/01KEXXJFFYPSD39NGGGE3CGAF1.jpg",
+          "dob": "2003-08-16",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "16-04-2026",
+              "race": "O Gran Camiño - The Historical Route - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2026",
+              "date": "22-02-2026",
+              "race": "Vuelta a Andalucia Ruta Ciclista Del Sol",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2026",
+              "date": "19-02-2026",
+              "race": "Vuelta a Andalucia Ruta Ciclista Del Sol - Stage 2",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2025",
+              "date": "29-06-2025",
+              "race": "National Road Championships - Spain",
+              "cat": "CN"
+            },
+            {
+              "year": "2025",
+              "date": "10-06-2025",
+              "race": "Critérium du Dauphiné - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "07-02-2025",
+              "race": "Volta a la Comunitat Valenciana - Stage 3",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2024",
+              "date": "23-09-2024",
+              "race": "UCI World Championship Zurich TT U23",
+              "cat": "CM"
+            },
+            {
+              "year": "2023",
+              "date": "24-08-2023",
+              "race": "Tour de l'Avenir - Stage 5",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2021",
+              "date": "18-07-2021",
+              "race": "National Road Championships - Spain U19",
+              "cat": "CN"
+            },
+            {
+              "year": "2021",
+              "date": "16-07-2021",
+              "race": "National Road Championships - Spain TT U19",
+              "cat": "CN"
+            }
+          ]
         },
         {
           "slug": "javier-romo-oliver",
@@ -49825,7 +50370,29 @@
           "slug": "laurens-de-plus",
           "name": "Laurens De Plus",
           "nat": "be",
-          "age": "30"
+          "age": "30",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/163740/01KVAFMSDN17QTMSC400NMCEPB.jpg",
+          "dob": "1995-09-04",
+          "wins": [
+            {
+              "year": "2019",
+              "date": "02-09-2019",
+              "race": "Dernyfestival Wetteren",
+              "cat": "Cri"
+            },
+            {
+              "year": "2019",
+              "date": "18-08-2019",
+              "race": "Binck Bank Tour",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2015",
+              "date": "15-07-2015",
+              "race": "Giro Ciclistico della Valle d-Aosta Mont Blanc - Stage 1",
+              "cat": "2.2U"
+            }
+          ]
         },
         {
           "slug": "tobias-foss",
@@ -51857,7 +52424,35 @@
           "slug": "hugo-hofstetter",
           "name": "Hugo Hofstetter",
           "nat": "fr",
-          "age": "32"
+          "age": "32",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34067/01KDWFSYMWDTP4P4K388WKYT12.jpg",
+          "dob": "1994-02-13",
+          "wins": [
+            {
+              "year": "2022",
+              "date": "15-05-2022",
+              "race": "Tro-Bro Léon",
+              "cat": "1.Pro"
+            },
+            {
+              "year": "2020",
+              "date": "03-03-2020",
+              "race": "Le Samyn",
+              "cat": "1.1"
+            },
+            {
+              "year": "2018",
+              "date": "18-05-2018",
+              "race": "Tour de l'Ain - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2015",
+              "date": "23-08-2015",
+              "race": "National Road Championships - France U23",
+              "cat": "CN"
+            }
+          ]
         },
         {
           "slug": "oded-kogut",
@@ -51981,7 +52576,35 @@
           "slug": "pau-marti-soriano",
           "name": "Pau Marti Soriano",
           "nat": "es",
-          "age": "21"
+          "age": "21",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34071/01KDWFW0EBX7H900QWCCQ02K8K.jpg",
+          "dob": "2004-11-24",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "23-02-2026",
+              "race": "Tour du Rwanda - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2025",
+              "date": "08-08-2025",
+              "race": "Volta a Portugal em Bicicleta - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2025",
+              "date": "01-06-2025",
+              "race": "Course de la Paix Grand Prix Jeseníky",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2021",
+              "date": "19-12-2021",
+              "race": "Copa de España de Ciclo-Cross #5 - I Ciclocross Internacional Ciudad de Tarancón U19",
+              "cat": "C2"
+            }
+          ]
         },
         {
           "slug": "ryan-mullen",
@@ -52055,7 +52678,65 @@
           "slug": "riley-sheehan",
           "name": "Riley Sheehan",
           "nat": "us",
-          "age": "26"
+          "age": "26",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34052/01KDWFE5YJSWHAKVXDDQEQ6BGK.jpg",
+          "dob": "2000-06-16",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "14-05-2026",
+              "race": "Circuit de Wallonie",
+              "cat": "1.1"
+            },
+            {
+              "year": "2023",
+              "date": "08-10-2023",
+              "race": "Paris - Tours Elite",
+              "cat": "1.Pro"
+            },
+            {
+              "year": "2023",
+              "date": "21-05-2023",
+              "race": "Joe Martin Stage Race",
+              "cat": "2.2"
+            },
+            {
+              "year": "2023",
+              "date": "21-05-2023",
+              "race": "Joe Martin Stage Race - Stage 4",
+              "cat": "2.2"
+            },
+            {
+              "year": "2023",
+              "date": "19-05-2023",
+              "race": "Joe Martin Stage Race - Stage 2",
+              "cat": "2.2"
+            },
+            {
+              "year": "2018",
+              "date": "22-07-2018",
+              "race": "Tour de l'Abitibi - Coupe des Nations Junior",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2018",
+              "date": "19-07-2018",
+              "race": "Tour de l'Abitibi - Coupe des Nations Junior - Stage 4",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2018",
+              "date": "26-06-2018",
+              "race": "National Road Championships - USA TT U19",
+              "cat": "CN"
+            },
+            {
+              "year": "2017",
+              "date": "23-07-2017",
+              "race": "Tour de l'Abitibi - Coupe des Nations Junior",
+              "cat": "2.NCUP"
+            }
+          ]
         },
         {
           "slug": "dion-smith",
@@ -53288,7 +53969,83 @@
           "slug": "emil-herzog",
           "name": "Emil Herzog",
           "nat": "de",
-          "age": "21"
+          "age": "21",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/31962/01KC6HVA76DRHFVJJ93NQSD1DD.png",
+          "dob": "2004-10-06",
+          "wins": [
+            {
+              "year": "2022",
+              "date": "23-09-2022",
+              "race": "UCI World Championship Wollongong U19",
+              "cat": "CM"
+            },
+            {
+              "year": "2022",
+              "date": "04-09-2022",
+              "race": "Grand Prix Rüebliland",
+              "cat": "2.1"
+            },
+            {
+              "year": "2022",
+              "date": "02-09-2022",
+              "race": "Grand Prix Rüebliland - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2022",
+              "date": "17-07-2022",
+              "race": "Ain Bugey Valromey Tour",
+              "cat": "2.1"
+            },
+            {
+              "year": "2022",
+              "date": "15-07-2022",
+              "race": "Ain Bugey Valromey Tour - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2022",
+              "date": "25-06-2022",
+              "race": "5# Internazionali d'Italia Series - La Thuile U19",
+              "cat": "HC"
+            },
+            {
+              "year": "2022",
+              "date": "28-05-2022",
+              "race": "Tour du Pays de Vaud - Stage 2b",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2022",
+              "date": "08-05-2022",
+              "race": "Course de la Paix Juniors",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2022",
+              "date": "01-05-2022",
+              "race": "Grand Prix West Bohemia",
+              "cat": "1.1"
+            },
+            {
+              "year": "2022",
+              "date": "10-04-2022",
+              "race": "Internationale Cottbuser Junioren-Etappenfahrt",
+              "cat": "2.1"
+            },
+            {
+              "year": "2022",
+              "date": "08-04-2022",
+              "race": "Internationale Cottbuser Junioren-Etappenfahrt - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2022",
+              "date": "03-04-2022",
+              "race": "Giro di Primavera",
+              "cat": "1.1"
+            }
+          ]
         },
         {
           "slug": "jai-hindley",
@@ -55152,7 +55909,23 @@
           "slug": "steff-cras",
           "name": "Steff Cras",
           "nat": "be",
-          "age": "30"
+          "age": "30",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34286/01KDZ3PZ33AR4RGYX4PRYMG0NM.jpeg",
+          "dob": "1996-02-13",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "24-04-2025",
+              "race": "Vuelta Asturias Julio Alvarez Mendo - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2014",
+              "date": "11-07-2014",
+              "race": "Tour du Valromey - Stage 1",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "alberto-dainese",
@@ -56988,7 +57761,17 @@
           "slug": "bert-van-lerberghe",
           "name": "Bert Van Lerberghe",
           "nat": "be",
-          "age": "33"
+          "age": "33",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34273/01KDZ3ES2F9T27Q2WQEGWJV9WG.jpeg",
+          "dob": "1992-09-29",
+          "wins": [
+            {
+              "year": "2010",
+              "date": "09-07-2010",
+              "race": "Sint-Martinusprijs Kontich - Prologue",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "ilan-van-wilder",
@@ -57046,7 +57829,35 @@
           "slug": "mauri-vansevenant",
           "name": "Mauri Vansevenant",
           "nat": "be",
-          "age": "27"
+          "age": "27",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34264/01KDZ33KWSM79CW6DA37BQARDX.jpeg",
+          "dob": "1999-06-01",
+          "wins": [
+            {
+              "year": "2024",
+              "date": "20-09-2024",
+              "race": "Skoda Tour de Luxembourg - Stage 3",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2023",
+              "date": "15-02-2023",
+              "race": "Tour of Oman - Stage 5",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2021",
+              "date": "07-03-2021",
+              "race": "GP Industria & Artigianato",
+              "cat": "1.Pro"
+            },
+            {
+              "year": "2019",
+              "date": "21-07-2019",
+              "race": "Giro Ciclistico della Valle d'Aosta Mont Blanc",
+              "cat": "2.2U"
+            }
+          ]
         },
         {
           "slug": "louis-vervaeke",
@@ -57098,7 +57909,41 @@
           "slug": "jonathan-vervenne",
           "name": "Jonathan Vervenne",
           "nat": "be",
-          "age": "23"
+          "age": "23",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34293/01KDZ3T159H4HP7CBEN90GVSBR.jpeg",
+          "dob": "2003-05-27",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "01-10-2025",
+              "race": "UEC Road European Championships TT U23",
+              "cat": "CC"
+            },
+            {
+              "year": "2025",
+              "date": "16-06-2025",
+              "race": "Giro d'Italia Next Gen - Stage 2",
+              "cat": "2.2U"
+            },
+            {
+              "year": "2025",
+              "date": "01-05-2025",
+              "race": "National Road Championships - Belgium TT U23",
+              "cat": "CN"
+            },
+            {
+              "year": "2023",
+              "date": "01-05-2023",
+              "race": "National Road Championships - Belgium TT U23",
+              "cat": "CN"
+            },
+            {
+              "year": "2023",
+              "date": "04-03-2023",
+              "race": "Le Tour des 100 Communes",
+              "cat": "1.2"
+            }
+          ]
         },
         {
           "slug": "filippo-zana",
@@ -57671,7 +58516,47 @@
           "slug": "amaury-capiot",
           "name": "Amaury Capiot",
           "nat": "be",
-          "age": "32"
+          "age": "32",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34882/01KE9C47ANVG9D44P7ZPMZTMCT.jpg",
+          "dob": "1993-06-25",
+          "wins": [
+            {
+              "year": "2024",
+              "date": "13-02-2024",
+              "race": "Tour of Oman - Stage 4",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2022",
+              "date": "28-05-2022",
+              "race": "Boucles de la Mayenne - Stage 3",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2022",
+              "date": "30-01-2022",
+              "race": "Grand Prix Cycliste de Marseille La Marseillaise",
+              "cat": "1.1"
+            },
+            {
+              "year": "2011",
+              "date": "17-09-2011",
+              "race": "Keizer der Juniores - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2011",
+              "date": "04-09-2011",
+              "race": "Remouchamps - Ferrières - Remouchamps",
+              "cat": "1.1"
+            },
+            {
+              "year": "2011",
+              "date": "11-07-2011",
+              "race": "Gent - Menen",
+              "cat": "1.1"
+            }
+          ]
         },
         {
           "slug": "filippo-conca",
@@ -59190,7 +60075,17 @@
           "slug": "frits-biesterbos",
           "name": "Frits Biesterbos",
           "nat": "nl",
-          "age": "24"
+          "age": "24",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/41124/01KF0T2VKT2RCS0M1N49CTCKNW.jpg",
+          "dob": "2002-02-14",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "28-09-2025",
+              "race": "National Gravel Championships - Netherlands",
+              "cat": "CN"
+            }
+          ]
         },
         {
           "slug": "pavel-bittner",
@@ -59266,7 +60161,65 @@
           "slug": "timo-de-jong",
           "name": "Timo de Jong",
           "nat": "nl",
-          "age": "27"
+          "age": "27",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/41121/01KF0T2QGCA872Y4E1HM0MP9N4.jpg",
+          "dob": "1999-03-28",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "18-10-2025",
+              "race": "NIBC Tour of Holland - Stage 4",
+              "cat": "2.1"
+            },
+            {
+              "year": "2025",
+              "date": "06-07-2025",
+              "race": "Midden-Brabant Poort Omloop",
+              "cat": "1.2"
+            },
+            {
+              "year": "2025",
+              "date": "27-03-2025",
+              "race": "Olympia's Tour - Stage 2",
+              "cat": "2.2"
+            },
+            {
+              "year": "2024",
+              "date": "15-10-2024",
+              "race": "Nationale Sluitingsprijs Putte-Kapellen",
+              "cat": "National"
+            },
+            {
+              "year": "2024",
+              "date": "08-09-2024",
+              "race": "Eurode Omloop",
+              "cat": "National"
+            },
+            {
+              "year": "2021",
+              "date": "06-10-2021",
+              "race": "Oostvlaamse Sluitingsprijs Zele",
+              "cat": ""
+            },
+            {
+              "year": "2021",
+              "date": "23-09-2021",
+              "race": "GP Dokter Roggeman Stekene",
+              "cat": "National"
+            },
+            {
+              "year": "2018",
+              "date": "02-05-2018",
+              "race": "Carpathian Couriers Race U23 - Stage 5",
+              "cat": "2.2U"
+            },
+            {
+              "year": "2016",
+              "date": "31-07-2016",
+              "race": "Ronde van Vlaanderen Juniores",
+              "cat": "1.1"
+            }
+          ]
         },
         {
           "slug": "john-degenkolb",
@@ -62316,7 +63269,191 @@
           "slug": "joao-almeida",
           "name": "João Almeida",
           "nat": "pt",
-          "age": "27"
+          "age": "27",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34209/01KDXF98AF0NV64VMCYZ872RFJ.jpg",
+          "dob": "1998-08-05",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "05-09-2025",
+              "race": "Vuelta a España - Stage 13",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "22-06-2025",
+              "race": "Tour de Suisse",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "22-06-2025",
+              "race": "Tour de Suisse - Stage 8",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "21-06-2025",
+              "race": "Tour de Suisse - Stage 7",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "18-06-2025",
+              "race": "Tour de Suisse - Stage 4",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "04-05-2025",
+              "race": "Tour de Romandie",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "12-04-2025",
+              "race": "Itzulia Basque Country",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "12-04-2025",
+              "race": "Itzulia Basque Country - Stage 6",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "10-04-2025",
+              "race": "Itzulia Basque Country - Stage 4",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2025",
+              "date": "12-03-2025",
+              "race": "Paris-Nice - Stage 4",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2024",
+              "date": "16-06-2024",
+              "race": "Tour de Suisse - Stage 8",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2024",
+              "date": "14-06-2024",
+              "race": "Tour de Suisse - Stage 6",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2023",
+              "date": "23-06-2023",
+              "race": "National Road Championships - Portugal TT",
+              "cat": "CN"
+            },
+            {
+              "year": "2023",
+              "date": "23-05-2023",
+              "race": "Giro d'Italia - Stage 16",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2022",
+              "date": "06-08-2022",
+              "race": "Vuelta a Burgos - Stage 5",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2022",
+              "date": "26-06-2022",
+              "race": "National Road Championships - Portugal",
+              "cat": "CN"
+            },
+            {
+              "year": "2022",
+              "date": "24-03-2022",
+              "race": "Volta Ciclista a Catalunya - Stage 4",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2021",
+              "date": "18-09-2021",
+              "race": "Skoda-Tour de Luxembourg",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2021",
+              "date": "14-09-2021",
+              "race": "Skoda-Tour de Luxembourg - Stage 1",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2021",
+              "date": "15-08-2021",
+              "race": "Tour de Pologne",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2021",
+              "date": "12-08-2021",
+              "race": "Tour de Pologne - Stage 4",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2021",
+              "date": "10-08-2021",
+              "race": "Tour de Pologne - Stage 2",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2021",
+              "date": "18-06-2021",
+              "race": "National Road Championships - Portugal TT",
+              "cat": "CN"
+            },
+            {
+              "year": "2019",
+              "date": "29-06-2019",
+              "race": "National Road Championships - Portugal U23",
+              "cat": "CN"
+            },
+            {
+              "year": "2019",
+              "date": "27-06-2019",
+              "race": "National Road Championships - Portugal TT U23",
+              "cat": "CN"
+            },
+            {
+              "year": "2018",
+              "date": "14-04-2018",
+              "race": "Liège - Bastogne - Liège U23",
+              "cat": "1.2U"
+            },
+            {
+              "year": "2017",
+              "date": "29-04-2017",
+              "race": "Toscana Terra di Ciclismo Eroica - Stage 2",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2017",
+              "date": "22-04-2017",
+              "race": "Tour of Mersin - Stage 3",
+              "cat": "2.2"
+            },
+            {
+              "year": "2016",
+              "date": "03-07-2016",
+              "race": "National Road Championships - Portugal U19",
+              "cat": "CN"
+            },
+            {
+              "year": "2016",
+              "date": "01-07-2016",
+              "race": "National Road Championships - Portugal TT U19",
+              "cat": "CN"
+            }
+          ]
         },
         {
           "slug": "igor-arrieta-lizarraga",
@@ -63238,7 +64375,197 @@
           "slug": "sebastian-molano",
           "name": "Sebastian Molano",
           "nat": "co",
-          "age": "31"
+          "age": "31",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34207/01KDXF8BH7MVVRFTB9MQFQKKZ1.jpg",
+          "dob": "1994-11-04",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "07-02-2026",
+              "race": "Tour of Oman - Stage 1",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2025",
+              "date": "18-05-2025",
+              "race": "Tour de Hongrie - Stage 5",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2025",
+              "date": "26-03-2025",
+              "race": "Classic Brugge-De Panne",
+              "cat": "1.UWT"
+            },
+            {
+              "year": "2024",
+              "date": "02-10-2024",
+              "race": "Cro Race - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2023",
+              "date": "16-10-2023",
+              "race": "Gree-Tour of Guangxi - Stage 5",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2023",
+              "date": "07-09-2023",
+              "race": "Vuelta a España - Stage 12",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2023",
+              "date": "15-08-2023",
+              "race": "Vuelta a Burgos - Stage 1",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2023",
+              "date": "16-03-2023",
+              "race": "Grand Prix de Denain - Porte du Hainaut",
+              "cat": "1.Pro"
+            },
+            {
+              "year": "2023",
+              "date": "23-02-2023",
+              "race": "UAE Tour - Stage 4",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2022",
+              "date": "11-09-2022",
+              "race": "Vuelta a España - Stage 21",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2022",
+              "date": "29-05-2022",
+              "race": "Boucles de la Mayenne - Stage 4",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2021",
+              "date": "29-09-2021",
+              "race": "Giro di Sicilia - Tour of Sicily - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2021",
+              "date": "28-09-2021",
+              "race": "Giro di Sicilia - Tour of Sicily - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2021",
+              "date": "06-08-2021",
+              "race": "Vuelta a Burgos - Stage 4",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2021",
+              "date": "04-08-2021",
+              "race": "Vuelta a Burgos - Stage 2",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2020",
+              "date": "15-02-2020",
+              "race": "Vuelta a Colombia - Stage 5",
+              "cat": "2.1"
+            },
+            {
+              "year": "2020",
+              "date": "13-02-2020",
+              "race": "Vuelta a Colombia - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2020",
+              "date": "12-02-2020",
+              "race": "Vuelta a Colombia - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2019",
+              "date": "14-02-2019",
+              "race": "Tour Colombia 2.1 - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "09-10-2018",
+              "race": "Tour of Taihu Lake - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "08-10-2018",
+              "race": "Tour of Taihu Lake - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "18-09-2018",
+              "race": "Tour of China II - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "15-09-2018",
+              "race": "Tour of China I",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "09-09-2018",
+              "race": "Tour of China I - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "05-09-2018",
+              "race": "Tour of Xingtai - Stage 3",
+              "cat": "2.2"
+            },
+            {
+              "year": "2018",
+              "date": "04-09-2018",
+              "race": "Tour of Xingtai - Stage 2",
+              "cat": "2.2"
+            },
+            {
+              "year": "2018",
+              "date": "06-05-2018",
+              "race": "Campeonato Panamericano de Ruta",
+              "cat": "CC"
+            },
+            {
+              "year": "2017",
+              "date": "26-02-2017",
+              "race": "Volta ao Alentejo - Stage 5",
+              "cat": "2.1"
+            },
+            {
+              "year": "2017",
+              "date": "24-02-2017",
+              "race": "Volta ao Alentejo - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2016",
+              "date": "16-06-2016",
+              "race": "Vuelta a Colombia - Stage 4",
+              "cat": "2.2"
+            },
+            {
+              "year": "2016",
+              "date": "08-05-2016",
+              "race": "Vuelta Ciclista Comunidad de Madrid - Stage 2",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "antonio-tomas-morgado",
@@ -64408,7 +65735,29 @@
           "slug": "pablo-torres-arias",
           "name": "Pablo Torres Arias",
           "nat": "es",
-          "age": "20"
+          "age": "20",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34219/01KDXFFKJ63Q50BR1RSK5Q49T0.jpg",
+          "dob": "2005-11-10",
+          "wins": [
+            {
+              "year": "2024",
+              "date": "24-08-2024",
+              "race": "Tour de l'Avenir - Stage 6",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2024",
+              "date": "22-08-2024",
+              "race": "Tour de l'Avenir - Stage 4",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2024",
+              "date": "21-07-2024",
+              "race": "Giro Ciclistico della Valle d'Aosta - Mont Blanc - Stage 5",
+              "cat": "2.2U"
+            }
+          ]
         },
         {
           "slug": "kevin-vermaerke",
@@ -65281,7 +66630,59 @@
           "slug": "carl-frederik-bevort",
           "name": "Carl-Frederik Bévort",
           "nat": "dk",
-          "age": "22"
+          "age": "22",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44355/01KFWX85EJGJQ45K57P3XGXBM4.jpg",
+          "dob": "2003-11-24",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "26-08-2025",
+              "race": "Tour de l'Avenir - Stage 3",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2024",
+              "date": "17-10-2024",
+              "race": "UCI Cycling World Championships - Track (Team Pursuit)",
+              "cat": "CM"
+            },
+            {
+              "year": "2023",
+              "date": "02-09-2023",
+              "race": "National Road Championships - Denmark TT U23",
+              "cat": "CN"
+            },
+            {
+              "year": "2023",
+              "date": "05-08-2023",
+              "race": "UCI Cycling World Championships - Track (Team Pursuit)",
+              "cat": "CM"
+            },
+            {
+              "year": "2023",
+              "date": "14-05-2023",
+              "race": "Fyn Rundt - Tour of Funen",
+              "cat": "1.2"
+            },
+            {
+              "year": "2021",
+              "date": "09-10-2021",
+              "race": "UEC Track European Championships (Team Pursuit)",
+              "cat": "CC"
+            },
+            {
+              "year": "2021",
+              "date": "19-06-2021",
+              "race": "National Road Championships - Denmark U19",
+              "cat": "CN"
+            },
+            {
+              "year": "2021",
+              "date": "17-06-2021",
+              "race": "National Road Championships - Denmark TT U19",
+              "cat": "CN"
+            }
+          ]
         },
         {
           "slug": "erlend-blikra",
@@ -65393,7 +66794,35 @@
           "slug": "sven-erik-bystrom",
           "name": "Sven Erik Bystrøm",
           "nat": "no",
-          "age": "34"
+          "age": "34",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44350/01KFWX7YQ6VV8JY5AW3FN7KE75.jpg",
+          "dob": "1992-01-21",
+          "wins": [
+            {
+              "year": "2020",
+              "date": "22-08-2020",
+              "race": "National Road Championships - Norway",
+              "cat": "CN"
+            },
+            {
+              "year": "2014",
+              "date": "26-09-2014",
+              "race": "UCI World Championship Ponferrada U23",
+              "cat": "CM"
+            },
+            {
+              "year": "2012",
+              "date": "01-05-2012",
+              "race": "Rund um den Finanzplatz Eschborn-Frankfurt (U23)",
+              "cat": "1.2U"
+            },
+            {
+              "year": "2010",
+              "date": "21-08-2010",
+              "race": "Rothaus Regio-Tour International - Stage 3",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "anthon-charmig",
@@ -66015,7 +67444,17 @@
           "slug": "adne-holter",
           "name": "Ådne Holter",
           "nat": "no",
-          "age": "25"
+          "age": "25",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44357/01KFWX885H4GMMT1NCYNZ9NWBJ.jpg",
+          "dob": "2000-07-08",
+          "wins": [
+            {
+              "year": "2023",
+              "date": "06-05-2023",
+              "race": "Sundvolden GP",
+              "cat": "1.2"
+            }
+          ]
         },
         {
           "slug": "jonas-hvideberg",
@@ -67728,7 +69167,29 @@
           "slug": "cristian-rodriguez-martin",
           "name": "Cristian Rodriguez Martin",
           "nat": "es",
-          "age": "31"
+          "age": "31",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/45978/01KGM6EBXT8NE0S1ND0TQHRV0G.jpg",
+          "dob": "1995-03-03",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "26-05-2025",
+              "race": "Mercan'Tour Classic Alpes-Maritimes",
+              "cat": "1.1"
+            },
+            {
+              "year": "2021",
+              "date": "09-05-2021",
+              "race": "Tour du Rwanda",
+              "cat": "2.1"
+            },
+            {
+              "year": "2021",
+              "date": "09-05-2021",
+              "race": "Tour du Rwanda - Stage 8",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "alessandro-romele",
@@ -69133,7 +70594,23 @@
           "slug": "clement-alleno",
           "name": "Clément Alleno",
           "nat": "fr",
-          "age": "25"
+          "age": "25",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44303/01KFWW1JA8SC14C0069QAEJAPQ.jpg",
+          "dob": "2000-10-08",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "14-10-2025",
+              "race": "Tour of Mentougou International Road Cycling Race",
+              "cat": "2.2"
+            },
+            {
+              "year": "2025",
+              "date": "14-10-2025",
+              "race": "Tour of Mentougou International Road Cycling Race - Stage 3",
+              "cat": "2.2"
+            }
+          ]
         },
         {
           "slug": "rodrigo-alvarez-rodriguez",
@@ -69221,7 +70698,17 @@
           "slug": "carlos-garcia-pierna",
           "name": "Carlos Garcia Pierna",
           "nat": "es",
-          "age": "26"
+          "age": "26",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44345/01KFWWKVX4AQD9P06XZ1CXE7DD.jpg",
+          "dob": "1999-07-23",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "12-10-2025",
+              "race": "Tour of Mentougou International Road Cycling Race - Stage 1",
+              "cat": "2.2"
+            }
+          ]
         },
         {
           "slug": "jesus-herrada-lopez",
@@ -69344,7 +70831,53 @@
           "slug": "sebastian-berwick",
           "name": "Sebastian Berwick",
           "nat": "au",
-          "age": "26"
+          "age": "26",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/45094/01KG789ZJAQDS9N0C5N1NMHE15.JPG",
+          "dob": "1999-12-15",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "03-05-2026",
+              "race": "Presidential Cycling Tour of Turkiye",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2023",
+              "date": "06-10-2023",
+              "race": "Tour of Hainan - Stage 2",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2023",
+              "date": "30-07-2023",
+              "race": "Tour ALSACE",
+              "cat": "2.2"
+            },
+            {
+              "year": "2023",
+              "date": "28-07-2023",
+              "race": "Tour ALSACE - Stage 2",
+              "cat": "2.2"
+            },
+            {
+              "year": "2022",
+              "date": "29-05-2022",
+              "race": "Alpes Isère Tour - Stage 5",
+              "cat": "2.2"
+            },
+            {
+              "year": "2017",
+              "date": "10-03-2017",
+              "race": "Oceania Continental Championships U19",
+              "cat": "CC"
+            },
+            {
+              "year": "2017",
+              "date": "09-03-2017",
+              "race": "Oceania Continental Championships TT U19",
+              "cat": "CC"
+            }
+          ]
         },
         {
           "slug": "joan-bou-company",
@@ -69427,7 +70960,341 @@
           "slug": "fernando-gaviria-rendon",
           "name": "Fernando Gaviria Rendon",
           "nat": "co",
-          "age": "31"
+          "age": "31",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43550/01KFBS04PAS8RY3H89XBFR38ZF.jpg",
+          "dob": "1994-08-19",
+          "wins": [
+            {
+              "year": "2024",
+              "date": "06-02-2024",
+              "race": "Tour Colombia - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2023",
+              "date": "30-04-2023",
+              "race": "Tour de Romandie - Stage 5",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2023",
+              "date": "25-01-2023",
+              "race": "Vuelta a San Juan Internacional - Stage 4",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2022",
+              "date": "15-02-2022",
+              "race": "Tour of Oman - Stage 6",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2022",
+              "date": "10-02-2022",
+              "race": "Tour of Oman - Stage 1",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2021",
+              "date": "11-08-2021",
+              "race": "Tour de Pologne - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2020",
+              "date": "16-09-2020",
+              "race": "Giro della Toscana",
+              "cat": "1.1"
+            },
+            {
+              "year": "2020",
+              "date": "19-08-2020",
+              "race": "Tour du Limousin - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2020",
+              "date": "29-07-2020",
+              "race": "Vuelta a Burgos - Stage 2",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2020",
+              "date": "02-02-2020",
+              "race": "Vuelta a San Juan Internacional - Stage 7",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2020",
+              "date": "29-01-2020",
+              "race": "Vuelta a San Juan Internacional - Stage 4",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2020",
+              "date": "27-01-2020",
+              "race": "Vuelta a San Juan Internacional - Stage 2",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2019",
+              "date": "21-10-2019",
+              "race": "Gree-Tour of Guangxi - Stage 5",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2019",
+              "date": "17-10-2019",
+              "race": "Gree-Tour of Guangxi - Stage 1",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2019",
+              "date": "13-05-2019",
+              "race": "Giro d'Italia - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2019",
+              "date": "25-02-2019",
+              "race": "UAE Tour - Stage 2",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2019",
+              "date": "30-01-2019",
+              "race": "Vuelta a San Juan Internacional - Stage 4",
+              "cat": "2.1"
+            },
+            {
+              "year": "2019",
+              "date": "27-01-2019",
+              "race": "Vuelta a San Juan Internacional - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "10-07-2018",
+              "race": "Tour de France - Stage 4",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2018",
+              "date": "07-07-2018",
+              "race": "Tour de France - Stage 1",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2018",
+              "date": "19-05-2018",
+              "race": "Amgen Tour of California - Stage 7",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2018",
+              "date": "17-05-2018",
+              "race": "Amgen Tour of California - Stage 5",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2018",
+              "date": "13-05-2018",
+              "race": "Amgen Tour of California - Stage 1",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2018",
+              "date": "08-02-2018",
+              "race": "Colombia Oro y Paz - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "07-02-2018",
+              "race": "Colombia Oro y Paz - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "06-02-2018",
+              "race": "Colombia Oro y Paz - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "21-01-2018",
+              "race": "Vuelta a San Juan Internacional - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2017",
+              "date": "24-10-2017",
+              "race": "Tour of Guangxi - Stage 6",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "21-10-2017",
+              "race": "Tour of Guangxi - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "20-10-2017",
+              "race": "Tour of Guangxi - Stage 2",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "19-10-2017",
+              "race": "Tour of Guangxi - Stage 1",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "15-09-2017",
+              "race": "Kampioenschap van Vlaanderen",
+              "cat": "1.1"
+            },
+            {
+              "year": "2017",
+              "date": "06-09-2017",
+              "race": "Tour of Britain - Stage 4",
+              "cat": "2.HC"
+            },
+            {
+              "year": "2017",
+              "date": "19-05-2017",
+              "race": "Giro d'Italia - Stage 13",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "18-05-2017",
+              "race": "Giro d'Italia - Stage 12",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "10-05-2017",
+              "race": "Giro d'Italia - Stage 5",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "07-05-2017",
+              "race": "Giro d'Italia - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "13-03-2017",
+              "race": "Tirreno-Adriatico - Stage 6",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2017",
+              "date": "15-02-2017",
+              "race": "Volta ao Algarve em Bicicleta - Stage 1",
+              "cat": "2.HC"
+            },
+            {
+              "year": "2017",
+              "date": "26-01-2017",
+              "race": "35 Vuelta Ciclista a la Provincia de San Juan - Stage 4",
+              "cat": "2.1"
+            },
+            {
+              "year": "2017",
+              "date": "23-01-2017",
+              "race": "35 Vuelta Ciclista a la Provincia de San Juan - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2016",
+              "date": "09-10-2016",
+              "race": "Paris - Tours Elite",
+              "cat": "1.HC"
+            },
+            {
+              "year": "2016",
+              "date": "17-09-2016",
+              "race": "Primus Classic Impanis - Van Petegem",
+              "cat": "1.HC"
+            },
+            {
+              "year": "2016",
+              "date": "15-07-2016",
+              "race": "Tour de Pologne - Stage 4",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2016",
+              "date": "13-07-2016",
+              "race": "Tour de Pologne - Stage 2",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2016",
+              "date": "11-03-2016",
+              "race": "Tirreno - Adriatico - Stage 3",
+              "cat": "2.UWT"
+            },
+            {
+              "year": "2016",
+              "date": "02-03-2016",
+              "race": "UCI Cycling World Championships - Track (Omnium)",
+              "cat": "CM"
+            },
+            {
+              "year": "2016",
+              "date": "25-02-2016",
+              "race": "Tour La Provence - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2016",
+              "date": "19-01-2016",
+              "race": "Tour de San Luis - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2015",
+              "date": "09-09-2015",
+              "race": "Tour of Britain - Stage 4",
+              "cat": "2.HC"
+            },
+            {
+              "year": "2015",
+              "date": "14-08-2015",
+              "race": "Czech Cycling Tour - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2015",
+              "date": "21-02-2015",
+              "race": "UCI Cycling World Championships - Track (Omnium)",
+              "cat": "CM"
+            },
+            {
+              "year": "2015",
+              "date": "21-01-2015",
+              "race": "Tour de San Luis - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2015",
+              "date": "19-01-2015",
+              "race": "Tour de San Luis - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2014",
+              "date": "10-05-2014",
+              "race": "Pan American Championship U23",
+              "cat": "CC"
+            }
+          ]
         },
         {
           "slug": "jaume-guardeno-roma",
@@ -69521,7 +71388,29 @@
           "slug": "jose-felix-parra-cuerda",
           "name": "Jose Felix Parra Cuerda",
           "nat": "es",
-          "age": "29"
+          "age": "29",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43552/01KFBS3KJWTF24ZTKA8YKA2AAT.jpg",
+          "dob": "1997-01-16",
+          "wins": [
+            {
+              "year": "2024",
+              "date": "26-05-2024",
+              "race": "Alpes Isère Tour - Stage 5",
+              "cat": "2.2"
+            },
+            {
+              "year": "2021",
+              "date": "25-07-2021",
+              "race": "17ème Tour Alsace",
+              "cat": "2.2"
+            },
+            {
+              "year": "2021",
+              "date": "24-07-2021",
+              "race": "17ème Tour Alsace - Stage 4",
+              "cat": "2.2"
+            }
+          ]
         },
         {
           "slug": "francisco-juel-penuela",
@@ -70341,7 +72230,47 @@
           "slug": "hugo-page",
           "name": "Hugo Page",
           "nat": "fr",
-          "age": "24"
+          "age": "24",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/151962/01KNSR9ER3YEES6XSC327KEMD8.jpg",
+          "dob": "2001-07-24",
+          "wins": [
+            {
+              "year": "2023",
+              "date": "18-08-2023",
+              "race": "Tour du Limousin - Stage 4",
+              "cat": "2.1"
+            },
+            {
+              "year": "2019",
+              "date": "20-10-2019",
+              "race": "Chrono des Nations U19",
+              "cat": "1.1"
+            },
+            {
+              "year": "2019",
+              "date": "24-08-2019",
+              "race": "National Road Championships - France TT U19",
+              "cat": "CN"
+            },
+            {
+              "year": "2018",
+              "date": "26-05-2018",
+              "race": "Tour du Pays de Vaud - Stage 3a",
+              "cat": "2.NCUP"
+            },
+            {
+              "year": "2018",
+              "date": "29-04-2018",
+              "race": "5éme Tour des Portes du Pays d'Othe",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "18-03-2018",
+              "race": "Bernaudeau Junior",
+              "cat": "1.1"
+            }
+          ]
         },
         {
           "slug": "alexis-renard",
@@ -70740,7 +72669,10 @@
           "slug": "mikel-retegi-goni",
           "name": "Mikel Retegi Goñi",
           "nat": "es",
-          "age": "25"
+          "age": "25",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44012/01KFMQ95GVDRRJR4CR5ARH4H57.jpg",
+          "dob": "2001-04-27",
+          "wins": []
         },
         {
           "slug": "ibon-ruiz-sedano",
@@ -70764,7 +72696,17 @@
           "slug": "diego-uriarte-belzunegi",
           "name": "Diego Uriarte Belzunegi",
           "nat": "es",
-          "age": "24"
+          "age": "24",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43999/01KFMPQ2NMFAHPZ6C9JY2KXAA6.jpg",
+          "dob": "2001-10-26",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "22-02-2025",
+              "race": "Vuelta a Andalucia Ruta Ciclista Del Sol - Stage 4",
+              "cat": "2.Pro"
+            }
+          ]
         },
         {
           "slug": "mats-wenzel",
@@ -71072,7 +73014,17 @@
           "slug": "danny-van-der-tuuk",
           "name": "Danny Van Der Tuuk",
           "nat": "pl",
-          "age": "26"
+          "age": "26",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43620/01KFDBE4AJE21JRF1B0FRZP8R4.jpg",
+          "dob": "1999-11-05",
+          "wins": [
+            {
+              "year": "2017",
+              "date": "12-08-2017",
+              "race": "Ronde des Vallées - Stage 1",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "inaki-isasi-flores",
@@ -71416,7 +73368,59 @@
           "slug": "stefan-de-bod",
           "name": "Stefan De Bod",
           "nat": "za",
-          "age": "29"
+          "age": "29",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/151935/01KNSMPC5WMEY8P56EPSXQ36SA.jpg",
+          "dob": "1996-11-17",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "05-02-2026",
+              "race": "National Road Championships - South Africa TT",
+              "cat": "CN"
+            },
+            {
+              "year": "2025",
+              "date": "13-04-2025",
+              "race": "Tour of Mersin",
+              "cat": "2.2"
+            },
+            {
+              "year": "2025",
+              "date": "12-04-2025",
+              "race": "Tour of Mersin - Stage 3",
+              "cat": "2.2"
+            },
+            {
+              "year": "2025",
+              "date": "06-04-2025",
+              "race": "Grand Prix Syedra Ancient City",
+              "cat": "1.2"
+            },
+            {
+              "year": "2023",
+              "date": "10-02-2023",
+              "race": "National Road Championships - South Africa TT",
+              "cat": "CN"
+            },
+            {
+              "year": "2019",
+              "date": "17-03-2019",
+              "race": "CAC African Road Championships TT",
+              "cat": "CC"
+            },
+            {
+              "year": "2018",
+              "date": "03-04-2018",
+              "race": "57° G.P. Palio del Recioto",
+              "cat": "1.2U"
+            },
+            {
+              "year": "2018",
+              "date": "07-02-2018",
+              "race": "National Road Championships - South Africa TT U23",
+              "cat": "CN"
+            }
+          ]
         },
         {
           "slug": "samuel-florez",
@@ -71470,7 +73474,29 @@
           "slug": "byron-munton",
           "name": "Byron Munton",
           "nat": "za",
-          "age": "27"
+          "age": "27",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/151946/01KNSMTMS4W4C5EWKYDR9Y77Z7.jpg",
+          "dob": "1998-12-12",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "10-08-2025",
+              "race": "Volta a Portugal em Bicicleta - Stage 4",
+              "cat": "2.1"
+            },
+            {
+              "year": "2022",
+              "date": "11-02-2022",
+              "race": "National Road Championships - South Africa TT",
+              "cat": "CN"
+            },
+            {
+              "year": "2020",
+              "date": "07-02-2020",
+              "race": "National Road Championships - South Africa TT U23",
+              "cat": "CN"
+            }
+          ]
         },
         {
           "slug": "ben-oliver",
@@ -71853,7 +73879,17 @@
           "slug": "tommaso-nencini",
           "name": "Tommaso Nencini",
           "nat": "it",
-          "age": "25"
+          "age": "25",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/11298/01JJ98FFSZ9PYE9YWBJ2Q47Q2X.jpg",
+          "dob": "2000-09-10",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "29-03-2026",
+              "race": "Velika Nagrada Novega Mesta",
+              "cat": "1.2"
+            }
+          ]
         },
         {
           "slug": "andrea-piras",
@@ -73235,7 +75271,71 @@
           "slug": "lorrenzo-manzin",
           "name": "Lorrenzo Manzin",
           "nat": "fr",
-          "age": "31"
+          "age": "31",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43791/01KFG530AB8CPK33PERKSYJ3H0.jpg",
+          "dob": "1994-07-26",
+          "wins": [
+            {
+              "year": "2022",
+              "date": "26-08-2022",
+              "race": "Tour Poitou - Charentes - Stage 4",
+              "cat": "2.1"
+            },
+            {
+              "year": "2021",
+              "date": "24-01-2021",
+              "race": "Clàssica Comunitat Valenciana 1969",
+              "cat": "1.2"
+            },
+            {
+              "year": "2020",
+              "date": "26-01-2020",
+              "race": "La Tropicale Amissa Bongo - Stage 7",
+              "cat": "2.1"
+            },
+            {
+              "year": "2019",
+              "date": "17-05-2019",
+              "race": "Tour d'Eure-et-Loir - Stage 1",
+              "cat": "2.2"
+            },
+            {
+              "year": "2019",
+              "date": "12-05-2019",
+              "race": "Grand Prix de la Somme",
+              "cat": "1.2"
+            },
+            {
+              "year": "2019",
+              "date": "01-05-2019",
+              "race": "Le Tour de Bretagne Cycliste",
+              "cat": "2.2"
+            },
+            {
+              "year": "2019",
+              "date": "27-01-2019",
+              "race": "La Tropicale Amissa Bongo - Stage 7",
+              "cat": "2.1"
+            },
+            {
+              "year": "2019",
+              "date": "24-01-2019",
+              "race": "La Tropicale Amissa Bongo - Stage 4",
+              "cat": "2.1"
+            },
+            {
+              "year": "2018",
+              "date": "18-08-2018",
+              "race": "Tour du Limousin - Stage 4",
+              "cat": "2.1"
+            },
+            {
+              "year": "2015",
+              "date": "26-04-2015",
+              "race": "La Roue Tourangelle",
+              "cat": "1.1"
+            }
+          ]
         },
         {
           "slug": "nicola-marcerou",
@@ -73317,7 +75417,95 @@
           "slug": "jason-tesson",
           "name": "Jason Tesson",
           "nat": "fr",
-          "age": "28"
+          "age": "28",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43792/01KFG53CSDD9F682GAZF6XHXTM.jpg",
+          "dob": "1998-01-09",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "21-02-2026",
+              "race": "Classic Var",
+              "cat": "1.1"
+            },
+            {
+              "year": "2025",
+              "date": "26-08-2025",
+              "race": "Tour Poitou - Charentes en Nouvelle Aquitaine - Stage 1",
+              "cat": "2.1"
+            },
+            {
+              "year": "2024",
+              "date": "12-10-2024",
+              "race": "Tour of Taihu Lake - Stage 4",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2024",
+              "date": "24-03-2024",
+              "race": "La Roue Tourangelle",
+              "cat": "1.1"
+            },
+            {
+              "year": "2023",
+              "date": "16-06-2023",
+              "race": "La Route d'Occitanie - La Dépêche du Midi - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2023",
+              "date": "25-01-2023",
+              "race": "La Tropicale Amissa Bongo - Stage 3",
+              "cat": "2.1"
+            },
+            {
+              "year": "2023",
+              "date": "24-01-2023",
+              "race": "La Tropicale Amissa Bongo - Stage 2",
+              "cat": "2.1"
+            },
+            {
+              "year": "2022",
+              "date": "05-06-2022",
+              "race": "Ronde de l'Oise - Stage 4",
+              "cat": "2.2"
+            },
+            {
+              "year": "2022",
+              "date": "04-06-2022",
+              "race": "Ronde de l'Oise - Stage 3",
+              "cat": "2.2"
+            },
+            {
+              "year": "2022",
+              "date": "26-05-2022",
+              "race": "Boucles de la Mayenne - Stage 1",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2022",
+              "date": "04-05-2022",
+              "race": "4 Jours de Dunkerque - Stage 2",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2021",
+              "date": "05-09-2021",
+              "race": "A Travers les Hauts de France",
+              "cat": "2.2"
+            },
+            {
+              "year": "2021",
+              "date": "03-09-2021",
+              "race": "A Travers les Hauts de France - Stage 1",
+              "cat": "2.2"
+            },
+            {
+              "year": "2021",
+              "date": "25-08-2021",
+              "race": "Tour Poitou - Charentes - Stage 2",
+              "cat": "2.1"
+            }
+          ]
         },
         {
           "slug": "pierre-thierry",
@@ -73832,7 +76020,29 @@
           "slug": "lennart-jasch",
           "name": "Lennart Jasch",
           "nat": "de",
-          "age": "25"
+          "age": "25",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/10388/01JH0HSQBF1F05PRZCE0G2NTA3.jpg",
+          "dob": "2000-11-14",
+          "wins": [
+            {
+              "year": "2026",
+              "date": "23-04-2026",
+              "race": "Tour of the Alps - Stage 4",
+              "cat": "2.Pro"
+            },
+            {
+              "year": "2025",
+              "date": "07-09-2025",
+              "race": "Giro della Regione Friuli Venezia Giulia",
+              "cat": "2.2"
+            },
+            {
+              "year": "2025",
+              "date": "07-09-2025",
+              "race": "Giro della Regione Friuli Venezia Giulia - Stage 4",
+              "cat": "2.2"
+            }
+          ]
         },
         {
           "slug": "petr-kelemen",
@@ -73874,7 +76084,59 @@
           "slug": "aivaras-mikutis",
           "name": "Aivaras Mikutis",
           "nat": "lt",
-          "age": "23"
+          "age": "23",
+          "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/35265/01KEEEVPM9WRJSS691RVD9R3MS.jpg",
+          "dob": "2002-09-16",
+          "wins": [
+            {
+              "year": "2025",
+              "date": "29-06-2025",
+              "race": "National Road Championships - Lithuania",
+              "cat": "CN"
+            },
+            {
+              "year": "2025",
+              "date": "21-06-2025",
+              "race": "National Road Championships - Lithuania TT",
+              "cat": "CN"
+            },
+            {
+              "year": "2023",
+              "date": "22-06-2023",
+              "race": "National Road Championships - Lithuania TT",
+              "cat": "CN"
+            },
+            {
+              "year": "2022",
+              "date": "23-06-2022",
+              "race": "National Road Championships - Lithuania TT",
+              "cat": "CN"
+            },
+            {
+              "year": "2022",
+              "date": "20-06-2022",
+              "race": "National Road Championships - Lithuania U23",
+              "cat": "CN"
+            },
+            {
+              "year": "2021",
+              "date": "12-06-2021",
+              "race": "National Road Championships - Lithuania U23",
+              "cat": "CN"
+            },
+            {
+              "year": "2020",
+              "date": "19-08-2020",
+              "race": "National Road Championships - Lithuania TT U19",
+              "cat": "CN"
+            },
+            {
+              "year": "2019",
+              "date": "14-06-2019",
+              "race": "National Road Championships - Lithuania TT U19",
+              "cat": "CN"
+            }
+          ]
         },
         {
           "slug": "luca-mozzato",
@@ -75975,7 +78237,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:19:36.118516+00:00"
+      "fetched_at": "2026-06-20T11:34:27.700204+00:00"
     },
     "matthew-brennan": {
       "slug": "matthew-brennan",
@@ -76147,7 +78409,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:19:41.596794+00:00"
+      "fetched_at": "2026-06-20T11:34:33.586139+00:00"
     },
     "sam-welsford": {
       "slug": "sam-welsford",
@@ -77387,7 +79649,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:19:46.930250+00:00"
+      "fetched_at": "2026-06-20T11:34:38.888501+00:00"
     },
     "andreas-kron": {
       "slug": "andreas-kron",
@@ -79455,7 +81717,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:19:52.149220+00:00"
+      "fetched_at": "2026-06-20T11:34:44.268999+00:00"
     },
     "michael-leonard": {
       "slug": "michael-leonard",
@@ -81737,7 +83999,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:19:57.096096+00:00"
+      "fetched_at": "2026-06-20T11:34:49.360147+00:00"
     },
     "florian-vermeersch": {
       "slug": "florian-vermeersch",
@@ -84131,7 +86393,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:19:16.293236+00:00"
+      "fetched_at": "2026-06-20T11:34:12.534420+00:00"
     },
     "mike-teunissen": {
       "slug": "mike-teunissen",
@@ -86145,7 +88407,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:02.480581+00:00"
+      "fetched_at": "2026-06-20T11:34:55.153164+00:00"
     },
     "bryan-coquard": {
       "slug": "bryan-coquard",
@@ -87535,7 +89797,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:09.799458+00:00"
+      "fetched_at": "2026-06-20T11:35:00.337212+00:00"
     },
     "thymen-arensman": {
       "slug": "thymen-arensman",
@@ -90818,7 +93080,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:18:55.135453+00:00"
+      "fetched_at": "2026-06-20T11:34:02.213805+00:00"
     },
     "giulio-pellizzari": {
       "slug": "giulio-pellizzari",
@@ -91971,7 +94233,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:19:31.001684+00:00"
+      "fetched_at": "2026-06-20T11:34:22.577928+00:00"
     },
     "paul-magnier": {
       "slug": "paul-magnier",
@@ -92227,7 +94489,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:15.038707+00:00"
+      "fetched_at": "2026-06-20T11:35:05.781674+00:00"
     },
     "ivan-garcia-cortina": {
       "slug": "ivan-garcia-cortina",
@@ -93530,7 +95792,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:20.549407+00:00"
+      "fetched_at": "2026-06-20T11:35:11.003930+00:00"
     },
     "ben-healy": {
       "slug": "ben-healy",
@@ -93858,7 +96120,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:25.648283+00:00"
+      "fetched_at": "2026-06-20T11:35:16.570656+00:00"
     },
     "giovanni-lonardi": {
       "slug": "giovanni-lonardi",
@@ -95075,7 +97337,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:30.979052+00:00"
+      "fetched_at": "2026-06-20T11:35:22.027438+00:00"
     },
     "simone-gualdi": {
       "slug": "simone-gualdi",
@@ -95817,7 +98079,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:36.239575+00:00"
+      "fetched_at": "2026-06-20T11:35:27.231584+00:00"
     },
     "ivo-emanuel-oliveira-alves": {
       "slug": "ivo-emanuel-oliveira-alves",
@@ -97305,7 +99567,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:41.718755+00:00"
+      "fetched_at": "2026-06-20T11:35:32.801386+00:00"
     },
     "jaume-guardeno-roma": {
       "slug": "jaume-guardeno-roma",
@@ -97769,7 +100031,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:46.743533+00:00"
+      "fetched_at": "2026-06-20T11:35:37.730221+00:00"
     },
     "felix-grossschartner": {
       "slug": "felix-grossschartner",
@@ -98820,7 +101082,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:20:54.447855+00:00"
+      "fetched_at": "2026-06-20T11:35:42.723105+00:00"
     },
     "emiel-verstrynge": {
       "slug": "emiel-verstrynge",
@@ -99916,7 +102178,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:18:43.665578+00:00"
+      "fetched_at": "2026-06-20T11:33:51.997255+00:00"
     },
     "albert-withen-philipsen": {
       "slug": "albert-withen-philipsen",
@@ -101954,7 +104216,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:18:49.363407+00:00"
+      "fetched_at": "2026-06-20T11:33:56.752715+00:00"
     },
     "marcel-camprubi-pijuan": {
       "slug": "marcel-camprubi-pijuan",
@@ -102980,7 +105242,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:19:25.985202+00:00"
+      "fetched_at": "2026-06-20T11:34:17.521973+00:00"
     },
     "soren-waerenskjold": {
       "slug": "soren-waerenskjold",
@@ -105681,7 +107943,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:19:00.428873+00:00"
+      "fetched_at": "2026-06-20T11:34:07.430665+00:00"
     },
     "michael-matthews": {
       "slug": "michael-matthews",
@@ -108611,7 +110873,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:21:27.014303+00:00"
+      "fetched_at": "2026-06-20T11:35:47.772187+00:00"
     },
     "davide-ballerini": {
       "slug": "davide-ballerini",
@@ -109347,7 +111609,7 @@
         }
       ],
       "specialties": {},
-      "fetched_at": "2026-06-20T10:22:03.803439+00:00"
+      "fetched_at": "2026-06-20T11:35:52.743689+00:00"
     },
     "luca-mozzato": {
       "slug": "luca-mozzato",
@@ -111733,6 +113995,2849 @@
       ],
       "specialties": {},
       "fetched_at": "2026-06-20T10:25:16.845082+00:00"
+    },
+    "lars-craps": {
+      "slug": "lars-craps",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44587/01KFZSM0WASG8329KD83CCKX5W.jpeg",
+      "dob": "2001-10-17",
+      "nat": "Belgium",
+      "wins": [],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:35:57.510125+00:00"
+    },
+    "hugo-hofstetter": {
+      "slug": "hugo-hofstetter",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34067/01KDWFSYMWDTP4P4K388WKYT12.jpg",
+      "dob": "1994-02-13",
+      "nat": "France",
+      "wins": [
+        {
+          "year": "2022",
+          "date": "15-05-2022",
+          "race": "Tro-Bro Léon",
+          "cat": "1.Pro"
+        },
+        {
+          "year": "2020",
+          "date": "03-03-2020",
+          "race": "Le Samyn",
+          "cat": "1.1"
+        },
+        {
+          "year": "2018",
+          "date": "18-05-2018",
+          "race": "Tour de l'Ain - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2015",
+          "date": "23-08-2015",
+          "race": "National Road Championships - France U23",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:02.352623+00:00"
+    },
+    "phil-bauhaus": {
+      "slug": "phil-bauhaus",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34639/01KE6N061D4T2KB0ZWMNH0Y9RZ.jpg",
+      "dob": "1994-07-08",
+      "nat": "Germany",
+      "wins": [
+        {
+          "year": "2024",
+          "date": "13-06-2024",
+          "race": "Tour of Slovenia - Stage 2",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2024",
+          "date": "06-03-2024",
+          "race": "Tirreno-Adriatico - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2023",
+          "date": "18-01-2023",
+          "race": "Santos Tour Down Under - Stage 1",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2022",
+          "date": "03-08-2022",
+          "race": "Tour de Pologne - Stage 5",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2022",
+          "date": "13-03-2022",
+          "race": "Tirreno-Adriatico - Stage 7",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2021",
+          "date": "28-09-2021",
+          "race": "Cro Race - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2021",
+          "date": "09-08-2021",
+          "race": "Tour de Pologne - Stage 1",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2021",
+          "date": "09-06-2021",
+          "race": "Tour of Slovenia - Stage 1",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2021",
+          "date": "14-05-2021",
+          "race": "Tour de Hongrie - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2021",
+          "date": "12-05-2021",
+          "race": "Tour de Hongrie - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2021",
+          "date": "14-02-2021",
+          "race": "Tour de la Provence - Stage 4",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2020",
+          "date": "08-02-2020",
+          "race": "Saudi Tour",
+          "cat": "2.1"
+        },
+        {
+          "year": "2020",
+          "date": "08-02-2020",
+          "race": "Saudi Tour - Stage 5",
+          "cat": "2.1"
+        },
+        {
+          "year": "2020",
+          "date": "06-02-2020",
+          "race": "Saudi Tour - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2019",
+          "date": "15-09-2019",
+          "race": "Coppa Bernocchi",
+          "cat": "1.1"
+        },
+        {
+          "year": "2018",
+          "date": "23-02-2018",
+          "race": "Abu Dhabi Tour - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "08-06-2017",
+          "race": "Critérium du Dauphiné - Stage 5",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2016",
+          "date": "31-07-2016",
+          "race": "Post Danmark Rundt - Tour of Denmark - Stage 5",
+          "cat": "2.HC"
+        },
+        {
+          "year": "2016",
+          "date": "17-06-2016",
+          "race": "Oberösterreichrundfahrt - Stage 2",
+          "cat": "2.2"
+        },
+        {
+          "year": "2016",
+          "date": "04-05-2016",
+          "race": "Tour d'Azerbaïdjan - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2014",
+          "date": "07-09-2014",
+          "race": "Kernen Omloop Echt-Susteren",
+          "cat": "1.2"
+        },
+        {
+          "year": "2014",
+          "date": "24-08-2014",
+          "race": "Baltic Chain Tour - Stage 5",
+          "cat": "2.2"
+        },
+        {
+          "year": "2014",
+          "date": "05-08-2014",
+          "race": "Volta a Portugal - Stage 6",
+          "cat": "2.1"
+        },
+        {
+          "year": "2014",
+          "date": "31-07-2014",
+          "race": "Volta a Portugal - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2014",
+          "date": "02-05-2014",
+          "race": "Skive-Løbet",
+          "cat": "1.2"
+        },
+        {
+          "year": "2013",
+          "date": "01-09-2013",
+          "race": "Tour of Bulgaria - Stage 1a",
+          "cat": "2.2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:07.541884+00:00"
+    },
+    "pablo-torres-arias": {
+      "slug": "pablo-torres-arias",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34219/01KDXFFKJ63Q50BR1RSK5Q49T0.jpg",
+      "dob": "2005-11-10",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2024",
+          "date": "24-08-2024",
+          "race": "Tour de l'Avenir - Stage 6",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2024",
+          "date": "22-08-2024",
+          "race": "Tour de l'Avenir - Stage 4",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2024",
+          "date": "21-07-2024",
+          "race": "Giro Ciclistico della Valle d'Aosta - Mont Blanc - Stage 5",
+          "cat": "2.2U"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:12.582105+00:00"
+    },
+    "cristian-rodriguez-martin": {
+      "slug": "cristian-rodriguez-martin",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/45978/01KGM6EBXT8NE0S1ND0TQHRV0G.jpg",
+      "dob": "1995-03-03",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "26-05-2025",
+          "race": "Mercan'Tour Classic Alpes-Maritimes",
+          "cat": "1.1"
+        },
+        {
+          "year": "2021",
+          "date": "09-05-2021",
+          "race": "Tour du Rwanda",
+          "cat": "2.1"
+        },
+        {
+          "year": "2021",
+          "date": "09-05-2021",
+          "race": "Tour du Rwanda - Stage 8",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:17.731946+00:00"
+    },
+    "lennart-jasch": {
+      "slug": "lennart-jasch",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/10388/01JH0HSQBF1F05PRZCE0G2NTA3.jpg",
+      "dob": "2000-11-14",
+      "nat": "Germany",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "23-04-2026",
+          "race": "Tour of the Alps - Stage 4",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2025",
+          "date": "07-09-2025",
+          "race": "Giro della Regione Friuli Venezia Giulia",
+          "cat": "2.2"
+        },
+        {
+          "year": "2025",
+          "date": "07-09-2025",
+          "race": "Giro della Regione Friuli Venezia Giulia - Stage 4",
+          "cat": "2.2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:22.607072+00:00"
+    },
+    "juan-ayuso-pesquera": {
+      "slug": "juan-ayuso-pesquera",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/35816/01KERSM1HAG217300PEJ93M175.jpg",
+      "dob": "2002-09-16",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "22-02-2026",
+          "race": "Volta ao Algarve em Bicicleta",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2026",
+          "date": "22-02-2026",
+          "race": "Volta ao Algarve em Bicicleta - Stage 5",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2025",
+          "date": "04-09-2025",
+          "race": "Vuelta a España - Stage 12",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "29-08-2025",
+          "race": "Vuelta a España - Stage 7",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "16-05-2025",
+          "race": "Giro d'Italia - Stage 7",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "26-03-2025",
+          "race": "Volta Ciclista a Catalunya - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "16-03-2025",
+          "race": "Tirreno-Adriatico",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "15-03-2025",
+          "race": "Tirreno-Adriatico - Stage 6",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "05-03-2025",
+          "race": "Trofeo Laigueglia",
+          "cat": "1.Pro"
+        },
+        {
+          "year": "2025",
+          "date": "02-03-2025",
+          "race": "Faun Drome Classic",
+          "cat": "1.Pro"
+        },
+        {
+          "year": "2024",
+          "date": "21-09-2024",
+          "race": "Skoda Tour de Luxembourg - Stage 4",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2024",
+          "date": "06-04-2024",
+          "race": "Itzulia Basque Country",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2024",
+          "date": "04-03-2024",
+          "race": "Tirreno-Adriatico - Stage 1",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2024",
+          "date": "24-02-2024",
+          "race": "Faun-Ardèche Classic",
+          "cat": "1.Pro"
+        },
+        {
+          "year": "2023",
+          "date": "18-06-2023",
+          "race": "Tour de Suisse - Stage 8",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2023",
+          "date": "15-06-2023",
+          "race": "Tour de Suisse - Stage 5",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2023",
+          "date": "28-04-2023",
+          "race": "Tour de Romandie - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2022",
+          "date": "31-07-2022",
+          "race": "Circuito de Getxo - Memorial Hermanos Otxoa",
+          "cat": "1.1"
+        },
+        {
+          "year": "2021",
+          "date": "12-06-2021",
+          "race": "Baby Giro",
+          "cat": "2.2U"
+        },
+        {
+          "year": "2021",
+          "date": "09-06-2021",
+          "race": "Baby Giro - Stage 7",
+          "cat": "2.2U"
+        },
+        {
+          "year": "2021",
+          "date": "07-06-2021",
+          "race": "Baby Giro - Stage 5",
+          "cat": "2.2U"
+        },
+        {
+          "year": "2021",
+          "date": "04-06-2021",
+          "race": "Baby Giro - Stage 2",
+          "cat": "2.2U"
+        },
+        {
+          "year": "2021",
+          "date": "05-04-2021",
+          "race": "82° Giro del Belvedere",
+          "cat": "1.2U"
+        },
+        {
+          "year": "2021",
+          "date": "04-04-2021",
+          "race": "72° Trofeo Piva",
+          "cat": "1.2U"
+        },
+        {
+          "year": "2020",
+          "date": "06-09-2020",
+          "race": "National Road Championships - Spain U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2020",
+          "date": "04-09-2020",
+          "race": "National Road Championships - Spain TT U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2020",
+          "date": "30-08-2020",
+          "race": "XXVI. Gipuzkoa Klasika",
+          "cat": "1.1"
+        },
+        {
+          "year": "2019",
+          "date": "19-08-2019",
+          "race": "National Road Championships - Spain U19",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:27.667812+00:00"
+    },
+    "jose-felix-parra-cuerda": {
+      "slug": "jose-felix-parra-cuerda",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43552/01KFBS3KJWTF24ZTKA8YKA2AAT.jpg",
+      "dob": "1997-01-16",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2024",
+          "date": "26-05-2024",
+          "race": "Alpes Isère Tour - Stage 5",
+          "cat": "2.2"
+        },
+        {
+          "year": "2021",
+          "date": "25-07-2021",
+          "race": "17ème Tour Alsace",
+          "cat": "2.2"
+        },
+        {
+          "year": "2021",
+          "date": "24-07-2021",
+          "race": "17ème Tour Alsace - Stage 4",
+          "cat": "2.2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:32.725515+00:00"
+    },
+    "laurens-de-plus": {
+      "slug": "laurens-de-plus",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/163740/01KVAFMSDN17QTMSC400NMCEPB.jpg",
+      "dob": "1995-09-04",
+      "nat": "Belgium",
+      "wins": [
+        {
+          "year": "2019",
+          "date": "02-09-2019",
+          "race": "Dernyfestival Wetteren",
+          "cat": "Cri"
+        },
+        {
+          "year": "2019",
+          "date": "18-08-2019",
+          "race": "Binck Bank Tour",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2015",
+          "date": "15-07-2015",
+          "race": "Giro Ciclistico della Valle d-Aosta Mont Blanc - Stage 1",
+          "cat": "2.2U"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:37.901437+00:00"
+    },
+    "lorrenzo-manzin": {
+      "slug": "lorrenzo-manzin",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43791/01KFG530AB8CPK33PERKSYJ3H0.jpg",
+      "dob": "1994-07-26",
+      "nat": "France",
+      "wins": [
+        {
+          "year": "2022",
+          "date": "26-08-2022",
+          "race": "Tour Poitou - Charentes - Stage 4",
+          "cat": "2.1"
+        },
+        {
+          "year": "2021",
+          "date": "24-01-2021",
+          "race": "Clàssica Comunitat Valenciana 1969",
+          "cat": "1.2"
+        },
+        {
+          "year": "2020",
+          "date": "26-01-2020",
+          "race": "La Tropicale Amissa Bongo - Stage 7",
+          "cat": "2.1"
+        },
+        {
+          "year": "2019",
+          "date": "17-05-2019",
+          "race": "Tour d'Eure-et-Loir - Stage 1",
+          "cat": "2.2"
+        },
+        {
+          "year": "2019",
+          "date": "12-05-2019",
+          "race": "Grand Prix de la Somme",
+          "cat": "1.2"
+        },
+        {
+          "year": "2019",
+          "date": "01-05-2019",
+          "race": "Le Tour de Bretagne Cycliste",
+          "cat": "2.2"
+        },
+        {
+          "year": "2019",
+          "date": "27-01-2019",
+          "race": "La Tropicale Amissa Bongo - Stage 7",
+          "cat": "2.1"
+        },
+        {
+          "year": "2019",
+          "date": "24-01-2019",
+          "race": "La Tropicale Amissa Bongo - Stage 4",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "18-08-2018",
+          "race": "Tour du Limousin - Stage 4",
+          "cat": "2.1"
+        },
+        {
+          "year": "2015",
+          "date": "26-04-2015",
+          "race": "La Roue Tourangelle",
+          "cat": "1.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:42.959682+00:00"
+    },
+    "hugo-page": {
+      "slug": "hugo-page",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/151962/01KNSR9ER3YEES6XSC327KEMD8.jpg",
+      "dob": "2001-07-24",
+      "nat": "France",
+      "wins": [
+        {
+          "year": "2023",
+          "date": "18-08-2023",
+          "race": "Tour du Limousin - Stage 4",
+          "cat": "2.1"
+        },
+        {
+          "year": "2019",
+          "date": "20-10-2019",
+          "race": "Chrono des Nations U19",
+          "cat": "1.1"
+        },
+        {
+          "year": "2019",
+          "date": "24-08-2019",
+          "race": "National Road Championships - France TT U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2018",
+          "date": "26-05-2018",
+          "race": "Tour du Pays de Vaud - Stage 3a",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2018",
+          "date": "29-04-2018",
+          "race": "5éme Tour des Portes du Pays d'Othe",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "18-03-2018",
+          "race": "Bernaudeau Junior",
+          "cat": "1.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:47.777935+00:00"
+    },
+    "fernando-gaviria-rendon": {
+      "slug": "fernando-gaviria-rendon",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43550/01KFBS04PAS8RY3H89XBFR38ZF.jpg",
+      "dob": "1994-08-19",
+      "nat": "Colombia",
+      "wins": [
+        {
+          "year": "2024",
+          "date": "06-02-2024",
+          "race": "Tour Colombia - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2023",
+          "date": "30-04-2023",
+          "race": "Tour de Romandie - Stage 5",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2023",
+          "date": "25-01-2023",
+          "race": "Vuelta a San Juan Internacional - Stage 4",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2022",
+          "date": "15-02-2022",
+          "race": "Tour of Oman - Stage 6",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2022",
+          "date": "10-02-2022",
+          "race": "Tour of Oman - Stage 1",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2021",
+          "date": "11-08-2021",
+          "race": "Tour de Pologne - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2020",
+          "date": "16-09-2020",
+          "race": "Giro della Toscana",
+          "cat": "1.1"
+        },
+        {
+          "year": "2020",
+          "date": "19-08-2020",
+          "race": "Tour du Limousin - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2020",
+          "date": "29-07-2020",
+          "race": "Vuelta a Burgos - Stage 2",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2020",
+          "date": "02-02-2020",
+          "race": "Vuelta a San Juan Internacional - Stage 7",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2020",
+          "date": "29-01-2020",
+          "race": "Vuelta a San Juan Internacional - Stage 4",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2020",
+          "date": "27-01-2020",
+          "race": "Vuelta a San Juan Internacional - Stage 2",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2019",
+          "date": "21-10-2019",
+          "race": "Gree-Tour of Guangxi - Stage 5",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2019",
+          "date": "17-10-2019",
+          "race": "Gree-Tour of Guangxi - Stage 1",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2019",
+          "date": "13-05-2019",
+          "race": "Giro d'Italia - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2019",
+          "date": "25-02-2019",
+          "race": "UAE Tour - Stage 2",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2019",
+          "date": "30-01-2019",
+          "race": "Vuelta a San Juan Internacional - Stage 4",
+          "cat": "2.1"
+        },
+        {
+          "year": "2019",
+          "date": "27-01-2019",
+          "race": "Vuelta a San Juan Internacional - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "10-07-2018",
+          "race": "Tour de France - Stage 4",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2018",
+          "date": "07-07-2018",
+          "race": "Tour de France - Stage 1",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2018",
+          "date": "19-05-2018",
+          "race": "Amgen Tour of California - Stage 7",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2018",
+          "date": "17-05-2018",
+          "race": "Amgen Tour of California - Stage 5",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2018",
+          "date": "13-05-2018",
+          "race": "Amgen Tour of California - Stage 1",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2018",
+          "date": "08-02-2018",
+          "race": "Colombia Oro y Paz - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "07-02-2018",
+          "race": "Colombia Oro y Paz - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "06-02-2018",
+          "race": "Colombia Oro y Paz - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "21-01-2018",
+          "race": "Vuelta a San Juan Internacional - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2017",
+          "date": "24-10-2017",
+          "race": "Tour of Guangxi - Stage 6",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "21-10-2017",
+          "race": "Tour of Guangxi - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "20-10-2017",
+          "race": "Tour of Guangxi - Stage 2",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "19-10-2017",
+          "race": "Tour of Guangxi - Stage 1",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "15-09-2017",
+          "race": "Kampioenschap van Vlaanderen",
+          "cat": "1.1"
+        },
+        {
+          "year": "2017",
+          "date": "06-09-2017",
+          "race": "Tour of Britain - Stage 4",
+          "cat": "2.HC"
+        },
+        {
+          "year": "2017",
+          "date": "19-05-2017",
+          "race": "Giro d'Italia - Stage 13",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "18-05-2017",
+          "race": "Giro d'Italia - Stage 12",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "10-05-2017",
+          "race": "Giro d'Italia - Stage 5",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "07-05-2017",
+          "race": "Giro d'Italia - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "13-03-2017",
+          "race": "Tirreno-Adriatico - Stage 6",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2017",
+          "date": "15-02-2017",
+          "race": "Volta ao Algarve em Bicicleta - Stage 1",
+          "cat": "2.HC"
+        },
+        {
+          "year": "2017",
+          "date": "26-01-2017",
+          "race": "35 Vuelta Ciclista a la Provincia de San Juan - Stage 4",
+          "cat": "2.1"
+        },
+        {
+          "year": "2017",
+          "date": "23-01-2017",
+          "race": "35 Vuelta Ciclista a la Provincia de San Juan - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2016",
+          "date": "09-10-2016",
+          "race": "Paris - Tours Elite",
+          "cat": "1.HC"
+        },
+        {
+          "year": "2016",
+          "date": "17-09-2016",
+          "race": "Primus Classic Impanis - Van Petegem",
+          "cat": "1.HC"
+        },
+        {
+          "year": "2016",
+          "date": "15-07-2016",
+          "race": "Tour de Pologne - Stage 4",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2016",
+          "date": "13-07-2016",
+          "race": "Tour de Pologne - Stage 2",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2016",
+          "date": "11-03-2016",
+          "race": "Tirreno - Adriatico - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2016",
+          "date": "02-03-2016",
+          "race": "UCI Cycling World Championships - Track (Omnium)",
+          "cat": "CM"
+        },
+        {
+          "year": "2016",
+          "date": "25-02-2016",
+          "race": "Tour La Provence - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2016",
+          "date": "19-01-2016",
+          "race": "Tour de San Luis - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2015",
+          "date": "09-09-2015",
+          "race": "Tour of Britain - Stage 4",
+          "cat": "2.HC"
+        },
+        {
+          "year": "2015",
+          "date": "14-08-2015",
+          "race": "Czech Cycling Tour - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2015",
+          "date": "21-02-2015",
+          "race": "UCI Cycling World Championships - Track (Omnium)",
+          "cat": "CM"
+        },
+        {
+          "year": "2015",
+          "date": "21-01-2015",
+          "race": "Tour de San Luis - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2015",
+          "date": "19-01-2015",
+          "race": "Tour de San Luis - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2014",
+          "date": "10-05-2014",
+          "race": "Pan American Championship U23",
+          "cat": "CC"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:53.111698+00:00"
+    },
+    "timo-de-jong": {
+      "slug": "timo-de-jong",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/41121/01KF0T2QGCA872Y4E1HM0MP9N4.jpg",
+      "dob": "1999-03-28",
+      "nat": "Netherlands",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "18-10-2025",
+          "race": "NIBC Tour of Holland - Stage 4",
+          "cat": "2.1"
+        },
+        {
+          "year": "2025",
+          "date": "06-07-2025",
+          "race": "Midden-Brabant Poort Omloop",
+          "cat": "1.2"
+        },
+        {
+          "year": "2025",
+          "date": "27-03-2025",
+          "race": "Olympia's Tour - Stage 2",
+          "cat": "2.2"
+        },
+        {
+          "year": "2024",
+          "date": "15-10-2024",
+          "race": "Nationale Sluitingsprijs Putte-Kapellen",
+          "cat": "National"
+        },
+        {
+          "year": "2024",
+          "date": "08-09-2024",
+          "race": "Eurode Omloop",
+          "cat": "National"
+        },
+        {
+          "year": "2021",
+          "date": "06-10-2021",
+          "race": "Oostvlaamse Sluitingsprijs Zele",
+          "cat": ""
+        },
+        {
+          "year": "2021",
+          "date": "23-09-2021",
+          "race": "GP Dokter Roggeman Stekene",
+          "cat": "National"
+        },
+        {
+          "year": "2018",
+          "date": "02-05-2018",
+          "race": "Carpathian Couriers Race U23 - Stage 5",
+          "cat": "2.2U"
+        },
+        {
+          "year": "2016",
+          "date": "31-07-2016",
+          "race": "Ronde van Vlaanderen Juniores",
+          "cat": "1.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:36:58.308333+00:00"
+    },
+    "aivaras-mikutis": {
+      "slug": "aivaras-mikutis",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/35265/01KEEEVPM9WRJSS691RVD9R3MS.jpg",
+      "dob": "2002-09-16",
+      "nat": "Lithuania",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "29-06-2025",
+          "race": "National Road Championships - Lithuania",
+          "cat": "CN"
+        },
+        {
+          "year": "2025",
+          "date": "21-06-2025",
+          "race": "National Road Championships - Lithuania TT",
+          "cat": "CN"
+        },
+        {
+          "year": "2023",
+          "date": "22-06-2023",
+          "race": "National Road Championships - Lithuania TT",
+          "cat": "CN"
+        },
+        {
+          "year": "2022",
+          "date": "23-06-2022",
+          "race": "National Road Championships - Lithuania TT",
+          "cat": "CN"
+        },
+        {
+          "year": "2022",
+          "date": "20-06-2022",
+          "race": "National Road Championships - Lithuania U23",
+          "cat": "CN"
+        },
+        {
+          "year": "2021",
+          "date": "12-06-2021",
+          "race": "National Road Championships - Lithuania U23",
+          "cat": "CN"
+        },
+        {
+          "year": "2020",
+          "date": "19-08-2020",
+          "race": "National Road Championships - Lithuania TT U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2019",
+          "date": "14-06-2019",
+          "race": "National Road Championships - Lithuania TT U19",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:37:03.665751+00:00"
+    },
+    "jason-tesson": {
+      "slug": "jason-tesson",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43792/01KFG53CSDD9F682GAZF6XHXTM.jpg",
+      "dob": "1998-01-09",
+      "nat": "France",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "21-02-2026",
+          "race": "Classic Var",
+          "cat": "1.1"
+        },
+        {
+          "year": "2025",
+          "date": "26-08-2025",
+          "race": "Tour Poitou - Charentes en Nouvelle Aquitaine - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2024",
+          "date": "12-10-2024",
+          "race": "Tour of Taihu Lake - Stage 4",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2024",
+          "date": "24-03-2024",
+          "race": "La Roue Tourangelle",
+          "cat": "1.1"
+        },
+        {
+          "year": "2023",
+          "date": "16-06-2023",
+          "race": "La Route d'Occitanie - La Dépêche du Midi - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2023",
+          "date": "25-01-2023",
+          "race": "La Tropicale Amissa Bongo - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2023",
+          "date": "24-01-2023",
+          "race": "La Tropicale Amissa Bongo - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2022",
+          "date": "05-06-2022",
+          "race": "Ronde de l'Oise - Stage 4",
+          "cat": "2.2"
+        },
+        {
+          "year": "2022",
+          "date": "04-06-2022",
+          "race": "Ronde de l'Oise - Stage 3",
+          "cat": "2.2"
+        },
+        {
+          "year": "2022",
+          "date": "26-05-2022",
+          "race": "Boucles de la Mayenne - Stage 1",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2022",
+          "date": "04-05-2022",
+          "race": "4 Jours de Dunkerque - Stage 2",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2021",
+          "date": "05-09-2021",
+          "race": "A Travers les Hauts de France",
+          "cat": "2.2"
+        },
+        {
+          "year": "2021",
+          "date": "03-09-2021",
+          "race": "A Travers les Hauts de France - Stage 1",
+          "cat": "2.2"
+        },
+        {
+          "year": "2021",
+          "date": "25-08-2021",
+          "race": "Tour Poitou - Charentes - Stage 2",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:37:08.921114+00:00"
+    },
+    "milan-vader": {
+      "slug": "milan-vader",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43909/01KFGK78TFBE39PX081ZB6TMD5.png",
+      "dob": "1996-02-18",
+      "nat": "Netherlands",
+      "wins": [
+        {
+          "year": "2023",
+          "date": "17-10-2023",
+          "race": "Gree-Tour of Guangxi",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2023",
+          "date": "15-10-2023",
+          "race": "Gree-Tour of Guangxi - Stage 4",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2021",
+          "date": "11-09-2021",
+          "race": "Dutch National Championship - XCO",
+          "cat": "CN"
+        },
+        {
+          "year": "2021",
+          "date": "11-07-2021",
+          "race": "3 Nations Cup - Riderz",
+          "cat": "2"
+        },
+        {
+          "year": "2020",
+          "date": "26-09-2020",
+          "race": "Dutch National Championship - XCO",
+          "cat": "CN"
+        },
+        {
+          "year": "2020",
+          "date": "13-09-2020",
+          "race": "3 Nations Cup - Riderz",
+          "cat": "3"
+        },
+        {
+          "year": "2020",
+          "date": "08-08-2020",
+          "race": "French Cup XCO - Alpe d'Huez",
+          "cat": "1"
+        },
+        {
+          "year": "2019",
+          "date": "22-09-2019",
+          "race": "Watersley",
+          "cat": "1"
+        },
+        {
+          "year": "2019",
+          "date": "21-07-2019",
+          "race": "Dutch National Championship - XCO",
+          "cat": "CN"
+        },
+        {
+          "year": "2019",
+          "date": "30-06-2019",
+          "race": "3 Nations Cup - Vayamundo MTB Cup",
+          "cat": "1"
+        },
+        {
+          "year": "2019",
+          "date": "08-06-2019",
+          "race": "International MTB Bundesliga - Vulkan Race Gedern",
+          "cat": "1"
+        },
+        {
+          "year": "2018",
+          "date": "01-07-2018",
+          "race": "3 Nations Cup - Vayamundo MTB Cup",
+          "cat": "1"
+        },
+        {
+          "year": "2018",
+          "date": "24-06-2018",
+          "race": "3 Nations Cup Velsen-Zuid",
+          "cat": "2"
+        },
+        {
+          "year": "2018",
+          "date": "06-05-2018",
+          "race": "3 Nations Cup - MTB weekend Eupen",
+          "cat": "2"
+        },
+        {
+          "year": "2017",
+          "date": "14-05-2017",
+          "race": "MTB - Vulkan Race Gedern",
+          "cat": "2"
+        },
+        {
+          "year": "2016",
+          "date": "25-09-2016",
+          "race": "Benelux Cup #4 - MTB Trophy Sittard-Geleen",
+          "cat": "C2"
+        },
+        {
+          "year": "2016",
+          "date": "17-07-2016",
+          "race": "Dutch National Championships - XCO U23",
+          "cat": "CN"
+        },
+        {
+          "year": "2015",
+          "date": "19-07-2015",
+          "race": "Dutch National Championships - XCO U23",
+          "cat": "CN"
+        },
+        {
+          "year": "2013",
+          "date": "07-07-2013",
+          "race": "Dutch National Championships - XCO U19",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:37:15.025539+00:00"
+    },
+    "mauri-vansevenant": {
+      "slug": "mauri-vansevenant",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34264/01KDZ33KWSM79CW6DA37BQARDX.jpeg",
+      "dob": "1999-06-01",
+      "nat": "Belgium",
+      "wins": [
+        {
+          "year": "2024",
+          "date": "20-09-2024",
+          "race": "Skoda Tour de Luxembourg - Stage 3",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2023",
+          "date": "15-02-2023",
+          "race": "Tour of Oman - Stage 5",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2021",
+          "date": "07-03-2021",
+          "race": "GP Industria & Artigianato",
+          "cat": "1.Pro"
+        },
+        {
+          "year": "2019",
+          "date": "21-07-2019",
+          "race": "Giro Ciclistico della Valle d'Aosta Mont Blanc",
+          "cat": "2.2U"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:37:21.442979+00:00"
+    },
+    "frits-biesterbos": {
+      "slug": "frits-biesterbos",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/41124/01KF0T2VKT2RCS0M1N49CTCKNW.jpg",
+      "dob": "2002-02-14",
+      "nat": "Netherlands",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "28-09-2025",
+          "race": "National Gravel Championships - Netherlands",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:37:29.419326+00:00"
+    },
+    "bert-van-lerberghe": {
+      "slug": "bert-van-lerberghe",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34273/01KDZ3ES2F9T27Q2WQEGWJV9WG.jpeg",
+      "dob": "1992-09-29",
+      "nat": "Belgium",
+      "wins": [
+        {
+          "year": "2010",
+          "date": "09-07-2010",
+          "race": "Sint-Martinusprijs Kontich - Prologue",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:37:37.273788+00:00"
+    },
+    "byron-munton": {
+      "slug": "byron-munton",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/151946/01KNSMTMS4W4C5EWKYDR9Y77Z7.jpg",
+      "dob": "1998-12-12",
+      "nat": "South Africa",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "10-08-2025",
+          "race": "Volta a Portugal em Bicicleta - Stage 4",
+          "cat": "2.1"
+        },
+        {
+          "year": "2022",
+          "date": "11-02-2022",
+          "race": "National Road Championships - South Africa TT",
+          "cat": "CN"
+        },
+        {
+          "year": "2020",
+          "date": "07-02-2020",
+          "race": "National Road Championships - South Africa TT U23",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:37:45.474023+00:00"
+    },
+    "juan-pedro-lozano-navarro": {
+      "slug": "juan-pedro-lozano-navarro",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/13987/01JQ929Z3779J2BK3TC70GVHSM.jpg",
+      "dob": "2003-11-28",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "20-04-2026",
+          "race": "Grand Prix Fergana",
+          "cat": "2.2"
+        },
+        {
+          "year": "2026",
+          "date": "20-04-2026",
+          "race": "Grand Prix Fergana - Stage 1",
+          "cat": "2.2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:37:50.411873+00:00"
+    },
+    "federico-iacomoni": {
+      "slug": "federico-iacomoni",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/146679/01KK9A3MD576ZJ2PXK0H6EGH2Z.jpg",
+      "dob": "2002-07-10",
+      "nat": "Italy",
+      "wins": [],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:37:55.470857+00:00"
+    },
+    "stefan-de-bod": {
+      "slug": "stefan-de-bod",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/151935/01KNSMPC5WMEY8P56EPSXQ36SA.jpg",
+      "dob": "1996-11-17",
+      "nat": "South Africa",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "05-02-2026",
+          "race": "National Road Championships - South Africa TT",
+          "cat": "CN"
+        },
+        {
+          "year": "2025",
+          "date": "13-04-2025",
+          "race": "Tour of Mersin",
+          "cat": "2.2"
+        },
+        {
+          "year": "2025",
+          "date": "12-04-2025",
+          "race": "Tour of Mersin - Stage 3",
+          "cat": "2.2"
+        },
+        {
+          "year": "2025",
+          "date": "06-04-2025",
+          "race": "Grand Prix Syedra Ancient City",
+          "cat": "1.2"
+        },
+        {
+          "year": "2023",
+          "date": "10-02-2023",
+          "race": "National Road Championships - South Africa TT",
+          "cat": "CN"
+        },
+        {
+          "year": "2019",
+          "date": "17-03-2019",
+          "race": "CAC African Road Championships TT",
+          "cat": "CC"
+        },
+        {
+          "year": "2018",
+          "date": "03-04-2018",
+          "race": "57° G.P. Palio del Recioto",
+          "cat": "1.2U"
+        },
+        {
+          "year": "2018",
+          "date": "07-02-2018",
+          "race": "National Road Championships - South Africa TT U23",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:02.365041+00:00"
+    },
+    "tommaso-dati": {
+      "slug": "tommaso-dati",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/146677/01KK9A3H8JTDG4YQM32Q2BX21H.jpg",
+      "dob": "2002-07-13",
+      "nat": "Italy",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "13-06-2026",
+          "race": "Tour de Gyeongnam",
+          "cat": "2.2"
+        },
+        {
+          "year": "2026",
+          "date": "28-05-2026",
+          "race": "Tour of Japan - Stage 4",
+          "cat": "2.2"
+        },
+        {
+          "year": "2026",
+          "date": "25-05-2026",
+          "race": "Tour of Japan - Stage 1",
+          "cat": "2.2"
+        },
+        {
+          "year": "2026",
+          "date": "24-05-2026",
+          "race": "Tour of Japan - Prologue",
+          "cat": "2.2"
+        },
+        {
+          "year": "2026",
+          "date": "20-04-2026",
+          "race": "Tour of the Alps - Stage 1",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2026",
+          "date": "27-03-2026",
+          "race": "Settimana Internazionale Coppi e Bartali - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2025",
+          "date": "25-05-2025",
+          "race": "Due Giorni Marchigiana - Trofeo Città di Castelfidardo",
+          "cat": "1.2U"
+        },
+        {
+          "year": "2024",
+          "date": "12-05-2024",
+          "race": "Gran Premio Industrie del Marmo",
+          "cat": "1.2U"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:07.400024+00:00"
+    },
+    "carl-frederik-bevort": {
+      "slug": "carl-frederik-bevort",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44355/01KFWX85EJGJQ45K57P3XGXBM4.jpg",
+      "dob": "2003-11-24",
+      "nat": "Denmark",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "26-08-2025",
+          "race": "Tour de l'Avenir - Stage 3",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2024",
+          "date": "17-10-2024",
+          "race": "UCI Cycling World Championships - Track (Team Pursuit)",
+          "cat": "CM"
+        },
+        {
+          "year": "2023",
+          "date": "02-09-2023",
+          "race": "National Road Championships - Denmark TT U23",
+          "cat": "CN"
+        },
+        {
+          "year": "2023",
+          "date": "05-08-2023",
+          "race": "UCI Cycling World Championships - Track (Team Pursuit)",
+          "cat": "CM"
+        },
+        {
+          "year": "2023",
+          "date": "14-05-2023",
+          "race": "Fyn Rundt - Tour of Funen",
+          "cat": "1.2"
+        },
+        {
+          "year": "2021",
+          "date": "09-10-2021",
+          "race": "UEC Track European Championships (Team Pursuit)",
+          "cat": "CC"
+        },
+        {
+          "year": "2021",
+          "date": "19-06-2021",
+          "race": "National Road Championships - Denmark U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2021",
+          "date": "17-06-2021",
+          "race": "National Road Championships - Denmark TT U19",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:12.417266+00:00"
+    },
+    "alberto-bruttomesso": {
+      "slug": "alberto-bruttomesso",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34630/01KE6MSZAFH80J43G8XT7ZYKH0.jpg",
+      "dob": "2003-10-30",
+      "nat": "Italy",
+      "wins": [
+        {
+          "year": "2023",
+          "date": "02-05-2023",
+          "race": "Carpathian Couriers Race in memory of Waclaw Felczak - Stage 4",
+          "cat": "2.2U"
+        },
+        {
+          "year": "2022",
+          "date": "11-06-2022",
+          "race": "Baby Giro - Stage 1",
+          "cat": "2.2U"
+        },
+        {
+          "year": "2021",
+          "date": "03-09-2021",
+          "race": "45° Giro Della Lunigiana - Stage 2a",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:17.429707+00:00"
+    },
+    "tommaso-nencini": {
+      "slug": "tommaso-nencini",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/11298/01JJ98FFSZ9PYE9YWBJ2Q47Q2X.jpg",
+      "dob": "2000-09-10",
+      "nat": "Italy",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "29-03-2026",
+          "race": "Velika Nagrada Novega Mesta",
+          "cat": "1.2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:22.518736+00:00"
+    },
+    "mikel-retegi-goni": {
+      "slug": "mikel-retegi-goni",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44012/01KFMQ95GVDRRJR4CR5ARH4H57.jpg",
+      "dob": "2001-04-27",
+      "nat": "Spain",
+      "wins": [],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:27.867792+00:00"
+    },
+    "clement-alleno": {
+      "slug": "clement-alleno",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44303/01KFWW1JA8SC14C0069QAEJAPQ.jpg",
+      "dob": "2000-10-08",
+      "nat": "France",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "14-10-2025",
+          "race": "Tour of Mentougou International Road Cycling Race",
+          "cat": "2.2"
+        },
+        {
+          "year": "2025",
+          "date": "14-10-2025",
+          "race": "Tour of Mentougou International Road Cycling Race - Stage 3",
+          "cat": "2.2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:32.964322+00:00"
+    },
+    "mathias-norsgaard-jorgensen": {
+      "slug": "mathias-norsgaard-jorgensen",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/35814/01KERSHYGTEQBKB2WC9CR6M9ZW.jpg",
+      "dob": "1997-05-05",
+      "nat": "Denmark",
+      "wins": [
+        {
+          "year": "2023",
+          "date": "13-05-2023",
+          "race": "Grand Prix Herning",
+          "cat": "1.2"
+        },
+        {
+          "year": "2022",
+          "date": "23-06-2022",
+          "race": "National Road Championships - Denmark TT",
+          "cat": "CN"
+        },
+        {
+          "year": "2019",
+          "date": "15-09-2019",
+          "race": "Duo Normand",
+          "cat": "1.1"
+        },
+        {
+          "year": "2019",
+          "date": "15-08-2019",
+          "race": "Tour de l'Avenir - Stage 1",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2018",
+          "date": "14-10-2018",
+          "race": "Chrono des Nations U23",
+          "cat": "1.2U"
+        },
+        {
+          "year": "2017",
+          "date": "15-10-2017",
+          "race": "Chrono des Nations U23",
+          "cat": "1.2U"
+        },
+        {
+          "year": "2015",
+          "date": "07-08-2015",
+          "race": "Liège - La Gleize - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2015",
+          "date": "02-05-2015",
+          "race": "La Coupe du Président de la Ville de Grudziadz - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2014",
+          "date": "23-07-2014",
+          "race": "Tour de l'Abitibi Desjardins - Stage 2",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2014",
+          "date": "01-05-2014",
+          "race": "La Coupe du Président de la Ville de Grudziadz - Stage 1b",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:38.014206+00:00"
+    },
+    "ivan-romeo-abad": {
+      "slug": "ivan-romeo-abad",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/36144/01KEXXJFFYPSD39NGGGE3CGAF1.jpg",
+      "dob": "2003-08-16",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "16-04-2026",
+          "race": "O Gran Camiño - The Historical Route - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2026",
+          "date": "22-02-2026",
+          "race": "Vuelta a Andalucia Ruta Ciclista Del Sol",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2026",
+          "date": "19-02-2026",
+          "race": "Vuelta a Andalucia Ruta Ciclista Del Sol - Stage 2",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2025",
+          "date": "29-06-2025",
+          "race": "National Road Championships - Spain",
+          "cat": "CN"
+        },
+        {
+          "year": "2025",
+          "date": "10-06-2025",
+          "race": "Critérium du Dauphiné - Stage 3",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "07-02-2025",
+          "race": "Volta a la Comunitat Valenciana - Stage 3",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2024",
+          "date": "23-09-2024",
+          "race": "UCI World Championship Zurich TT U23",
+          "cat": "CM"
+        },
+        {
+          "year": "2023",
+          "date": "24-08-2023",
+          "race": "Tour de l'Avenir - Stage 5",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2021",
+          "date": "18-07-2021",
+          "race": "National Road Championships - Spain U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2021",
+          "date": "16-07-2021",
+          "race": "National Road Championships - Spain TT U19",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:45.178939+00:00"
+    },
+    "adne-holter": {
+      "slug": "adne-holter",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44357/01KFWX885H4GMMT1NCYNZ9NWBJ.jpg",
+      "dob": "2000-07-08",
+      "nat": "Norway",
+      "wins": [
+        {
+          "year": "2023",
+          "date": "06-05-2023",
+          "race": "Sundvolden GP",
+          "cat": "1.2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:50.103832+00:00"
+    },
+    "jonathan-vervenne": {
+      "slug": "jonathan-vervenne",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34293/01KDZ3T159H4HP7CBEN90GVSBR.jpeg",
+      "dob": "2003-05-27",
+      "nat": "Belgium",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "01-10-2025",
+          "race": "UEC Road European Championships TT U23",
+          "cat": "CC"
+        },
+        {
+          "year": "2025",
+          "date": "16-06-2025",
+          "race": "Giro d'Italia Next Gen - Stage 2",
+          "cat": "2.2U"
+        },
+        {
+          "year": "2025",
+          "date": "01-05-2025",
+          "race": "National Road Championships - Belgium TT U23",
+          "cat": "CN"
+        },
+        {
+          "year": "2023",
+          "date": "01-05-2023",
+          "race": "National Road Championships - Belgium TT U23",
+          "cat": "CN"
+        },
+        {
+          "year": "2023",
+          "date": "04-03-2023",
+          "race": "Le Tour des 100 Communes",
+          "cat": "1.2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:38:55.464082+00:00"
+    },
+    "joao-almeida": {
+      "slug": "joao-almeida",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34209/01KDXF98AF0NV64VMCYZ872RFJ.jpg",
+      "dob": "1998-08-05",
+      "nat": "Portugal",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "05-09-2025",
+          "race": "Vuelta a España - Stage 13",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "22-06-2025",
+          "race": "Tour de Suisse",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "22-06-2025",
+          "race": "Tour de Suisse - Stage 8",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "21-06-2025",
+          "race": "Tour de Suisse - Stage 7",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "18-06-2025",
+          "race": "Tour de Suisse - Stage 4",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "04-05-2025",
+          "race": "Tour de Romandie",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "12-04-2025",
+          "race": "Itzulia Basque Country",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "12-04-2025",
+          "race": "Itzulia Basque Country - Stage 6",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "10-04-2025",
+          "race": "Itzulia Basque Country - Stage 4",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2025",
+          "date": "12-03-2025",
+          "race": "Paris-Nice - Stage 4",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2024",
+          "date": "16-06-2024",
+          "race": "Tour de Suisse - Stage 8",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2024",
+          "date": "14-06-2024",
+          "race": "Tour de Suisse - Stage 6",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2023",
+          "date": "23-06-2023",
+          "race": "National Road Championships - Portugal TT",
+          "cat": "CN"
+        },
+        {
+          "year": "2023",
+          "date": "23-05-2023",
+          "race": "Giro d'Italia - Stage 16",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2022",
+          "date": "06-08-2022",
+          "race": "Vuelta a Burgos - Stage 5",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2022",
+          "date": "26-06-2022",
+          "race": "National Road Championships - Portugal",
+          "cat": "CN"
+        },
+        {
+          "year": "2022",
+          "date": "24-03-2022",
+          "race": "Volta Ciclista a Catalunya - Stage 4",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2021",
+          "date": "18-09-2021",
+          "race": "Skoda-Tour de Luxembourg",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2021",
+          "date": "14-09-2021",
+          "race": "Skoda-Tour de Luxembourg - Stage 1",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2021",
+          "date": "15-08-2021",
+          "race": "Tour de Pologne",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2021",
+          "date": "12-08-2021",
+          "race": "Tour de Pologne - Stage 4",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2021",
+          "date": "10-08-2021",
+          "race": "Tour de Pologne - Stage 2",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2021",
+          "date": "18-06-2021",
+          "race": "National Road Championships - Portugal TT",
+          "cat": "CN"
+        },
+        {
+          "year": "2019",
+          "date": "29-06-2019",
+          "race": "National Road Championships - Portugal U23",
+          "cat": "CN"
+        },
+        {
+          "year": "2019",
+          "date": "27-06-2019",
+          "race": "National Road Championships - Portugal TT U23",
+          "cat": "CN"
+        },
+        {
+          "year": "2018",
+          "date": "14-04-2018",
+          "race": "Liège - Bastogne - Liège U23",
+          "cat": "1.2U"
+        },
+        {
+          "year": "2017",
+          "date": "29-04-2017",
+          "race": "Toscana Terra di Ciclismo Eroica - Stage 2",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2017",
+          "date": "22-04-2017",
+          "race": "Tour of Mersin - Stage 3",
+          "cat": "2.2"
+        },
+        {
+          "year": "2016",
+          "date": "03-07-2016",
+          "race": "National Road Championships - Portugal U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2016",
+          "date": "01-07-2016",
+          "race": "National Road Championships - Portugal TT U19",
+          "cat": "CN"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:00.444765+00:00"
+    },
+    "riley-sheehan": {
+      "slug": "riley-sheehan",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34052/01KDWFE5YJSWHAKVXDDQEQ6BGK.jpg",
+      "dob": "2000-06-16",
+      "nat": "United States",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "14-05-2026",
+          "race": "Circuit de Wallonie",
+          "cat": "1.1"
+        },
+        {
+          "year": "2023",
+          "date": "08-10-2023",
+          "race": "Paris - Tours Elite",
+          "cat": "1.Pro"
+        },
+        {
+          "year": "2023",
+          "date": "21-05-2023",
+          "race": "Joe Martin Stage Race",
+          "cat": "2.2"
+        },
+        {
+          "year": "2023",
+          "date": "21-05-2023",
+          "race": "Joe Martin Stage Race - Stage 4",
+          "cat": "2.2"
+        },
+        {
+          "year": "2023",
+          "date": "19-05-2023",
+          "race": "Joe Martin Stage Race - Stage 2",
+          "cat": "2.2"
+        },
+        {
+          "year": "2018",
+          "date": "22-07-2018",
+          "race": "Tour de l'Abitibi - Coupe des Nations Junior",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2018",
+          "date": "19-07-2018",
+          "race": "Tour de l'Abitibi - Coupe des Nations Junior - Stage 4",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2018",
+          "date": "26-06-2018",
+          "race": "National Road Championships - USA TT U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2017",
+          "date": "23-07-2017",
+          "race": "Tour de l'Abitibi - Coupe des Nations Junior",
+          "cat": "2.NCUP"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:05.526701+00:00"
+    },
+    "viktor-soenens": {
+      "slug": "viktor-soenens",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34306/01KDZ4HZZ94GE0AMH97T2K9PZQ.jpeg",
+      "dob": "2005-10-05",
+      "nat": "Belgium",
+      "wins": [
+        {
+          "year": "2023",
+          "date": "10-04-2023",
+          "race": "Ster van Zuid Limburg - Stage 4",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:10.545113+00:00"
+    },
+    "emil-herzog": {
+      "slug": "emil-herzog",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/31962/01KC6HVA76DRHFVJJ93NQSD1DD.png",
+      "dob": "2004-10-06",
+      "nat": "Germany",
+      "wins": [
+        {
+          "year": "2022",
+          "date": "23-09-2022",
+          "race": "UCI World Championship Wollongong U19",
+          "cat": "CM"
+        },
+        {
+          "year": "2022",
+          "date": "04-09-2022",
+          "race": "Grand Prix Rüebliland",
+          "cat": "2.1"
+        },
+        {
+          "year": "2022",
+          "date": "02-09-2022",
+          "race": "Grand Prix Rüebliland - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2022",
+          "date": "17-07-2022",
+          "race": "Ain Bugey Valromey Tour",
+          "cat": "2.1"
+        },
+        {
+          "year": "2022",
+          "date": "15-07-2022",
+          "race": "Ain Bugey Valromey Tour - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2022",
+          "date": "25-06-2022",
+          "race": "5# Internazionali d'Italia Series - La Thuile U19",
+          "cat": "HC"
+        },
+        {
+          "year": "2022",
+          "date": "28-05-2022",
+          "race": "Tour du Pays de Vaud - Stage 2b",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2022",
+          "date": "08-05-2022",
+          "race": "Course de la Paix Juniors",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2022",
+          "date": "01-05-2022",
+          "race": "Grand Prix West Bohemia",
+          "cat": "1.1"
+        },
+        {
+          "year": "2022",
+          "date": "10-04-2022",
+          "race": "Internationale Cottbuser Junioren-Etappenfahrt",
+          "cat": "2.1"
+        },
+        {
+          "year": "2022",
+          "date": "08-04-2022",
+          "race": "Internationale Cottbuser Junioren-Etappenfahrt - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2022",
+          "date": "03-04-2022",
+          "race": "Giro di Primavera",
+          "cat": "1.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:15.900953+00:00"
+    },
+    "jasper-schoofs": {
+      "slug": "jasper-schoofs",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34304/01KDZ4HWQ9YMZWE8YYSE1HGPQ2.jpeg",
+      "dob": "2006-03-30",
+      "nat": "Belgium",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "16-06-2026",
+          "race": "Giro d'Italia Next Gen - Stage 3",
+          "cat": "2.2U"
+        },
+        {
+          "year": "2024",
+          "date": "05-10-2024",
+          "race": "La Philippe Gilbert juniors - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2024",
+          "date": "02-06-2024",
+          "race": "LVM Saarland Trofeo",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2024",
+          "date": "19-05-2024",
+          "race": "Trophée Centre Morbihan - Stage 2",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2023",
+          "date": "25-11-2023",
+          "race": "X²O Badkamers Trofee Urban Cross U19",
+          "cat": "C2"
+        },
+        {
+          "year": "2023",
+          "date": "05-08-2023",
+          "race": "Aubel-Thimister-Stavelot - Stage 2a",
+          "cat": "2.1"
+        },
+        {
+          "year": "2023",
+          "date": "22-04-2023",
+          "race": "Gipuzkoa Klasikoa - Stage 1",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:20.736265+00:00"
+    },
+    "sven-erik-bystrom": {
+      "slug": "sven-erik-bystrom",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44350/01KFWX7YQ6VV8JY5AW3FN7KE75.jpg",
+      "dob": "1992-01-21",
+      "nat": "Norway",
+      "wins": [
+        {
+          "year": "2020",
+          "date": "22-08-2020",
+          "race": "National Road Championships - Norway",
+          "cat": "CN"
+        },
+        {
+          "year": "2014",
+          "date": "26-09-2014",
+          "race": "UCI World Championship Ponferrada U23",
+          "cat": "CM"
+        },
+        {
+          "year": "2012",
+          "date": "01-05-2012",
+          "race": "Rund um den Finanzplatz Eschborn-Frankfurt (U23)",
+          "cat": "1.2U"
+        },
+        {
+          "year": "2010",
+          "date": "21-08-2010",
+          "race": "Rothaus Regio-Tour International - Stage 3",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:25.640710+00:00"
+    },
+    "diego-uriarte-belzunegi": {
+      "slug": "diego-uriarte-belzunegi",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43999/01KFMPQ2NMFAHPZ6C9JY2KXAA6.jpg",
+      "dob": "2001-10-26",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "22-02-2025",
+          "race": "Vuelta a Andalucia Ruta Ciclista Del Sol - Stage 4",
+          "cat": "2.Pro"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:30.554273+00:00"
+    },
+    "danny-van-der-tuuk": {
+      "slug": "danny-van-der-tuuk",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/43620/01KFDBE4AJE21JRF1B0FRZP8R4.jpg",
+      "dob": "1999-11-05",
+      "nat": "Poland",
+      "wins": [
+        {
+          "year": "2017",
+          "date": "12-08-2017",
+          "race": "Ronde des Vallées - Stage 1",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:35.393755+00:00"
+    },
+    "julien-bernard": {
+      "slug": "julien-bernard",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/35811/01KERSG69RVFAGWQKHMJDKPAF7.jpg",
+      "dob": "1990-03-01",
+      "nat": "France",
+      "wins": [
+        {
+          "year": "2021",
+          "date": "22-07-2021",
+          "race": "Criterium d'Après Tour de Dijon",
+          "cat": "CRTP"
+        },
+        {
+          "year": "2020",
+          "date": "23-02-2020",
+          "race": "Tour du Var et des Alpes Maritimes - Stage 3",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:40.438405+00:00"
+    },
+    "carlos-garcia-pierna": {
+      "slug": "carlos-garcia-pierna",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/44345/01KFWWKVX4AQD9P06XZ1CXE7DD.jpg",
+      "dob": "1999-07-23",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "12-10-2025",
+          "race": "Tour of Mentougou International Road Cycling Race - Stage 1",
+          "cat": "2.2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:45.564720+00:00"
+    },
+    "steff-cras": {
+      "slug": "steff-cras",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34286/01KDZ3PZ33AR4RGYX4PRYMG0NM.jpeg",
+      "dob": "1996-02-13",
+      "nat": "Belgium",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "24-04-2025",
+          "race": "Vuelta Asturias Julio Alvarez Mendo - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2014",
+          "date": "11-07-2014",
+          "race": "Tour du Valromey - Stage 1",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:51.192478+00:00"
+    },
+    "pau-marti-soriano": {
+      "slug": "pau-marti-soriano",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34071/01KDWFW0EBX7H900QWCCQ02K8K.jpg",
+      "dob": "2004-11-24",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "23-02-2026",
+          "race": "Tour du Rwanda - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2025",
+          "date": "08-08-2025",
+          "race": "Volta a Portugal em Bicicleta - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2025",
+          "date": "01-06-2025",
+          "race": "Course de la Paix Grand Prix Jeseníky",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2021",
+          "date": "19-12-2021",
+          "race": "Copa de España de Ciclo-Cross #5 - I Ciclocross Internacional Ciudad de Tarancón U19",
+          "cat": "C2"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:39:56.127905+00:00"
+    },
+    "andrii-ponomar": {
+      "slug": "andrii-ponomar",
+      "photo": "https://cyclingflash.com/images/og.jpg",
+      "dob": "2002-09-05",
+      "nat": "Ukraine",
+      "wins": [
+        {
+          "year": "2021",
+          "date": "20-06-2021",
+          "race": "National Road Championships - Ukraine",
+          "cat": "CN"
+        },
+        {
+          "year": "2020",
+          "date": "06-09-2020",
+          "race": "Grand Prix Rüebliland",
+          "cat": "2.1"
+        },
+        {
+          "year": "2020",
+          "date": "05-09-2020",
+          "race": "Grand Prix Rüebliland - Stage 2a",
+          "cat": "2.1"
+        },
+        {
+          "year": "2020",
+          "date": "04-09-2020",
+          "race": "Grand Prix Rüebliland - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2019",
+          "date": "09-08-2019",
+          "race": "UEC Road European Championships U19",
+          "cat": "CC"
+        },
+        {
+          "year": "2019",
+          "date": "28-06-2019",
+          "race": "National Road Championships - Ukraine U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2019",
+          "date": "25-06-2019",
+          "race": "National Road Championships - Ukraine TT U19",
+          "cat": "CN"
+        },
+        {
+          "year": "2019",
+          "date": "21-06-2019",
+          "race": "32. LVM Saarland Trofeo - Stage 2",
+          "cat": "2.NCUP"
+        },
+        {
+          "year": "2019",
+          "date": "26-05-2019",
+          "race": "Trophée Centre Morbihan - Stage 2b",
+          "cat": "2.NCUP"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:40:01.072945+00:00"
+    },
+    "sebastian-molano": {
+      "slug": "sebastian-molano",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34207/01KDXF8BH7MVVRFTB9MQFQKKZ1.jpg",
+      "dob": "1994-11-04",
+      "nat": "Colombia",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "07-02-2026",
+          "race": "Tour of Oman - Stage 1",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2025",
+          "date": "18-05-2025",
+          "race": "Tour de Hongrie - Stage 5",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2025",
+          "date": "26-03-2025",
+          "race": "Classic Brugge-De Panne",
+          "cat": "1.UWT"
+        },
+        {
+          "year": "2024",
+          "date": "02-10-2024",
+          "race": "Cro Race - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2023",
+          "date": "16-10-2023",
+          "race": "Gree-Tour of Guangxi - Stage 5",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2023",
+          "date": "07-09-2023",
+          "race": "Vuelta a España - Stage 12",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2023",
+          "date": "15-08-2023",
+          "race": "Vuelta a Burgos - Stage 1",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2023",
+          "date": "16-03-2023",
+          "race": "Grand Prix de Denain - Porte du Hainaut",
+          "cat": "1.Pro"
+        },
+        {
+          "year": "2023",
+          "date": "23-02-2023",
+          "race": "UAE Tour - Stage 4",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2022",
+          "date": "11-09-2022",
+          "race": "Vuelta a España - Stage 21",
+          "cat": "2.UWT"
+        },
+        {
+          "year": "2022",
+          "date": "29-05-2022",
+          "race": "Boucles de la Mayenne - Stage 4",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2021",
+          "date": "29-09-2021",
+          "race": "Giro di Sicilia - Tour of Sicily - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2021",
+          "date": "28-09-2021",
+          "race": "Giro di Sicilia - Tour of Sicily - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2021",
+          "date": "06-08-2021",
+          "race": "Vuelta a Burgos - Stage 4",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2021",
+          "date": "04-08-2021",
+          "race": "Vuelta a Burgos - Stage 2",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2020",
+          "date": "15-02-2020",
+          "race": "Vuelta a Colombia - Stage 5",
+          "cat": "2.1"
+        },
+        {
+          "year": "2020",
+          "date": "13-02-2020",
+          "race": "Vuelta a Colombia - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2020",
+          "date": "12-02-2020",
+          "race": "Vuelta a Colombia - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2019",
+          "date": "14-02-2019",
+          "race": "Tour Colombia 2.1 - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "09-10-2018",
+          "race": "Tour of Taihu Lake - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "08-10-2018",
+          "race": "Tour of Taihu Lake - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "18-09-2018",
+          "race": "Tour of China II - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "15-09-2018",
+          "race": "Tour of China I",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "09-09-2018",
+          "race": "Tour of China I - Stage 2",
+          "cat": "2.1"
+        },
+        {
+          "year": "2018",
+          "date": "05-09-2018",
+          "race": "Tour of Xingtai - Stage 3",
+          "cat": "2.2"
+        },
+        {
+          "year": "2018",
+          "date": "04-09-2018",
+          "race": "Tour of Xingtai - Stage 2",
+          "cat": "2.2"
+        },
+        {
+          "year": "2018",
+          "date": "06-05-2018",
+          "race": "Campeonato Panamericano de Ruta",
+          "cat": "CC"
+        },
+        {
+          "year": "2017",
+          "date": "26-02-2017",
+          "race": "Volta ao Alentejo - Stage 5",
+          "cat": "2.1"
+        },
+        {
+          "year": "2017",
+          "date": "24-02-2017",
+          "race": "Volta ao Alentejo - Stage 3",
+          "cat": "2.1"
+        },
+        {
+          "year": "2016",
+          "date": "16-06-2016",
+          "race": "Vuelta a Colombia - Stage 4",
+          "cat": "2.2"
+        },
+        {
+          "year": "2016",
+          "date": "08-05-2016",
+          "race": "Vuelta Ciclista Comunidad de Madrid - Stage 2",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:40:06.402594+00:00"
+    },
+    "amaury-capiot": {
+      "slug": "amaury-capiot",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/34882/01KE9C47ANVG9D44P7ZPMZTMCT.jpg",
+      "dob": "1993-06-25",
+      "nat": "Belgium",
+      "wins": [
+        {
+          "year": "2024",
+          "date": "13-02-2024",
+          "race": "Tour of Oman - Stage 4",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2022",
+          "date": "28-05-2022",
+          "race": "Boucles de la Mayenne - Stage 3",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2022",
+          "date": "30-01-2022",
+          "race": "Grand Prix Cycliste de Marseille La Marseillaise",
+          "cat": "1.1"
+        },
+        {
+          "year": "2011",
+          "date": "17-09-2011",
+          "race": "Keizer der Juniores - Stage 1",
+          "cat": "2.1"
+        },
+        {
+          "year": "2011",
+          "date": "04-09-2011",
+          "race": "Remouchamps - Ferrières - Remouchamps",
+          "cat": "1.1"
+        },
+        {
+          "year": "2011",
+          "date": "11-07-2011",
+          "race": "Gent - Menen",
+          "cat": "1.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:40:11.407055+00:00"
+    },
+    "roger-adria-oliveras": {
+      "slug": "roger-adria-oliveras",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/36139/01KEXXHXECYC572CKN2HH97735.jpg",
+      "dob": "1998-04-18",
+      "nat": "Spain",
+      "wins": [
+        {
+          "year": "2025",
+          "date": "05-08-2025",
+          "race": "Vuelta a Burgos - Stage 1",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2024",
+          "date": "18-09-2024",
+          "race": "Grand Prix de Wallonie",
+          "cat": "1.Pro"
+        },
+        {
+          "year": "2022",
+          "date": "17-06-2022",
+          "race": "La Route d'Occitanie - La Dépêche du Midi - Stage 2",
+          "cat": "2.1"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:40:16.496481+00:00"
+    },
+    "sebastian-berwick": {
+      "slug": "sebastian-berwick",
+      "photo": "https://cyclingflash.ams3.cdn.digitaloceanspaces.com/45094/01KG789ZJAQDS9N0C5N1NMHE15.JPG",
+      "dob": "1999-12-15",
+      "nat": "Australia",
+      "wins": [
+        {
+          "year": "2026",
+          "date": "03-05-2026",
+          "race": "Presidential Cycling Tour of Turkiye",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2023",
+          "date": "06-10-2023",
+          "race": "Tour of Hainan - Stage 2",
+          "cat": "2.Pro"
+        },
+        {
+          "year": "2023",
+          "date": "30-07-2023",
+          "race": "Tour ALSACE",
+          "cat": "2.2"
+        },
+        {
+          "year": "2023",
+          "date": "28-07-2023",
+          "race": "Tour ALSACE - Stage 2",
+          "cat": "2.2"
+        },
+        {
+          "year": "2022",
+          "date": "29-05-2022",
+          "race": "Alpes Isère Tour - Stage 5",
+          "cat": "2.2"
+        },
+        {
+          "year": "2017",
+          "date": "10-03-2017",
+          "race": "Oceania Continental Championships U19",
+          "cat": "CC"
+        },
+        {
+          "year": "2017",
+          "date": "09-03-2017",
+          "race": "Oceania Continental Championships TT U19",
+          "cat": "CC"
+        }
+      ],
+      "specialties": {},
+      "fetched_at": "2026-06-20T11:40:21.590448+00:00"
     }
   }
 }
