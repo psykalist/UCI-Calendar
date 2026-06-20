@@ -903,8 +903,8 @@ def scrape_rider_profile(slug):
             pps_block = pps_m.group(1)
             for li_m in re.finditer(r'<li[^>]*>(.*?)</li>', pps_block, re.DOTALL):
                 li = li_m.group(1)
-                score_m = re.search(r'class="xvalue[^"]*">(\d+)<', li)
-                cat_m   = re.search(r'career-points-([a-z-]+)"', li)
+                score_m = re.search(r'class="xvalue[^"]*"\s*>(\d+)<', li)
+                cat_m   = re.search(r'(?:career-points-|/results/)(one-day-races|gc|time-trial|sprint|climbers?|hills)', li)
                 bar_m   = re.search(r'class="w(\d+)\s', li)
                 if score_m and cat_m:
                     key = cat_m.group(1)
@@ -1485,8 +1485,15 @@ def main():
     uncached = [s for s in priority_order if s not in rider_profiles]
     # Always re-fetch profiles for today's stage winners (palmares may have updated)
     refresh_existing = [s for s in priority_order if s in stage_winners_to_refresh and s in rider_profiles]
-    to_fetch = refresh_existing + uncached[:MAX_NEW_RIDERS_PER_RUN]
-    print(f"  Riders total: {len(all_slugs)} | cached: {len(rider_profiles)} | new: {len(uncached)} | refreshing winners: {len(refresh_existing)} | fetching: {len(to_fetch)}", flush=True)
+    # Backfill: re-fetch cached profiles that are missing specialty data.
+    # Note: specialties={} means "checked, no PCS block" — exclude those (key must be absent).
+    missing_specialties = [s for s in priority_order
+                           if s in rider_profiles
+                           and 'specialties' not in rider_profiles[s]
+                           and s not in stage_winners_to_refresh]
+    to_fetch = refresh_existing + missing_specialties[:MAX_NEW_RIDERS_PER_RUN] + uncached[:MAX_NEW_RIDERS_PER_RUN]
+    to_fetch = list(dict.fromkeys(to_fetch))  # deduplicate, preserve order
+    print(f"  Riders total: {len(all_slugs)} | cached: {len(rider_profiles)} | new: {len(uncached)} | missing specs: {len(missing_specialties)} | refreshing winners: {len(refresh_existing)} | fetching: {len(to_fetch)}", flush=True)
 
     for slug in to_fetch:
         profile = scrape_rider_profile(slug)

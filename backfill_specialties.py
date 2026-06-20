@@ -96,10 +96,19 @@ def save_data(data):
         print("  Could not acquire write lock — skipping save.", flush=True)
         return
     try:
-        tmp = DATA_FILE + ".tmp"
+        tmp = DATA_FILE + f".tmp{os.getpid()}"
         with open(tmp, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-        os.replace(tmp, DATA_FILE)
+        for _ in range(10):
+            try:
+                os.replace(tmp, DATA_FILE)
+                break
+            except PermissionError:
+                time.sleep(0.3)
+        else:
+            print("  Warning: could not replace data.json after retries.", flush=True)
+            try: os.remove(tmp)
+            except: pass
     finally:
         release_write_lock()
 

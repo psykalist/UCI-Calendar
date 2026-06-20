@@ -1939,12 +1939,14 @@ function fSearchRiders(q){
     const c=riderCost(r.name);
     const canAfford=c<=remaining&&_fPicked.length<MAX_SQUAD;
     const restrictedBadge=r.restricted?'<span style="font-size:.68rem;font-weight:700;color:#f97316;background:rgba(249,115,22,.15);border-radius:3px;padding:1px 5px;flex-shrink:0">DNS?</span>':'';
+    const infoBtn=r.slug?'<button onclick="event.stopPropagation();openRiderModal(\''+esc(r.slug)+'\')" style="background:none;border:none;cursor:pointer;font-size:.9rem;padding:0 2px;opacity:.6;flex-shrink:0" title="View profile">ℹ️</button>':'';
     return '<div data-pick="'+esc(r.name)+'" style="padding:9px 12px;cursor:'+(canAfford?'pointer':'default')+';display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:background .15s;opacity:'+(canAfford?'1':'.45')+'" onmouseenter="if('+(canAfford?'true':'false')+')this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
       +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
       +'<span style="flex:1;font-size:.9rem">'+esc(r.name)+'</span>'
       +restrictedBadge
       +'<span style="font-size:.75rem;color:var(--muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.teamName||'')+'</span>'
       +costBadge(r.name)
+      +infoBtn
     +'</div>';
   }).join('');
   el.querySelectorAll('[data-pick]').forEach(node=>node.addEventListener('click',()=>fPickRider(node.dataset.pick)));
