@@ -333,7 +333,7 @@ def update_winners():
     save(existing)
     print(f'\nDone. {ok} updated, {err} errors.')
 
-    # Auto git commit + push
+    # Auto git commit + push (with pull-rebase retry on rejection)
     import subprocess
     try:
         subprocess.run(['git', 'add', 'rider_profiles.json'], cwd=BASE, check=True)
@@ -343,7 +343,11 @@ def update_winners():
                 ['git', 'commit', '-m', f'data: refresh winner profiles ({ok} riders)'],
                 cwd=BASE, check=True
             )
-            subprocess.run(['git', 'push'], cwd=BASE, check=True)
+            push = subprocess.run(['git', 'push'], cwd=BASE)
+            if push.returncode != 0:
+                print('Push rejected — pulling and retrying...')
+                subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], cwd=BASE, check=True)
+                subprocess.run(['git', 'push'], cwd=BASE, check=True)
             print('Committed and pushed rider_profiles.json')
         else:
             print('No changes to commit.')
