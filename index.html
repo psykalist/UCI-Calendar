@@ -1366,6 +1366,12 @@ function openRiderModal(slug) {
     ${specHTML}
     <div class="rider-modal-section">🏆 Palmares (${wins.length} wins)</div>
     <div class="wins-panel" style="display:block">${winsHTML}</div>
+    <div style="padding:12px 0 4px;text-align:center">
+      <a href="https://www.procyclingstats.com/rider/${esc(slug)}" target="_blank"
+         style="font-size:.8rem;color:var(--muted);text-decoration:underline">
+        View full profile on ProCyclingStats ↗
+      </a>
+    </div>
   `;
 
   modal.classList.add('open');
@@ -1399,7 +1405,7 @@ const STAT_CATS = [
 
 async function loadStats() {
   const el = document.getElementById('sec-stats');
-  if (statsData) { renderStats(); return; }
+  if (statsData) { if (!statsOpenId) setStatCat(statsCurCat); else renderStats(); return; }
   el.innerHTML = '<div class="stats-loading">⏳ Loading statistics…</div>';
   try {
     const r = await fetch('./pcs_stats.json', {cache: 'no-cache'});
@@ -1409,7 +1415,7 @@ async function loadStats() {
     el.innerHTML = `<div class="stats-loading">⚠️ Could not load stats<br><small>${esc(e.message)}</small></div>`;
     return;
   }
-  renderStats();
+  setStatCat(statsCurCat); // auto-opens first card
 }
 
 function renderStats() {
@@ -1461,6 +1467,12 @@ function renderStats() {
 function setStatCat(cat) {
   statsCurCat = cat;
   statsOpenId = null;
+  // Auto-open the first card in the new category
+  const stats = (statsData || {}).stats || {};
+  const first = Object.entries(stats)
+    .filter(([, s]) => s.category === cat && s.row_count > 0)
+    .sort((a, b) => a[1].label.localeCompare(b[1].label))[0];
+  if (first) statsOpenId = first[0];
   renderStats();
 }
 
@@ -1486,16 +1498,16 @@ function buildStatTable(s) {
   const trs = rows.slice(0, 50).map(r => {
     const tds = cols.map(c => {
       let v = r[c] ?? '';
-      // Hyperlink rider names to PCS
+      // Rider names open in-app modal; falls back to PCS link footer inside modal
       if (c === 'name' && r.slug && r.type === 'rider') {
-        return `<td><a href="https://www.procyclingstats.com/rider/${esc(r.slug)}" target="_blank" style="color:var(--accent);text-decoration:none">${esc(String(v))}</a></td>`;
+        return `<td><a href="#" onclick="openRiderModal('${esc(r.slug)}');return false;" style="color:var(--accent);text-decoration:none">${esc(String(v))}</a></td>`;
       }
       if ((c === 'rider1_name' || c === 'rider2_name') && r[c.replace('_name','_slug')]) {
         const slug = r[c.replace('_name','_slug')];
-        return `<td><a href="https://www.procyclingstats.com/rider/${esc(slug)}" target="_blank" style="color:var(--accent);text-decoration:none">${esc(String(v))}</a></td>`;
+        return `<td><a href="#" onclick="openRiderModal('${esc(slug)}');return false;" style="color:var(--accent);text-decoration:none">${esc(String(v))}</a></td>`;
       }
       if (c === 'rider_name' && r.rider_slug) {
-        return `<td><a href="https://www.procyclingstats.com/rider/${esc(r.rider_slug)}" target="_blank" style="color:var(--accent);text-decoration:none">${esc(String(v))}</a></td>`;
+        return `<td><a href="#" onclick="openRiderModal('${esc(r.rider_slug)}');return false;" style="color:var(--accent);text-decoration:none">${esc(String(v))}</a></td>`;
       }
       return `<td>${esc(String(v))}</td>`;
     }).join('');
@@ -1554,7 +1566,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v27';
+const APP_VERSION = 'v28';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
