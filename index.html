@@ -1079,7 +1079,7 @@ function renderRaceCard(race, status) {
 
   const meta = dateRange(race.start_date, race.end_date);
 
-  const MONUMENT_NAMES = ['Milano-Sanremo','Ronde van Vlaanderen','Paris-Roubaix','Liège-Bastogne-Liège','Il Lombardia','Strade Bianche'];
+  const MONUMENT_NAMES = ['Milano-Sanremo','Ronde van Vlaanderen','Paris-Roubaix','Liège-Bastogne-Liège','Il Lombardia'];
   const isMonument  = MONUMENT_NAMES.some(m => (race.name||'').includes(m));
   const isGrandTour = (race.total_stages||1) >= 21;
 
