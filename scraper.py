@@ -1007,11 +1007,46 @@ def scrape_teams():
 
 # ── Results-only mode ──────────────────────────────────────────────────────────
 
+def refresh_winner_wins(rider_profiles, winner_slugs):
+    """
+    Fetch only the /wins page for today's stage winners and update their
+    career wins list in rider_profiles.  ~1 request per unique winner.
+    Called at end of main_results_only() when new stages were found.
+    """
+    if not winner_slugs:
+        return
+    print(f"\n  [winners] Refreshing wins for {len(winner_slugs)} stage winner(s):", flush=True)
+    for slug in winner_slugs:
+        wins_html = fetch(f"{BASE_URL}/profile/{slug}/wins")
+        time.sleep(DELAY)
+        if not wins_html:
+            print(f"    {slug}: wins page fetch failed", flush=True)
+            continue
+        wins = []
+        tr_blocks = re.findall(r'<tr[^>]*>(.*?)</tr>', wins_html, re.DOTALL)
+        race_rows = [t for t in tr_blocks if '/race/' in t]
+        for row in race_rows:
+            tds = re.findall(r'<td[^>]*>(.*?)</td>', row, re.DOTALL)
+            if len(tds) >= 4:
+                wins.append({
+                    'year': strip_tags(tds[1]),
+                    'date': strip_tags(tds[2]),
+                    'race': strip_tags(tds[3]),
+                    'cat':  strip_tags(tds[4]) if len(tds) > 4 else '',
+                })
+        if slug not in rider_profiles:
+            rider_profiles[slug] = {'slug': slug}
+        rider_profiles[slug]['wins'] = wins
+        rider_profiles[slug]['wins_refreshed_at'] = datetime.now(timezone.utc).isoformat()
+        print(f"    {slug}: {len(wins)} wins", flush=True)
+
+
 def main_results_only():
     """
     Lightweight daily update: load cache, fix status buckets, fetch only
     missing stage results + classifications for live races.
-    Skips calendar discovery, team scraping, rider profiles, startlists.
+    After fetching new results, refreshes wins for today's stage winners only.
+    Skips calendar discovery, team scraping, full rider profiles, startlists.
     Run via:  py scraper.py --results-only
     """
     now_human = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
@@ -1054,7 +1089,8 @@ def main_results_only():
     d["live"] = still_live
 
     # Fetch missing results for live races only
-    stages_updated = 0
+    stages_updated   = 0
+    new_winner_slugs = set()   # rider slugs who won a NEW (uncached) stage this run
     for race in d["live"]:
         slug   = race.get("cf_slug") or f"{race.get('slug','')}-{race.get('year','2026')}"
         name   = race.get("name", slug)
@@ -1100,6 +1136,9 @@ def main_results_only():
                 if hpi and not stage_obj.get("height_profile_img"):
                     stage_obj["height_profile_img"] = hpi
                 stages_updated += 1
+                win_slug = winner.get("rider_url", "").replace("/profile/", "").strip("/")
+                if win_slug:
+                    new_winner_slugs.add(win_slug)
                 print(f"      Stage {n}: {winner['name']}", flush=True)
             else:
                 print(f"      Stage {n}: no result yet", flush=True)
@@ -1125,6 +1164,10 @@ def main_results_only():
                     race[lk] = f"{rows[0]['flag']} {rows[0]['name']}"
                     race[tk] = rows
                     print(f"      {cls_key}: {rows[0]['name']}", flush=True)
+
+    # ── Refresh wins for today's stage winners only ───────────────────────────
+    if new_winner_slugs:
+        refresh_winner_wins(d.setdefault("rider_profiles", {}), new_winner_slugs)
 
     # ── Write output with backup + post-write validation ────────────────────────
     now = datetime.now(timezone.utc)

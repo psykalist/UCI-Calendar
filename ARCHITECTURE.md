@@ -21,17 +21,37 @@ procyclingstats.com ─► fetch_one_rider.py (Task Scheduler)
 ### Core — runs automatically
 
 #### `scraper.py`
-**What it does:** Full scrape of race calendar, results, team rosters, and rider profiles. Reads `cyclingflash.com` for race data, `procyclingstats.com` for rider profiles/wins (CI cannot fetch PCS specialty scores — blocked by PCS). Writes `data.json`.
+Three modes — only `--results-only` runs automatically. The others are manual.
 
-**When it runs:** Via GitHub Actions (`scrape.yml`) on two schedules — 6am UTC and 4pm UTC daily. Also triggered manually from the GitHub Actions tab.
+**`py scraper.py --results-only`** (default for CI)
+Fetches only new stage results + classifications for currently live races. Refreshes wins for today's stage winners only (~1-3 extra requests on race days, 0 otherwise). Does NOT re-scrape teams, calendar, all rider profiles, or startlists. This is the safe daily mode.
+
+**When it runs:** Via GitHub Actions (`scrape.yml`) at 11am and 5pm UTC. Also triggered by `health-check.yml` when data is stale.
+
+**`py scraper.py`** (full scrape — manual, local only)
+Discovers all calendar races, scrapes team rosters, fetches/updates up to 50 rider profiles, fetches startlists for races within 21 days. Run this at the start of the season, when teams change, or when new races are added. Do not put this in CI — too many requests.
+
+**`py scraper.py --teams-only`** (not yet implemented — see below)
+Planned: scrape only team rosters. For now, run the full scrape locally when teams need updating.
 
 **Key behaviour:**
-- Caches rider profiles from the previous `data.json` to avoid re-fetching everything
-- Preserves existing `specialties` data if the new fetch returns empty (since CI IPs are blocked by PCS)
-- Uses `'specialties' not in profile` (not `not profile.get('specialties')`) to detect missing data — `{}` means "checked, no PCS block found" and is left alone
+- Caches rider profiles from the previous `data.json` — never re-fetches a profile unless it's a stage winner today or a brand-new rider
+- Preserves existing `specialties` data if the new fetch returns empty (CI IPs blocked by PCS)
+- Uses `'specialties' not in profile` to detect missing data — `{}` means "checked, no PCS data" and is skipped
+
+**What is static (pull once, don't re-scrape):**
+- Team rosters — set at the start of the season
+- Rider photos, DOB, nationality — never change
+- Past race results (recent bucket) — already complete
+- Stage details (distance, towns, parcours) — fixed once published
+- Startlists — fetched once when race is within 21 days, then cached
+
+**What updates automatically (results-only mode):**
+- Stage results (top10) for live races — after each stage
+- GC / Points / Mountain / Youth classifications — after each stage
+- Winner's career wins list — only for today's stage winners
 
 **Failure modes:**
-- PCS blocks CI server IPs → rider specialty bars won't update via CI (handled: specialties preserved from cache)
 - cyclingflash.com structure change → scraper returns no data for affected races
 - `data.json` corrupt after failed write → restore with `py restore_from_git.py` or `git checkout data.json`
 

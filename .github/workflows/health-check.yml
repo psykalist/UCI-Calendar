@@ -168,7 +168,7 @@ jobs:
         run: |
           echo "Data needs refresh (age=${{ steps.status.outputs.age_hours }}h, overall=${{ steps.status.outputs.overall }})"
           cp data.json data_old.json 2>/dev/null || echo '{}' > data_old.json
-          python3 scraper.py
+          python3 scraper.py --results-only
           python3 detect_changes.py data_old.json data.json changelog.json
           rm -f data_old.json
           echo "Scrape complete."

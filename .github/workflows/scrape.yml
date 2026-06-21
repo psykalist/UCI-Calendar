@@ -1,9 +1,16 @@
 name: Update UCI Race Data
 
+# Runs results-only scrape — fetches ONLY new stage results and classifications
+# for currently live races. Does NOT re-scrape teams, rider profiles, or the
+# full calendar. Those are static and must be run manually when needed.
+#
+# To run a full scrape manually:  py scraper.py              (local only)
+# To refresh teams manually:      py scraper.py --teams-only (local only)
+
 on:
   schedule:
-    - cron: '0 6 * * *'   # 6am UTC daily (morning results from overnight races)
-    - cron: '0 16 * * *'  # 4pm UTC daily (afternoon stage finishes)
+    - cron: '0 11 * * *'  # 11am UTC — catches morning stage finishes (Alps/Pyrenees)
+    - cron: '0 17 * * *'  # 5pm UTC  — catches afternoon stage finishes
   workflow_dispatch:        # Manual trigger from GitHub Actions tab
 
 jobs:
@@ -23,11 +30,17 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Pull latest (avoid stale checkout)
+        run: |
+          git config --global user.name  'UCI Calendar Bot'
+          git config --global user.email 'uci-bot@users.noreply.github.com'
+          git pull --rebase origin main || git pull origin main
+
       - name: Save old data.json for change detection
         run: cp data.json data_old.json 2>/dev/null || echo '{"live":[],"upcoming":[],"recent":[],"teams":[]}' > data_old.json
 
-      - name: Run scraper
-        run: python3 scraper.py
+      - name: Run results-only scraper
+        run: python3 scraper.py --results-only
 
       - name: Detect changes and update changelog
         run: python3 detect_changes.py data_old.json data.json changelog.json
@@ -37,13 +50,11 @@ jobs:
 
       - name: Commit and push if data changed
         run: |
-          git config user.name "UCI Calendar Bot"
-          git config user.email "uci-bot@users.noreply.github.com"
           git add data.json changelog.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
             TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
-            git commit -m "chore: auto-scrape ${TIMESTAMP}"
+            git commit -m "results: auto-scrape ${TIMESTAMP}"
             git push
           fi
