@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-21T12:38:03.192649+00:00",
+  "updated_at": "2026-06-21T12:49:56.998694+00:00",
   "stats": {
     "riders/no-starts-yet": {
       "label": "Riders with no start yet",
@@ -4207,9 +4207,360 @@
       "notes": "Updated as riders pass away",
       "description": "Overview of former professional riders that passed away.",
       "url": "https://www.procyclingstats.com/statistics/riders/recently-passed-away",
-      "fetched_at": "2026-06-21T12:34:01.324358+00:00",
-      "row_count": 0,
-      "rows": []
+      "fetched_at": "2026-06-21T12:49:30.646587+00:00",
+      "row_count": 50,
+      "rows": [
+        {
+          "date": "2026-06-16",
+          "type": "rider",
+          "slug": "shane-o-brien",
+          "name": "O'BRIEN Shane",
+          "age": "16"
+        },
+        {
+          "date": "2026-06-14",
+          "type": "rider",
+          "slug": "adrien-chipault",
+          "name": "CHIPAULT Adrien",
+          "age": "21"
+        },
+        {
+          "date": "2026-06-11",
+          "type": "rider",
+          "slug": "jan-brzezny",
+          "name": "BRZEŹNY Jan",
+          "age": "75"
+        },
+        {
+          "date": "2026-06-11",
+          "type": "rider",
+          "slug": "tino-conti",
+          "name": "CONTI Tino",
+          "age": "80"
+        },
+        {
+          "date": "2026-06-02",
+          "type": "rider",
+          "slug": "andy-bishop",
+          "name": "BISHOP Andy",
+          "age": "61"
+        },
+        {
+          "date": "2026-05-31",
+          "type": "rider",
+          "slug": "jean-louis-quesne",
+          "name": "QUESNE Jean-Louis",
+          "age": "83"
+        },
+        {
+          "date": "2026-05-27",
+          "type": "rider",
+          "slug": "ants-jeret",
+          "name": "JERET Ants",
+          "age": "87"
+        },
+        {
+          "date": "2026-05-23",
+          "type": "rider",
+          "slug": "lino-carletto",
+          "name": "CARLETTO Lino",
+          "age": "82"
+        },
+        {
+          "date": "2026-05-20",
+          "type": "rider",
+          "slug": "imre-gera",
+          "name": "GÉRA Imre",
+          "age": "79"
+        },
+        {
+          "date": "2026-05-19",
+          "type": "rider",
+          "slug": "wolfang-steinmayr",
+          "name": "STEINMAYR Wolfgang",
+          "age": "81"
+        },
+        {
+          "date": "2026-05-16",
+          "type": "rider",
+          "slug": "john-geddes",
+          "name": "GEDDES John",
+          "age": "89"
+        },
+        {
+          "date": "2026-05-15",
+          "type": "rider",
+          "slug": "jilke-michielsen",
+          "name": "MICHIELSEN Jilke",
+          "age": "19"
+        },
+        {
+          "date": "2026-05-13",
+          "type": "rider",
+          "slug": "gino-fochesato",
+          "name": "FOCHESATO Gino",
+          "age": "77"
+        },
+        {
+          "date": "2026-04-30",
+          "type": "rider",
+          "slug": "joop-captein",
+          "name": "CAPTEIN Joop",
+          "age": "89"
+        },
+        {
+          "date": "2026-04-26",
+          "type": "rider",
+          "slug": "jozef-heylen",
+          "name": "HEYLEN Jozef",
+          "age": "62"
+        },
+        {
+          "date": "2026-04-26",
+          "type": "rider",
+          "slug": "guy-leleu",
+          "name": "LELEU Guy",
+          "age": "76"
+        },
+        {
+          "date": "2026-04-25",
+          "type": "rider",
+          "slug": "milan-bral",
+          "name": "BRAL Milan",
+          "age": "21"
+        },
+        {
+          "date": "2026-04-24",
+          "type": "rider",
+          "slug": "cristian-munoz",
+          "name": "MUÑOZ Cristian Camilo",
+          "age": "30"
+        },
+        {
+          "date": "2026-04-20",
+          "type": "rider",
+          "slug": "francois-etoa",
+          "name": "ETOA François",
+          "age": "49"
+        },
+        {
+          "date": "2026-04-19",
+          "type": "rider",
+          "slug": "primo-franchini",
+          "name": "FRANCHINI Primo",
+          "age": "84"
+        },
+        {
+          "date": "2026-04-17",
+          "type": "rider",
+          "slug": "franco-conti",
+          "name": "CONTI Franco",
+          "age": "75"
+        },
+        {
+          "date": "2026-04-16",
+          "type": "rider",
+          "slug": "jesus-martinez",
+          "name": "MARTÍNEZ Jesús",
+          "age": "95"
+        },
+        {
+          "date": "2026-04-14",
+          "type": "rider",
+          "slug": "raymond-riotte",
+          "name": "RIOTTE Raymond",
+          "age": "86"
+        },
+        {
+          "date": "2026-04-13",
+          "type": "rider",
+          "slug": "josue-lopez",
+          "name": "LÓPEZ Josué Enrique",
+          "age": "59"
+        },
+        {
+          "date": "2026-04-12",
+          "type": "rider",
+          "slug": "rafael-tolosa",
+          "name": "TOLOSA Rafael",
+          "age": "67"
+        },
+        {
+          "date": "2026-04-06",
+          "type": "rider",
+          "slug": "stefano-basso",
+          "name": "BASSO Stefano",
+          "age": "40"
+        },
+        {
+          "date": "2026-03-29",
+          "type": "rider",
+          "slug": "gerard-kamper",
+          "name": "KAMPER Gerard",
+          "age": "75"
+        },
+        {
+          "date": "2026-03-27",
+          "type": "rider",
+          "slug": "romain-denhez",
+          "name": "DENHEZ Romain",
+          "age": ""
+        },
+        {
+          "date": "2026-03-27",
+          "type": "rider",
+          "slug": "albert-frigo",
+          "name": "FRIGO Albert",
+          "age": "82"
+        },
+        {
+          "date": "2026-03-23",
+          "type": "rider",
+          "slug": "rodrigo-alejandro-silva",
+          "name": "SILVA Rodrigo Alejandro",
+          "age": "22"
+        },
+        {
+          "date": "2026-03-23",
+          "type": "rider",
+          "slug": "maximo-cornejo",
+          "name": "CORNEJO Maximo",
+          "age": "23"
+        },
+        {
+          "date": "2026-03-19",
+          "type": "rider",
+          "slug": "wainer-franzoni",
+          "name": "FRANZONI Wainer",
+          "age": "80"
+        },
+        {
+          "date": "2026-03-18",
+          "type": "rider",
+          "slug": "jozef-beker",
+          "name": "BEKER Józef",
+          "age": "88"
+        },
+        {
+          "date": "2026-03-17",
+          "type": "rider",
+          "slug": "daniel-beaumont",
+          "name": "BEAUMONT Daniel",
+          "age": "86"
+        },
+        {
+          "date": "2026-03-12",
+          "type": "rider",
+          "slug": "dante-soler",
+          "name": "SOLER Dante",
+          "age": "94"
+        },
+        {
+          "date": "2026-03-12",
+          "type": "rider",
+          "slug": "brian-ligneel",
+          "name": "LIGNEEL Brian",
+          "age": "36"
+        },
+        {
+          "date": "2026-03-11",
+          "type": "rider",
+          "slug": "david-kolar",
+          "name": "KOLÁŘ David",
+          "age": "18"
+        },
+        {
+          "date": "2026-03-10",
+          "type": "rider",
+          "slug": "gerard-besnard",
+          "name": "BESNARD Gérard",
+          "age": "80"
+        },
+        {
+          "date": "2026-03-06",
+          "type": "rider",
+          "slug": "frederic-lagache",
+          "name": "LAGACHE Frédéric",
+          "age": "37"
+        },
+        {
+          "date": "2026-03-01",
+          "type": "rider",
+          "slug": "huub-neven",
+          "name": "NEVEN Huub",
+          "age": "70"
+        },
+        {
+          "date": "2026-03-00",
+          "type": "rider",
+          "slug": "jean-yann-daireaux",
+          "name": "DAIREAUX Jean-Yann",
+          "age": ""
+        },
+        {
+          "date": "2026-02-27",
+          "type": "rider",
+          "slug": "jozef-matheussen",
+          "name": "MATHEUSSEN Jozef",
+          "age": "91"
+        },
+        {
+          "date": "2026-02-22",
+          "type": "rider",
+          "slug": "jonathan-hornblow",
+          "name": "HORNBLOW Jonathan",
+          "age": "38"
+        },
+        {
+          "date": "2026-02-21",
+          "type": "rider",
+          "slug": "giorgio-menini",
+          "name": "MENINI Giorgio",
+          "age": "89"
+        },
+        {
+          "date": "2026-02-16",
+          "type": "rider",
+          "slug": "sadou-diallo",
+          "name": "DIALLO Sadou",
+          "age": "27"
+        },
+        {
+          "date": "2026-02-15",
+          "type": "rider",
+          "slug": "francesco-mazzoleni",
+          "name": "MAZZOLENI Francesco",
+          "age": "18"
+        },
+        {
+          "date": "2026-02-13",
+          "type": "rider",
+          "slug": "frans-van-vlierberghe",
+          "name": "VAN VLIERBERGHE Frans",
+          "age": "71"
+        },
+        {
+          "date": "2026-02-08",
+          "type": "rider",
+          "slug": "francois-schuermans",
+          "name": "SCHUERMANS François",
+          "age": "78"
+        },
+        {
+          "date": "2026-02-08",
+          "type": "rider",
+          "slug": "frans-verhaegen",
+          "name": "VERHAEGEN Frans",
+          "age": "78"
+        },
+        {
+          "date": "2026-02-05",
+          "type": "rider",
+          "slug": "marcel-buys",
+          "name": "BUYS Marcel",
+          "age": "94"
+        }
+      ]
     },
     "riders/born-on-date": {
       "label": "Born on date",
@@ -11357,9 +11708,1386 @@
       "notes": "Historical novelty",
       "description": "Paolo Rosola and Kevin Pezzo Rosola have won both in Settimana Ciclistica Internazionale (). Adrie van der Poel and Mathieu van der Poel have won both in Tirreno-Adriatico (SPP). Alan Banaszek and Norbert Banaszek have won both in Tour de Kurpie (2.2).",
       "url": "https://www.procyclingstats.com/statistics/riders/family-related-riders-winning-on-same-day",
-      "fetched_at": "2026-06-21T12:35:28.110995+00:00",
-      "row_count": 0,
-      "rows": []
+      "fetched_at": "2026-06-21T12:49:35.876256+00:00",
+      "row_count": 147,
+      "rows": [
+        {
+          "section": "same_day_wins",
+          "date": "2026-06-13",
+          "rider1_slug": "anniina-ahtosalo",
+          "rider1_name": "AHTOSALO Anniina",
+          "rider2_slug": "matias-ahtosalo",
+          "rider2_name": "AHTOSALO Matias"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2026-05-01",
+          "rider1_slug": "matisse-van-kerckhove",
+          "rider1_name": "VAN KERCKHOVE Matisse",
+          "rider2_slug": "seff-van-kerckhove",
+          "rider2_name": "VAN KERCKHOVE Seff"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2025-06-26",
+          "rider1_slug": "adam-rafferty",
+          "rider1_name": "RAFFERTY Adam",
+          "rider2_slug": "aliyah-rafferty",
+          "rider2_name": "RAFFERTY Aliyah"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2025-06-22",
+          "rider1_slug": "j.-glorad-saizonou",
+          "rider1_name": "SAIZONOU J. Glorad",
+          "rider2_slug": "exodus-saizonou",
+          "rider2_name": "SAÏZONOU Exodus"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2025-06-13",
+          "rider1_slug": "anniina-ahtosalo",
+          "rider1_name": "AHTOSALO Anniina",
+          "rider2_slug": "matias-ahtosalo",
+          "rider2_name": "AHTOSALO Matias"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2025-06-01",
+          "rider1_slug": "noah-hobbs",
+          "rider1_name": "HOBBS Noah",
+          "rider2_slug": "henry-hobbs",
+          "rider2_name": "HOBBS Henry"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2024-07-14",
+          "rider1_slug": "jefferson-cepeda-hernandez",
+          "rider1_name": "CEPEDA Jefferson Alveiro",
+          "rider2_slug": "jefferson-alexander-cepeda",
+          "rider2_name": "CEPEDA Jefferson Alexander"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2024-06-30",
+          "rider1_slug": "akill-campbell",
+          "rider1_name": "CAMPBELL Akill",
+          "rider2_slug": "teniel-campbell",
+          "rider2_name": "CAMPBELL Teniel"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2024-06-30",
+          "rider1_slug": "mats-wenzel",
+          "rider1_name": "WENZEL Mats",
+          "rider2_slug": "liv-wenzel",
+          "rider2_name": "WENZEL Liv"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2024-06-22",
+          "rider1_slug": "alondra-granados-bonilla",
+          "rider1_name": "GRANADOS Alondra",
+          "rider2_slug": "alejandro-granados",
+          "rider2_name": "GRANADOS Alejandro"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2024-06-22",
+          "rider1_slug": "daniela-campos",
+          "rider1_name": "CAMPOS Daniela",
+          "rider2_slug": "noah-campos",
+          "rider2_name": "CAMPOS Noah"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2024-06-22",
+          "rider1_slug": "j.-glorad-saizonou",
+          "rider1_name": "SAIZONOU J. Glorad",
+          "rider2_slug": "exodus-saizonou",
+          "rider2_name": "SAÏZONOU Exodus"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2024-06-19",
+          "rider1_slug": "wessel-mouris",
+          "rider1_name": "MOURIS Wessel",
+          "rider2_slug": "michiel-mouris",
+          "rider2_name": "MOURIS Michiel"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2024-06-14",
+          "rider1_slug": "anniina-ahtosalo",
+          "rider1_name": "AHTOSALO Anniina",
+          "rider2_slug": "matias-ahtosalo",
+          "rider2_name": "AHTOSALO Matias"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2024-06-01",
+          "rider1_slug": "alexander-kristoff",
+          "rider1_name": "KRISTOFF Alexander",
+          "rider2_slug": "felix-orn-kristoff",
+          "rider2_name": "ØRN-KRISTOFF Felix"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2023-06-22",
+          "rider1_slug": "darren-rafferty",
+          "rider1_name": "RAFFERTY Darren",
+          "rider2_slug": "adam-rafferty",
+          "rider2_name": "RAFFERTY Adam"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2022-06-23",
+          "rider1_slug": "ethan-hayter",
+          "rider1_name": "HAYTER Ethan",
+          "rider2_slug": "leo-hayter",
+          "rider2_name": "HAYTER Leo"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2022-06-23",
+          "rider1_slug": "mathias-norsgaard",
+          "rider1_name": "SUNEKÆR NORSGAARD Mathias",
+          "rider2_slug": "emma-norsgaard",
+          "rider2_name": "NORSGAARD BJERG Emma"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2021-10-14",
+          "rider1_slug": "ethan-hayter",
+          "rider1_name": "HAYTER Ethan",
+          "rider2_slug": "leo-hayter",
+          "rider2_name": "HAYTER Leo"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2021-06-25",
+          "rider1_slug": "merhawi-kudus",
+          "rider1_name": "KUDUS Merhawi",
+          "rider2_slug": "milkias-kudus",
+          "rider2_name": "KUDUS Milkias"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2020-07-25",
+          "rider1_slug": "jacob-ahlsson",
+          "rider1_name": "AHLSSON Jacob",
+          "rider2_slug": "jonathan-ahlsson",
+          "rider2_name": "AHLSSON Jonathan"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2019-08-25",
+          "rider1_slug": "elia-viviani",
+          "rider1_name": "VIVIANI Elia",
+          "rider2_slug": "attilio-viviani",
+          "rider2_name": "VIVIANI Attilio"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2019-03-19",
+          "rider1_slug": "mekseb-debesay",
+          "rider1_name": "DEBESAY Mekseb",
+          "rider2_slug": "mosana-debesay",
+          "rider2_name": "DEBESAY Mossana"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2018-07-17",
+          "rider1_slug": "jefferson-cepeda-hernandez",
+          "rider1_name": "CEPEDA Jefferson Alveiro",
+          "rider2_slug": "jefferson-alexander-cepeda",
+          "rider2_name": "CEPEDA Jefferson Alexander"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2018-04-01",
+          "rider1_slug": "ruben-ramos",
+          "rider1_name": "RAMOS Rubén",
+          "rider2_slug": "duilio-ramos",
+          "rider2_name": "RAMOS Duilio"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2018-02-15",
+          "rider1_slug": "mekseb-debesay",
+          "rider1_name": "DEBESAY Mekseb",
+          "rider2_slug": "mosana-debesay",
+          "rider2_name": "DEBESAY Mossana"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2017-06-24",
+          "rider1_slug": "mia-radotic",
+          "rider1_name": "RADOTIĆ Mia",
+          "rider2_slug": "bruno-radotic",
+          "rider2_name": "RADOTIĆ Bruno"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2017-06-23",
+          "rider1_slug": "mekseb-debesay",
+          "rider1_name": "DEBESAY Mekseb",
+          "rider2_slug": "yakob-debesay",
+          "rider2_name": "DEBESAY Yakob"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2017-06-23",
+          "rider1_slug": "mekseb-debesay",
+          "rider1_name": "DEBESAY Mekseb",
+          "rider2_slug": "mosana-debesay",
+          "rider2_name": "DEBESAY Mossana"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2016-06-18",
+          "rider1_slug": "gregory-rougier-lagane",
+          "rider1_name": "ROUGIER-LAGANE Grégory",
+          "rider2_slug": "christopher-rougier-lagane",
+          "rider2_name": "ROUGIER-LAGANE Christopher"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2014-06-29",
+          "rider1_slug": "yauheni-hutarovich",
+          "rider1_name": "HUTAROVICH Yauheni",
+          "rider2_slug": "nikolai-shumov",
+          "rider2_name": "SHUMOV Nikolai"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2007-07-07",
+          "rider1_slug": "lukasz-bodnar",
+          "rider1_name": "BODNAR Łukasz",
+          "rider2_slug": "maciej-bodnar",
+          "rider2_name": "BODNAR Maciej"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "2006-09-03",
+          "rider1_slug": "dan-martin",
+          "rider1_name": "MARTIN Dan",
+          "rider2_slug": "nicolas-roche",
+          "rider2_name": "ROCHE Nicolas"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1994-06-02",
+          "rider1_slug": "beat-zberg",
+          "rider1_name": "ZBERG Beat",
+          "rider2_slug": "luzia-zberg",
+          "rider2_name": "ZBERG Luzia"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1982-06-22",
+          "rider1_slug": "marino-lejarreta",
+          "rider1_name": "LEJARRETA Marino",
+          "rider2_slug": "ismael-lejarreta",
+          "rider2_name": "LEJARRETA Ismael"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1976-05-25",
+          "rider1_slug": "walter-planckaert",
+          "rider1_name": "PLANCKAERT Walter",
+          "rider2_slug": "willy-planckaert",
+          "rider2_name": "PLANCKAERT Willy"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1970-11-04",
+          "rider1_slug": "gosta-pettersson",
+          "rider1_name": "PETTERSSON Gösta",
+          "rider2_slug": "tomas-pettersson",
+          "rider2_name": "PETTERSSON Tomas"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1952-05-01",
+          "rider1_slug": "jean-kirchen",
+          "rider1_name": "KIRCHEN Jean",
+          "rider2_slug": "jim-kirchen",
+          "rider2_name": "KIRCHEN Jim"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1948-07-25",
+          "rider1_slug": "emilio-rodriguez",
+          "rider1_name": "RODRÍGUEZ Emilio",
+          "rider2_slug": "delio-rodriguez",
+          "rider2_name": "RODRÍGUEZ Delio"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1948-07-23",
+          "rider1_slug": "emilio-rodriguez",
+          "rider1_name": "RODRÍGUEZ Emilio",
+          "rider2_slug": "delio-rodriguez",
+          "rider2_name": "RODRÍGUEZ Delio"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1947-06-27",
+          "rider1_slug": "emilio-rodriguez",
+          "rider1_name": "RODRÍGUEZ Emilio",
+          "rider2_slug": "delio-rodriguez",
+          "rider2_name": "RODRÍGUEZ Delio"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1946-09-21",
+          "rider1_slug": "emilio-rodriguez",
+          "rider1_name": "RODRÍGUEZ Emilio",
+          "rider2_slug": "delio-rodriguez",
+          "rider2_name": "RODRÍGUEZ Delio"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1946-09-20",
+          "rider1_slug": "emilio-rodriguez",
+          "rider1_name": "RODRÍGUEZ Emilio",
+          "rider2_slug": "delio-rodriguez",
+          "rider2_name": "RODRÍGUEZ Delio"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1945-10-30",
+          "rider1_slug": "emilio-rodriguez",
+          "rider1_name": "RODRÍGUEZ Emilio",
+          "rider2_slug": "delio-rodriguez",
+          "rider2_name": "RODRÍGUEZ Delio"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1945-10-27",
+          "rider1_slug": "emilio-rodriguez",
+          "rider1_name": "RODRÍGUEZ Emilio",
+          "rider2_slug": "delio-rodriguez",
+          "rider2_name": "RODRÍGUEZ Delio"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1922-07-30",
+          "rider1_slug": "adolf-huschke",
+          "rider1_name": "HUSCHKE Adolf",
+          "rider2_slug": "richard-huschke",
+          "rider2_name": "HUSCHKE Richard"
+        },
+        {
+          "section": "same_day_wins",
+          "date": "1922-07-23",
+          "rider1_slug": "adolf-huschke",
+          "rider1_name": "HUSCHKE Adolf",
+          "rider2_slug": "richard-huschke",
+          "rider2_name": "HUSCHKE Richard"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2026-03-29",
+          "rider1_slug": "paolo-rosola",
+          "rider1_name": "ROSOLA Paolo",
+          "rider2_slug": "kevin-pezzo-rosola",
+          "rider2_name": "PEZZO ROSOLA Kevin",
+          "race_slug": "",
+          "race_name": "Settimana Ciclistica Internazionale ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2026-03-13",
+          "rider1_slug": "adrie-van-der-poel",
+          "rider1_name": "VAN DER POEL Adrie",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Tirreno-Adriatico (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2025-08-30",
+          "rider1_slug": "alan-banaszek",
+          "rider1_name": "BANASZEK Alan",
+          "rider2_slug": "norbert-banaszek",
+          "rider2_name": "BANASZEK Norbert",
+          "race_slug": "",
+          "race_name": "Tour de Kurpie (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2025-07-20",
+          "rider1_slug": "mariano-martinez",
+          "rider1_name": "MARTÍNEZ Mariano",
+          "rider2_slug": "lenny-martinez",
+          "rider2_name": "MARTINEZ Lenny",
+          "race_slug": "",
+          "race_name": "Tour de France (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2025-07-10",
+          "rider1_slug": "raymond-poulidor",
+          "rider1_name": "POULIDOR Raymond",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Tour de France (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2025-07-10",
+          "rider1_slug": "adrie-van-der-poel",
+          "rider1_name": "VAN DER POEL Adrie",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Tour de France (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2025-06-13",
+          "rider1_slug": "raymond-poulidor",
+          "rider1_name": "POULIDOR Raymond",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Critérium du Dauphiné Libéré (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2025-06-13",
+          "rider1_slug": "adrie-van-der-poel",
+          "rider1_name": "VAN DER POEL Adrie",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Critérium du Dauphiné Libéré (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2025-04-27",
+          "rider1_slug": "stephane-auge",
+          "rider1_name": "AUGÉ Stéphane",
+          "rider2_slug": "ronan-auge",
+          "rider2_name": "AUGÉ Ronan",
+          "race_slug": "",
+          "race_name": "Ruban Granitier Breton ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2025-04-25",
+          "rider1_slug": "palmiro-masciarelli",
+          "rider1_name": "MASCIARELLI Palmiro",
+          "rider2_slug": "lorenzo-masciarelli",
+          "rider2_name": "MASCIARELLI Lorenzo",
+          "race_slug": "",
+          "race_name": "Gran Premio della Liberazione ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2025-03-22",
+          "rider1_slug": "raymond-poulidor",
+          "rider1_name": "POULIDOR Raymond",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Milano-Sanremo (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2024-09-22",
+          "rider1_slug": "adrie-van-der-poel",
+          "rider1_name": "VAN DER POEL Adrie",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Tour de Luxembourg ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2024-08-24",
+          "rider1_slug": "alan-banaszek",
+          "rider1_name": "BANASZEK Alan",
+          "rider2_slug": "norbert-banaszek",
+          "rider2_name": "BANASZEK Norbert",
+          "race_slug": "",
+          "race_name": "Tour Battle of Warsaw (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2024-03-31",
+          "rider1_slug": "adrie-van-der-poel",
+          "rider1_name": "VAN DER POEL Adrie",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Ronde van Vlaanderen / Tour des Flandres (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2023-09-08",
+          "rider1_slug": "danny-van-poppel",
+          "rider1_name": "VAN POPPEL Danny",
+          "rider2_slug": "boy-van-poppel",
+          "rider2_name": "VAN POPPEL Boy",
+          "race_slug": "",
+          "race_name": "Tour of Britain (2.Pro)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2023-06-18",
+          "rider1_slug": "raymond-poulidor",
+          "rider1_name": "POULIDOR Raymond",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Ronde van België / Tour de Belgique ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2023-06-04",
+          "rider1_slug": "genki-yamamoto",
+          "rider1_name": "YAMAMOTO Genki",
+          "rider2_slug": "masaki-yamamoto",
+          "rider2_name": "YAMAMOTO Masaki",
+          "race_slug": "",
+          "race_name": "Tour de Kumano (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2023-04-30",
+          "rider1_slug": "jean-francois-bernard",
+          "rider1_name": "BERNARD Jean-François",
+          "rider2_slug": "julien-bernard",
+          "rider2_name": "BERNARD Julien",
+          "race_slug": "",
+          "race_name": "Tour de Romandie (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2022-09-09",
+          "rider1_slug": "genki-yamamoto",
+          "rider1_name": "YAMAMOTO Genki",
+          "rider2_slug": "masaki-yamamoto",
+          "rider2_name": "YAMAMOTO Masaki",
+          "race_slug": "",
+          "race_name": "Tour de Hokkaido (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2022-08-12",
+          "rider1_slug": "dylan-groenewegen",
+          "rider1_name": "GROENEWEGEN Dylan",
+          "rider2_slug": "barry-markus",
+          "rider2_name": "MARKUS Barry",
+          "race_slug": "",
+          "race_name": "Arctic Race of Norway (2.Pro)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2022-05-01",
+          "rider1_slug": "jose-luis-arrieta",
+          "rider1_name": "ARRIETA José Luis",
+          "rider2_slug": "igor-arrieta-lizarraga",
+          "rider2_name": "ARRIETA Igor",
+          "race_slug": "",
+          "race_name": "Vuelta Asturias (2.3)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2022-01-17",
+          "rider1_slug": "jose-humberto-rujano",
+          "rider1_name": "RUJANO José Humberto",
+          "rider2_slug": "jeison-rujano",
+          "rider2_name": "RUJANO Jeison José",
+          "race_slug": "",
+          "race_name": "Vuelta al Táchira (2.5)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2021-09-19",
+          "rider1_slug": "dirk-harteel",
+          "rider1_name": "HARTEEL Dirk",
+          "rider2_slug": "jelle-harteel",
+          "rider2_name": "HARTEEL Jelle",
+          "race_slug": "",
+          "race_name": "Keizer der Juniores ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2021-08-26",
+          "rider1_slug": "elia-viviani",
+          "rider1_name": "VIVIANI Elia",
+          "rider2_slug": "attilio-viviani",
+          "rider2_name": "VIVIANI Attilio",
+          "race_slug": "",
+          "race_name": "Tour Poitou - Charentes en Nouvelle Aquitaine (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2021-08-22",
+          "rider1_slug": "tobias-halland-johannessen",
+          "rider1_name": "JOHANNESSEN Tobias Halland",
+          "rider2_slug": "anders-halland-johannessen",
+          "rider2_name": "JOHANNESSEN Anders Halland",
+          "race_slug": "",
+          "race_name": "Tour de l'Avenir (2.Ncup)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2021-08-07",
+          "rider1_slug": "alan-banaszek",
+          "rider1_name": "BANASZEK Alan",
+          "rider2_slug": "norbert-banaszek",
+          "rider2_name": "BANASZEK Norbert",
+          "race_slug": "",
+          "race_name": "Cycling Tour of Szeklerland (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2020-09-17",
+          "rider1_slug": "tomasz-brozyna",
+          "rider1_name": "BROŻYNA Tomasz",
+          "rider2_slug": "piotr-brozyna",
+          "rider2_name": "BROŻYNA Piotr",
+          "race_slug": "",
+          "race_name": "Tour of Małopolska TV Wisła (NAT)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2020-07-31",
+          "rider1_slug": "alan-banaszek",
+          "rider1_name": "BANASZEK Alan",
+          "rider2_slug": "norbert-banaszek",
+          "rider2_name": "BANASZEK Norbert",
+          "race_slug": "",
+          "race_name": "Tour of Bulgaria (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2019-10-28",
+          "rider1_slug": "alfredo-esteban-ajpacaja-pax",
+          "rider1_name": "AJPACAJÁ Alfredo Esteban",
+          "rider2_slug": "celso-ajpacaja",
+          "rider2_name": "AJPACAJÁ Celso",
+          "race_slug": "",
+          "race_name": "Vuelta a Guatemala (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2019-09-14",
+          "rider1_slug": "adrie-van-der-poel",
+          "rider1_name": "VAN DER POEL Adrie",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Kellogg's Tour of Britain (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2019-07-21",
+          "rider1_slug": "gianni-lamperti",
+          "rider1_name": "LAMPERTI Gianni",
+          "rider2_slug": "luke-lamperti",
+          "rider2_name": "LAMPERTI Luke",
+          "race_slug": "",
+          "race_name": "Tour de l'Abitibi - Coupe des Nations Junior (2.Ncup)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2019-06-26",
+          "rider1_slug": "jerome-baugnies",
+          "rider1_name": "BAUGNIES Jérôme",
+          "rider2_slug": "julien-van-den-brande",
+          "rider2_name": "VAN DEN BRANDE Julien",
+          "race_slug": "",
+          "race_name": "Internationale Wielertrofee Jong Maar Moedig I.W.T. (1.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2019-05-03",
+          "rider1_slug": "danny-van-poppel",
+          "rider1_name": "VAN POPPEL Danny",
+          "rider2_slug": "boy-van-poppel",
+          "rider2_name": "VAN POPPEL Boy",
+          "race_slug": "",
+          "race_name": "Tour de Yorkshire (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2019-04-21",
+          "rider1_slug": "adrie-van-der-poel",
+          "rider1_name": "VAN DER POEL Adrie",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "Amstel Gold Race (CDM)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2019-04-17",
+          "rider1_slug": "adrie-van-der-poel",
+          "rider1_name": "VAN DER POEL Adrie",
+          "rider2_slug": "mathieu-van-der-poel",
+          "rider2_name": "VAN DER POEL Mathieu",
+          "race_slug": "",
+          "race_name": "De Brabantse Pijl - La Flèche Brabançonne ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2019-03-03",
+          "rider1_slug": "mekseb-debesay",
+          "rider1_name": "DEBESAY Mekseb",
+          "rider2_slug": "yakob-debesay",
+          "rider2_name": "DEBESAY Yakob",
+          "race_slug": "",
+          "race_name": "Tour of Rwanda (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2019-02-17",
+          "rider1_slug": "nairo-quintana",
+          "rider1_name": "QUINTANA Nairo",
+          "rider2_slug": "dayer-quintana-rojas",
+          "rider2_name": "QUINTANA Dayer",
+          "race_slug": "",
+          "race_name": "Colombia 2.1 (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2018-09-16",
+          "rider1_slug": "dick-dekker",
+          "rider1_name": "DEKKER Dick",
+          "rider2_slug": "erik-dekker",
+          "rider2_name": "DEKKER Erik",
+          "race_slug": "",
+          "race_name": "Olympia's Tour (NE)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2018-09-16",
+          "rider1_slug": "erik-dekker",
+          "rider1_name": "DEKKER Erik",
+          "rider2_slug": "david-dekker",
+          "rider2_name": "DEKKER David",
+          "race_slug": "",
+          "race_name": "Olympia's Tour (NE)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2018-02-04",
+          "rider1_slug": "scott-sunderland",
+          "rider1_name": "SUNDERLAND Scott",
+          "rider2_slug": "dylan-sunderland",
+          "rider2_name": "SUNDERLAND Dylan",
+          "race_slug": "",
+          "race_name": "Herald Sun Tour (2.4)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2017-09-09",
+          "rider1_slug": "john-talen",
+          "rider1_name": "TALEN John",
+          "rider2_slug": "jordi-talen",
+          "rider2_name": "TALEN Jordi",
+          "race_slug": "",
+          "race_name": "Olympia's Tour ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2016-02-17",
+          "rider1_slug": "sergio-luis-henao",
+          "rider1_name": "HENAO Sergio",
+          "rider2_slug": "sebastian-henao",
+          "rider2_name": "HENAO Sebastián",
+          "race_slug": "",
+          "race_name": "Volta ao Algarve (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2016-01-24",
+          "rider1_slug": "nairo-quintana",
+          "rider1_name": "QUINTANA Nairo",
+          "rider2_slug": "dayer-quintana-rojas",
+          "rider2_name": "QUINTANA Dayer",
+          "race_slug": "",
+          "race_name": "Tour de San Luis (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2015-05-28",
+          "rider1_slug": "patrick-muller",
+          "rider1_name": "MÜLLER Patrick",
+          "rider2_slug": "reto-muller",
+          "rider2_name": "MÜLLER Reto",
+          "race_slug": "",
+          "race_name": "Tour du Pays de Vaud (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2015-05-23",
+          "rider1_slug": "boy-van-poppel",
+          "rider1_name": "VAN POPPEL Boy",
+          "rider2_slug": "bram-welten",
+          "rider2_name": "WELTEN Bram",
+          "race_slug": "",
+          "race_name": "Int. Junioren Driedaagse van Axel (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2015-05-23",
+          "rider1_slug": "danny-van-poppel",
+          "rider1_name": "VAN POPPEL Danny",
+          "rider2_slug": "bram-welten",
+          "rider2_name": "WELTEN Bram",
+          "race_slug": "",
+          "race_name": "Driedaagse van Axel (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2015-05-03",
+          "rider1_slug": "nicola-minali",
+          "rider1_name": "MINALI Nicola",
+          "rider2_slug": "riccardo-minali",
+          "rider2_name": "MINALI Riccardo",
+          "race_slug": "",
+          "race_name": "Circuito del Porto - Trofeo Arvedi (NAT)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2015-01-16",
+          "rider1_slug": "janildes-fernandes-silva",
+          "rider1_name": "FERNANDES SILVA Janildes",
+          "rider2_slug": "clemilda-fernandes",
+          "rider2_name": "FERNANDES Clemilda",
+          "race_slug": "",
+          "race_name": "Tour Femenino de San Luis (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2014-11-01",
+          "rider1_slug": "alex-cano-ardila",
+          "rider1_name": "CANO Alex",
+          "rider2_slug": "mauricio-alberto-ardila",
+          "rider2_name": "ARDILA Mauricio Alberto",
+          "race_slug": "",
+          "race_name": "Vuelta a Guatemala (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2013-12-19",
+          "rider1_slug": "ivan-kovalev",
+          "rider1_name": "KOVALEV Ivan",
+          "rider2_slug": "evgeny-kovalev",
+          "rider2_name": "KOVALEV Evgeny",
+          "race_slug": "",
+          "race_name": "Vuelta Internacional a Costa Rica (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2013-06-23",
+          "rider1_slug": "sergio-luis-henao",
+          "rider1_name": "HENAO Sergio",
+          "rider2_slug": "sebastian-henao",
+          "rider2_name": "HENAO Sebastián",
+          "race_slug": "",
+          "race_name": "Vuelta Pilsen a Colombia (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2013-05-03",
+          "rider1_slug": "jeroen-meijers",
+          "rider1_name": "MEIJERS Jeroen",
+          "rider2_slug": "daan-meijers",
+          "rider2_name": "MEIJERS Daan",
+          "race_slug": "",
+          "race_name": "Carpathian Couriers Race U-23 (2.2U)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2013-04-18",
+          "rider1_slug": "mauro-antonio-santaromita",
+          "rider1_name": "SANTAROMITA Mauro-Antonio",
+          "rider2_slug": "ivan-santaromita",
+          "rider2_name": "SANTAROMITA Ivan",
+          "race_slug": "",
+          "race_name": "Giro del Trentino ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2013-03-05",
+          "rider1_slug": "janildes-fernandes-silva",
+          "rider1_name": "FERNANDES SILVA Janildes",
+          "rider2_slug": "clemilda-fernandes",
+          "rider2_name": "FERNANDES Clemilda",
+          "race_slug": "",
+          "race_name": "Vuelta Ciclista Femenina a El Salvador (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2013-03-05",
+          "rider1_slug": "uenia-fernandes-souza",
+          "rider1_name": "FERNANDES SOUZA Uênia",
+          "rider2_slug": "clemilda-fernandes",
+          "rider2_name": "FERNANDES Clemilda",
+          "race_slug": "",
+          "race_name": "Vuelta Ciclista Femenina a El Salvador (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2011-11-25",
+          "rider1_slug": "libardo-nino-corredor",
+          "rider1_name": "NIÑO Libardo",
+          "rider2_slug": "victor-nino",
+          "rider2_name": "NIÑO Víctor",
+          "race_slug": "",
+          "race_name": "Vuelta Ciclista Chiapas (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2011-07-21",
+          "rider1_slug": "andy-schleck",
+          "rider1_name": "SCHLECK Andy",
+          "rider2_slug": "frank-schleck",
+          "rider2_name": "SCHLECK Fränk",
+          "race_slug": "",
+          "race_name": "Tour de France (WT)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2011-06-19",
+          "rider1_slug": "francesco-moser",
+          "rider1_name": "MOSER Francesco",
+          "rider2_slug": "moreno-moser",
+          "rider2_name": "MOSER Moreno",
+          "race_slug": "",
+          "race_name": "Giro Ciclistico d'Italia ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2011-05-20",
+          "rider1_slug": "dylan-groenewegen",
+          "rider1_name": "GROENEWEGEN Dylan",
+          "rider2_slug": "barry-markus",
+          "rider2_name": "MARKUS Barry",
+          "race_slug": "",
+          "race_name": "Driedaagse van Axel (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2010-06-30",
+          "rider1_slug": "piotr-wadecki",
+          "rider1_name": "WADECKI Piotr",
+          "rider2_slug": "adam-wadecki",
+          "rider2_name": "WADECKI Adam",
+          "race_slug": "",
+          "race_name": "Course Cycliste de Solidarnosc et des Champions Olympiques (2.5)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2010-06-04",
+          "rider1_slug": "andy-schleck",
+          "rider1_name": "SCHLECK Andy",
+          "rider2_slug": "frank-schleck",
+          "rider2_name": "SCHLECK Fränk",
+          "race_slug": "",
+          "race_name": "Škoda-Tour de Luxembourg (2.HC)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2010-02-14",
+          "rider1_slug": "francesco-masciarelli",
+          "rider1_name": "MASCIARELLI Francesco",
+          "rider2_slug": "simone-masciarelli",
+          "rider2_name": "MASCIARELLI Simone",
+          "race_slug": "",
+          "race_name": "Tour Méditerranéen Cycliste Professionnel (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2009-07-10",
+          "rider1_slug": "brice-feillu",
+          "rider1_name": "FEILLU Brice",
+          "rider2_slug": "romain-feillu",
+          "rider2_name": "FEILLU Romain",
+          "race_slug": "",
+          "race_name": "Tour de France (2.HC)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2009-01-25",
+          "rider1_slug": "lucas-sebastian-haedo",
+          "rider1_name": "HAEDO Lucas Sebastián",
+          "rider2_slug": "juan-jose-haedo",
+          "rider2_name": "HAEDO Juan José",
+          "race_slug": "",
+          "race_name": "Tour de San Luis (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2008-05-22",
+          "rider1_slug": "matthé-pronk",
+          "rider1_name": "PRONK Matthé",
+          "rider2_slug": "jos-pronk",
+          "rider2_name": "PRONK Jos",
+          "race_slug": "",
+          "race_name": "Olympia's Tour (2.5)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2008-01-06",
+          "rider1_slug": "uenia-fernandes-souza",
+          "rider1_name": "FERNANDES SOUZA Uênia",
+          "rider2_slug": "clemilda-fernandes",
+          "rider2_name": "FERNANDES Clemilda",
+          "race_slug": "",
+          "race_name": "Copa América de Ciclismo (1.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2007-09-08",
+          "rider1_slug": "domenico-loria",
+          "rider1_name": "LORIA Domenico",
+          "rider2_slug": "eugenio-loria",
+          "rider2_name": "LORIA Eugenio",
+          "race_slug": "",
+          "race_name": "Tour du Senegal (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2007-05-30",
+          "rider1_slug": "francesco-moser",
+          "rider1_name": "MOSER Francesco",
+          "rider2_slug": "gilberto-simoni",
+          "rider2_name": "SIMONI Gilberto",
+          "race_slug": "",
+          "race_name": "Giro d'Italia (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2006-08-29",
+          "rider1_slug": "glenn-d-hollander",
+          "rider1_name": "D'HOLLANDER Glenn",
+          "rider2_slug": "preben-van-hecke",
+          "rider2_name": "VAN HECKE Preben",
+          "race_slug": "",
+          "race_name": "Schaal Sels (NE)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2006-08-05",
+          "rider1_slug": "libardo-nino-corredor",
+          "rider1_name": "NIÑO Libardo",
+          "rider2_slug": "victor-nino",
+          "rider2_name": "NIÑO Víctor",
+          "race_slug": "",
+          "race_name": "Vuelta a Colombia (2.5)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2005-10-08",
+          "rider1_slug": "francesco-moser",
+          "rider1_name": "MOSER Francesco",
+          "rider2_slug": "gilberto-simoni",
+          "rider2_name": "SIMONI Gilberto",
+          "race_slug": "",
+          "race_name": "Giro dell'Emilia ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2005-06-24",
+          "rider1_slug": "francesco-moser",
+          "rider1_name": "MOSER Francesco",
+          "rider2_slug": "gilberto-simoni",
+          "rider2_name": "SIMONI Gilberto",
+          "race_slug": "",
+          "race_name": "Giro dell'Appennino ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2005-06-12",
+          "rider1_slug": "morten-hegreberg",
+          "rider1_name": "HEGREBERG Morten",
+          "rider2_slug": "roy-hegreberg",
+          "rider2_name": "HEGREBERG Roy",
+          "race_slug": "",
+          "race_name": "Ringerike GP (2.5)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2004-12-27",
+          "rider1_slug": "libardo-nino-corredor",
+          "rider1_name": "NIÑO Libardo",
+          "rider2_slug": "victor-nino",
+          "rider2_name": "NIÑO Víctor",
+          "race_slug": "",
+          "race_name": "Vuelta Ciclista a Costa Rica (2.5)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2004-08-21",
+          "rider1_slug": "francesco-moser",
+          "rider1_name": "MOSER Francesco",
+          "rider2_slug": "gilberto-simoni",
+          "rider2_name": "SIMONI Gilberto",
+          "race_slug": "",
+          "race_name": "Giro del Veneto ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2004-05-29",
+          "rider1_slug": "vladimir-efimkin",
+          "rider1_name": "EFIMKIN Vladimir",
+          "rider2_slug": "alexander-efimkin",
+          "rider2_name": "EFIMKIN Alexander",
+          "race_slug": "",
+          "race_name": "Giro Ciclistico della Provincia di Cosenza (2.6)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2004-05-18",
+          "rider1_slug": "ghita-beltman",
+          "rider1_name": "BELTMAN Ghita",
+          "rider2_slug": "chantal-beltman",
+          "rider2_name": "BELTMAN Chantal",
+          "race_slug": "",
+          "race_name": "Tour de l'Aude Cycliste Féminin (2.9.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2003-10-30",
+          "rider1_slug": "libardo-nino-corredor",
+          "rider1_name": "NIÑO Libardo",
+          "rider2_slug": "victor-nino",
+          "rider2_name": "NIÑO Víctor",
+          "race_slug": "",
+          "race_name": "Vuelta a Guatemala (2.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2003-08-20",
+          "rider1_slug": "filippo-casagrande",
+          "rider1_name": "CASAGRANDE Filippo",
+          "rider2_slug": "francesco-casagrande",
+          "rider2_name": "CASAGRANDE Francesco",
+          "race_slug": "",
+          "race_name": "Coppa Agostoni (1.2)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2003-07-20",
+          "rider1_slug": "francesco-moser",
+          "rider1_name": "MOSER Francesco",
+          "rider2_slug": "gilberto-simoni",
+          "rider2_name": "SIMONI Gilberto",
+          "race_slug": "",
+          "race_name": "Tour de France (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2003-06-17",
+          "rider1_slug": "angel-luis-casero",
+          "rider1_name": "CASERO Ángel Luis",
+          "rider2_slug": "rafael-casero-moreno",
+          "rider2_name": "CASERO Rafael",
+          "race_slug": "",
+          "race_name": "Volta Ciclista a Catalunya (2.HC)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2003-04-27",
+          "rider1_slug": "francesco-moser",
+          "rider1_name": "MOSER Francesco",
+          "rider2_slug": "gilberto-simoni",
+          "rider2_name": "SIMONI Gilberto",
+          "race_slug": "",
+          "race_name": "Giro del Trentino ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2003-02-06",
+          "rider1_slug": "eddy-planckaert",
+          "rider1_name": "PLANCKAERT Eddy",
+          "rider2_slug": "jo-planckaert",
+          "rider2_name": "PLANCKAERT Jo",
+          "race_slug": "",
+          "race_name": "Etoile de Bessèges ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2002-09-23",
+          "rider1_slug": "francesco-moser",
+          "rider1_name": "MOSER Francesco",
+          "rider2_slug": "gilberto-simoni",
+          "rider2_name": "SIMONI Gilberto",
+          "race_slug": "",
+          "race_name": "Vuelta a España (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2002-05-26",
+          "rider1_slug": "filippo-casagrande",
+          "rider1_name": "CASAGRANDE Filippo",
+          "rider2_slug": "francesco-casagrande",
+          "rider2_name": "CASAGRANDE Francesco",
+          "race_slug": "",
+          "race_name": "Giro d'Italia (GT)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2001-09-21",
+          "rider1_slug": "beat-zberg",
+          "rider1_name": "ZBERG Beat",
+          "rider2_slug": "markus-zberg",
+          "rider2_name": "ZBERG Markus",
+          "race_slug": "",
+          "race_name": "Vuelta a España (GT)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2001-09-08",
+          "rider1_slug": "seweryn-zenon-kohut",
+          "rider1_name": "KOHUT Seweryn Zenon",
+          "rider2_slug": "slawomir-kohut",
+          "rider2_name": "KOHUT Sławomir",
+          "race_slug": "",
+          "race_name": "Tour of Bulgaria (2.5)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "2001-05-01",
+          "rider1_slug": "beat-zberg",
+          "rider1_name": "ZBERG Beat",
+          "rider2_slug": "markus-zberg",
+          "rider2_name": "ZBERG Markus",
+          "race_slug": "",
+          "race_name": "Rund um den Henninger Turm (1.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1999-09-26",
+          "rider1_slug": "jean-luc-vandenbroucke",
+          "rider1_name": "VANDENBROUCKE Jean-Luc",
+          "rider2_slug": "frank-vandenbroucke",
+          "rider2_name": "VANDENBROUCKE Frank",
+          "race_slug": "",
+          "race_name": "Vuelta a España (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1999-06-10",
+          "rider1_slug": "beat-zberg",
+          "rider1_name": "ZBERG Beat",
+          "rider2_slug": "markus-zberg",
+          "rider2_name": "ZBERG Markus",
+          "race_slug": "",
+          "race_name": "Österreich-Rundfahrt (2.4)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1999-04-01",
+          "rider1_slug": "jean-luc-vandenbroucke",
+          "rider1_name": "VANDENBROUCKE Jean-Luc",
+          "rider2_slug": "frank-vandenbroucke",
+          "rider2_name": "VANDENBROUCKE Frank",
+          "race_slug": "",
+          "race_name": "Driedaagse van De Panne ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1999-03-13",
+          "rider1_slug": "jean-luc-vandenbroucke",
+          "rider1_name": "VANDENBROUCKE Jean-Luc",
+          "rider2_slug": "frank-vandenbroucke",
+          "rider2_name": "VANDENBROUCKE Frank",
+          "race_slug": "",
+          "race_name": "Paris - Nice (SPP)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1999-02-17",
+          "rider1_slug": "jean-luc-vandenbroucke",
+          "rider1_name": "VANDENBROUCKE Jean-Luc",
+          "rider2_slug": "frank-vandenbroucke",
+          "rider2_name": "VANDENBROUCKE Frank",
+          "race_slug": "",
+          "race_name": "Vuelta a Andalucia Ruta Ciclista Del Sol ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1998-04-26",
+          "rider1_slug": "beat-zberg",
+          "rider1_name": "ZBERG Beat",
+          "rider2_slug": "markus-zberg",
+          "rider2_name": "ZBERG Markus",
+          "race_slug": "",
+          "race_name": "Tour de Berne (1.3)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1996-09-29",
+          "rider1_slug": "beat-zberg",
+          "rider1_name": "ZBERG Beat",
+          "rider2_slug": "markus-zberg",
+          "rider2_name": "ZBERG Markus",
+          "race_slug": "",
+          "race_name": "GP Tell (NE)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1996-06-04",
+          "rider1_slug": "francois-simon",
+          "rider1_name": "SIMON François",
+          "rider2_slug": "pascal-simon",
+          "rider2_name": "SIMON Pascal",
+          "race_slug": "",
+          "race_name": "Critérium du Dauphiné Libéré (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1996-05-04",
+          "rider1_slug": "miguel-indurain",
+          "rider1_name": "INDURÁIN Miguel",
+          "rider2_slug": "prudencio-indurain",
+          "rider2_name": "INDURÁIN Prudencio",
+          "race_slug": "",
+          "race_name": "Volta ao Alentejo (2.5)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1996-03-20",
+          "rider1_slug": "filippo-casagrande",
+          "rider1_name": "CASAGRANDE Filippo",
+          "rider2_slug": "francesco-casagrande",
+          "rider2_name": "CASAGRANDE Francesco",
+          "race_slug": "",
+          "race_name": "Tirreno-Adriatico (2.1)"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1996-02-18",
+          "rider1_slug": "jean-luc-vandenbroucke",
+          "rider1_name": "VANDENBROUCKE Jean-Luc",
+          "rider2_slug": "frank-vandenbroucke",
+          "rider2_name": "VANDENBROUCKE Frank",
+          "race_slug": "",
+          "race_name": "Tour Méditerranéen ()"
+        },
+        {
+          "section": "same_race_wins",
+          "date": "1993-08-31",
+          "rider1_slug": "jos-huysmans",
+          "rider1_name": "HUYSMANS Jos",
+          "rider2_slug": "carl-roes",
+          "rider2_name": "ROES Carl",
+          "race_slug": "",
+          "race_name": "Schaal Sels ()"
+        }
+      ]
     },
     "riders/wt-classics-ranking": {
       "label": "WT one-day races ranking",
@@ -11732,9 +13460,694 @@
       "notes": "Career total; grows",
       "description": "Tadej Pogačar has done a solo of 79.2 kilometre in Strade Bianche, which was the longest solo in 2026 in the WorldTour.",
       "url": "https://www.procyclingstats.com/statistics/riders/solo-victories",
-      "fetched_at": "2026-06-21T12:35:38.486163+00:00",
-      "row_count": 0,
-      "rows": []
+      "fetched_at": "2026-06-21T12:49:41.102096+00:00",
+      "row_count": 76,
+      "rows": [
+        {
+          "section": "latest",
+          "date": "2026-06-17",
+          "race_slug": "",
+          "race_name": "Tour de Suisse | Stage 1",
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "69.5"
+        },
+        {
+          "section": "latest",
+          "date": "2026-06-14",
+          "race_slug": "",
+          "race_name": "Tour Auvergne - Rhône-Alpes | Stage 8",
+          "rider_slug": "isaac-del-toro",
+          "rider_name": "DEL TORO Isaac",
+          "km_solo": "8.1"
+        },
+        {
+          "section": "latest",
+          "date": "2026-06-13",
+          "race_slug": "",
+          "race_name": "Tour Auvergne - Rhône-Alpes | Stage 7",
+          "rider_slug": "isaac-del-toro",
+          "rider_name": "DEL TORO Isaac",
+          "km_solo": "1.4"
+        },
+        {
+          "section": "latest",
+          "date": "2026-06-08",
+          "race_slug": "",
+          "race_name": "Tour Auvergne - Rhône-Alpes | Stage 2",
+          "rider_slug": "anthon-charmig",
+          "rider_name": "CHARMIG Anthon",
+          "km_solo": "12.2"
+        },
+        {
+          "section": "latest",
+          "date": "2026-06-07",
+          "race_slug": "",
+          "race_name": "Tour Auvergne - Rhône-Alpes | Stage 1",
+          "rider_slug": "alex-baudin",
+          "rider_name": "BAUDIN Alex",
+          "km_solo": "28.6"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-31",
+          "race_slug": "",
+          "race_name": "Gipuzkoa Klasikoa | Stage 2",
+          "rider_slug": "mark-ketteringham",
+          "rider_name": "KETTERINGHAM Mark",
+          "km_solo": "28.5"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-30",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 20",
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "9.8"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-29",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 19",
+          "rider_slug": "sepp-kuss",
+          "rider_name": "KUSS Sepp",
+          "km_solo": "2.2"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-27",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 17",
+          "rider_slug": "michael-valgren-andersen",
+          "rider_name": "VALGREN Michael",
+          "km_solo": "1.1"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-26",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 16",
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "6.6"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-24",
+          "race_slug": "",
+          "race_name": "Ronde van Vlaanderen MJ",
+          "rider_slug": "elias-wandel",
+          "rider_name": "WÄNDEL Elias",
+          "km_solo": "?"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-23",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 14",
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "4.4"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-22",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 13",
+          "rider_slug": "alberto-bettiol",
+          "rider_name": "BETTIOL Alberto",
+          "km_solo": "13"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-21",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 12",
+          "rider_slug": "alec-segaert",
+          "rider_name": "SEGAERT Alec",
+          "km_solo": "3.3"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-17",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 9",
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "0.9"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-16",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 8",
+          "rider_slug": "jhonatan-narvaez",
+          "rider_name": "NARVÁEZ Jhonatan",
+          "km_solo": "9.8"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-15",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 7",
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "4.5"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-08",
+          "race_slug": "",
+          "race_name": "Course de la Paix Juniors | Stage 2b",
+          "rider_slug": "tommaso-cingolani",
+          "rider_name": "CINGOLANI Tommaso",
+          "km_solo": "?"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-03",
+          "race_slug": "",
+          "race_name": "Tour de Romandie | Stage 5",
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "0.25"
+        },
+        {
+          "section": "latest",
+          "date": "2026-05-02",
+          "race_slug": "",
+          "race_name": "Tour de Romandie | Stage 4",
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "18"
+        },
+        {
+          "section": "latest",
+          "date": "2026-04-26",
+          "race_slug": "",
+          "race_name": "Giro di Primavera - Trofeo Gino Mazzer",
+          "rider_slug": "vic-de-smet",
+          "rider_name": "DE SMET Vic",
+          "km_solo": "0.8"
+        },
+        {
+          "section": "latest",
+          "date": "2026-04-26",
+          "race_slug": "",
+          "race_name": "Liège-Bastogne-Liège",
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "13.9"
+        },
+        {
+          "section": "latest",
+          "date": "2026-04-16",
+          "race_slug": "",
+          "race_name": "Volta Castelló | Stage 1",
+          "rider_slug": "seff-van-kerckhove",
+          "rider_name": "VAN KERCKHOVE Seff",
+          "km_solo": "?"
+        },
+        {
+          "section": "latest",
+          "date": "2026-04-11",
+          "race_slug": "",
+          "race_name": "Itzulia Basque Country | Stage 6",
+          "rider_slug": "andrew-august",
+          "rider_name": "AUGUST Andrew",
+          "km_solo": "?"
+        },
+        {
+          "section": "latest",
+          "date": "2026-04-07",
+          "race_slug": "",
+          "race_name": "Itzulia Basque Country | Stage 2",
+          "rider_slug": "paul-seixas",
+          "rider_name": "SEIXAS Paul",
+          "km_solo": "26.4"
+        },
+        {
+          "section": "latest",
+          "date": "2026-04-05",
+          "race_slug": "",
+          "race_name": "Ronde van Vlaanderen ME",
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "18.5"
+        },
+        {
+          "section": "latest",
+          "date": "2026-03-28",
+          "race_slug": "",
+          "race_name": "Volta Ciclista a Catalunya | Stage 6",
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "2.2"
+        },
+        {
+          "section": "latest",
+          "date": "2026-03-27",
+          "race_slug": "",
+          "race_name": "Volta Ciclista a Catalunya | Stage 5",
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "5.8"
+        },
+        {
+          "section": "latest",
+          "date": "2026-03-27",
+          "race_slug": "",
+          "race_name": "E3 Saxo Classic ME",
+          "rider_slug": "mathieu-van-der-poel",
+          "rider_name": "VAN DER POEL Mathieu",
+          "km_solo": "42.2"
+        },
+        {
+          "section": "latest",
+          "date": "2026-03-22",
+          "race_slug": "",
+          "race_name": "Bernaudeau Junior",
+          "rider_slug": "lancelot-gayant",
+          "rider_name": "GAYANT Lancelot",
+          "km_solo": "1"
+        },
+        {
+          "section": "latest",
+          "date": "2026-03-13",
+          "race_slug": "",
+          "race_name": "Tirreno-Adriatico | Stage 5",
+          "rider_slug": "michael-valgren-andersen",
+          "rider_name": "VALGREN Michael",
+          "km_solo": "5.7"
+        },
+        {
+          "section": "latest",
+          "date": "2026-03-13",
+          "race_slug": "",
+          "race_name": "Paris-Nice | Stage 6",
+          "rider_slug": "harold-tejada",
+          "rider_name": "TEJADA Harold",
+          "km_solo": "4.6"
+        },
+        {
+          "section": "latest",
+          "date": "2026-03-12",
+          "race_slug": "",
+          "race_name": "Paris-Nice | Stage 5",
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "20.8"
+        },
+        {
+          "section": "latest",
+          "date": "2026-03-11",
+          "race_slug": "",
+          "race_name": "Paris-Nice | Stage 4",
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "1"
+        },
+        {
+          "section": "latest",
+          "date": "2026-03-07",
+          "race_slug": "",
+          "race_name": "Strade Bianche",
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "79.2"
+        },
+        {
+          "section": "latest",
+          "date": "2026-02-28",
+          "race_slug": "",
+          "race_name": "Omloop Nieuwsblad ME",
+          "rider_slug": "mathieu-van-der-poel",
+          "rider_name": "VAN DER POEL Mathieu",
+          "km_solo": "15.6"
+        },
+        {
+          "section": "latest",
+          "date": "2026-02-21",
+          "race_slug": "",
+          "race_name": "UAE Tour | Stage 6",
+          "rider_slug": "isaac-del-toro",
+          "rider_name": "DEL TORO Isaac",
+          "km_solo": "2.5"
+        },
+        {
+          "section": "latest",
+          "date": "2026-02-18",
+          "race_slug": "",
+          "race_name": "UAE Tour | Stage 3",
+          "rider_slug": "antonio-tiberi",
+          "rider_name": "TIBERI Antonio",
+          "km_solo": "4"
+        },
+        {
+          "section": "longest",
+          "pos": 1,
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "79.2",
+          "race_slug": "",
+          "race_name": "Strade Bianche"
+        },
+        {
+          "section": "longest",
+          "pos": 2,
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "69.5",
+          "race_slug": "",
+          "race_name": "Tour de Suisse | Stage 1"
+        },
+        {
+          "section": "longest",
+          "pos": 3,
+          "rider_slug": "mathieu-van-der-poel",
+          "rider_name": "VAN DER POEL Mathieu",
+          "km_solo": "42.2",
+          "race_slug": "",
+          "race_name": "E3 Saxo Classic ME"
+        },
+        {
+          "section": "longest",
+          "pos": 4,
+          "rider_slug": "alex-baudin",
+          "rider_name": "BAUDIN Alex",
+          "km_solo": "28.6",
+          "race_slug": "",
+          "race_name": "Tour Auvergne - Rhône-Alpes | Stage 1"
+        },
+        {
+          "section": "longest",
+          "pos": 5,
+          "rider_slug": "mark-ketteringham",
+          "rider_name": "KETTERINGHAM Mark",
+          "km_solo": "28.5",
+          "race_slug": "",
+          "race_name": "Gipuzkoa Klasikoa | Stage 2"
+        },
+        {
+          "section": "longest",
+          "pos": 6,
+          "rider_slug": "paul-seixas",
+          "rider_name": "SEIXAS Paul",
+          "km_solo": "26.4",
+          "race_slug": "",
+          "race_name": "Itzulia Basque Country | Stage 2"
+        },
+        {
+          "section": "longest",
+          "pos": 7,
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "20.8",
+          "race_slug": "",
+          "race_name": "Paris-Nice | Stage 5"
+        },
+        {
+          "section": "longest",
+          "pos": 8,
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "18.5",
+          "race_slug": "",
+          "race_name": "Ronde van Vlaanderen ME"
+        },
+        {
+          "section": "longest",
+          "pos": 9,
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "18",
+          "race_slug": "",
+          "race_name": "Tour de Romandie | Stage 4"
+        },
+        {
+          "section": "longest",
+          "pos": 10,
+          "rider_slug": "mathieu-van-der-poel",
+          "rider_name": "VAN DER POEL Mathieu",
+          "km_solo": "15.6",
+          "race_slug": "",
+          "race_name": "Omloop Nieuwsblad ME"
+        },
+        {
+          "section": "longest",
+          "pos": 11,
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "13.9",
+          "race_slug": "",
+          "race_name": "Liège-Bastogne-Liège"
+        },
+        {
+          "section": "longest",
+          "pos": 12,
+          "rider_slug": "alberto-bettiol",
+          "rider_name": "BETTIOL Alberto",
+          "km_solo": "13",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 13"
+        },
+        {
+          "section": "longest",
+          "pos": 13,
+          "rider_slug": "anthon-charmig",
+          "rider_name": "CHARMIG Anthon",
+          "km_solo": "12.2",
+          "race_slug": "",
+          "race_name": "Tour Auvergne - Rhône-Alpes | Stage 2"
+        },
+        {
+          "section": "longest",
+          "pos": 14,
+          "rider_slug": "jhonatan-narvaez",
+          "rider_name": "NARVÁEZ Jhonatan",
+          "km_solo": "9.8",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 8"
+        },
+        {
+          "section": "longest",
+          "pos": 15,
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "9.8",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 20"
+        },
+        {
+          "section": "longest",
+          "pos": 16,
+          "rider_slug": "isaac-del-toro",
+          "rider_name": "DEL TORO Isaac",
+          "km_solo": "8.1",
+          "race_slug": "",
+          "race_name": "Tour Auvergne - Rhône-Alpes | Stage 8"
+        },
+        {
+          "section": "longest",
+          "pos": 17,
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "6.6",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 16"
+        },
+        {
+          "section": "longest",
+          "pos": 18,
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "5.8",
+          "race_slug": "",
+          "race_name": "Volta Ciclista a Catalunya | Stage 5"
+        },
+        {
+          "section": "longest",
+          "pos": 19,
+          "rider_slug": "michael-valgren-andersen",
+          "rider_name": "VALGREN Michael",
+          "km_solo": "5.7",
+          "race_slug": "",
+          "race_name": "Tirreno-Adriatico | Stage 5"
+        },
+        {
+          "section": "longest",
+          "pos": 20,
+          "rider_slug": "harold-tejada",
+          "rider_name": "TEJADA Harold",
+          "km_solo": "4.6",
+          "race_slug": "",
+          "race_name": "Paris-Nice | Stage 6"
+        },
+        {
+          "section": "longest",
+          "pos": 21,
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "4.5",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 7"
+        },
+        {
+          "section": "longest",
+          "pos": 22,
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "4.4",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 14"
+        },
+        {
+          "section": "longest",
+          "pos": 23,
+          "rider_slug": "antonio-tiberi",
+          "rider_name": "TIBERI Antonio",
+          "km_solo": "4",
+          "race_slug": "",
+          "race_name": "UAE Tour | Stage 3"
+        },
+        {
+          "section": "longest",
+          "pos": 24,
+          "rider_slug": "alec-segaert",
+          "rider_name": "SEGAERT Alec",
+          "km_solo": "3.3",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 12"
+        },
+        {
+          "section": "longest",
+          "pos": 25,
+          "rider_slug": "isaac-del-toro",
+          "rider_name": "DEL TORO Isaac",
+          "km_solo": "2.5",
+          "race_slug": "",
+          "race_name": "UAE Tour | Stage 6"
+        },
+        {
+          "section": "longest",
+          "pos": 26,
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "2.2",
+          "race_slug": "",
+          "race_name": "Volta Ciclista a Catalunya | Stage 6"
+        },
+        {
+          "section": "longest",
+          "pos": 27,
+          "rider_slug": "sepp-kuss",
+          "rider_name": "KUSS Sepp",
+          "km_solo": "2.2",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 19"
+        },
+        {
+          "section": "longest",
+          "pos": 28,
+          "rider_slug": "isaac-del-toro",
+          "rider_name": "DEL TORO Isaac",
+          "km_solo": "1.4",
+          "race_slug": "",
+          "race_name": "Tour Auvergne - Rhône-Alpes | Stage 7"
+        },
+        {
+          "section": "longest",
+          "pos": 29,
+          "rider_slug": "michael-valgren-andersen",
+          "rider_name": "VALGREN Michael",
+          "km_solo": "1.1",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 17"
+        },
+        {
+          "section": "longest",
+          "pos": 30,
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "1",
+          "race_slug": "",
+          "race_name": "Paris-Nice | Stage 4"
+        },
+        {
+          "section": "longest",
+          "pos": 31,
+          "rider_slug": "lancelot-gayant",
+          "rider_name": "GAYANT Lancelot",
+          "km_solo": "1",
+          "race_slug": "",
+          "race_name": "Bernaudeau Junior"
+        },
+        {
+          "section": "longest",
+          "pos": 32,
+          "rider_slug": "jonas-vingegaard",
+          "rider_name": "VINGEGAARD Jonas",
+          "km_solo": "0.9",
+          "race_slug": "",
+          "race_name": "Giro d'Italia | Stage 9"
+        },
+        {
+          "section": "longest",
+          "pos": 33,
+          "rider_slug": "vic-de-smet",
+          "rider_name": "DE SMET Vic",
+          "km_solo": "0.8",
+          "race_slug": "",
+          "race_name": "Giro di Primavera - Trofeo Gino Mazzer"
+        },
+        {
+          "section": "longest",
+          "pos": 34,
+          "rider_slug": "tadej-pogacar",
+          "rider_name": "POGAČAR Tadej",
+          "km_solo": "0.25",
+          "race_slug": "",
+          "race_name": "Tour de Romandie | Stage 5"
+        },
+        {
+          "section": "longest",
+          "pos": 35,
+          "rider_slug": "andrew-august",
+          "rider_name": "AUGUST Andrew",
+          "km_solo": "0",
+          "race_slug": "",
+          "race_name": "Itzulia Basque Country | Stage 6"
+        },
+        {
+          "section": "longest",
+          "pos": 36,
+          "rider_slug": "seff-van-kerckhove",
+          "rider_name": "VAN KERCKHOVE Seff",
+          "km_solo": "0",
+          "race_slug": "",
+          "race_name": "Volta Castelló | Stage 1"
+        },
+        {
+          "section": "longest",
+          "pos": 37,
+          "rider_slug": "tommaso-cingolani",
+          "rider_name": "CINGOLANI Tommaso",
+          "km_solo": "0",
+          "race_slug": "",
+          "race_name": "Course de la Paix Juniors | Stage 2b"
+        },
+        {
+          "section": "longest",
+          "pos": 38,
+          "rider_slug": "elias-wandel",
+          "rider_name": "WÄNDEL Elias",
+          "km_solo": "0",
+          "race_slug": "",
+          "race_name": "Ronde van Vlaanderen MJ"
+        }
+      ]
     },
     "riders/hometown-winners": {
       "label": "Hometown winners",
@@ -18411,9 +20824,650 @@
       "notes": "Live; updates as riders return",
       "description": "It has been 311 days since the injury of Sarah Gigante, for Aleix Espargaró it has been 306 days.",
       "url": "https://www.procyclingstats.com/statistics/riders/not-back-in-action-after-injury",
-      "fetched_at": "2026-06-21T12:36:44.453645+00:00",
-      "row_count": 0,
-      "rows": []
+      "fetched_at": "2026-06-21T12:49:46.566894+00:00",
+      "row_count": 80,
+      "rows": [
+        {
+          "date_of_injury": "2025-08-14",
+          "days_since_injury": "311",
+          "type": "rider",
+          "slug": "sarah-gigante",
+          "name": "GIGANTE Sarah",
+          "injury": "Crash during training"
+        },
+        {
+          "date_of_injury": "2025-08-19",
+          "days_since_injury": "306",
+          "type": "rider",
+          "slug": "aleix-espargaro-villa",
+          "name": "ESPARGARÓ Aleix",
+          "injury": "Crash during training"
+        },
+        {
+          "date_of_injury": "2025-10-16",
+          "days_since_injury": "248",
+          "type": "rider",
+          "slug": "milan-lenaers",
+          "name": "LENAERS Milan",
+          "injury": "Crash in Kermiscross"
+        },
+        {
+          "date_of_injury": "2025-12-05",
+          "days_since_injury": "198",
+          "type": "rider",
+          "slug": "german-dario-gomez",
+          "name": "GÓMEZ Germán Darío",
+          "injury": "Crash in training"
+        },
+        {
+          "date_of_injury": "2026-02-01",
+          "days_since_injury": "140",
+          "type": "rider",
+          "slug": "archie-ryan",
+          "name": "RYAN Archie",
+          "injury": "Recovering form knee surgery"
+        },
+        {
+          "date_of_injury": "2026-02-10",
+          "days_since_injury": "131",
+          "type": "rider",
+          "slug": "damien-touze",
+          "name": "TOUZÉ Damien",
+          "injury": "Crash in Tour of Oman | Stage 4"
+        },
+        {
+          "date_of_injury": "2026-02-10",
+          "days_since_injury": "131",
+          "type": "rider",
+          "slug": "oliver-knight",
+          "name": "KNIGHT Oliver",
+          "injury": "Crash on training"
+        },
+        {
+          "date_of_injury": "2026-02-15",
+          "days_since_injury": "126",
+          "type": "rider",
+          "slug": "ivann-ravaleu",
+          "name": "RAVALEU Ivann",
+          "injury": ""
+        },
+        {
+          "date_of_injury": "2026-02-23",
+          "days_since_injury": "118",
+          "type": "rider",
+          "slug": "niklas-behrens",
+          "name": "BEHRENS Niklas",
+          "injury": "Crash during training"
+        },
+        {
+          "date_of_injury": "2026-02-25",
+          "days_since_injury": "116",
+          "type": "rider",
+          "slug": "neilson-powless",
+          "name": "POWLESS Neilson",
+          "injury": "Knee operation"
+        },
+        {
+          "date_of_injury": "2026-02-28",
+          "days_since_injury": "113",
+          "type": "rider",
+          "slug": "stefan-kung",
+          "name": "KÜNG Stefan",
+          "injury": "Crash in Omloop Nieuwsblad"
+        },
+        {
+          "date_of_injury": "2026-03-05",
+          "days_since_injury": "108",
+          "type": "rider",
+          "slug": "ander-ganzabal-bilbao",
+          "name": "GANZABAL Ander",
+          "injury": "Surgery on endofibrosis of the external iliac artery of the left leg"
+        },
+        {
+          "date_of_injury": "2026-03-09",
+          "days_since_injury": "104",
+          "type": "rider",
+          "slug": "marc-cabedo",
+          "name": "CABEDO Marc",
+          "injury": ""
+        },
+        {
+          "date_of_injury": "2026-03-13",
+          "days_since_injury": "100",
+          "type": "rider",
+          "slug": "niklas-behrens",
+          "name": "BEHRENS Niklas",
+          "injury": ""
+        },
+        {
+          "date_of_injury": "2026-03-22",
+          "days_since_injury": "91",
+          "type": "rider",
+          "slug": "simone-lucca",
+          "name": "LUCCA Simone",
+          "injury": "Crash in GP Slovenian Istria"
+        },
+        {
+          "date_of_injury": "2026-03-24",
+          "days_since_injury": "89",
+          "type": "rider",
+          "slug": "jordan-kamdem-fodjo",
+          "name": "KAMDEM FODJO Jordan",
+          "injury": "Crash during training"
+        },
+        {
+          "date_of_injury": "2026-03-25",
+          "days_since_injury": "88",
+          "type": "rider",
+          "slug": "amaury-capiot",
+          "name": "CAPIOT Amaury",
+          "injury": "Crash in Ronde Van Brugge - Tour of Bruges"
+        },
+        {
+          "date_of_injury": "2026-03-29",
+          "days_since_injury": "84",
+          "type": "rider",
+          "slug": "laurenz-rex",
+          "name": "REX Laurenz",
+          "injury": "Injury on knee after crash in In Flanders Fields"
+        },
+        {
+          "date_of_injury": "2026-03-31",
+          "days_since_injury": "82",
+          "type": "rider",
+          "slug": "warre-vangheluwe",
+          "name": "VANGHELUWE Warre",
+          "injury": ""
+        },
+        {
+          "date_of_injury": "2026-03-31",
+          "days_since_injury": "82",
+          "type": "rider",
+          "slug": "jaume-guardeno",
+          "name": "GUARDEÑO Jaume",
+          "injury": "Collision with a car in training"
+        },
+        {
+          "date_of_injury": "2026-04-05",
+          "days_since_injury": "77",
+          "type": "rider",
+          "slug": "yentl-vandevelde",
+          "name": "VANDEVELDE Yentl",
+          "injury": "Crash in PK Ottergem"
+        },
+        {
+          "date_of_injury": "2026-04-09",
+          "days_since_injury": "73",
+          "type": "rider",
+          "slug": "yanis-seguin",
+          "name": "SEGUIN Yanis",
+          "injury": "Crash in training"
+        },
+        {
+          "date_of_injury": "2026-04-10",
+          "days_since_injury": "72",
+          "type": "rider",
+          "slug": "ander-okamika",
+          "name": "OKAMIKA Ander",
+          "injury": "Crash in Itzulia Basque Country stage 4"
+        },
+        {
+          "date_of_injury": "2026-04-12",
+          "days_since_injury": "70",
+          "type": "rider",
+          "slug": "kamilla-aasebo",
+          "name": "AASEBØ Kamilla",
+          "injury": "Crash in Paris-Roubaix"
+        },
+        {
+          "date_of_injury": "2026-04-15",
+          "days_since_injury": "67",
+          "type": "rider",
+          "slug": "jesse-kramer",
+          "name": "KRAMER Jesse",
+          "injury": ""
+        },
+        {
+          "date_of_injury": "2026-04-15",
+          "days_since_injury": "67",
+          "type": "rider",
+          "slug": "nicolo-buratti",
+          "name": "BURATTI Nicolò",
+          "injury": "Crash in Tour of Hainan stage 1"
+        },
+        {
+          "date_of_injury": "2026-04-19",
+          "days_since_injury": "63",
+          "type": "rider",
+          "slug": "nolann-mahoudo",
+          "name": "MAHOUDO Nolann",
+          "injury": "Crash in training"
+        },
+        {
+          "date_of_injury": "2026-04-21",
+          "days_since_injury": "61",
+          "type": "rider",
+          "slug": "dilyxine-miermont",
+          "name": "MIERMONT Dilyxine",
+          "injury": "Crash in training"
+        },
+        {
+          "date_of_injury": "2026-04-24",
+          "days_since_injury": "58",
+          "type": "rider",
+          "slug": "nikolaj-klausen",
+          "name": "KLAUSEN Nikolaj Ankerstjerne",
+          "injury": "Crash in Tour d’Eure-et-Loir"
+        },
+        {
+          "date_of_injury": "2026-04-29",
+          "days_since_injury": "53",
+          "type": "rider",
+          "slug": "jexon-ledezma",
+          "name": "LEDEZMA Jexon",
+          "injury": "Crash in training"
+        },
+        {
+          "date_of_injury": "2026-04-30",
+          "days_since_injury": "52",
+          "type": "rider",
+          "slug": "harry-sweeny",
+          "name": "SWEENY Harry",
+          "injury": "Underwent an operation on an inflamed plica in his left knee"
+        },
+        {
+          "date_of_injury": "2026-05-03",
+          "days_since_injury": "49",
+          "type": "rider",
+          "slug": "konrad-waliniak",
+          "name": "WALINIAK Konrad",
+          "injury": "Crash in Lotto Famenne Ardenne Classic"
+        },
+        {
+          "date_of_injury": "2026-05-04",
+          "days_since_injury": "48",
+          "type": "rider",
+          "slug": "noemi-ruegg",
+          "name": "RÜEGG Noemi",
+          "injury": "Crash in Vuelta España Femenina | Stage 2"
+        },
+        {
+          "date_of_injury": "2026-05-04",
+          "days_since_injury": "48",
+          "type": "rider",
+          "slug": "eleonora-ciabocco",
+          "name": "CIABOCCO Eleonora",
+          "injury": "Crash in Vuelta España Femenina | Stage 2"
+        },
+        {
+          "date_of_injury": "2026-05-09",
+          "days_since_injury": "43",
+          "type": "rider",
+          "slug": "adam-yates",
+          "name": "YATES Adam",
+          "injury": "Crash in Giro d'Italia | Stage 2"
+        },
+        {
+          "date_of_injury": "2026-05-09",
+          "days_since_injury": "43",
+          "type": "rider",
+          "slug": "marc-soler",
+          "name": "SOLER Marc",
+          "injury": "Crash in Giro d'Italia | Stage 2"
+        },
+        {
+          "date_of_injury": "2026-05-09",
+          "days_since_injury": "43",
+          "type": "rider",
+          "slug": "jay-vine",
+          "name": "VINE Jay",
+          "injury": "Crash in Giro d'Italia | Stage 2"
+        },
+        {
+          "date_of_injury": "2026-05-09",
+          "days_since_injury": "43",
+          "type": "rider",
+          "slug": "andrea-vendrame",
+          "name": "VENDRAME Andrea",
+          "injury": "Crash in Giro d'Italia | Stage 2"
+        },
+        {
+          "date_of_injury": "2026-05-10",
+          "days_since_injury": "42",
+          "type": "rider",
+          "slug": "albert-withen-philipsen",
+          "name": "WITHEN PHILIPSEN Albert",
+          "injury": "crash in training"
+        },
+        {
+          "date_of_injury": "2026-05-10",
+          "days_since_injury": "42",
+          "type": "rider",
+          "slug": "emilien-jacquelin",
+          "name": "JACQUELIN Émilien",
+          "injury": "Crash on training"
+        },
+        {
+          "date_of_injury": "2026-05-11",
+          "days_since_injury": "41",
+          "type": "rider",
+          "slug": "harry-hudson",
+          "name": "HUDSON Harry",
+          "injury": "Crash during training"
+        },
+        {
+          "date_of_injury": "2026-05-11",
+          "days_since_injury": "41",
+          "type": "rider",
+          "slug": "neve-bradbury",
+          "name": "BRADBURY Neve",
+          "injury": ""
+        },
+        {
+          "date_of_injury": "2026-05-14",
+          "days_since_injury": "38",
+          "type": "rider",
+          "slug": "christophe-laporte",
+          "name": "LAPORTE Christophe",
+          "injury": "Crash in training"
+        },
+        {
+          "date_of_injury": "2026-05-16",
+          "days_since_injury": "36",
+          "type": "rider",
+          "slug": "fabio-christen",
+          "name": "CHRISTEN Fabio",
+          "injury": "Crash in Giro d'Italia | Stage 8"
+        },
+        {
+          "date_of_injury": "2026-05-17",
+          "days_since_injury": "35",
+          "type": "rider",
+          "slug": "thibault-fostier",
+          "name": "FOSTIER Thibault",
+          "injury": "Crash in Flèche du Sud | Stage 5"
+        },
+        {
+          "date_of_injury": "2026-05-19",
+          "days_since_injury": "33",
+          "type": "rider",
+          "slug": "pavel-bittner",
+          "name": "BITTNER Pavel",
+          "injury": "Crash in Classique Dunkerque"
+        },
+        {
+          "date_of_injury": "2026-05-20",
+          "days_since_injury": "32",
+          "type": "rider",
+          "slug": "lennert-van-eetvelt",
+          "name": "VAN EETVELT Lennert",
+          "injury": "Crash in Giro d'Italia | Stage 11"
+        },
+        {
+          "date_of_injury": "2026-05-20",
+          "days_since_injury": "32",
+          "type": "rider",
+          "slug": "davide-ballerini",
+          "name": "BALLERINI Davide",
+          "injury": "Crash in Giro d'Italia | Stage 11"
+        },
+        {
+          "date_of_injury": "2026-05-20",
+          "days_since_injury": "32",
+          "type": "rider",
+          "slug": "clement-davy",
+          "name": "DAVY Clément",
+          "injury": "Crash in 4 Jours de Dunkerque / Grand Prix des Hauts de France | Stage 1"
+        },
+        {
+          "date_of_injury": "2026-05-22",
+          "days_since_injury": "30",
+          "type": "rider",
+          "slug": "marc-lloveras",
+          "name": "LLOVERAS Marc",
+          "injury": "crash in training race"
+        },
+        {
+          "date_of_injury": "2026-05-22",
+          "days_since_injury": "30",
+          "type": "rider",
+          "slug": "kasper-asgreen",
+          "name": "ASGREEN Kasper",
+          "injury": "Crash in 4 Jours de Dunkerque"
+        },
+        {
+          "date_of_injury": "2026-05-23",
+          "days_since_injury": "29",
+          "type": "rider",
+          "slug": "tim-van-dijke",
+          "name": "VAN DIJKE Tim",
+          "injury": "Crash during training"
+        },
+        {
+          "date_of_injury": "2026-05-23",
+          "days_since_injury": "29",
+          "type": "rider",
+          "slug": "aniek-van-alphen",
+          "name": "VAN ALPHEN Aniek",
+          "injury": "Crash in Vuelta a Burgos Feminas | Stage 3"
+        },
+        {
+          "date_of_injury": "2026-05-24",
+          "days_since_injury": "28",
+          "type": "rider",
+          "slug": "michele-bicelli1",
+          "name": "BICELLI Michele",
+          "injury": "Crash in training"
+        },
+        {
+          "date_of_injury": "2026-05-24",
+          "days_since_injury": "28",
+          "type": "rider",
+          "slug": "emmanuel-houcou",
+          "name": "HOUCOU Emmanuel",
+          "injury": "Crash in Grand Prix Criquielion"
+        },
+        {
+          "date_of_injury": "2026-05-25",
+          "days_since_injury": "27",
+          "type": "rider",
+          "slug": "petra-stiasny",
+          "name": "STIASNY Petra",
+          "injury": "Crash during training"
+        },
+        {
+          "date_of_injury": "2026-05-25",
+          "days_since_injury": "27",
+          "type": "rider",
+          "slug": "leani-van-der-berg",
+          "name": "VAN DER BERG Leani",
+          "injury": "Crash in GP Mazda Schelkens"
+        },
+        {
+          "date_of_injury": "2026-05-29",
+          "days_since_injury": "23",
+          "type": "rider",
+          "slug": "tomi-santasalo",
+          "name": "SANTASALO Tomi",
+          "injury": "Crash in Tour of Lithuania | Stage 3"
+        },
+        {
+          "date_of_injury": "2026-05-29",
+          "days_since_injury": "23",
+          "type": "rider",
+          "slug": "yoan-morin",
+          "name": "MORIN Yoan",
+          "injury": "Crash in Tour de Cote d'Or"
+        },
+        {
+          "date_of_injury": "2026-05-30",
+          "days_since_injury": "22",
+          "type": "rider",
+          "slug": "cat-ferguson",
+          "name": "FERGUSON Cat",
+          "injury": "Crash in stage 1 Giro d'Italia Women"
+        },
+        {
+          "date_of_injury": "2026-05-31",
+          "days_since_injury": "21",
+          "type": "rider",
+          "slug": "nicolo-pettiti",
+          "name": "PETTITI Nicolò",
+          "injury": "Crash in Tour of Japan | Stage 7"
+        },
+        {
+          "date_of_injury": "2026-06-01",
+          "days_since_injury": "20",
+          "type": "rider",
+          "slug": "bastien-tronchon",
+          "name": "TRONCHON Bastien",
+          "injury": "-"
+        },
+        {
+          "date_of_injury": "2026-06-01",
+          "days_since_injury": "20",
+          "type": "rider",
+          "slug": "theodore-sabina",
+          "name": "SABINA Théodore",
+          "injury": "Crash in training race"
+        },
+        {
+          "date_of_injury": "2026-06-03",
+          "days_since_injury": "18",
+          "type": "rider",
+          "slug": "milan-menten",
+          "name": "MENTEN Milan",
+          "injury": "Crash in Ethias-Tour de Wallonie | Stage 3"
+        },
+        {
+          "date_of_injury": "2026-06-05",
+          "days_since_injury": "16",
+          "type": "rider",
+          "slug": "german-nicolas-tivani-perez",
+          "name": "TIVANI German Nicolás",
+          "injury": "Crash in Grande Prémio Abimota | Stage 1"
+        },
+        {
+          "date_of_injury": "2026-06-05",
+          "days_since_injury": "16",
+          "type": "rider",
+          "slug": "kim-heiduk",
+          "name": "HEIDUK Kim",
+          "injury": "Crash in Tour de Wallonie"
+        },
+        {
+          "date_of_injury": "2026-06-06",
+          "days_since_injury": "15",
+          "type": "rider",
+          "slug": "mikkel-honore",
+          "name": "HONORÉ Mikkel Frølich",
+          "injury": "Crash in Heylen Vastgoed Heistse Pijl"
+        },
+        {
+          "date_of_injury": "2026-06-07",
+          "days_since_injury": "14",
+          "type": "rider",
+          "slug": "francesca-hall",
+          "name": "HALL Francesca",
+          "injury": "Crash in Alpes Gresivaudan Classic"
+        },
+        {
+          "date_of_injury": "2026-06-07",
+          "days_since_injury": "14",
+          "type": "rider",
+          "slug": "stanislaw-aniolkowski",
+          "name": "ANIOŁKOWSKI Stanisław",
+          "injury": "Crash in Brussels Cycling Classic"
+        },
+        {
+          "date_of_injury": "2026-06-08",
+          "days_since_injury": "13",
+          "type": "rider",
+          "slug": "filippo-magli2",
+          "name": "MAGLI Filippo",
+          "injury": ""
+        },
+        {
+          "date_of_injury": "2026-06-12",
+          "days_since_injury": "9",
+          "type": "rider",
+          "slug": "joshua-tarling",
+          "name": "TARLING Joshua",
+          "injury": "Crash in Tour Auvergne - Rhône-Alpes | Stage 6"
+        },
+        {
+          "date_of_injury": "2026-06-12",
+          "days_since_injury": "9",
+          "type": "rider",
+          "slug": "oscar-onley",
+          "name": "ONLEY Oscar",
+          "injury": "Crash in Tour Auvergne - Rhône-Alpes | Stage 6"
+        },
+        {
+          "date_of_injury": "2026-06-16",
+          "days_since_injury": "5",
+          "type": "rider",
+          "slug": "szymon-wozniak",
+          "name": "WOŹNIAK Szymon",
+          "injury": "Crash while training"
+        },
+        {
+          "date_of_injury": "2026-06-16",
+          "days_since_injury": "5",
+          "type": "rider",
+          "slug": "anton-schiffer",
+          "name": "SCHIFFER Anton",
+          "injury": "Crash while training"
+        },
+        {
+          "date_of_injury": "2026-06-16",
+          "days_since_injury": "5",
+          "type": "rider",
+          "slug": "marco-zanotto",
+          "name": "ZANOTTO Marco",
+          "injury": "Crash in Giro d'Italia Next Gen | Stage 3"
+        },
+        {
+          "date_of_injury": "2026-06-17",
+          "days_since_injury": "4",
+          "type": "rider",
+          "slug": "matthew-dinham",
+          "name": "DINHAM Matthew",
+          "injury": ""
+        },
+        {
+          "date_of_injury": "2026-06-18",
+          "days_since_injury": "3",
+          "type": "rider",
+          "slug": "urska-zigart",
+          "name": "ŽIGART Urška",
+          "injury": "Crash in Tour de Suisse Women | Stage 2"
+        },
+        {
+          "date_of_injury": "2026-06-18",
+          "days_since_injury": "3",
+          "type": "rider",
+          "slug": "luca-towers",
+          "name": "TOWERS Lucas",
+          "injury": "Crash in Tour of Slovenia | Stage 2"
+        },
+        {
+          "date_of_injury": "2026-06-18",
+          "days_since_injury": "3",
+          "type": "rider",
+          "slug": "eduard-prades",
+          "name": "PRADES Eduard",
+          "injury": "Crash in Tour of Slovenia | Stage 2"
+        },
+        {
+          "date_of_injury": "2026-06-19",
+          "days_since_injury": "2",
+          "type": "rider",
+          "slug": "lauren-dickson",
+          "name": "DICKSON Lauren",
+          "injury": "Crash in Tour de Suisse Women | Stage 3"
+        }
+      ]
     },
     "grandtours/most-starts": {
       "label": "Grand tour most starts",
@@ -23899,9 +26953,330 @@
       "notes": "Current season team stats",
       "description": "What team has the most wins? Who has the youngest or oldest riders on their squad? And which team is on average the youngest this season? You can find all team related statistics on this page.",
       "url": "https://www.procyclingstats.com/statistics/teams",
-      "fetched_at": "2026-06-21T12:37:31.949910+00:00",
-      "row_count": 0,
-      "rows": []
+      "fetched_at": "2026-06-21T12:49:51.831718+00:00",
+      "row_count": 40,
+      "rows": [
+        {
+          "pos": 1,
+          "section": "men",
+          "type": "team",
+          "slug": "uae-team-emirates-xrg-2026",
+          "name": "UAE Team Emirates - XRG",
+          "wins": "42"
+        },
+        {
+          "pos": 2,
+          "section": "men",
+          "type": "team",
+          "slug": "team-visma-lease-a-bike-2026",
+          "name": "Team Visma | Lease a Bike",
+          "wins": "27"
+        },
+        {
+          "pos": 3,
+          "section": "men",
+          "type": "team",
+          "slug": "red-bull-bora-hansgrohe-2026",
+          "name": "Red Bull - BORA - hansgrohe",
+          "wins": "25"
+        },
+        {
+          "pos": 4,
+          "section": "men",
+          "type": "team",
+          "slug": "netcompany-ineos-2026",
+          "name": "Netcompany INEOS",
+          "wins": "21"
+        },
+        {
+          "pos": 5,
+          "section": "men",
+          "type": "team",
+          "slug": "decathlon-cma-cgm-team-2026",
+          "name": "Decathlon CMA CGM Team",
+          "wins": "20"
+        },
+        {
+          "pos": 6,
+          "section": "men",
+          "type": "team",
+          "slug": "xds-astana-team-2026",
+          "name": "XDS Astana Team",
+          "wins": "15"
+        },
+        {
+          "pos": 7,
+          "section": "men",
+          "type": "team",
+          "slug": "soudal-quick-step-2026",
+          "name": "Soudal Quick-Step",
+          "wins": "14"
+        },
+        {
+          "pos": 8,
+          "section": "men",
+          "type": "team",
+          "slug": "nsn-cycling-team-2026",
+          "name": "NSN Cycling Team",
+          "wins": "12"
+        },
+        {
+          "pos": 9,
+          "section": "men",
+          "type": "team",
+          "slug": "lidl-trek-2026",
+          "name": "Lidl - Trek",
+          "wins": "12"
+        },
+        {
+          "pos": 10,
+          "section": "men",
+          "type": "team",
+          "slug": "grenke-auto-eder-2026",
+          "name": "grenke - Auto Eder",
+          "wins": "10"
+        },
+        {
+          "pos": 11,
+          "section": "men",
+          "type": "team",
+          "slug": "movistar-team-2026",
+          "name": "Movistar Team",
+          "wins": "10"
+        },
+        {
+          "pos": 12,
+          "section": "men",
+          "type": "team",
+          "slug": "alpecin-premier-tech-2026",
+          "name": "Alpecin - Premier Tech",
+          "wins": "9"
+        },
+        {
+          "pos": 13,
+          "section": "men",
+          "type": "team",
+          "slug": "lotto-intermarche-2026",
+          "name": "Lotto Intermarché",
+          "wins": "9"
+        },
+        {
+          "pos": 14,
+          "section": "men",
+          "type": "team",
+          "slug": "solution-tech-nippo-rali-2026",
+          "name": "Solution Tech NIPPO Rali",
+          "wins": "8"
+        },
+        {
+          "pos": 15,
+          "section": "men",
+          "type": "team",
+          "slug": "italy-2026",
+          "name": "Italy",
+          "wins": "8"
+        },
+        {
+          "pos": 16,
+          "section": "men",
+          "type": "team",
+          "slug": "unibet-rose-rockets-2026",
+          "name": "Unibet Rose Rockets",
+          "wins": "7"
+        },
+        {
+          "pos": 17,
+          "section": "men",
+          "type": "team",
+          "slug": "cofidis-2026",
+          "name": "Cofidis",
+          "wins": "7"
+        },
+        {
+          "pos": 18,
+          "section": "men",
+          "type": "team",
+          "slug": "nsn-development-team-2026",
+          "name": "NSN Development Team",
+          "wins": "7"
+        },
+        {
+          "pos": 19,
+          "section": "men",
+          "type": "team",
+          "slug": "kazakhstan-2026",
+          "name": "Kazakhstan",
+          "wins": "7"
+        },
+        {
+          "pos": 20,
+          "section": "men",
+          "type": "team",
+          "slug": "uno-x-mobility-2026",
+          "name": "Uno-X Mobility",
+          "wins": "6"
+        },
+        {
+          "pos": 1,
+          "section": "women",
+          "type": "team",
+          "slug": "uae-team-adq-2026",
+          "name": "UAE Team ADQ",
+          "wins": "20"
+        },
+        {
+          "pos": 2,
+          "section": "women",
+          "type": "team",
+          "slug": "team-sd-worx-protime-2026",
+          "name": "Team SD Worx - Protime",
+          "wins": "19"
+        },
+        {
+          "pos": 3,
+          "section": "women",
+          "type": "team",
+          "slug": "fdj-united-suez-2026",
+          "name": "FDJ United - SUEZ",
+          "wins": "19"
+        },
+        {
+          "pos": 4,
+          "section": "women",
+          "type": "team",
+          "slug": "laboral-kutxa-fundacion-euskadi-2026",
+          "name": "Laboral Kutxa - Fundación Euskadi",
+          "wins": "11"
+        },
+        {
+          "pos": 5,
+          "section": "women",
+          "type": "team",
+          "slug": "movistar-women-team-2026",
+          "name": "Movistar Team",
+          "wins": "9"
+        },
+        {
+          "pos": 6,
+          "section": "women",
+          "type": "team",
+          "slug": "lidl-trek-women-2026",
+          "name": "Lidl - Trek",
+          "wins": "6"
+        },
+        {
+          "pos": 7,
+          "section": "women",
+          "type": "team",
+          "slug": "fenix-premier-tech-2026",
+          "name": "Fenix-Premier Tech",
+          "wins": "6"
+        },
+        {
+          "pos": 8,
+          "section": "women",
+          "type": "team",
+          "slug": "ef-education-oatly-2026",
+          "name": "EF Education-Oatly",
+          "wins": "4"
+        },
+        {
+          "pos": 9,
+          "section": "women",
+          "type": "team",
+          "slug": "uae-development-team-2026",
+          "name": "UAE Development Team",
+          "wins": "4"
+        },
+        {
+          "pos": 10,
+          "section": "women",
+          "type": "team",
+          "slug": "airtox-carl-ras-junior-women-2026",
+          "name": "Airtox - Carl Ras Junior Women",
+          "wins": "4"
+        },
+        {
+          "pos": 11,
+          "section": "women",
+          "type": "team",
+          "slug": "liv-alula-jayco-womens-continental-team-2026",
+          "name": "Liv AlUla Jayco Women's Continental Team",
+          "wins": "4"
+        },
+        {
+          "pos": 12,
+          "section": "women",
+          "type": "team",
+          "slug": "canyon-sram-2026",
+          "name": "CANYON//SRAM",
+          "wins": "4"
+        },
+        {
+          "pos": 13,
+          "section": "women",
+          "type": "team",
+          "slug": "grouwels-watersley-r-d-road-team-2026",
+          "name": "Grouwels-Watersley R&D Road Team",
+          "wins": "4"
+        },
+        {
+          "pos": 14,
+          "section": "women",
+          "type": "team",
+          "slug": "ara-skip-capital-we-2026",
+          "name": "ARA | Skip Capital",
+          "wins": "4"
+        },
+        {
+          "pos": 15,
+          "section": "women",
+          "type": "team",
+          "slug": "human-powered-health-2026",
+          "name": "Human Powered Health",
+          "wins": "3"
+        },
+        {
+          "pos": 16,
+          "section": "women",
+          "type": "team",
+          "slug": "volkerwessels-cycling-team-we-2026",
+          "name": "VolkerWessels Cycling Team",
+          "wins": "3"
+        },
+        {
+          "pos": 17,
+          "section": "women",
+          "type": "team",
+          "slug": "team-visma-lease-a-bike-women-2026",
+          "name": "Team Visma | Lease a Bike",
+          "wins": "3"
+        },
+        {
+          "pos": 18,
+          "section": "women",
+          "type": "team",
+          "slug": "ag-insurance-soudal-team-2026",
+          "name": "AG Insurance - Soudal Team",
+          "wins": "3"
+        },
+        {
+          "pos": 19,
+          "section": "women",
+          "type": "team",
+          "slug": "sistecredito-gw-2026",
+          "name": "Sistecredito - GW",
+          "wins": "3"
+        },
+        {
+          "pos": 20,
+          "section": "women",
+          "type": "team",
+          "slug": "nexetis-2026",
+          "name": "NEXETIS",
+          "wins": "3"
+        }
+      ]
     },
     "nations/overview": {
       "label": "Nations statistics",
@@ -24806,7 +28181,7 @@
       "notes": "Historical; very rare",
       "description": "",
       "url": "https://www.procyclingstats.com/statistics/combos",
-      "fetched_at": "2026-06-21T12:37:52.675571+00:00",
+      "fetched_at": "2026-06-21T12:49:56.998674+00:00",
       "row_count": 0,
       "rows": []
     },

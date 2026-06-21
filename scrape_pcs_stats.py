@@ -7,6 +7,7 @@ Must be run locally — CI/server IPs are blocked by PCS.
 Usage:
     py scrape_pcs_stats.py              # fetch missing pages only
     py scrape_pcs_stats.py --all        # re-fetch everything
+    py scrape_pcs_stats.py --fix-empty  # re-fetch pages that returned 0 rows
     py scrape_pcs_stats.py --static     # fetch only static (historical) pages
     py scrape_pcs_stats.py --dynamic    # fetch only dynamic (current season) pages
     py scrape_pcs_stats.py --list       # print all stat IDs and exit
@@ -226,8 +227,9 @@ def parse_stat_table(html, stat_id):
         row = {"pos": rank}
 
         # Look for a rider/team/race link in any cell
+        # Handle both absolute (/rider/slug) and relative (rider/slug) hrefs
         link_m = re.search(
-            r'href=["\'](?:https://www\.procyclingstats\.com)?/(rider|team|race|nation)/([^"\'/?]+)["\']',
+            r'href=["\'](?:https://www\.procyclingstats\.com)?/?(rider|team|race|nation)/([^"\'/?]+)["\']',
             tr
         )
         if link_m:
@@ -235,7 +237,7 @@ def parse_stat_table(html, stat_id):
             row["slug"] = link_m.group(2).strip("/")
             # Name: text content of the link
             name_m = re.search(
-                r'href=["\'](?:https://www\.procyclingstats\.com)?/(?:rider|team|race|nation)/[^"\']+["\'][^>]*>(.*?)</a>',
+                r'href=["\'](?:https://www\.procyclingstats\.com)?/?(?:rider|team|race|nation)/[^"\']+["\'][^>]*>(.*?)</a>',
                 tr, re.DOTALL
             )
             row["name"] = strip_tags(name_m.group(1)).strip() if name_m else row["slug"]
@@ -264,6 +266,224 @@ def parse_stat_table(html, stat_id):
         rows.append(row)
 
     return rows
+
+
+# ── Custom parser helpers ──────────────────────────────────────────────────────
+
+def _get_table_rows(html):
+    """Return list of raw <table>…</table> inner HTML strings."""
+    return re.findall(r'<table[^>]*>(.*?)</table>', html, re.DOTALL)
+
+
+def _get_tr_cells(tbl):
+    """Yield list of raw <td>…</td> inner HTML strings for each <tr>."""
+    for tr_m in re.finditer(r'<tr[^>]*>(.*?)</tr>', tbl, re.DOTALL):
+        cells = re.findall(r'<td[^>]*>(.*?)</td>', tr_m.group(1), re.DOTALL)
+        if cells:
+            yield cells
+
+
+def _rider_link(cell_html):
+    """Extract (slug, name) from a cell containing a rider link."""
+    m = re.search(
+        r'href=["\'](?:https://www\.procyclingstats\.com)?/?rider/([^"\'/?]+)["\'][^>]*>(.*?)</a>',
+        cell_html, re.DOTALL
+    )
+    if m:
+        return m.group(1).strip('/'), strip_tags(m.group(2)).strip()
+    return '', strip_tags(cell_html).strip()
+
+
+def _team_link(cell_html):
+    """Extract (slug, name) from a cell containing a team link."""
+    m = re.search(
+        r'href=["\'](?:https://www\.procyclingstats\.com)?/?team/([^"\'/?]+)["\'][^>]*>(.*?)</a>',
+        cell_html, re.DOTALL
+    )
+    if m:
+        return m.group(1).strip('/'), strip_tags(m.group(2)).strip()
+    return '', strip_tags(cell_html).strip()
+
+
+def _race_link(cell_html):
+    """Extract (slug, name) from a cell containing a race link."""
+    m = re.search(
+        r'href=["\'](?:https://www\.procyclingstats\.com)?/?race/([^"\'/?]+)["\'][^>]*>(.*?)</a>',
+        cell_html, re.DOTALL
+    )
+    if m:
+        return m.group(1).strip('/'), strip_tags(m.group(2)).strip()
+    return '', strip_tags(cell_html).strip()
+
+
+def _valuebar(cell_html):
+    """Extract the numeric label from a PCS valuebar div."""
+    m = re.search(r'class="title[^"]*">([^<]+)<', cell_html)
+    return m.group(1).strip() if m else strip_tags(cell_html).strip()
+
+
+# ── Custom parsers ─────────────────────────────────────────────────────────────
+
+def parse_recently_passed_away(html, stat_id):
+    """Date | Rider | Age — no numeric rank column."""
+    rows = []
+    for tbl in _get_table_rows(html):
+        for cells in _get_tr_cells(tbl):
+            if len(cells) < 2:
+                continue
+            date = strip_tags(cells[0]).strip()
+            if not re.match(r'\d{4}-\d{2}-\d{2}', date):
+                continue
+            slug, name = _rider_link(cells[1])
+            row = {'date': date, 'type': 'rider', 'slug': slug, 'name': name}
+            if len(cells) >= 3:
+                row['age'] = strip_tags(cells[2]).strip()
+            rows.append(row)
+        if rows:
+            break
+    return rows
+
+
+def parse_family_stats(html, stat_id):
+    """
+    Table 0: Date | Rider1 | Rider2              (same-day wins)
+    Table 1: Date | Rider1 | Rider2 | Race        (same-race wins)
+    """
+    rows = []
+    section_labels = ['same_day_wins', 'same_race_wins']
+    for tbl_idx, tbl in enumerate(_get_table_rows(html)):
+        section = section_labels[tbl_idx] if tbl_idx < 2 else f'section_{tbl_idx}'
+        for cells in _get_tr_cells(tbl):
+            if len(cells) < 3:
+                continue
+            date = strip_tags(cells[0]).strip()
+            if not re.match(r'\d{4}-\d{2}-\d{2}', date):
+                continue
+            s1, n1 = _rider_link(cells[1])
+            s2, n2 = _rider_link(cells[2])
+            row = {
+                'section': section, 'date': date,
+                'rider1_slug': s1, 'rider1_name': n1,
+                'rider2_slug': s2, 'rider2_name': n2,
+            }
+            if len(cells) >= 4:
+                rs, rn = _race_link(cells[3])
+                row['race_slug'] = rs
+                row['race_name'] = rn
+            rows.append(row)
+    return rows
+
+
+def parse_solo_victories(html, stat_id):
+    """
+    Table 0: Date | Race | Winner | KM Solo           (latest, date-keyed)
+    Table 1: # | Rider | flag | KM(valuebar) | | Race (longest, rank-keyed)
+    """
+    rows = []
+    for tbl_idx, tbl in enumerate(_get_table_rows(html)):
+        section = 'latest' if tbl_idx == 0 else 'longest'
+        for cells in _get_tr_cells(tbl):
+            if len(cells) < 3:
+                continue
+            first = strip_tags(cells[0]).strip()
+            row = {'section': section}
+            if section == 'latest':
+                if not re.match(r'\d{4}-\d{2}-\d{2}', first):
+                    continue
+                row['date'] = first
+                rs, rn = _race_link(cells[1])
+                row['race_slug'] = rs
+                row['race_name'] = rn
+                ws, wn = _rider_link(cells[2])
+                row['rider_slug'] = ws
+                row['rider_name'] = wn
+                if len(cells) >= 4:
+                    row['km_solo'] = strip_tags(cells[3]).strip()
+            else:  # longest — # | Rider | flag | valuebar(km) | | Race
+                try:
+                    row['pos'] = int(first)
+                except ValueError:
+                    continue
+                s, n = _rider_link(cells[1])
+                row['rider_slug'] = s
+                row['rider_name'] = n
+                if len(cells) >= 4:
+                    row['km_solo'] = _valuebar(cells[3])
+                if len(cells) >= 6:
+                    rs, rn = _race_link(cells[5])
+                    row['race_slug'] = rs
+                    row['race_name'] = rn
+                elif len(cells) >= 5:
+                    rs, rn = _race_link(cells[4])
+                    row['race_slug'] = rs
+                    row['race_name'] = rn
+            rows.append(row)
+    return rows
+
+
+def parse_not_returned(html, stat_id):
+    """Date of injury | Days since injury | Rider | Injury description."""
+    rows = []
+    for tbl in _get_table_rows(html):
+        for cells in _get_tr_cells(tbl):
+            if len(cells) < 3:
+                continue
+            date = strip_tags(cells[0]).strip()
+            if not re.match(r'\d{4}-\d{2}-\d{2}', date):
+                continue
+            days = strip_tags(cells[1]).strip()
+            slug, name = _rider_link(cells[2])
+            row = {
+                'date_of_injury': date,
+                'days_since_injury': days,
+                'type': 'rider', 'slug': slug, 'name': name,
+            }
+            if len(cells) >= 4:
+                row['injury'] = strip_tags(cells[3]).strip()
+            rows.append(row)
+        if rows:
+            break
+    return rows
+
+
+def parse_teams_overview(html, stat_id):
+    """
+    Team | flag | Wins(valuebar) — no numeric rank, two tables (men, women).
+    Assigns pos 1..N within each section based on page order.
+    """
+    rows = []
+    section_labels = ['men', 'women']
+    for tbl_idx, tbl in enumerate(_get_table_rows(html)):
+        section = section_labels[tbl_idx] if tbl_idx < 2 else f'section_{tbl_idx}'
+        pos = 1
+        for cells in _get_tr_cells(tbl):
+            if len(cells) < 2:
+                continue
+            slug, name = _team_link(cells[0])
+            if not slug:
+                continue
+            wins = _valuebar(cells[-1]) if len(cells) >= 3 else strip_tags(cells[-1]).strip()
+            rows.append({
+                'pos': pos, 'section': section,
+                'type': 'team', 'slug': slug, 'name': name, 'wins': wins,
+            })
+            pos += 1
+    return rows
+
+
+def parse_combos_overview(html, stat_id):
+    """Landing/nav page only — no data table."""
+    return []
+
+
+CUSTOM_PARSERS = {
+    "riders/recently-passed-away": parse_recently_passed_away,
+    "riders/family-stats":         parse_family_stats,
+    "riders/solo-victories":       parse_solo_victories,
+    "riders/not-returned":         parse_not_returned,
+    "teams/overview":              parse_teams_overview,
+    "combos/overview":             parse_combos_overview,
+}
 
 
 # ── Cache helpers ──────────────────────────────────────────────────────────────
@@ -303,9 +523,10 @@ def main():
         print(f"\nTotal: {len(STATS)} stat pages")
         return
 
-    refetch_all = "--all" in args
-    only_static  = "--static" in args
-    only_dynamic = "--dynamic" in args
+    refetch_all  = "--all"        in args
+    fix_empty    = "--fix-empty"  in args
+    only_static  = "--static"     in args
+    only_dynamic = "--dynamic"    in args
 
     # Build work list
     work = STATS
@@ -315,13 +536,17 @@ def main():
     elif only_dynamic:
         work = [s for s in STATS if not s[5]]
         print(f"Mode: dynamic pages only ({len(work)})")
+    elif fix_empty:
+        print("Mode: re-fetch pages with 0 rows (custom parsers)")
     else:
         print(f"Mode: {'all' if refetch_all else 'missing only'} ({len(work)} pages)")
 
     cache = load_cache()
     stats = cache.setdefault("stats", {})
 
-    if not refetch_all:
+    if fix_empty:
+        missing = [s for s in work if stats.get(s[0], {}).get("row_count", 0) == 0]
+    elif not refetch_all:
         missing = [s for s in work if s[0] not in stats]
     else:
         missing = work
@@ -351,7 +576,8 @@ def main():
             time.sleep(DELAY)
             continue
 
-        rows = parse_stat_table(html, sid)
+        parser = CUSTOM_PARSERS.get(sid, parse_stat_table)
+        rows = parser(html, sid)
 
         # Extract page description from meta or h1
         desc_m = re.search(r'<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)["\']', html)
@@ -392,7 +618,7 @@ def main():
         print("Re-run to retry failures.")
     print(f"Total in cache: {len(stats)} stat pages")
     print(f"Output: pcs_stats.json")
-    print(f"\nNext: git add pcs_stats.json && git commit -m 'data: PCS stats' && git push")
+    print("\nNext: git add pcs_stats.json scrape_pcs_stats.py && git commit -m \'data: PCS stats\' && git push")
 
 
 if __name__ == "__main__":
