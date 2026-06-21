@@ -649,6 +649,140 @@ header h1 span { color: var(--accent); }
 }
 .rider-search-wrap { position: relative; }
 
+/* ── Following tab ── */
+.following-header {
+  padding: 14px 14px 6px;
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+.following-add-wrap {
+  padding: 10px 14px 8px;
+  position: relative;
+}
+.following-add-input {
+  width: 100%;
+  padding: 9px 14px 9px 36px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .92rem;
+  outline: none;
+  box-sizing: border-box;
+}
+.following-add-input:focus { border-color: var(--upcoming); }
+.following-add-icon {
+  position: absolute;
+  left: 26px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: .95rem;
+  pointer-events: none;
+}
+.following-search-results {
+  display: none;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 4px 14px 0;
+}
+.following-search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  font-size: .88rem;
+}
+.following-search-row:last-child { border-bottom: none; }
+.following-search-row:active { background: var(--surface2); }
+.following-search-photo {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--surface2);
+}
+.following-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.following-card:active { background: var(--surface2); }
+.following-card-photo {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--surface2);
+}
+.following-card-photo-ph {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--surface2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.following-card-info { flex: 1; min-width: 0; }
+.following-card-name { font-size: .93rem; font-weight: 700; }
+.following-card-sub { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+.following-card-race {
+  font-size: .78rem;
+  color: var(--live);
+  margin-top: 3px;
+  font-weight: 600;
+}
+.following-card-result {
+  font-size: .78rem;
+  color: var(--upcoming);
+  margin-top: 2px;
+}
+.following-unfollow {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: .75rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.following-unfollow:active { background: var(--surface2); color: var(--text); }
+.following-empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 20px;
+  font-size: .9rem;
+}
+.follow-modal-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 7px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.follow-modal-btn.following {
+  background: var(--upcoming);
+  color: #fff;
+  border-color: var(--upcoming);
+}
+.follow-modal-btn:active { opacity: .75; }
+
 /* ── What's New banner ── */
 #whats-new-banner {
   display: none;
@@ -750,6 +884,7 @@ header h1 span { color: var(--accent); }
   <div class="section" id="sec-upcoming"></div>
   <div class="section" id="sec-recent"></div>
   <div class="section" id="sec-teams"></div>
+  <div class="section" id="sec-following"></div>
   <div class="section" id="sec-fantasy"></div>
   <div class="section" id="sec-stats"></div>
 </main>
@@ -767,6 +902,9 @@ header h1 span { color: var(--accent); }
   </button>
   <button class="nav-btn" id="nav-teams" onclick="showSec('teams',this)">
     <span class="nav-icon">👕</span><span>Teams</span>
+  </button>
+  <button class="nav-btn" id="nav-following" onclick="showSec('following',this)">
+    <span class="nav-icon">⭐</span><span>Following</span>
   </button>
   <button class="nav-btn" id="nav-fantasy" onclick="showSec('fantasy',this)">
     <span class="nav-icon">🏆</span><span>Fantasy</span>
@@ -811,17 +949,19 @@ function showSec(name, btn) {
   document.getElementById('sec-' + name).classList.add('active');
   btn.classList.add('active');
   currentTab = name;
-  // Hide filter bars on fantasy tab
-  const isFantasy = name === 'fantasy';
-  const isStats   = name === 'stats';
-  document.getElementById('filter-bar').style.display = (isFantasy||isStats) ? 'none' : '';
+  // Hide filter bars on non-race tabs
+  const isFantasy   = name === 'fantasy';
+  const isStats     = name === 'stats';
+  const isFollowing = name === 'following';
+  document.getElementById('filter-bar').style.display = (isFantasy||isStats||isFollowing) ? 'none' : '';
   // Swap race/team chips
   const isTeams = name === 'teams';
-  document.querySelectorAll('.race-chip').forEach(c => c.style.display = (isTeams||isStats) ? 'none' : '');
-  document.querySelectorAll('.team-chip').forEach(c => c.style.display = (isTeams&&!isStats) ? '' : 'none');
-  if (!isFantasy && !isStats) applyFilter(curFilter);
-  if (isFantasy) renderFantasy();
-  if (isStats)   loadStats();
+  document.querySelectorAll('.race-chip').forEach(c => c.style.display = (isTeams||isStats||isFollowing) ? 'none' : '');
+  document.querySelectorAll('.team-chip').forEach(c => c.style.display = (isTeams&&!isStats&&!isFollowing) ? '' : 'none');
+  if (!isFantasy && !isStats && !isFollowing) applyFilter(curFilter);
+  if (isFantasy)   renderFantasy();
+  if (isStats)     loadStats();
+  if (isFollowing) renderFollowing();
 }
 
 // ── Filter ─────────────────────────────────────────────────────────────────────
@@ -1380,12 +1520,20 @@ async function openRiderModal(slug) {
       }).join('')
     : `<p class="rider-modal-no-data">${profile ? 'No wins recorded' : 'Profile not yet fetched — run scrape_rider_profiles.py'}</p>`;
 
+  const isFollowed = followLoad().some(f => f.slug === slug);
+  const followBtnClass = isFollowed ? 'follow-modal-btn following' : 'follow-modal-btn';
+  const followBtnLabel = isFollowed ? '⭐ Following' : '+ Follow';
+  const followBtnOnclick = isFollowed
+    ? `unfollowRider('${esc(slug)}','${esc(name)}')`
+    : `followRider('${esc(slug)}','${esc(name)}','${esc(nat)}')`;
+
   content.innerHTML = `
     <div class="rider-modal-header">
       ${photoEl}
       <div>
         <div class="rider-modal-name">${esc(name)}</div>
         ${meta ? `<div class="rider-modal-meta">${meta}</div>` : ''}
+        <button id="followModalBtn" class="${followBtnClass}" data-slug="${esc(slug)}" data-nat="${esc(nat)}" onclick="${followBtnOnclick}">${followBtnLabel}</button>
       </div>
     </div>
     <div class="rider-modal-section">⭐ Specialties</div>
@@ -1679,11 +1827,36 @@ async function silentCheck() {
       renderRecent(appData.recent || []);
 
       // Fire in-app notification for each new stage result
+      const followed = followLoad();
+      const followedSlugs = new Map(followed.map(f => [f.slug, f.name]));
       for(const race of (d.live||[])){
         for(const s of (race.stages||[])){
           const key=`${race.slug}-${s.num}`;
           if(s.winner && !prevWinners.has(key)){
-            _fireInAppNotif(`🏁 ${race.name} — Stage ${s.num}`,`${s.winner} wins`,`stage-${key}`);
+            // Check if winner is a followed rider (match by slug from top10)
+            const winnerSlug = (s.top10 && s.top10[0])
+              ? (s.top10[0].rider_url||'').replace('/profile/','').replace(/^\/+/,'').trim() : '';
+            const followedName = winnerSlug ? followedSlugs.get(winnerSlug) : null;
+            if (followedName) {
+              _fireInAppNotif(`🌟 ${followedName} wins!`,`${race.name} — Stage ${s.num}`,`followed-stage-${key}`);
+            } else {
+              _fireInAppNotif(`🏁 ${race.name} — Stage ${s.num}`,`${s.winner} wins`,`stage-${key}`);
+            }
+          }
+        }
+      }
+      // Also check for followed riders in new top-10 positions (non-stage-win)
+      for(const race of (d.live||[])){
+        for(const s of (race.stages||[])){
+          const key=`${race.slug}-${s.num}`;
+          if(!prevWinners.has(key) && s.top10){
+            for(let i=1; i<Math.min(s.top10.length,10); i++){
+              const r = s.top10[i];
+              const rSlug = (r.rider_url||'').replace('/profile/','').replace(/^\/+/,'').trim();
+              if(followedSlugs.has(rSlug)){
+                _fireInAppNotif(`📍 ${followedSlugs.get(rSlug)} — P${i+1}`,`${race.name} Stage ${s.num}`,`followed-top10-${key}-${rSlug}`);
+              }
+            }
           }
         }
       }
@@ -1733,6 +1906,176 @@ document.addEventListener('visibilitychange', () => {
 });
 
 
+
+// ── Following Tab ──────────────────────────────────────────────────────────────
+
+const FOLLOWING_KEY = 'uci_following';
+
+function followLoad() {
+  try { return JSON.parse(localStorage.getItem(FOLLOWING_KEY) || '[]'); } catch(e) { return []; }
+}
+function followSave(list) { localStorage.setItem(FOLLOWING_KEY, JSON.stringify(list)); }
+
+function followRider(slug, name, nat) {
+  const list = followLoad();
+  if (list.find(f => f.slug === slug)) return;
+  followSave([...list, { slug, name, nat: nat || '' }]);
+  // Re-render if following tab is open
+  if (currentTab === 'following') renderFollowing();
+  // Update modal button if open
+  const btn = document.getElementById('followModalBtn');
+  if (btn && btn.dataset.slug === slug) {
+    btn.textContent = '⭐ Following';
+    btn.classList.add('following');
+    btn.onclick = () => unfollowRider(slug, name);
+  }
+}
+
+function unfollowRider(slug, name) {
+  followSave(followLoad().filter(f => f.slug !== slug));
+  if (currentTab === 'following') renderFollowing();
+  const btn = document.getElementById('followModalBtn');
+  if (btn && btn.dataset.slug === slug) {
+    btn.textContent = '+ Follow';
+    btn.classList.remove('following');
+    btn.onclick = () => followRider(slug, name, btn.dataset.nat);
+  }
+}
+
+function _followRiderStatus(slug) {
+  // Returns { raceName, stageNum, pos, winner } or null for the most recent result
+  let latest = null;
+  for (const race of [...(appData.live || []), ...(appData.recent || [])]) {
+    for (const s of (race.stages || [])) {
+      const top10 = s.top10 || [];
+      const idx = top10.findIndex(r => {
+        const rSlug = (r.rider_url || '').replace('/profile/', '').replace(/^\/+/, '').trim();
+        return rSlug === slug;
+      });
+      if (idx >= 0) {
+        latest = { raceName: race.name, stageNum: s.num, pos: idx + 1, winner: idx === 0 };
+      }
+    }
+    // Also check single-day races
+    const top10 = race.top10 || [];
+    const idx = top10.findIndex(r => {
+      const rSlug = (r.rider_url || '').replace('/profile/', '').replace(/^\/+/, '').trim();
+      return rSlug === slug;
+    });
+    if (idx >= 0 && !latest) {
+      latest = { raceName: race.name, stageNum: null, pos: idx + 1, winner: idx === 0 };
+    }
+  }
+  return latest;
+}
+
+function _followInLive(slug) {
+  // Is this rider currently listed in any live race (startlist)
+  for (const race of (appData.live || [])) {
+    const inSl = (race.startlist || []).some(r =>
+      (r.slug || (r.rider_url || '').replace('/profile/', '').replace(/^\/+/, '').trim()) === slug
+    );
+    if (inSl) return race.name;
+  }
+  return null;
+}
+
+async function followSearchRiders(q) {
+  const el = document.getElementById('followSearchResults');
+  if (!el) return;
+  const raw = q.trim().toLowerCase();
+  if (raw.length < 2) { el.style.display = 'none'; return; }
+  const profiles = await loadRiderProfiles();
+  const followed = new Set(followLoad().map(f => f.slug));
+  const matches = [];
+  for (const [slug, p] of Object.entries(profiles)) {
+    if (followed.has(slug)) continue;
+    if ((p.name || '').toLowerCase().includes(raw)) {
+      matches.push({ slug, name: p.name, nat: p.nat || '', photo: p.photo || '' });
+    }
+  }
+  matches.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+  if (!matches.length) {
+    el.innerHTML = '<div style="padding:10px 14px;color:var(--muted);font-size:.85rem">No riders found</div>';
+  } else {
+    el.innerHTML = matches.slice(0, 40).map(r => {
+      const photoEl = r.photo
+        ? `<img class="following-search-photo" src="${esc(r.photo)}" loading="lazy" onerror="this.style.display='none'">`
+        : `<div class="following-search-photo" style="font-size:1rem;display:flex;align-items:center;justify-content:center">🚴</div>`;
+      return `<div class="following-search-row" onclick="followRider('${esc(r.slug)}','${esc(r.name)}','${esc(r.nat)}');document.getElementById('followSearchInput').value='';document.getElementById('followSearchResults').style.display='none'">
+        ${photoEl}
+        ${flagImg(r.nat)}<span style="font-weight:600">${esc(r.name)}</span>
+      </div>`;
+    }).join('');
+  }
+  el.style.display = 'block';
+}
+
+async function renderFollowing() {
+  const el = document.getElementById('sec-following');
+  if (!el) return;
+  const list = followLoad();
+  const profiles = appData._followProfiles || {};
+
+  // Try to enrich from already-loaded rider_profiles cache
+  const cached = riderProfilesData || {};
+
+  const searchBox = `
+    <div class="following-add-wrap">
+      <span class="following-add-icon">🔍</span>
+      <input id="followSearchInput" class="following-add-input" type="search" placeholder="Search riders to follow…"
+        autocomplete="off"
+        oninput="followSearchRiders(this.value).catch(console.error)"
+        onfocus="followSearchRiders(this.value).catch(console.error)"
+        onblur="setTimeout(()=>{const r=document.getElementById('followSearchResults');if(r)r.style.display='none'},200)">
+    </div>
+    <div id="followSearchResults" class="following-search-results"></div>
+  `;
+
+  if (!list.length) {
+    el.innerHTML = searchBox + '<div class="following-empty">Search above to follow riders<br><span style="font-size:.78rem;margin-top:6px;display:block">You\'ll get notified when they win a stage</span></div>';
+    return;
+  }
+
+  const cards = list.map(f => {
+    const p = cached[f.slug] || {};
+    const photo = p.photo
+      ? `<img class="following-card-photo" src="${esc(p.photo)}" loading="lazy" onerror="this.style.display='none'">`
+      : `<div class="following-card-photo-ph">🚴</div>`;
+    const nat = f.nat || p.nat || '';
+    const natFlag = flagImg(nat);
+    const liveRace = _followInLive(f.slug);
+    const result = _followRiderStatus(f.slug);
+    let sub = '';
+    // Team name from teams data
+    for (const team of (appData.teams || [])) {
+      if ((team.riders || []).some(r => r.slug === f.slug)) { sub = esc(team.name); break; }
+    }
+    const raceLine = liveRace
+      ? `<div class="following-card-race">🔴 Racing now · ${esc(liveRace)}</div>` : '';
+    let resultLine = '';
+    if (result) {
+      const pos = result.pos === 1 ? '🏆 Won' : `P${result.pos}`;
+      const stage = result.stageNum ? ` Stage ${result.stageNum}` : '';
+      resultLine = `<div class="following-card-result">${pos}${stage} · ${esc(result.raceName)}</div>`;
+    }
+    return `<div class="following-card" onclick="openRiderModal('${esc(f.slug)}')">
+      ${photo}
+      <div class="following-card-info">
+        <div class="following-card-name">${natFlag}${esc(f.name)}</div>
+        ${sub ? `<div class="following-card-sub">${sub}</div>` : ''}
+        ${raceLine}${resultLine}
+      </div>
+      <button class="following-unfollow" onclick="event.stopPropagation();unfollowRider('${esc(f.slug)}','${esc(f.name)}')">✕ Unfollow</button>
+    </div>`;
+  });
+
+  el.innerHTML = `
+    <div class="following-header">⭐ Following (${list.length})</div>
+    ${searchBox}
+    <div>${cards.join('')}</div>
+  `;
+}
 
 // ── Fantasy League ─────────────────────────────────────────────────────────────
 
