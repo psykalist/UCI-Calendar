@@ -1295,10 +1295,35 @@ function searchRiders(q) {
 
 // ── Rider profile modal ────────────────────────────────────────────────────────
 
-function openRiderModal(slug) {
-  const profile = (appData.rider_profiles || {})[slug];
+let riderProfilesData = null;
+let riderProfilesLoading = false;
+
+async function loadRiderProfiles() {
+  if (riderProfilesData) return riderProfilesData;
+  if (riderProfilesLoading) {
+    // Wait for in-flight load
+    await new Promise(res => { const t = setInterval(() => { if (!riderProfilesLoading) { clearInterval(t); res(); } }, 100); });
+    return riderProfilesData;
+  }
+  riderProfilesLoading = true;
+  try {
+    const r = await fetch('./rider_profiles.json', {cache: 'no-cache'});
+    if (r.ok) riderProfilesData = (await r.json()).riders || {};
+  } catch(e) { riderProfilesData = {}; }
+  riderProfilesLoading = false;
+  return riderProfilesData;
+}
+
+async function openRiderModal(slug) {
+  // Show modal immediately with loading state
   const modal = document.getElementById('riderModal');
   const content = document.getElementById('riderModalContent');
+  content.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">⏳ Loading…</div>';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  const profiles = await loadRiderProfiles();
+  const profile = profiles[slug] || (appData.rider_profiles || {})[slug];
 
   let baseInfo = null;
   for (const team of (appData.teams || [])) {
@@ -1307,52 +1332,66 @@ function openRiderModal(slug) {
   }
 
   const name     = (profile || baseInfo || {}).name || slug.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
-  const nat      = (profile || baseInfo || {}).nat || '';
+  const nat      = ((profile || baseInfo || {}).nat || '').toLowerCase();
+  const natName  = (profile || {}).nat_name || nat.toUpperCase();
   const photo    = (profile || {}).photo;
   const dob      = (profile || {}).dob;
   const wins     = (profile || {}).wins || [];
   const teamName = (baseInfo || {}).teamName || '';
+  const weight   = (profile || {}).weight;
+  const height   = (profile || {}).height;
 
   const photoEl = photo
-    ? `<img class="rider-modal-photo" src="${esc(photo)}" alt="${esc(name)}">`
+    ? `<img class="rider-modal-photo" src="${esc(photo)}" alt="${esc(name)}" onerror="this.style.display='none'">`
     : `<div class="rider-modal-photo-ph">🚴</div>`;
 
   let meta = '';
-  if (nat) meta += `<img src="https://flagcdn.com/16x12/${(nat).toLowerCase()}.png" width="16" height="11" style="vertical-align:middle;margin-right:4px;border-radius:1px">${nat}`;
+  if (nat) meta += `<img src="https://flagcdn.com/16x12/${nat}.png" width="16" height="11" style="vertical-align:middle;margin-right:4px;border-radius:1px"> ${esc(natName)}`;
   if (dob) {
     const age = Math.floor((Date.now() - new Date(dob)) / (365.25*86400000));
-    meta += (meta ? ' · ' : '') + `Born ${dob} (${age} yrs)`;
+    meta += (meta ? ' · ' : '') + `${esc(dob)}${(!isNaN(age) && age > 0) ? ` (${age})` : ''}`;
   }
-  if (teamName) meta += (meta ? '<br>' : '') + teamName;
+  if (weight || height) {
+    const wh = [weight ? weight + 'kg' : '', height ? height + 'm' : ''].filter(Boolean).join(' · ');
+    meta += (meta ? '<br>' : '') + esc(wh);
+  }
+  if (teamName) meta += (meta ? '<br>' : '') + esc(teamName);
 
-  const winsHTML = wins.length
-    ? wins.map(w => `<div class="win-entry"><span class="win-year">${esc(w.year)}</span><span class="win-race">${esc(w.race)}</span><span class="win-cat">${esc(w.cat)}</span></div>`).join('')
-    : `<p class="rider-modal-no-data">No wins data yet — check back after next scrape</p>`;
-
-  // Specialty bars
+  // Specialty bars — scraper keys: gc, oneday, tt, sprint, climber, hills
   const specialties = (profile || {}).specialties || {};
   const SPEC_ORDER = [
-    { key: 'gc',             label: 'GC',          color: '#e63946' },
-    { key: 'one-day-races',  label: 'One Day',      color: '#f4a261' },
-    { key: 'climbers',       label: 'Climber',      color: '#2a9d8f' },
-    { key: 'sprint',         label: 'Sprint',       color: '#e9c46a' },
-    { key: 'time-trial',     label: 'Time Trial',   color: '#4361ee' },
-    { key: 'hills',          label: 'Hills',        color: '#8ecae6' },
+    { key: 'climber', label: 'Climber',    color: '#2a9d8f' },
+    { key: 'gc',      label: 'GC',         color: '#e63946' },
+    { key: 'oneday',  label: 'One Day',    color: '#f4a261' },
+    { key: 'sprint',  label: 'Sprint',     color: '#e9c46a' },
+    { key: 'tt',      label: 'Time Trial', color: '#4361ee' },
+    { key: 'hills',   label: 'Hills',      color: '#8ecae6' },
   ];
+  const maxSpec = Math.max(1, ...Object.values(specialties).filter(Number.isFinite));
   const specHTML = Object.keys(specialties).length
     ? `<div class="spec-bars">${SPEC_ORDER.map(({key, label, color}) => {
-        const s = specialties[key];
-        if (!s) return '';
-        const bar = Math.max(s.bar || 0, s.score > 0 ? 2 : 0);
+        const score = specialties[key];
+        if (!score) return '';
+        const bar = Math.round((score / maxSpec) * 100);
         return `<div class="spec-row">
           <div class="spec-label">${label}</div>
-          <div class="spec-track">
-            <div class="spec-fill" style="width:${bar}%;background:${color}"></div>
-          </div>
-          <div class="spec-score">${s.score.toLocaleString()}</div>
+          <div class="spec-track"><div class="spec-fill" style="width:${bar}%;background:${color}"></div></div>
+          <div class="spec-score">${score.toLocaleString()}</div>
         </div>`;
       }).join('')}</div>`
-    : `<p class="rider-modal-no-data">Specialty data loads on next full scrape</p>`;
+    : `<p class="rider-modal-no-data">Specialty scores not available</p>`;
+
+  // Wins — scraper: {nr, race, class, date, cat}
+  const winsHTML = wins.length
+    ? wins.map(w => {
+        const yr = (w.date || '').substring(0, 4) || (w.year || '');
+        return `<div class="win-entry">
+          <span class="win-year">${esc(String(yr))}</span>
+          <span class="win-race">${esc(w.race || '')}</span>
+          <span class="win-cat">${esc(w.class || w.cat || '')}</span>
+        </div>`;
+      }).join('')
+    : `<p class="rider-modal-no-data">${profile ? 'No wins recorded' : 'Profile not yet fetched — run scrape_rider_profiles.py'}</p>`;
 
   content.innerHTML = `
     <div class="rider-modal-header">
@@ -1366,16 +1405,7 @@ function openRiderModal(slug) {
     ${specHTML}
     <div class="rider-modal-section">🏆 Palmares (${wins.length} wins)</div>
     <div class="wins-panel" style="display:block">${winsHTML}</div>
-    <div style="padding:12px 0 4px;text-align:center">
-      <a href="https://www.procyclingstats.com/rider/${esc(slug)}" target="_blank"
-         style="font-size:.8rem;color:var(--muted);text-decoration:underline">
-        View full profile on ProCyclingStats ↗
-      </a>
-    </div>
   `;
-
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
 }
 
 function closeRiderModal(e) {
@@ -1566,7 +1596,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v28';
+const APP_VERSION = 'v29';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
