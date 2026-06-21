@@ -111,6 +111,7 @@ header h1 span { color: var(--accent); }
   scrollbar-width: none;
 }
 .filter-bar::-webkit-scrollbar { display: none; }
+.filter-divider { color: var(--border); padding: 0 2px; align-self: center; cursor: default; pointer-events: none; }
 
 .filter-chip {
   flex-shrink: 0;
@@ -744,15 +745,13 @@ header h1 span { color: var(--accent); }
   <span class="filter-chip race-chip" onclick="setFilter('PRO',this)">Pro Series</span>
   <span class="filter-chip team-chip" onclick="setFilter('PRO',this)" style="display:none">ProTeam</span>
   <span class="filter-chip race-chip" onclick="setFilter('1.1',this)">1.1 / 2.1</span>
-  <span class="filter-chip" onclick="setFilter('THISWEEK',this)">📅 This Week</span>
-</div>
-<div class="filter-bar" id="filter-bar-stages" style="margin-top:4px">
-  <span style="font-size:0.72rem;opacity:0.6;align-self:center;margin-right:4px">No of Days:</span>
-  <span class="filter-chip stages-chip active" onclick="setMinStages(1,this)">All</span>
-  <span class="filter-chip stages-chip" onclick="setMinStages(2,this)">2+</span>
-  <span class="filter-chip stages-chip" onclick="setMinStages(5,this)">5+</span>
-  <span class="filter-chip stages-chip" onclick="setMinStages(7,this)">7+</span>
-  <span class="filter-chip stages-chip" onclick="setMinStages(21,this)">GT only</span>
+  <span class="filter-chip" onclick="setFilter('THISWEEK',this)">This Week</span>
+  <span class="filter-divider race-chip">|</span>
+  <span class="filter-chip stages-chip active race-chip" onclick="setMinStages(1,this)">Any length</span>
+  <span class="filter-chip stages-chip race-chip" onclick="setMinStages(2,this)">2+ days</span>
+  <span class="filter-chip stages-chip race-chip" onclick="setMinStages(5,this)">5+ days</span>
+  <span class="filter-chip stages-chip race-chip" onclick="setMinStages(7,this)">7+ days</span>
+  <span class="filter-chip stages-chip race-chip" onclick="setMinStages(21,this)">GT only</span>
 </div>
 
 <main>
@@ -826,8 +825,7 @@ function showSec(name, btn) {
   // Hide filter bars on fantasy tab
   const isFantasy = name === 'fantasy';
   const isStats   = name === 'stats';
-  document.getElementById('filter-bar').style.display        = (isFantasy||isStats) ? 'none' : '';
-  document.getElementById('filter-bar-stages').style.display = (isFantasy||isStats) ? 'none' : '';
+  document.getElementById('filter-bar').style.display = (isFantasy||isStats) ? 'none' : '';
   // Swap race/team chips
   const isTeams = name === 'teams';
   document.querySelectorAll('.race-chip').forEach(c => c.style.display = (isTeams||isStats) ? 'none' : '');
