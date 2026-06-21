@@ -1,0 +1,336 @@
+name: Health Check & Auto-Repair
+
+# Runs:
+#   - Whenever heal.py pushes status.json from your local machine
+#   - Every 6 hours on schedule (catches cases where local machine is off)
+#   - Manually from the Actions tab
+
+on:
+  push:
+    paths:
+      - 'status.json'
+    branches:
+      - main
+  schedule:
+    - cron: '0 */6 * * *'   # every 6 hours
+  workflow_dispatch:
+    inputs:
+      force_scrape:
+        description: 'Force re-run scraper even if data is fresh'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Setup ──────────────────────────────────────────────────────────────
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Configure git
+        run: |
+          git config --global user.name  'UCI Calendar Bot'
+          git config --global user.email 'uci-bot@users.noreply.github.com'
+
+      - name: Pull latest (avoid stale checkout)
+        run: git pull --rebase origin main || git pull origin main
+
+      # ── Read current status ────────────────────────────────────────────────
+      - name: Read status.json
+        id: status
+        run: |
+          python3 - <<'EOF'
+          import json, os, sys
+          from datetime import datetime, timezone
+
+          # Defaults if status.json doesn't exist
+          overall     = "unknown"
+          age_hours   = 999
+          data_valid  = False
+          missing_sp  = 999
+
+          if os.path.exists("status.json"):
+              try:
+                  s = json.load(open("status.json"))
+                  overall    = s.get("overall", "unknown")
+                  d          = s.get("data", {})
+                  age_hours  = d.get("data_age_hours", 999)
+                  data_valid = "data_size_kb" in d and d.get("data_size_kb", 0) > 200
+                  missing_sp = d.get("specialties_missing", 0)
+                  print(f"status.json: overall={overall}, age={age_hours}h, valid={data_valid}, missing_sp={missing_sp}")
+              except Exception as e:
+                  print(f"Could not parse status.json: {e}")
+                  overall = "error"
+          else:
+              print("No status.json found — treating as unknown")
+              overall = "unknown"
+
+          # Decide whether to re-scrape
+          force      = os.environ.get("FORCE_SCRAPE", "false").lower() == "true"
+          need_scrape = (
+              force
+              or overall == "error"
+              or overall == "unknown"
+              or age_hours > 26        # data older than 26h → scrape
+              or not data_valid
+          )
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as out:
+              out.write(f"overall={overall}\n")
+              out.write(f"age_hours={age_hours}\n")
+              out.write(f"need_scrape={'true' if need_scrape else 'false'}\n")
+              out.write(f"missing_specialties={missing_sp}\n")
+
+          print(f"need_scrape={need_scrape}")
+          EOF
+        env:
+          FORCE_SCRAPE: ${{ github.event.inputs.force_scrape }}
+
+      # ── Validate data.json before deciding ────────────────────────────────
+      - name: Validate data.json
+        id: validate
+        run: |
+          python3 - <<'EOF'
+          import json, sys, os
+          errors = []
+          warnings = []
+
+          if not os.path.exists("data.json"):
+              errors.append("data.json missing")
+          else:
+              size_kb = os.path.getsize("data.json") // 1024
+              try:
+                  data = json.load(open("data.json"))
+                  print(f"data.json: {size_kb} KB, valid JSON")
+                  for key in ("upcoming", "recent", "teams"):
+                      n = len(data.get(key, []))
+                      if n == 0:
+                          warnings.append(f"No {key} in data.json")
+                      else:
+                          print(f"  {key}: {n} items")
+                  riders = len(data.get("rider_profiles", {}))
+                  print(f"  rider_profiles: {riders}")
+                  if size_kb < 200:
+                      errors.append(f"data.json too small: {size_kb} KB")
+              except json.JSONDecodeError as e:
+                  errors.append(f"data.json invalid JSON: {e}")
+
+          for e in errors:   print(f"ERROR: {e}", file=sys.stderr)
+          for w in warnings: print(f"WARN:  {w}")
+
+          if errors:
+              # Try to restore from previous commit
+              import subprocess
+              print("Attempting restore from previous commit...")
+              r = subprocess.run(["git", "log", "--oneline", "-5"], capture_output=True, text=True)
+              print(r.stdout)
+              # Find last known-good commit (skip heal/status commits)
+              commits = subprocess.run(
+                  ["git", "log", "--oneline", "-20"],
+                  capture_output=True, text=True
+              ).stdout.splitlines()
+              for line in commits:
+                  sha = line.split()[0]
+                  msg = " ".join(line.split()[1:])
+                  if "heal:" in msg or "status" in msg.lower():
+                      continue
+                  # Try this commit
+                  r2 = subprocess.run(["git", "show", f"{sha}:data.json"], capture_output=True)
+                  if r2.returncode == 0:
+                      try:
+                          json.loads(r2.stdout)
+                          with open("data.json", "wb") as f:
+                              f.write(r2.stdout)
+                          print(f"Restored data.json from commit {sha}: {msg}")
+                          break
+                      except:
+                          continue
+          EOF
+
+      # ── Re-scrape if needed ────────────────────────────────────────────────
+      - name: Run scraper
+        if: steps.status.outputs.need_scrape == 'true'
+        run: |
+          echo "Data needs refresh (age=${{ steps.status.outputs.age_hours }}h, overall=${{ steps.status.outputs.overall }})"
+          cp data.json data_old.json 2>/dev/null || echo '{}' > data_old.json
+          python3 scraper.py
+          python3 detect_changes.py data_old.json data.json changelog.json
+          rm -f data_old.json
+          echo "Scrape complete."
+
+      - name: Skip scrape (data is fresh)
+        if: steps.status.outputs.need_scrape == 'false'
+        run: |
+          echo "Data is fresh (${{ steps.status.outputs.age_hours }}h old) — skipping scrape."
+
+      # ── CI health check — write status.json ───────────────────────────────
+      - name: Write CI status.json
+        run: |
+          python3 - <<'EOF'
+          import json, os, sys
+          from datetime import datetime, timezone
+
+          errors   = []
+          warnings = []
+          info     = {}
+
+          # Check data.json
+          if not os.path.exists("data.json"):
+              errors.append("data.json missing after scrape")
+          else:
+              size_kb = os.path.getsize("data.json") // 1024
+              info["data_size_kb"] = size_kb
+              try:
+                  data = json.load(open("data.json"))
+                  for key in ("upcoming", "recent", "teams"):
+                      n = len(data.get(key, []))
+                      info[f"data_{key}"] = n
+                      if n == 0:
+                          warnings.append(f"data.json has no {key}")
+
+                  riders = data.get("rider_profiles", {})
+                  info["rider_profiles"] = len(riders)
+
+                  missing = [s for s, p in riders.items() if "specialties" not in p]
+                  has_sp  = sum(1 for p in riders.values()
+                                if p.get("specialties") and len(p["specialties"]) > 0)
+                  info["specialties_missing"]   = len(missing)
+                  info["specialties_with_data"] = has_sp
+
+                  scraped = data.get("scraped_at", "")
+                  info["scraped_at"] = scraped
+                  if scraped:
+                      dt    = datetime.fromisoformat(scraped.replace("Z", "+00:00"))
+                      age_h = (datetime.now(timezone.utc) - dt).total_seconds() / 3600
+                      info["data_age_hours"] = round(age_h, 1)
+                      if age_h > 72:
+                          errors.append(f"data.json still {age_h:.0f}h old after scrape attempt")
+                      elif age_h > 26:
+                          warnings.append(f"data.json is {age_h:.0f}h old")
+
+              except json.JSONDecodeError as e:
+                  errors.append(f"data.json invalid JSON: {e}")
+
+          # Check index.html
+          if os.path.exists("index.html"):
+              sz = os.path.getsize("index.html")
+              info["index_html_bytes"] = sz
+              if sz < 80_000:
+                  errors.append(f"index.html too small: {sz} bytes")
+          else:
+              errors.append("index.html missing")
+
+          # Check changelog.json
+          if os.path.exists("changelog.json"):
+              try:
+                  cl = json.load(open("changelog.json"))
+                  info["changelog_entries"] = len(cl.get("entries", []))
+              except:
+                  warnings.append("changelog.json invalid")
+
+          overall = "error" if errors else ("warning" if warnings else "ok")
+
+          status = {
+              "updated_at": datetime.now(timezone.utc).isoformat(),
+              "source":     "ci",
+              "overall":    overall,
+              "errors":     errors,
+              "warnings":   warnings,
+              "repairs":    [],
+              "data":       info,
+          }
+
+          with open("status.json", "w") as f:
+              json.dump(status, f, indent=2)
+
+          print(f"\n{'='*50}")
+          print(f"  STATUS: {overall.upper()}")
+          if errors:
+              for e in errors: print(f"  ✗ {e}")
+          if warnings:
+              for w in warnings: print(f"  ⚠ {w}")
+          if not errors and not warnings:
+              print("  Everything looks healthy.")
+          print(f"{'='*50}\n")
+
+          if errors:
+              sys.exit(1)
+          EOF
+
+      # ── Commit and push results ────────────────────────────────────────────
+      - name: Commit and push
+        run: |
+          git add data.json changelog.json status.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "heal(ci): auto-repair ${TIMESTAMP}"
+            git push
+          fi
+
+      # ── Surface status in Actions summary ─────────────────────────────────
+      - name: Write job summary
+        if: always()
+        run: |
+          python3 - <<'EOF'
+          import json, os
+
+          try:
+              s = json.load(open("status.json"))
+          except:
+              s = {"overall": "unknown", "errors": [], "warnings": [], "repairs": [], "data": {}}
+
+          overall = s.get("overall", "unknown")
+          icon    = {"ok": "✅", "warning": "⚠️", "error": "❌"}.get(overall, "❓")
+          d       = s.get("data", {})
+
+          lines = [
+              f"## {icon} UCI Calendar Health — {overall.upper()}",
+              f"",
+              f"| Metric | Value |",
+              f"|--------|-------|",
+              f"| data.json size | {d.get('data_size_kb','?')} KB |",
+              f"| Data age | {d.get('data_age_hours','?')} hours |",
+              f"| Upcoming races | {d.get('data_upcoming','?')} |",
+              f"| Recent races | {d.get('data_recent','?')} |",
+              f"| Teams | {d.get('data_teams','?')} |",
+              f"| Rider profiles | {d.get('rider_profiles','?')} |",
+              f"| Specialties with data | {d.get('specialties_with_data','?')} |",
+              f"| Specialties missing | {d.get('specialties_missing','?')} |",
+              f"",
+          ]
+
+          if s.get("errors"):
+              lines.append("### ❌ Errors")
+              for e in s["errors"]: lines.append(f"- {e}")
+              lines.append("")
+
+          if s.get("warnings"):
+              lines.append("### ⚠️ Warnings")
+              for w in s["warnings"]: lines.append(f"- {w}")
+              lines.append("")
+
+          if s.get("repairs"):
+              lines.append("### ↻ Repairs")
+              for r in s["repairs"]: lines.append(f"- {r}")
+              lines.append("")
+
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write("\n".join(lines))
+          EOF
