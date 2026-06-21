@@ -1225,33 +1225,51 @@ function renderTeams(teams) {
   el.innerHTML = `
     <div class="rider-search-wrap">
       <span class="rider-search-icon">🔍</span>
-      <input class="rider-search-input" id="riderSearch" type="search" placeholder="Search rider…" oninput="searchRiders(this.value)">
+      <input class="rider-search-input" id="riderSearch" type="search" placeholder="Search rider…" oninput="searchRiders(this.value).catch(console.error)">
     </div>
     <div id="rider-search-results" style="display:none;padding:0 14px 14px"></div>
     <div id="teams-list" style="padding:14px">${html}</div>`;
 }
 
-function searchRiders(q) {
+async function searchRiders(q) {
   const resultEl = document.getElementById('rider-search-results');
   const teamsEl  = document.getElementById('teams-list');
   q = q.trim().toLowerCase();
-  if (!q) {
+  if (q.length < 2) {
     resultEl.style.display = 'none';
     teamsEl.style.display = '';
     return;
   }
   teamsEl.style.display = 'none';
   resultEl.style.display = '';
-  resultEl.scrollIntoView({block: 'start', behavior: 'smooth'});
+  resultEl.innerHTML = '<p class="empty" style="padding:16px">Searching…</p>';
 
-  const matches = [];
+  // Build team lookup for rider → team name
+  const riderTeam = {};
   for (const team of (appData.teams || [])) {
     for (const r of (team.riders || [])) {
-      if ((r.name||'').toLowerCase().includes(q)) {
-        matches.push({...r, teamName: team.name});
-      }
+      if (r.slug) riderTeam[r.slug] = team.name;
     }
   }
+
+  // Search rider_profiles.json (all 1800 riders)
+  const profiles = await loadRiderProfiles();
+  const matches = [];
+  for (const [slug, p] of Object.entries(profiles)) {
+    if ((p.name||'').toLowerCase().includes(q)) {
+      matches.push({
+        slug,
+        name:     p.name,
+        nat:      p.nat,
+        photo:    p.photo,
+        dob:      p.dob,
+        teamName: riderTeam[slug] || '',
+      });
+    }
+  }
+  matches.sort((a,b) => (a.name||'').localeCompare(b.name||''));
+
+  resultEl.scrollIntoView({block: 'start', behavior: 'smooth'});
 
   if (!matches.length) {
     resultEl.innerHTML = '<p class="empty" style="padding:16px">No riders found.</p>';
@@ -1259,7 +1277,7 @@ function searchRiders(q) {
   }
 
   resultEl.innerHTML = `<div class="group-header">${matches.length} rider${matches.length>1?'s':''} found</div>` +
-    matches.map((r, i) => renderRiderRow(r, 'search', i)).join('');
+    matches.slice(0, 50).map((r, i) => renderRiderRow(r, 'search', i)).join('');
 }
 
 // ── Rider profile modal ────────────────────────────────────────────────────────
