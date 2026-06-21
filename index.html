@@ -626,9 +626,6 @@ header h1 span { color: var(--accent); }
 /* ── Rider search ── */
 .rider-search-wrap {
   padding: 10px 14px 4px;
-  position: sticky;
-  top: 108px;
-  z-index: 98;
   background: var(--bg);
 }
 .rider-search-input {
@@ -1254,6 +1251,7 @@ function searchRiders(q) {
   }
   teamsEl.style.display = 'none';
   resultEl.style.display = '';
+  resultEl.scrollIntoView({block: 'start', behavior: 'smooth'});
 
   const matches = [];
   for (const team of (appData.teams || [])) {
