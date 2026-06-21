@@ -42,8 +42,10 @@ HEADERS = {
     "Accept-Language": "en-GB,en;q=0.9",
 }
 
-# UCI categories to include
+# UCI categories to include (men's only)
 UCI_CATS = {"1.UWT", "2.UWT", "1.Pro", "2.Pro", "1.1", "2.1"}
+# Women's categories — explicitly excluded (belt-and-braces)
+UCI_WOMEN_CATS = {"1.WWT", "2.WWT", "1.W", "2.W", "1.1W", "2.1W"}
 
 # ── Team lists (WorldTeam + ProTeam only) ──────────────────────────────────────
 
@@ -1320,6 +1322,15 @@ def main():
         cat = info.get("category", "")
         if slug not in ALWAYS_INCLUDE and not any(cat.startswith(c) for c in UCI_CATS):
             print(f"    [skip] Category {cat!r} not in target list", flush=True)
+            continue
+
+        # Skip women's races (category + name-based double check)
+        if cat in UCI_WOMEN_CATS or any(cat.startswith(c) for c in UCI_WOMEN_CATS):
+            print(f"    [skip] Women's category {cat!r}", flush=True)
+            continue
+        name_lc = info.get("name", "").lower()
+        if any(w in name_lc for w in ("women", "ladies", "femmes", "dames", "féminin")):
+            print(f"    [skip] Women's race", flush=True)
             continue
 
         start_date   = info.get("start_date", "")
