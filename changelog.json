@@ -1,6 +1,27 @@
 {
-  "generated_at": "2026-06-20T17:39:27.237882+00:00",
+  "generated_at": "2026-06-21T10:22:20.627300+00:00",
   "entries": [
+    {
+      "id": "5f521dcbf520",
+      "timestamp": "2026-06-21T10:22:20.626390+00:00",
+      "type": "leader_change",
+      "icon": "yellow",
+      "text": "Baloise Belgium Tour GC: 🇪🇸 Alex Aranburu Deba leads"
+    },
+    {
+      "id": "84aec94ae020",
+      "timestamp": "2026-06-21T10:22:20.626390+00:00",
+      "type": "leader_change",
+      "icon": "green",
+      "text": "Baloise Belgium Tour Points: 🇧🇪 Tim Merlier leads"
+    },
+    {
+      "id": "b04c487fc240",
+      "timestamp": "2026-06-21T10:22:20.626390+00:00",
+      "type": "leader_change",
+      "icon": "white",
+      "text": "Baloise Belgium Tour Youth: 🇪🇸 Hector Alvarez Martinez leads"
+    },
     {
       "id": "8df809f5be6a",
       "timestamp": "2026-06-20T17:39:27.236850+00:00",
