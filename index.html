@@ -1064,12 +1064,17 @@ function renderRaceCard(race, status) {
     const startlistHtml = renderStartlist(race);
     body = `<div class="race-body-inner">${datesDiv}${stagesHtml}${startlistHtml}</div>`;
   } else if (!multi) {
-    const winSlug1d = race.top10 && race.top10[0] ? (race.top10[0].rider_url||'').replace('/profile/','').replace(/^\/+/,'').trim() : '';
+    // 1-stage race: top10 may be at race level or under stages[0]
+    const stage0 = (race.stages || [])[0] || {};
+    const top10_1d = race.top10 || stage0.top10 || [];
+    const winner1d = race.winner || stage0.winner || '';
+    const winNat1d = race.winner_nat || stage0.winner_nat || '';
+    const winSlug1d = top10_1d[0] ? (top10_1d[0].rider_url||'').replace('/profile/','').replace(/^\/+/,'').trim() : '';
     const winnerName1d = winSlug1d
-      ? `<span class="rider-name-link" onclick="openRiderModal('${esc(winSlug1d)}')">${esc(race.winner)}</span>`
-      : esc(race.winner||'');
-    const w = race.winner ? `<div class="single-winner"><span class="label">Winner</span> ${flagImg(race.winner_nat||'')}${winnerName1d}</div>` : '';
-    body = `<div class="race-body-inner">${w}${renderStageImages(race)}${renderTop10(race.top10)}</div>`;
+      ? `<span class="rider-name-link" onclick="openRiderModal('${esc(winSlug1d)}')">${esc(winner1d)}</span>`
+      : esc(winner1d);
+    const w = winner1d ? `<div class="single-winner"><span class="label">Winner</span> ${flagImg(winNat1d)}${winnerName1d}</div>` : '';
+    body = `<div class="race-body-inner">${w}${renderStageImages(stage0.height_profile_img ? stage0 : race)}${renderTop10(top10_1d)}</div>`;
   } else {
     body = `<div class="race-body-inner">${renderLeaders(race)}${renderStages(race.stages||[], id)}</div>`;
   }
