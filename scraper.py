@@ -1878,9 +1878,190 @@ def send_notifications(all_data):
         print(f"  [email] {sent} notification(s) sent", flush=True)
 
 
+def main_teams_only():
+    """
+    Refresh team rosters only — scrapes all WorldTeam + ProTeam pages and
+    merges the updated rosters into data.json, preserving all race/rider data.
+    Run mid-season when transfers happen or a team is renamed.
+    Run via:  py scraper.py --teams-only
+    """
+    now_human = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
+    print(f"\nUCI Scraper — TEAMS ONLY — {now_human}", flush=True)
+    print("=" * 60, flush=True)
+
+    if not os.path.exists(OUTPUT_FILE):
+        print("  No data.json found — run a full scrape first.", flush=True)
+        return
+
+    with open(OUTPUT_FILE, encoding="utf-8") as f:
+        d = json.load(f)
+
+    rider_profiles = d.get("rider_profiles", {})
+    print(f"  Existing: {len(d.get('teams', []))} teams, {len(rider_profiles)} rider profiles\n", flush=True)
+
+    print("[1/2] Scraping teams...", flush=True)
+    teams_data = scrape_teams()
+    print(f"\n  Fetched {len(teams_data)} teams", flush=True)
+
+    # Merge photo/wins from existing rider_profiles into fresh team rosters
+    print("\n[2/2] Merging cached rider data into rosters...", flush=True)
+    merged = 0
+    for team in teams_data:
+        for rider in team.get("riders", []):
+            p = rider_profiles.get(rider.get("slug", ""))
+            if p:
+                rider["photo"] = p.get("photo")
+                rider["dob"]   = p.get("dob")
+                rider["wins"]  = p.get("wins", [])
+                merged += 1
+    print(f"  Merged cached data for {merged} riders", flush=True)
+
+    d["teams"] = teams_data
+    d["teams_refreshed_at"] = datetime.now(timezone.utc).isoformat()
+
+    pre_write_size = os.path.getsize(OUTPUT_FILE)
+    tmp = OUTPUT_FILE + f".tmp{os.getpid()}"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f, ensure_ascii=False, indent=2)
+
+    for _ in range(10):
+        try:
+            os.replace(tmp, OUTPUT_FILE)
+            break
+        except PermissionError:
+            time.sleep(0.3)
+
+    size_kb = os.path.getsize(OUTPUT_FILE) // 1024
+    print(f"\n✓ data.json updated ({size_kb} KB) — {len(teams_data)} teams written", flush=True)
+    print(f"  Now run: git add data.json && git commit -m 'data: refresh teams' && git push", flush=True)
+
+
+def main_startlists_only():
+    """
+    Fetch missing startlists for all upcoming and live races.
+    Also rebuilds the startlists_needed list in data.json.
+
+    Must run locally — PCS blocks CI server IPs.
+    Run via:  py scraper.py --startlists-only
+    Schedule: Windows Task Scheduler, daily at 8am local time.
+
+    Skips races that already have a startlist (len > 0).
+    PCS startlists are usually published 2–7 days before race start.
+    """
+    now_human = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
+    print(f"\nUCI Scraper — STARTLISTS ONLY — {now_human}", flush=True)
+    print("=" * 60, flush=True)
+
+    if not os.path.exists(OUTPUT_FILE):
+        print("  No data.json found — run a full scrape first.", flush=True)
+        return
+
+    with open(OUTPUT_FILE, encoding="utf-8") as f:
+        d = json.load(f)
+
+    today = date.today()
+    all_races = list(d.get("upcoming", [])) + list(d.get("live", []))
+
+    # Build startlists_needed: upcoming races without startlists, within 60 days
+    def _days_away(r):
+        try:
+            return (date.fromisoformat(r.get("start_date", "9999-01-01")) - today).days
+        except ValueError:
+            return 999
+
+    startlists_needed = []
+    to_fetch = []
+    for r in all_races:
+        sl = r.get("startlist", [])
+        days = _days_away(r)
+        if not sl and 0 <= days <= 60:
+            startlists_needed.append({
+                "name":       r.get("name", "?"),
+                "cf_slug":    r.get("cf_slug", r.get("slug", "")),
+                "start_date": r.get("start_date", ""),
+                "days_away":  days,
+            })
+            to_fetch.append((r, days))
+        elif not sl and days > 60:
+            # Track but don't fetch — too far out
+            startlists_needed.append({
+                "name":       r.get("name", "?"),
+                "cf_slug":    r.get("cf_slug", r.get("slug", "")),
+                "start_date": r.get("start_date", ""),
+                "days_away":  days,
+            })
+
+    d["startlists_needed"] = sorted(startlists_needed, key=lambda x: x["days_away"])
+
+    print(f"  Upcoming races without startlist: {len(startlists_needed)}", flush=True)
+    for entry in d["startlists_needed"]:
+        print(f"    {entry['days_away']:>3}d  {entry['name']}", flush=True)
+
+    # Fetch startlists for races within 60 days
+    fetched = skipped = failed = 0
+    to_fetch.sort(key=lambda x: x[1])   # closest first
+
+    if not to_fetch:
+        print("\n  Nothing to fetch — all upcoming races either have startlists or are >60 days away.", flush=True)
+    else:
+        print(f"\n  Fetching startlists for {len(to_fetch)} races (~{len(to_fetch) * DELAY // 60 + 1} min)...\n", flush=True)
+
+    for race_obj, days in to_fetch:
+        name     = race_obj.get("name", "?")
+        cf_slug  = race_obj.get("cf_slug", race_obj.get("slug", ""))
+        year_sl  = race_obj.get("start_date", str(today.year))[:4]
+
+        print(f"  [{days}d] {name}", flush=True)
+        sl = scrape_startlist(cf_slug, year_sl)
+        time.sleep(DELAY)
+
+        if sl:
+            # Update the race in-place within the correct bucket
+            for bucket in ("upcoming", "live"):
+                for r in d.get(bucket, []):
+                    rkey = r.get("cf_slug") or r.get("slug", "")
+                    if rkey == cf_slug:
+                        r["startlist"] = sl
+                        break
+            # Remove from startlists_needed
+            d["startlists_needed"] = [
+                e for e in d["startlists_needed"] if e["cf_slug"] != cf_slug
+            ]
+            print(f"    ✓ {len(sl)} riders", flush=True)
+            fetched += 1
+        else:
+            print(f"    ✗ Not yet available", flush=True)
+            failed += 1
+
+    # Atomic write
+    pre_write_size = os.path.getsize(OUTPUT_FILE)
+    tmp = OUTPUT_FILE + f".tmp{os.getpid()}"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f, ensure_ascii=False, indent=2)
+    for _ in range(10):
+        try:
+            os.replace(tmp, OUTPUT_FILE)
+            break
+        except PermissionError:
+            time.sleep(0.3)
+
+    size_kb = os.path.getsize(OUTPUT_FILE) // 1024
+    print(f"\n{'='*60}", flush=True)
+    print(f"✓ data.json updated ({size_kb} KB)", flush=True)
+    print(f"  {fetched} startlists fetched | {failed} not yet available", flush=True)
+    remaining = len(d.get("startlists_needed", []))
+    if remaining:
+        print(f"  {remaining} races still awaiting startlists — re-run daily", flush=True)
+    print(f"\nNext: git add data.json && git commit -m 'data: startlists update' && git push", flush=True)
+
+
 if __name__ == "__main__":
     import sys
     if "--results-only" in sys.argv:
         main_results_only()
+    elif "--teams-only" in sys.argv:
+        main_teams_only()
+    elif "--startlists-only" in sys.argv:
+        main_startlists_only()
     else:
         main()

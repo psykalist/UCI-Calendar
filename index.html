@@ -1073,6 +1073,13 @@ function renderRaceCard(race, status) {
     : '1-day';
 
   let body = '';
+  const slCount = (race.startlist||[]).length;
+  const slBadge = upcoming
+    ? (slCount
+      ? `<span style="font-size:.72rem;background:rgba(67,97,238,.15);color:var(--upcoming);border:1px solid rgba(67,97,238,.3);border-radius:12px;padding:2px 8px;font-weight:700;margin-left:6px">👥 ${slCount} riders</span>`
+      : `<span style="font-size:.72rem;background:rgba(255,165,0,.1);color:#f97316;border:1px solid rgba(255,165,0,.3);border-radius:12px;padding:2px 8px;font-weight:700;margin-left:6px">⏳ Startlist pending</span>`)
+    : '';
+
   if (upcoming) {
     const datesDiv = `<div class="upcoming-dates">📅 ${dateRange(race.start_date, race.end_date) || 'Dates TBC'}${multi ? ` &nbsp;·&nbsp; ${total} stages` : ''}</div>`;
     const stagesHtml = (multi && race.stages?.length) ? renderStages(race.stages, id) : '';
@@ -1104,6 +1111,7 @@ function renderRaceCard(race, status) {
       <div class="race-right">
         <span class="stage-pill">${stagePill}</span>
         ${race.category ? `<span class="cat-badge">${esc(race.category)}</span>` : ''}
+        ${upcoming ? slBadge : ''}
         ${chevron('chevron')}
       </div>
     </div>
@@ -1545,7 +1553,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v26';
+const APP_VERSION = 'v27';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -1654,6 +1662,16 @@ async function silentCheck() {
         const prevRaceSlugs=new Set(prevLive.map(r=>r.slug));
         if(!prevRaceSlugs.has(race.slug)){
           _fireInAppNotif(`🚴 ${race.name} has started`,`${race.total_stages} stages · ${race.category}`,'race-live-'+race.slug);
+        }
+      }
+      // Notify when a startlist becomes newly available for any upcoming race
+      const prevSlMap=new Map(prevLive.concat(appData.upcoming||[]).map(r=>[r.slug||r.cf_slug,(r.startlist||[]).length]));
+      for(const race of [...(d.live||[]),...(d.upcoming||[])]){
+        const key=race.slug||race.cf_slug;
+        const prevCount=prevSlMap.get(key)??-1;
+        const newCount=(race.startlist||[]).length;
+        if(prevCount===0&&newCount>0){
+          _fireInAppNotif(`👥 Startlist published`,`${race.name} · ${newCount} riders`,'startlist-'+key);
         }
       }
 
@@ -2021,10 +2039,18 @@ function renderFantasySetup(){
   const _srk=fantasyGetRace();
   const _srl=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_srk);
   const _srLabel=_srl?_srl.name:'Select a race above';
+  const _slCount=(_srl&&_srl.startlist)?_srl.startlist.length:0;
+  const _slBanner=_srk
+    ?(_slCount
+      ?'<div style="margin-bottom:12px;padding:10px 14px;background:rgba(67,97,238,.1);border:1px solid rgba(67,97,238,.3);border-radius:8px;font-size:.82rem;color:var(--upcoming)">👥 Picking from the official startlist · <strong>'+_slCount+' riders</strong></div>'
+      :'<div style="margin-bottom:12px;padding:10px 14px;background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.3);border-radius:8px;font-size:.82rem;color:#f97316">⏳ <strong>Startlist not yet published.</strong> You can pick from the full WorldTour roster — your team will be scored against the actual race startlist once available. Run <code>py scraper.py --startlists-only</code> to check for updates.</div>'
+    )
+    :'';
   const html = '<div style="max-width:480px;margin:0 auto;padding:16px">'
     +renderHowToPlay()
     +renderRulesCard()
     +renderRaceSelector()
+    +_slBanner
     +'<div style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px">'
       +'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">'
         +'<span style="font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase">Squad</span>'
