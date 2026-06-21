@@ -1,11 +1,12 @@
 """
-backfill_specialties.py — one-shot bulk fetch of all missing PCS specialty data.
+backfill_specialties.py — fetch PCS specialty data for all riders.
 
-Run once from the command line:
-    py backfill_specialties.py
+Writes to specialty_cache.json (never touches data.json during the run).
+Run apply_specialties.py afterwards to merge into data.json.
 
-Fetches all riders missing specialties with a 5-second delay between each.
-Saves progress after every rider so it's safe to Ctrl+C and resume.
+Usage:
+    py backfill_specialties.py          # fetch missing
+    py backfill_specialties.py --all    # re-fetch everything
 """
 
 import json
@@ -20,11 +21,12 @@ from urllib.error import URLError, HTTPError
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-DATA_FILE       = os.path.join(os.path.dirname(__file__), "data.json")
-WRITE_LOCK      = os.path.join(os.path.dirname(__file__), ".data_write.lock")
-PCS_BASE        = "https://www.procyclingstats.com"
+BASE_DIR       = os.path.dirname(os.path.abspath(__file__))
+DATA_FILE      = os.path.join(BASE_DIR, "data.json")
+CACHE_FILE     = os.path.join(BASE_DIR, "specialty_cache.json")
+PCS_BASE       = "https://www.procyclingstats.com"
 REQUEST_TIMEOUT = 20
-DELAY_SECONDS   = 5   # polite delay between requests
+DELAY_SECONDS  = 5
 
 HEADERS = {
     "User-Agent": (
@@ -46,7 +48,7 @@ def fetch(url):
             if e.code == 404:
                 return None
             time.sleep(2 ** attempt)
-        except (URLError, TimeoutError, OSError):
+        except (URLError, TimeoutError, OSError, Exception):
             time.sleep(2 ** attempt)
     return None
 
@@ -73,89 +75,91 @@ def scrape_specialties(slug):
     return specialties
 
 
-def acquire_write_lock(timeout=10):
-    deadline = time.time() + timeout
-    while time.time() < deadline:
-        try:
-            fd = os.open(WRITE_LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-            os.write(fd, str(os.getpid()).encode())
-            os.close(fd)
-            return True
-        except FileExistsError:
-            time.sleep(0.1)
-    return False
-
-def release_write_lock():
+def load_cache():
     try:
-        os.remove(WRITE_LOCK)
+        with open(CACHE_FILE, encoding='utf-8') as f:
+            return json.load(f)
     except Exception:
-        pass
+        return {}
 
-def save_data(data):
-    if not acquire_write_lock():
-        print("  Could not acquire write lock — skipping save.", flush=True)
-        return
-    try:
-        tmp = DATA_FILE + f".tmp{os.getpid()}"
-        with open(tmp, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        for _ in range(10):
-            try:
-                os.replace(tmp, DATA_FILE)
-                break
-            except PermissionError:
-                time.sleep(0.3)
-        else:
-            print("  Warning: could not replace data.json after retries.", flush=True)
-            try: os.remove(tmp)
-            except: pass
-    finally:
-        release_write_lock()
+
+def save_cache(cache):
+    """Save specialty_cache.json — small file, fast write, safe."""
+    tmp = CACHE_FILE + f".tmp{os.getpid()}"
+    with open(tmp, 'w', encoding='utf-8') as f:
+        json.dump(cache, f, ensure_ascii=False, indent=2)
+    for _ in range(10):
+        try:
+            os.replace(tmp, CACHE_FILE)
+            return
+        except PermissionError:
+            time.sleep(0.2)
+    os.remove(tmp)
+
+
+def get_all_slugs():
+    """Read slugs from data.json (read-only)."""
+    with open(DATA_FILE, encoding='utf-8') as f:
+        d = json.load(f)
+    return list(d.get('rider_profiles', {}).keys())
 
 
 def main():
-    with open(DATA_FILE, encoding='utf-8') as f:
-        data = json.load(f)
-    profiles = data.get('rider_profiles', {})
+    refetch_all = '--all' in sys.argv
 
-    missing = [slug for slug, p in profiles.items() if 'specialties' not in p]
+    slugs = get_all_slugs()
+    cache = load_cache()
+
+    if refetch_all:
+        missing = slugs
+    else:
+        # Skip riders already in cache (even empty {} = confirmed no PCS data)
+        missing = [s for s in slugs if s not in cache]
+
     total = len(missing)
-
     if not total:
-        print("All riders already have specialty data. Nothing to do.")
+        print(f"All {len(slugs)} riders already in specialty cache. Nothing to do.")
+        print(f"Run: py apply_specialties.py  to merge into data.json")
         return
 
-    print(f"Backfilling specialties for {total} riders (~{total * DELAY_SECONDS // 60} min)...")
-    print("Safe to Ctrl+C — progress is saved after each rider.\n")
+    print(f"Fetching specialties for {total} riders (~{total * DELAY_SECONDS // 60} min)...")
+    print(f"Writes go to specialty_cache.json — data.json is never touched.\n")
 
     ok = skipped = failed = 0
 
     for i, slug in enumerate(missing, 1):
         print(f"[{i}/{total}] {slug}...", end=" ", flush=True)
-        specialties = scrape_specialties(slug)
+        try:
+            specialties = scrape_specialties(slug)
+        except Exception as e:
+            print(f"ERROR ({e}) — skipping")
+            failed += 1
+            if i < total:
+                time.sleep(DELAY_SECONDS)
+            continue
 
         if specialties is None:
-            print("FAILED (fetch error — will retry next run)")
+            print("FAILED (fetch error)")
             failed += 1
         elif specialties:
-            profiles[slug]['specialties'] = specialties
-            profiles[slug]['specialties_fetched_at'] = datetime.now(timezone.utc).isoformat()
-            save_data(data)
+            cache[slug] = {'specialties': specialties, 'fetched_at': datetime.now(timezone.utc).isoformat()}
+            save_cache(cache)
             cats = ", ".join(f"{k}:{v['score']}" for k, v in specialties.items())
             print(f"OK — {cats}")
             ok += 1
         else:
-            profiles[slug]['specialties'] = {}
-            profiles[slug]['specialties_fetched_at'] = datetime.now(timezone.utc).isoformat()
-            save_data(data)
-            print("no PCS data (marked)")
+            cache[slug] = {'specialties': {}, 'fetched_at': datetime.now(timezone.utc).isoformat()}
+            save_cache(cache)
+            print("no PCS data")
             skipped += 1
 
         if i < total:
             time.sleep(DELAY_SECONDS)
 
     print(f"\nDone. {ok} fetched, {skipped} no PCS data, {failed} failed.")
-    print("Run again to retry any failures, then git add data.json && git push.")
+    if failed:
+        print("Re-run to retry failures.")
+    print("Then run: py apply_specialties.py")
 
 
 if __name__ == "__main__":
