@@ -1914,7 +1914,7 @@ def main_teams_only():
     teams_data = scrape_teams()
     print(f"\n  Fetched {len(teams_data)} teams", flush=True)
 
-    # Merge photo/wins from existing rider_profiles into fresh team rosters
+    # Merge only lightweight fields — wins stay in rider_profiles.json
     print("\n[2/2] Merging cached rider data into rosters...", flush=True)
     merged = 0
     for team in teams_data:
@@ -1923,7 +1923,6 @@ def main_teams_only():
             if p:
                 rider["photo"] = p.get("photo")
                 rider["dob"]   = p.get("dob")
-                rider["wins"]  = p.get("wins", [])
                 merged += 1
     print(f"  Merged cached data for {merged} riders", flush=True)
 
@@ -1933,7 +1932,7 @@ def main_teams_only():
     pre_write_size = os.path.getsize(OUTPUT_FILE)
     tmp = OUTPUT_FILE + f".tmp{os.getpid()}"
     with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(d, f, ensure_ascii=False, indent=2)
+        json.dump(d, f, ensure_ascii=False, separators=(",", ":"))
 
     for _ in range(10):
         try:

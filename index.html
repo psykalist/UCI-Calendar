@@ -1150,9 +1150,6 @@ function renderRecent(races) {
 // ── Teams ──────────────────────────────────────────────────────────────────────
 
 function renderRiderRow(r, teamId, idx) {
-  const uid = `rdr-${teamId}-${idx}`;
-  const wins   = r.wins || [];
-  const hasWins = wins.length > 0;
   const natImg = r.nat
     ? `<img src="https://flagcdn.com/16x12/${(r.nat).toLowerCase()}.png" width="16" height="11" style="vertical-align:middle;margin-right:4px;border-radius:1px" loading="lazy">`
     : '';
@@ -1169,26 +1166,15 @@ function renderRiderRow(r, teamId, idx) {
     dob = `${r.age} yrs`;
   }
 
-  const winsHTML = hasWins
-    ? wins.slice(0, 20).map(w =>
-        `<div class="win-entry">
-          <span class="win-year">${esc(w.year)}</span>
-          <span class="win-race">${esc(w.race)}</span>
-          <span class="win-cat">${esc(w.cat)}</span>
-        </div>`).join('')
-    : '';
+  const slug = r.slug || '';
+  const clickAttr = slug ? ` onclick="openRiderModal('${esc(slug)}')" style="cursor:pointer"` : '';
 
-  return `<div class="rider-row-wrap" id="${uid}">
-    <div class="rider-row${hasWins ? ' clickable' : ''}"${hasWins ? ` onclick="toggleRider('${uid}')"` : ''}>
-      ${photo}
-      <div class="rider-name-col">
-        <div class="rider-name-text">${natImg}${esc(r.name)}</div>
-        ${dob ? `<div class="rider-sub">${dob}</div>` : ''}
-      </div>
-      ${hasWins ? `<span class="wins-badge">🏆 ${wins.length}</span>` : ''}
-      ${hasWins ? chevron('rider-chevron') : ''}
+  return `<div class="rider-row clickable"${clickAttr}>
+    ${photo}
+    <div class="rider-name-col">
+      <div class="rider-name-text">${natImg}${esc(r.name)}</div>
+      ${dob ? `<div class="rider-sub">${dob}</div>` : ''}
     </div>
-    ${hasWins ? `<div class="wins-panel">${winsHTML}</div>` : ''}
   </div>`;
 }
 
