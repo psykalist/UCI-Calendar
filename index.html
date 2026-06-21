@@ -111,8 +111,6 @@ header h1 span { color: var(--accent); }
   scrollbar-width: none;
 }
 .filter-bar::-webkit-scrollbar { display: none; }
-.filter-divider { color: var(--border); padding: 0 2px; align-self: center; cursor: default; pointer-events: none; }
-
 .filter-chip {
   flex-shrink: 0;
   padding: 5px 13px;
@@ -746,12 +744,6 @@ header h1 span { color: var(--accent); }
   <span class="filter-chip team-chip" onclick="setFilter('PRO',this)" style="display:none">ProTeam</span>
   <span class="filter-chip race-chip" onclick="setFilter('1.1',this)">1.1 / 2.1</span>
   <span class="filter-chip" onclick="setFilter('THISWEEK',this)">This Week</span>
-  <span class="filter-divider race-chip">|</span>
-  <span class="filter-chip stages-chip active race-chip" onclick="setMinStages(1,this)">Any length</span>
-  <span class="filter-chip stages-chip race-chip" onclick="setMinStages(2,this)">2+ days</span>
-  <span class="filter-chip stages-chip race-chip" onclick="setMinStages(5,this)">5+ days</span>
-  <span class="filter-chip stages-chip race-chip" onclick="setMinStages(7,this)">7+ days</span>
-  <span class="filter-chip stages-chip race-chip" onclick="setMinStages(21,this)">GT only</span>
 </div>
 
 <main>
@@ -838,7 +830,6 @@ function showSec(name, btn) {
 // ── Filter ─────────────────────────────────────────────────────────────────────
 
 let curFilter = 'ALL';
-let curMinStages = 1;
 
 function setFilter(f, el) {
   curFilter = f;
@@ -847,16 +838,8 @@ function setFilter(f, el) {
   applyFilters();
 }
 
-function setMinStages(n, el) {
-  curMinStages = n;
-  document.querySelectorAll('.stages-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  applyFilters();
-}
-
 function applyFilters() {
   const f = curFilter;
-  const minS = curMinStages;
   // Race cards
   document.querySelectorAll('.race-card').forEach(card => {
     const cat = (card.dataset.cat || '').toUpperCase();
@@ -874,7 +857,6 @@ function applyFilters() {
       const e = card.dataset.end   ? new Date(card.dataset.end  +'T00:00:00') : s;
       show = s && s <= soon && e >= now;
     }
-    if (show && minS > 1)        show = stages >= minS;
     card.style.display = show ? '' : 'none';
   });
   // Team cards — hide for race-specific filters
