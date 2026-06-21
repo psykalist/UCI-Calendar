@@ -266,9 +266,100 @@ def save(riders):
 
 # -- Main ----------------------------------------------------------------------
 
+def collect_winner_slugs():
+    """Collect slugs of riders who have won stages in live/recent races."""
+    slugs = set()
+    if not DATA_FILE.exists():
+        return slugs
+    try:
+        data = json.loads(DATA_FILE.read_text('utf-8'))
+        for race in data.get('live', []) + data.get('recent', []):
+            for stage in race.get('stages', []):
+                results = stage.get('results', [])
+                if results and isinstance(results[0], dict):
+                    slug = results[0].get('rider_slug')
+                    if slug:
+                        slugs.add(slug)
+            # Also grab GC leaders
+            for cls_rows in race.get('classifications', {}).values():
+                if isinstance(cls_rows, list) and cls_rows:
+                    row = cls_rows[0]
+                    if isinstance(row, dict) and row.get('rider_slug'):
+                        slugs.add(row['rider_slug'])
+    except Exception as e:
+        print(f'Warning: could not parse {DATA_FILE.name}: {e}')
+    return {s for s in slugs if s and re.match(r'^[a-z0-9\-]+$', s)}
+
+
+def update_winners():
+    """Re-fetch profiles for all current stage winners and GC leaders."""
+    print('Scrape rider profiles — UPDATE WINNERS mode')
+    print('=' * 60)
+
+    existing = {}
+    if PROFILES_FILE.exists():
+        try:
+            existing = json.loads(PROFILES_FILE.read_text('utf-8')).get('riders', {})
+        except Exception as e:
+            print(f'Warning: could not load existing profiles: {e}')
+
+    winner_slugs = collect_winner_slugs()
+    print(f'Found {len(winner_slugs)} winner/leader slugs in data.json')
+    if not winner_slugs:
+        print('No winners found — nothing to do.')
+        return
+
+    todo = sorted(winner_slugs)
+    ok = err = 0
+
+    for i, slug in enumerate(todo, 1):
+        print(f'[{i}/{len(todo)}] {slug:<40}', end='', flush=True)
+
+        html_main = fetch_html(f'https://www.procyclingstats.com/rider/{slug}')
+        time.sleep(DELAY)
+        if html_main is None:
+            print('X (not found)')
+            err += 1
+            continue
+
+        profile = parse_rider_page(html_main, slug)
+        html_wins = fetch_html(f'https://www.procyclingstats.com/rider/{slug}/statistics/wins')
+        time.sleep(DELAY)
+        profile['wins'] = parse_wins_page(html_wins) if html_wins else []
+        existing[slug] = profile
+        ok += 1
+        print(f'ok  {len(profile["wins"]):>3} wins  {profile.get("nat",""):>3}')
+
+    save(existing)
+    print(f'\nDone. {ok} updated, {err} errors.')
+
+    # Auto git commit + push
+    import subprocess
+    try:
+        subprocess.run(['git', 'add', 'rider_profiles.json'], cwd=BASE, check=True)
+        result = subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd=BASE)
+        if result.returncode != 0:
+            subprocess.run(
+                ['git', 'commit', '-m', f'data: refresh winner profiles ({ok} riders)'],
+                cwd=BASE, check=True
+            )
+            subprocess.run(['git', 'push'], cwd=BASE, check=True)
+            print('Committed and pushed rider_profiles.json')
+        else:
+            print('No changes to commit.')
+    except Exception as e:
+        print(f'Git error: {e}')
+        print('Manual push: git add rider_profiles.json && git commit -m "data: winner profiles" && git push')
+
+
 def main():
     fix_empty = '--fix-empty' in sys.argv
     fetch_all = '--all' in sys.argv
+    update_win = '--update-winners' in sys.argv
+
+    if update_win:
+        update_winners()
+        return
 
     # Load existing
     existing = {}
