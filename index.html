@@ -683,6 +683,25 @@ header h1 span { color: var(--accent); }
 .wn-time { color:var(--muted); font-size:.72rem; margin-top:1px; }
 .wn-footer { padding:8px 14px; border-top:1px solid var(--border); text-align:right; }
 .wn-footer button { background:none; border:none; color:var(--upcoming); font-size:.8rem; font-weight:600; cursor:pointer; }
+
+/* ── Stats section ── */
+.stats-cat-bar { display:flex; gap:8px; overflow-x:auto; padding-bottom:10px; margin-bottom:12px; scrollbar-width:none; }
+.stats-cat-bar::-webkit-scrollbar { display:none; }
+.stats-cat-btn { flex-shrink:0; padding:5px 13px; border-radius:20px; border:1px solid var(--border);
+  background:transparent; color:var(--muted); cursor:pointer; font-size:.78rem; font-weight:600; transition:all .15s; }
+.stats-cat-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden; }
+.stat-card-hdr { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; cursor:pointer; user-select:none; }
+.stat-card-title { font-weight:700; font-size:.9rem; }
+.stat-card-meta { font-size:.73rem; color:var(--muted); margin-top:2px; }
+.stat-card-body { padding:0; display:none; overflow-x:auto; }
+.stat-card-body.open { display:block; }
+.stat-tbl { width:100%; border-collapse:collapse; font-size:.82rem; }
+.stat-tbl th { padding:6px 10px; text-align:left; border-bottom:2px solid var(--border); color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap; }
+.stat-tbl td { padding:7px 10px; border-bottom:1px solid var(--border); white-space:nowrap; }
+.stat-tbl tr:last-child td { border-bottom:none; }
+.stat-pos { color:var(--muted); font-size:.75rem; min-width:24px; }
+.stats-loading { text-align:center; padding:60px 20px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -743,6 +762,7 @@ header h1 span { color: var(--accent); }
   <div class="section" id="sec-recent"></div>
   <div class="section" id="sec-teams"></div>
   <div class="section" id="sec-fantasy"></div>
+  <div class="section" id="sec-stats"></div>
 </main>
 
 <nav class="bottom-nav">
@@ -761,6 +781,9 @@ header h1 span { color: var(--accent); }
   </button>
   <button class="nav-btn" id="nav-fantasy" onclick="showSec('fantasy',this)">
     <span class="nav-icon">🏆</span><span>Fantasy</span>
+  </button>
+  <button class="nav-btn" id="nav-stats" onclick="showSec('stats',this)">
+    <span class="nav-icon">📊</span><span>Stats</span>
   </button>
 </nav>
 
@@ -801,14 +824,16 @@ function showSec(name, btn) {
   currentTab = name;
   // Hide filter bars on fantasy tab
   const isFantasy = name === 'fantasy';
-  document.getElementById('filter-bar').style.display        = isFantasy ? 'none' : '';
-  document.getElementById('filter-bar-stages').style.display = isFantasy ? 'none' : '';
+  const isStats   = name === 'stats';
+  document.getElementById('filter-bar').style.display        = (isFantasy||isStats) ? 'none' : '';
+  document.getElementById('filter-bar-stages').style.display = (isFantasy||isStats) ? 'none' : '';
   // Swap race/team chips
   const isTeams = name === 'teams';
-  document.querySelectorAll('.race-chip').forEach(c => c.style.display = isTeams ? 'none' : '');
-  document.querySelectorAll('.team-chip').forEach(c => c.style.display = isTeams ? '' : 'none');
-  if (!isFantasy) applyFilter(curFilter);
-  if (isFantasy)  renderFantasy();
+  document.querySelectorAll('.race-chip').forEach(c => c.style.display = (isTeams||isStats) ? 'none' : '');
+  document.querySelectorAll('.team-chip').forEach(c => c.style.display = (isTeams&&!isStats) ? '' : 'none');
+  if (!isFantasy && !isStats) applyFilter(curFilter);
+  if (isFantasy) renderFantasy();
+  if (isStats)   loadStats();
 }
 
 // ── Filter ─────────────────────────────────────────────────────────────────────
@@ -1343,6 +1368,132 @@ function closeRiderModal(e) {
     document.getElementById('riderModal').classList.remove('open');
     document.body.style.overflow = '';
   }
+}
+
+// ── PCS Statistics ─────────────────────────────────────────────────────────────
+
+let statsData   = null;
+let statsCurCat = 'riders';
+let statsOpenId = null;
+
+const STAT_CATS = [
+  ['riders',      'Riders'],
+  ['grandtours',  'Grand Tours'],
+  ['monuments',   'Monuments'],
+  ['teams',       'Teams'],
+  ['nations',     'Nations'],
+  ['races',       'Races'],
+  ['major-tours', 'Major Tours'],
+  ['climbs',      'Climbs'],
+  ['gear',        'Gear'],
+];
+
+async function loadStats() {
+  const el = document.getElementById('sec-stats');
+  if (statsData) { renderStats(); return; }
+  el.innerHTML = '<div class="stats-loading">⏳ Loading statistics…</div>';
+  try {
+    const r = await fetch('./pcs_stats.json', {cache: 'no-cache'});
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    statsData = await r.json();
+  } catch(e) {
+    el.innerHTML = `<div class="stats-loading">⚠️ Could not load stats<br><small>${esc(e.message)}</small></div>`;
+    return;
+  }
+  renderStats();
+}
+
+function renderStats() {
+  const el = document.getElementById('sec-stats');
+  if (!statsData) return;
+  const stats = statsData.stats || {};
+
+  // Only show categories that have data
+  const activeCats = STAT_CATS.filter(([c]) =>
+    Object.values(stats).some(s => s.category === c && s.row_count > 0)
+  );
+
+  // Fallback if current cat has no data
+  if (!activeCats.some(([c]) => c === statsCurCat)) {
+    statsCurCat = activeCats[0]?.[0] || 'riders';
+  }
+
+  const catBar = `<div class="stats-cat-bar">${
+    activeCats.map(([c, label]) =>
+      `<button class="stats-cat-btn${c===statsCurCat?' active':''}" onclick="setStatCat('${c}')">${label}</button>`
+    ).join('')
+  }</div>`;
+
+  const entries = Object.entries(stats)
+    .filter(([, s]) => s.category === statsCurCat && s.row_count > 0)
+    .sort((a, b) => a[1].label.localeCompare(b[1].label));
+
+  const cards = entries.map(([id, s]) => {
+    const open = id === statsOpenId;
+    const chevron = open ? '▲' : '▼';
+    const bodyId  = 'sb-' + id.replace(/\W/g,'-');
+    const body    = open ? buildStatTable(s) : '';
+    return `<div class="stat-card">
+  <div class="stat-card-hdr" onclick="toggleStat('${esc(id)}')">
+    <div>
+      <div class="stat-card-title">${esc(s.label)}</div>
+      <div class="stat-card-meta">${s.row_count} entries${s.notes ? ' · ' + esc(s.notes) : ''}</div>
+    </div>
+    <span style="color:var(--muted);font-size:.8rem">${chevron}</span>
+  </div>
+  <div class="stat-card-body${open?' open':''}" id="${bodyId}">${body}</div>
+</div>`;
+  }).join('');
+
+  el.innerHTML = catBar + (cards ||
+    '<div class="stats-loading">No data in this category</div>');
+}
+
+function setStatCat(cat) {
+  statsCurCat = cat;
+  statsOpenId = null;
+  renderStats();
+}
+
+function toggleStat(id) {
+  statsOpenId = statsOpenId === id ? null : id;
+  renderStats();
+}
+
+function buildStatTable(s) {
+  const rows = s.rows || [];
+  if (!rows.length) return '<p style="padding:10px;color:var(--muted)">No data</p>';
+
+  // Columns: skip internal keys, keep useful ones
+  const skip = new Set(['type', 'slug', 'section',
+    'rider1_slug','rider2_slug','race_slug','rider_slug']);
+  const first = rows[0];
+  const cols = Object.keys(first).filter(k => !skip.has(k));
+
+  // Header row
+  const ths = cols.map(c => `<th>${esc(c.replace(/_/g,' '))}</th>`).join('');
+
+  // Data rows (cap at 50)
+  const trs = rows.slice(0, 50).map(r => {
+    const tds = cols.map(c => {
+      let v = r[c] ?? '';
+      // Hyperlink rider names to PCS
+      if (c === 'name' && r.slug && r.type === 'rider') {
+        return `<td><a href="https://www.procyclingstats.com/rider/${esc(r.slug)}" target="_blank" style="color:var(--accent);text-decoration:none">${esc(String(v))}</a></td>`;
+      }
+      if ((c === 'rider1_name' || c === 'rider2_name') && r[c.replace('_name','_slug')]) {
+        const slug = r[c.replace('_name','_slug')];
+        return `<td><a href="https://www.procyclingstats.com/rider/${esc(slug)}" target="_blank" style="color:var(--accent);text-decoration:none">${esc(String(v))}</a></td>`;
+      }
+      if (c === 'rider_name' && r.rider_slug) {
+        return `<td><a href="https://www.procyclingstats.com/rider/${esc(r.rider_slug)}" target="_blank" style="color:var(--accent);text-decoration:none">${esc(String(v))}</a></td>`;
+      }
+      return `<td>${esc(String(v))}</td>`;
+    }).join('');
+    return `<tr>${tds}</tr>`;
+  }).join('');
+
+  return `<table class="stat-tbl"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
 }
 
 // ── Data loading ───────────────────────────────────────────────────────────────
