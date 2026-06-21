@@ -1640,9 +1640,9 @@ def main():
 #
 # VAPID keys (generated once — do not regenerate or existing subscriptions break):
 VAPID_PRIVATE_KEY_PEM = """-----BEGIN EC PRIVATE KEY-----
-MHcCAQEEIOuYOHJgseCwa9G9LrQsY9p1/GCLE1AvjTmmYn8LYrW/oAoGCCqGSM49
-AwEHoUQDQgAEuN/EJ/QjQWGCsln/bQRYw2N05npAl7SdiDjYqQiz0bH2ST/2Mm7o
-vdYapNrRl55xPHr24jRGixlKBWOp7lshLg==
+MHcCAQEEIJMZj4xLkQLtrv8oUg7kd8EnMMVOt3LlWn1Xvp9DPTpUoAoGCCqGSM49
+AwEHoUQDQgAEzJQYP8qFlqtCe6Jubs2pQwKIKT9qhhTn5pA0SGeZfACC4YhtEvMP
+YtwwEDCrMJMkobdQ1FY2Osef8g8Yq8C1YQ==
 -----END EC PRIVATE KEY-----"""
 
 VAPID_CLAIMS = {"sub": "mailto:kieransemail@gmail.com"}
