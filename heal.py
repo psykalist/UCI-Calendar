@@ -25,6 +25,12 @@ import tempfile
 import time
 from datetime import datetime, timezone, timedelta
 
+# Force UTF-8 output so emoji don't crash on Windows cp1252 consoles
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 # ── Config ────────────────────────────────────────────────────────────────────
 BASE            = os.path.dirname(os.path.abspath(__file__))
 LOG_FILE        = os.path.join(BASE, "heal.log")
