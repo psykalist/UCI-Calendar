@@ -74,9 +74,12 @@ jobs:
       - name: Clean up temp file
         run: rm -f data_old.json
 
+      - name: Generate auto-team opponents (best_teams.json)
+        run: python3 generate_best_teams.py
+
       - name: Commit and push if data changed
         run: |
-          git add data.json changelog.json
+          git add data.json changelog.json best_teams.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
