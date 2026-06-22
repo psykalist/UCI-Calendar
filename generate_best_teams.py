@@ -23,7 +23,8 @@ BASE = Path(__file__).parent
 
 # ── Fantasy constants (mirror index.html exactly) ─────────────────────────────
 BUDGET      = 100
-MAX_SQUAD   = 9
+MAX_SQUAD_GT = 8   # Grand Tours (total_stages >= 21)
+MAX_SQUAD    = 7   # All other races
 COST_FLOOR  = 4
 COST_CEIL   = 22
 STAGE_PTS   = {1:25, 2:12, 3:8, 4:3, 5:3, 6:3, 7:3, 8:3, 9:3, 10:3}
@@ -147,6 +148,7 @@ def build_auto_teams(race, costs, profiles):
     if not startlist:
         return None
 
+    n_picks = MAX_SQUAD_GT if (race.get('total_stages') or 1) >= 21 else MAX_SQUAD
     weights = race_weights(race)
 
     # Score every starter
@@ -165,15 +167,15 @@ def build_auto_teams(race, costs, profiles):
         return None
 
     # Elite — pure greedy optimum (best possible team)
-    elite = _greedy_pick(scored, BUDGET, MAX_SQUAD)
+    elite = _greedy_pick(scored, BUDGET, n_picks)
 
     # Pro — randomised selection from top 50% by value/cost
     rng_pro = random.Random(hash(race.get('slug') or race.get('name') or '') ^ 0xCAFE)
-    pro = _greedy_pick(scored, BUDGET, MAX_SQUAD, rng=rng_pro)
+    pro = _greedy_pick(scored, BUDGET, n_picks, rng=rng_pro)
 
-    # Easy — cheapest 9 riders (riders with little/no results history)
+    # Easy — cheapest n_picks riders (riders with little/no results history)
     cheap = sorted(scored, key=lambda x: (x['cost'], -x['value']))
-    easy  = cheap[:MAX_SQUAD]
+    easy  = cheap[:n_picks]
 
     def fmt(team):
         return {
