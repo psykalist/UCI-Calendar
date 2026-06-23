@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-06-22T02:15:28.164775+00:00",
+  "updated_at": "2026-06-23T01:54:32.219521+00:00",
   "source": "ci",
   "overall": "ok",
   "errors": [],
   "warnings": [],
   "repairs": [],
   "data": {
-    "data_size_kb": 1692,
+    "data_size_kb": 2829,
     "data_upcoming": 37,
-    "data_recent": 60,
+    "data_recent": 64,
     "data_teams": 34,
     "rider_profiles": 551,
     "specialties_missing": 1,
     "specialties_with_data": 477,
-    "scraped_at": "2026-06-21T19:07:02.817796+00:00",
-    "data_age_hours": 7.1,
-    "index_html_bytes": 142477,
+    "scraped_at": "2026-06-22T06:03:12.669999+00:00",
+    "data_age_hours": 19.9,
+    "index_html_bytes": 148508,
     "changelog_entries": 12
   }
 }
