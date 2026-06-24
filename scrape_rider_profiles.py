@@ -175,10 +175,10 @@ def parse_team_history(html):
     teams = []
     seen_years = set()
 
-    # PCS HTML: <li><a href="/team/uae-team-emirates-xrg-2026">UAE Team Emirates</a> (WT)</li>
-    # or plain text blocks like "2026\nUAE Team Emirates - XRG (WT)"
+    # PCS HTML: <a href="team/uae-team-emirates-xrg-2026">UAE Team Emirates - XRG</a>
+    # Note: href is relative with NO leading slash
     team_pattern = re.compile(
-        r'href=["\'](?:https://www\.procyclingstats\.com)?/team/([^"\']+)["\'][^>]*>([^<]+)<',
+        r'href=["\'](?:https://www\.procyclingstats\.com)?/?team/([^"\']+)["\'][^>]*>([^<]+)<',
         re.IGNORECASE
     )
     for m in team_pattern.finditer(html):
@@ -573,3 +573,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+                          
