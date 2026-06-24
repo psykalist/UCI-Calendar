@@ -328,6 +328,20 @@ header h1 span { color: var(--accent); }
 .prog-dist { color: var(--muted); }
 .prog-elev { color: #a78bfa; }
 
+/* ── Roadbook ── */
+.roadbook-toggle { font-size: .75rem; color: var(--muted); cursor: pointer; padding: 5px 12px; display: flex; align-items: center; gap: 5px; border-top: 1px solid var(--border); user-select: none; }
+.roadbook-toggle:hover { color: var(--text); }
+.roadbook-body { display: none; overflow-x: auto; max-height: 340px; overflow-y: auto; }
+.roadbook-body.open { display: block; }
+.roadbook-table { width: 100%; border-collapse: collapse; font-size: .72rem; }
+.roadbook-table th { font-size: .62rem; text-transform: uppercase; color: var(--muted); font-weight: 700; padding: 4px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; text-align: left; position: sticky; top: 0; background: var(--card); }
+.roadbook-table td { padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,.03); white-space: nowrap; }
+.roadbook-table tr:last-child td { border-bottom: none; }
+.rb-location { white-space: normal; max-width: 180px; }
+.rb-km { color: var(--muted); text-align: right; }
+.rb-time { color: var(--upcoming); font-variant-numeric: tabular-nums; }
+.rb-chrono { background: rgba(67,97,238,.08); font-weight: 600; }
+
 /* ── Top-10 table ── */
 .top10-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
 .top10-table th {
@@ -1230,6 +1244,44 @@ function toggleProgramme(pid) {
   if (chev) chev.textContent = open ? '▲' : '▼';
 }
 
+function renderRoadbook(s, uid) {
+  const rb = s.roadbook;
+  if (!rb || !rb.length) return '';
+  const rbId = 'rb-' + uid;
+  const rows = rb.map(r => {
+    const isChrono = r.location && r.location.toLowerCase().includes('chrono');
+    const cls = isChrono ? 'rb-chrono' : '';
+    return `<tr class="${cls}">
+      <td class="rb-location">${esc(r.location || '')}</td>
+      <td class="rb-km">${r.km_finish != null ? r.km_finish : ''}</td>
+      <td class="rb-km">${r.km_start  != null ? r.km_start  : ''}</td>
+      <td class="rb-time">${esc(r.caravan_time || '')}</td>
+      <td class="rb-time">${esc(r.peloton_time || '')}</td>
+      <td class="rb-time">${esc(r.director_time || '')}</td>
+    </tr>`;
+  }).join('');
+  return `<div class="roadbook-toggle" onclick="toggleRoadbook('${rbId}')">
+    🗺️ Road Book (${rb.length} points) <span id="${rbId}-chev" style="font-size:.7rem">▼</span>
+  </div>
+  <div class="roadbook-body" id="${rbId}">
+    <table class="roadbook-table">
+      <thead><tr>
+        <th>Location</th><th>← Fin</th><th>Start →</th>
+        <th>Caravan</th><th>Peloton</th><th>Dir.</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+function toggleRoadbook(id) {
+  const body = document.getElementById(id);
+  const chev = document.getElementById(id + '-chev');
+  if (!body) return;
+  const open = body.classList.toggle('open');
+  if (chev) chev.textContent = open ? '▲' : '▼';
+}
+
 // ── Stages ─────────────────────────────────────────────────────────────────────
 
 function renderStages(stages, cardId) {
@@ -1240,7 +1292,7 @@ function renderStages(stages, cardId) {
   const rows = stages.map(s => {
     const uid = `s-${cardId}-${s.num}`;
     const hasResults = s.winner || (s.top10 && s.top10.length);
-    const hasDetails = !!(s.distance_km || s.description || s.height_profile_img);
+    const hasDetails = !!(s.distance_km || s.description || s.height_profile_img || s.route_img || s.roadbook?.length);
     const clickable   = hasResults || hasDetails;
     const laterHasData = !hasResults && s.num < lastWithData;
 
@@ -1261,7 +1313,8 @@ function renderStages(stages, cardId) {
 
     const stageInfo = renderStageInfo(s);
     const descEl = s.description ? `<div class="stage-description">${esc(s.description)}</div>` : '';
-    const bodyContent = `${renderStageImages(s)}${descEl}${hasResults ? renderTop10(s.top10) : ''}`;
+    const roadbookEl = renderRoadbook(s, uid);
+    const bodyContent = `${renderStageImages(s)}${descEl}${hasResults ? renderTop10(s.top10) : ''}${roadbookEl}`;
 
     return `<div class="stage-row" id="${uid}">
       <div class="stage-row-header${clickable?' clickable':''}"${clickable?` onclick="toggleStage('${uid}')"`:''}">

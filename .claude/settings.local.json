@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "Bash(git pull *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git rebase *)",
+      "Bash(git tag *)",
+      "Bash(git push *)",
+      "Bash(git commit -m ' *)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(node -e \"const i=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\);const f=i.tool_input&&\\(i.tool_input.file_path||i.tool_input.filePath\\)||'';if\\(!f||f.includes\\('.claude'\\)||f.includes\\('CHANGELOG'\\)||f.includes\\('changelog'\\)||f.includes\\('memory'\\)\\)process.exit\\(0\\);console.log\\(JSON.stringify\\({hookSpecificOutput:{hookEventName:'PostToolUse',additionalContext:'REMINDER: You just edited a project file. Before committing, make sure to: \\(1\\) bump APP_VERSION in index.html to the next version number, \\(2\\) add an entry to CHANGELOG.md describing what changed, \\(3\\) update changelog.json with the new version entry. Skip this only if the edit was to data.json \\(data update\\) or sw.js cache name bump.'}}\\)\\);\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{try{const i=JSON.parse\\(d\\);const f=\\(i.tool_input&&\\(i.tool_input.file_path||i.tool_input.filePath\\)\\)||'';if\\(!f||f.includes\\('.claude'\\)||f.includes\\('CHANGELOG'\\)||f.includes\\('changelog'\\)||f.includes\\('changelog.json'\\)||f.includes\\('memory'\\)\\)return;console.log\\(JSON.stringify\\({hookSpecificOutput:{hookEventName:'PostToolUse',additionalContext:'REMINDER'}}\\)\\);}catch\\(e\\){}}\\);\")"
+    ]
+  }
+}

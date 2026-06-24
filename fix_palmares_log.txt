@@ -1,0 +1,52 @@
+=== Step 1: Rebuild cycling.db === 
+Wed 24/06/2026 20:24:33.08 
+Traceback (most recent call last):
+  File "C:\DataDrive\Documents\Claude\Projects\UCI Calendar & Results\rebuild_cycling_db.py", line 17, in <module>
+    from import_to_db import SCHEMA
+  File "C:\DataDrive\Documents\Claude\Projects\UCI Calendar & Results\import_to_db.py", line 522
+    again after each scraper.py run to keep the DB current.')
+                                                             ^
+IndentationError: unindent does not match any outer indentation level
+ 
+=== Step 2: Inject palmares into data.json === 
+Traceback (most recent call last):
+  File "C:\DataDrive\Documents\Claude\Projects\UCI Calendar & Results\inject_palmares.py", line 10, in <module>
+    c.execute("SELECT race_slug,year,winner,winner_slug,second,second_slug,third,third_slug FROM race_palmares ORDER BY race_slug,year DESC")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: race_palmares
+ 
+=== Step 3: Git commit + push === 
+warning: in the working copy of 'inject_palmares.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'rebuild_cycling_db.py', LF will be replaced by CRLF the next time Git touches it
+[main a7934d6] data: init race_palmares table + palmares injection 2026-06-24
+ 4 files changed, 117 insertions(+)
+ create mode 100644 inject_palmares.py
+ create mode 100644 rebuild_cycling_db.py
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+To https://github.com/psykalist/UCI-Calendar.git
+   10af17b..a7934d6  main -> main
+=== Done === 
+Wed 24/06/2026 20:24:50.09 
+=== Step 1: Rebuild cycling.db === 
+Wed 24/06/2026 20:26:22.49 
+=== Rebuilding cycling.db ===
+  Schema created.
+  Existing cycling.db appears valid — skipping wipe (use --force to override)
+  Seeding race_palmares from data.json...
+  Inserted 234 race_palmares rows across 11 races.
+  cycling.db written (212 KB).
+Done.
+ 
+=== Step 2: Inject palmares into data.json === 
+palmares injected: 11 races
+ 
+=== Step 3: Git commit + push === 
+[main 4cad702] data: init race_palmares table + palmares injection 2026-06-24
+ 3 files changed, 1 insertion(+), 2 deletions(-)
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+To https://github.com/psykalist/UCI-Calendar.git
+   a7934d6..4cad702  main -> main
+=== Done === 
+Wed 24/06/2026 20:26:44.01 

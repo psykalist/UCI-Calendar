@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UCI Road Calendar 2026</title>
+<script src="data.js"></script>
+<style>
+:root{
+  --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--surface3:#2d333b;
+  --border:#30363d;--border2:#444c56;
+  --text:#e6edf3;--muted:#8b949e;--muted2:#6e7681;
+  --yellow:#f5c518;--green:#3fb950;--blue:#58a6ff;
+  --red:#f85149;--orange:#e3a008;--purple:#bc8cff;
+  --gc:#f5c518;--pts:#3fb950;--kom:#e05252;--youth:#c8d1da;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.5;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer}
+/* ── Header ── */
+header{background:linear-gradient(135deg,#0d1117,#1a1f2e,#0d1117);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200}
+.logo{font-size:18px;font-weight:700;color:var(--yellow);white-space:nowrap}.logo span{color:var(--text)}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.hdr-date{color:var(--muted);font-size:11px}
+/* ── Top nav ── */
+.top-nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 20px;position:sticky;top:53px;z-index:190;display:flex;align-items:center;gap:0}
+.nav-tab{padding:10px 16px;border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:500;border-bottom:2px solid transparent;transition:.12s;white-space:nowrap}
+.nav-tab.active{color:var(--text);border-bottom-color:var(--yellow)}
+.nav-tab:hover:not(.active){color:var(--text)}
+.nbadge{display:inline-flex;align-items:center;justify-content:center;background:var(--surface2);color:var(--muted2);border-radius:10px;padding:0 6px;font-size:10px;height:16px;margin-left:5px}
+/* ── Filter bar ── */
+.filter-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-bar input[type=text]{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 10px;font-size:13px;font-family:inherit;width:220px;outline:none}
+.filter-bar input[type=text]:focus{border-color:var(--blue)}
+.filter-bar input[type=text]::placeholder{color:var(--muted2)}
+.fsel{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 10px;font-size:12px;font-family:inherit;outline:none;cursor:pointer}
+.fsel:focus{border-color:var(--blue)}
+.fbtn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;font-size:12px;transition:.1s}
+.fbtn:hover{color:var(--text);border-color:var(--border2)}
+.fbtn.active-f{background:var(--surface3);color:var(--yellow);border-color:var(--yellow)}
+.fcount{color:var(--muted);font-size:11px;margin-left:4px}
+/* ── Main area ── */
+main{padding:16px 20px;max-width:1120px}
+/* ── Race grid ── */
+.race-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+/* ── Race card ── */
+.race-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .12s}
+.race-card:hover{border-color:var(--border2)}
+.race-header{padding:12px 14px;cursor:pointer;display:flex;align-items:flex-start;gap:9px;user-select:none}
+.race-header:hover .race-name{color:var(--yellow)}
+.race-cat{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:nowrap;flex-shrink:0;margin-top:3px;letter-spacing:.03em}
+.uwt{background:#152240;color:#58a6ff}.pro2{background:#162818;color:#3fb950}.one{background:#241a0a;color:#e3a008}
+.race-info{flex:1;min-width:0}
+.race-name{font-weight:600;font-size:13px;margin-bottom:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.race-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.s-live{background:var(--green);box-shadow:0 0 5px var(--green);animation:pulse 2s infinite}
+.s-upcoming{background:var(--purple)}.s-recent{background:var(--muted2)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.chevron{color:var(--muted2);font-size:10px;margin-top:5px;flex-shrink:0;transition:transform .18s}
+.race-card.open .chevron{transform:rotate(180deg)}
+/* ── Winner bar ── */
+.winner-bar{display:flex;align-items:center;gap:8px;padding:6px 14px;background:var(--surface2);border-top:1px solid var(--border);font-size:12px;min-height:36px}
+.w-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid var(--border)}
+.w-label{color:var(--muted2);font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+.w-stages{margin-left:auto;color:var(--muted2);font-size:10px}
+/* ── Race body ── */
+.race-body{display:none;border-top:1px solid var(--border)}
+.race-card.open .race-body{display:block}
+/* ── Classification tabs ── */
+.cl-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface)}
+.cl-tab{flex:1;padding:7px 3px;text-align:center;font-size:10px;font-weight:600;cursor:pointer;color:var(--muted2);border:none;background:transparent;border-bottom:2px solid transparent;letter-spacing:.02em;transition:.1s}
+.cl-tab:hover{color:var(--text)}
+.t-gc{color:var(--gc) !important;border-color:var(--gc) !important}
+.t-pts{color:var(--pts) !important;border-color:var(--pts) !important}
+.t-kom{color:var(--kom) !important;border-color:var(--kom) !important}
+.t-youth{color:var(--youth) !important;border-color:var(--youth) !important}
+.t-stages{color:var(--blue) !important;border-color:var(--blue) !important}
+.t-result{color:var(--yellow) !important;border-color:var(--yellow) !important}
+.t-info{color:var(--purple) !important;border-color:var(--purple) !important}
+/* ── Panes ── */
+.cl-pane{display:none}.cl-pane.show{display:block}
+/* ── Result rows ── */
+.res-rows{padding:8px 14px}
+.res-row{display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid #1c2230}
+.res-row:last-child{border-bottom:none}
+.rr-rank{width:20px;text-align:right;font-size:11px;color:var(--muted2);flex-shrink:0}
+.rk1{color:var(--gc);font-weight:700}.rk2{color:#9ea6b0}.rk3{color:#b07050}
+.rr-photo{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);flex-shrink:0;background:var(--surface2)}
+.rr-nophoto{width:30px;height:30px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--muted2);font-size:12px}
+.rr-info{flex:1;min-width:0}
+.rr-name{font-weight:500;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;transition:color .1s}
+.rr-name:hover{color:var(--yellow)}
+.rr-sub{font-size:10px;color:var(--muted2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rr-flag{flex-shrink:0;width:16px}
+.rr-time{text-align:right;font-size:11px;color:var(--muted2);min-width:62px;flex-shrink:0}
+.rr-time.v1{color:var(--text);font-weight:600}
+/* Spec mini-bars */
+.spec-mini{display:flex;gap:2px;margin-top:2px}
+.spec-pip{width:10px;height:2px;border-radius:1px;background:var(--surface3)}
+.spec-pip.on-gc{background:var(--gc)}
+.spec-pip.on-pts{background:var(--pts)}
+.spec-pip.on-tt{background:var(--blue)}
+.spec-pip.on-climb{background:var(--kom)}
+/* ── Stage list ── */
+.stage-list{padding:6px 14px}
+.stage-item{border-bottom:1px solid #1c2230}
+.stage-item:last-child{border-bottom:none}
+.stage-hdr{display:flex;align-items:center;gap:7px;padding:7px 0;cursor:pointer}
+.stage-hdr:hover .s-label{color:var(--yellow)}
+.s-num{width:22px;height:22px;border-radius:4px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--muted);flex-shrink:0}
+.s-label{flex:1;font-size:11px;font-weight:500;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.s-win{font-size:10px;color:var(--muted2);display:flex;align-items:center;gap:3px;flex-shrink:0}
+.s-type{font-size:9px;padding:1px 4px;border-radius:3px;white-space:nowrap;flex-shrink:0;font-weight:600}
+.tp-mtn{background:#162616;color:#3fb950}.tp-hilly{background:#1c2a18;color:#6cb96c}
+.tp-itt,.tp-ttt{background:#142038;color:#58a6ff}.tp-flat{background:#1e2030;color:#7a8a9a}
+.s-chev{font-size:9px;color:var(--muted2);flex-shrink:0;transition:transform .15s}
+.stage-item.open .s-chev{transform:rotate(180deg)}
+.s-meta{font-size:10px;color:var(--muted2);padding:1px 0 5px 29px;display:flex;gap:8px;flex-wrap:wrap}
+.s-meta span{display:flex;align-items:center;gap:3px}
+.s-results{display:none;padding-bottom:4px}
+.stage-item.open .s-results{display:block}
+.s-profile-img{width:100%;max-height:75px;object-fit:cover;border-radius:4px;margin-bottom:5px;opacity:.75}
+/* ── Info pane ── */
+.info-pane{padding:12px 14px}
+.info-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1c2230;font-size:12px}
+.info-row:last-child{border-bottom:none}
+.info-k{color:var(--muted2)}.info-v{color:var(--text);font-weight:500}
+/* ── Stats tab ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:16px 20px;max-width:1120px}
+.stats-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.stats-hdr{padding:10px 14px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
+.stats-row{display:flex;align-items:center;gap:8px;padding:6px 14px;border-bottom:1px solid #1c2230;font-size:12px}
+.stats-row:last-child{border-bottom:none}
+.stats-rank{width:18px;text-align:right;color:var(--muted2);font-size:11px;flex-shrink:0}
+.stats-wins{background:var(--surface2);border-radius:4px;padding:1px 6px;font-weight:700;font-size:11px;color:var(--yellow);min-width:24px;text-align:center;flex-shrink:0}
+.stats-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer}
+.stats-name:hover{color:var(--yellow)}
+.stats-sub{color:var(--muted2);font-size:10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.bar-wrap{height:4px;background:var(--surface2);border-radius:2px;margin:2px 0;flex:1}
+.bar-fill{height:4px;border-radius:2px;background:var(--yellow)}
+/* ── Rider modal ── */
+#riderOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:none;backdrop-filter:blur(2px)}
+#riderOverlay.show{display:block}
+#riderPanel{position:fixed;top:0;right:-420px;width:min(420px,100vw);height:100vh;background:var(--surface);border-left:1px solid var(--border2);z-index:501;overflow-y:auto;transition:right .22s ease;display:flex;flex-direction:column}
+#riderPanel.open{right:0}
+.rp-close{position:absolute;top:12px;right:14px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 10px;font-size:12px}
+.rp-close:hover{color:var(--text)}
+.rp-head{padding:20px 14px 14px;display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid var(--border);flex-shrink:0}
+.rp-photo{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--border2);flex-shrink:0;background:var(--surface2)}
+.rp-nophoto{width:72px;height:72px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px}
+.rp-info{flex:1;min-width:0}
+.rp-name{font-size:17px;font-weight:700;margin-bottom:4px}
+.rp-meta{font-size:12px;color:var(--muted);line-height:1.8}
+.rp-wins-badge{display:inline-flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;color:var(--yellow);margin-top:6px}
+/* Specialties */
+.spec-section{padding:12px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.spec-title{font-size:10px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.spec-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:11px}
+.spec-label{width:60px;color:var(--muted);flex-shrink:0}
+.spec-bar-wrap{flex:1;height:5px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.spec-bar-fill{height:5px;border-radius:3px;transition:width .4s}
+.spec-score{width:30px;text-align:right;color:var(--muted2);font-size:10px}
+/* Results in rider panel */
+.rp-results{flex:1;overflow-y:auto}
+.rp-section-hdr{padding:10px 14px 6px;font-size:10px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em;background:var(--surface);position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border)}
+.rp-row{display:flex;align-items:center;gap:8px;padding:6px 14px;border-bottom:1px solid #1c2230;font-size:12px;cursor:pointer;transition:background .1s}
+.rp-row:hover{background:var(--surface2)}
+.rp-row:last-child{border-bottom:none}
+.rp-rk{width:18px;text-align:right;flex-shrink:0}
+.rp-rkbig{font-weight:700;font-size:14px;color:var(--yellow)}
+.rp-race{flex:1;min-width:0}
+.rp-race-name{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:500}
+.rp-race-sub{font-size:10px;color:var(--muted2)}
+.rp-time-val{color:var(--muted2);font-size:11px;text-align:right;min-width:60px;flex-shrink:0}
+.rp-type-pill{font-size:9px;padding:1px 5px;border-radius:3px;flex-shrink:0;font-weight:600}
+.pill-w{background:#1a2e1a;color:var(--pts)}.pill-2{background:#1a2040;color:var(--blue)}
+.pill-top{background:#2a1a0a;color:var(--orange)}.pill-gc{background:#2a2010;color:var(--yellow)}
+/* Clickable team/nat links */
+.x-link{cursor:pointer;color:var(--muted);text-decoration:underline;text-decoration-color:transparent;transition:.1s}
+.x-link:hover{color:var(--yellow);text-decoration-color:var(--yellow)}
+/* No data */
+.no-data{color:var(--muted2);text-align:center;padding:20px;font-size:13px}
+/* Flag */
+.fl{width:16px;height:12px;vertical-align:middle;border-radius:1px}
+/* Hidden by filter */
+.race-card.hidden{display:none}
+/* Responsive */
+@media(max-width:600px){.race-grid{grid-template-columns:1fr}.filter-bar input[type=text]{width:100%}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🚴 <span>UCI Road</span> 2026</div>
+  <div class="hdr-right">
+    <div class="hdr-date" id="hdrDate"></div>
+  </div>
+</header>
+
+<div class="top-nav">
+  <button class="nav-tab" onclick="showTab('live')"     id="nt-live">Live <span class="nbadge" id="nb-live">—</span></button>
+  <button class="nav-tab" onclick="showTab('upcoming')" id="nt-upcoming">Upcoming <span class="nbadge" id="nb-upcoming">—</span></button>
+  <button class="nav-tab active" onclick="showTab('recent')"  id="nt-recent">Results <span class="nbadge" id="nb-recent">—</span></button>
+  <button class="nav-tab" onclick="showTab('stats')"    id="nt-stats">Stats</button>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <input type="text" id="searchBox" placeholder="🔍  Search races or riders…" oninput="applyFilters()">
+  <select class="fsel" id="catFilter" onchange="applyFilters()">
+    <option value="">All categories</option>
+    <option value="UWT">UWT</option>
+    <option value="Pro">2.Pro</option>
+    <option value="1.">1.1 / 1.Pro</option>
+  </select>
+  <select class="fsel" id="typeFilter" onchange="applyFilters()">
+    <option value="">All types</option>
+    <option value="stage">Stage races</option>
+    <option value="oneday">One-day</option>
+  </select>
+  <select class="fsel" id="monthFilter" onchange="applyFilters()">
+    <option value="">All months</option>
+    <option value="-01-">January</option>
+    <option value="-02-">February</option>
+    <option value="-03-">March</option>
+    <option value="-04-">April</option>
+    <option value="-05-">May</option>
+    <option value="-06-">June</option>
+    <option value="-07-">July</option>
+    <option value="-08-">August</option>
+    <option value="-09-">September</option>
+    <option value="-10-">October</option>
+  </select>
+  <button class="fbtn" onclick="clearFilters()">Clear</button>
+  <span class="fcount" id="fcount"></span>
+</div>
+
+<main id="main"><div class="no-data">Loading…</div></main>
+
+<!-- Rider modal -->
+<div id="riderOverlay" onclick="closeRider()"></div>
+<div id="riderPanel">
+  <button class="rp-close" onclick="closeRider()">✕ Close</button>
+  <div id="riderPanelContent"></div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   DATA & INDICES
+   ════════════════════════════════════════════════════════════ */
+let DATA = null;
+let RIDER_IDX = {};   // slug → {wins, podiums, results[], gcs[]}
+let TEAM_IDX  = {};   // name → {wins, podiums, riders: Set}
+let NAT_IDX   = {};   // nat  → {wins, podiums}
+let WIN_LIST  = [];   // [{slug, name, photo, nat, team, wins, podiums}]
+let ACTIVE_TAB = 'recent';
+
+function buildIndices() {
+  RIDER_IDX = {}; TEAM_IDX = {}; NAT_IDX = {};
+  const ensure = (o, k) => { if (!o[k]) o[k] = {wins:0, podiums:0, results:[], gcs:[]}; };
+
+  for (const race of DATA.races || []) {
+    const completed = race.status === 'recent' || race.status === 'live';
+
+    // Stage results
+    for (const stage of race.stages || []) {
+      for (const r of stage.results || []) {
+        if (!r.slug) continue;
+        ensure(RIDER_IDX, r.slug);
+        RIDER_IDX[r.slug].results.push({
+          type:'stage', raceName:race.name, raceId:race.id, cat:race.category,
+          stageNum:stage.num, stageLabel:stage.label || `Stage ${stage.num}`,
+          rank:r.rank, time:r.time, team:r.team, nat:r.nat, date:stage.date
+        });
+        if (completed && r.rank === 1) RIDER_IDX[r.slug].wins++;
+        if (completed && r.rank <= 3)  RIDER_IDX[r.slug].podiums++;
+        if (completed) {
+          const t = r.team;
+          if (t) { if (!TEAM_IDX[t]) TEAM_IDX[t]={wins:0,podiums:0}; if(r.rank===1)TEAM_IDX[t].wins++; if(r.rank<=3)TEAM_IDX[t].podiums++; }
+          const n = r.nat;
+          if (n) { if (!NAT_IDX[n]) NAT_IDX[n]={wins:0,podiums:0}; if(r.rank===1)NAT_IDX[n].wins++; if(r.rank<=3)NAT_IDX[n].podiums++; }
+        }
+      }
+    }
+    // One-day results
+    for (const r of race.results || []) {
+      if (!r.slug) continue;
+      ensure(RIDER_IDX, r.slug);
+      RIDER_IDX[r.slug].results.push({
+        type:'oneday', raceName:race.name, raceId:race.id, cat:race.category,
+        rank:r.rank, time:r.time, team:r.team, nat:r.nat, date:race.endDate
+      });
+      if (completed && r.rank === 1) RIDER_IDX[r.slug].wins++;
+      if (completed && r.rank <= 3)  RIDER_IDX[r.slug].podiums++;
+      if (completed) {
+        const t=r.team; if(t){if(!TEAM_IDX[t])TEAM_IDX[t]={wins:0,podiums:0};if(r.rank===1)TEAM_IDX[t].wins++;if(r.rank<=3)TEAM_IDX[t].podiums++;}
+        const n=r.nat; if(n){if(!NAT_IDX[n])NAT_IDX[n]={wins:0,podiums:0};if(r.rank===1)NAT_IDX[n].wins++;if(r.rank<=3)NAT_IDX[n].podiums++;}
+      }
+    }
+    // Classification standings
+    for (const [type, list] of Object.entries(race.classifications || {})) {
+      for (const r of list || []) {
+        if (!r.slug) continue;
+        ensure(RIDER_IDX, r.slug);
+        RIDER_IDX[r.slug].gcs.push({
+          type, raceName:race.name, raceId:race.id, rank:r.rank, value:r.value, team:r.team
+        });
+      }
+    }
+  }
+
+  // Build win list for leaderboard
+  WIN_LIST = [];
+  const riders = DATA.riders || {};
+  for (const [slug, idx] of Object.entries(RIDER_IDX)) {
+    if (idx.wins > 0 || idx.podiums > 0) {
+      const rd = riders[slug] || {};
+      WIN_LIST.push({slug, name:rd.name||slug, photo:rd.photo, nat:rd.nat||'', team:firstTeam(idx), wins:idx.wins, podiums:idx.podiums});
+    }
+  }
+  WIN_LIST.sort((a,b) => b.wins-a.wins || b.podiums-a.podiums);
+}
+
+function firstTeam(idx) {
+  const r = [...idx.results].reverse().find(r=>r.team);
+  return r ? r.team : '';
+}
+
+/* ════════════════════════════════════════════════════════════
+   RENDER HELPERS
+   ════════════════════════════════════════════════════════════ */
+const fl = nat => !nat||nat.length!==2 ? '' :
+  `<img class="fl" src="https://flagcdn.com/16x12/${nat.toLowerCase()}.png" alt="${nat}" onerror="this.style.display='none'">`;
+
+const photoEl = (url,name,sz=30) => url
+  ? `<img class="rr-photo" src="${url}" alt="${name}" width="${sz}" height="${sz}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    + `<span class="rr-nophoto" style="display:none">👤</span>`
+  : `<span class="rr-nophoto">👤</span>`;
+
+const rankCls = r => r===1?'rr-rank rk1':r===2?'rr-rank rk2':r===3?'rr-rank rk3':'rr-rank';
+
+const catBadge = cat => {
+  if (!cat) return '';
+  const cls = cat.includes('UWT')?'uwt':cat.includes('Pro')&&cat[0]==='2'?'pro2':'one';
+  return `<span class="race-cat ${cls}">${cat}</span>`;
+};
+
+const stageTag = t => {
+  if (!t) return '';
+  const tl = t.toLowerCase();
+  const cls = tl.includes('mountain')?'tp-mtn':tl.includes('hilly')?'tp-hilly':
+              (tl.includes('itt')||tl.includes('ttt')||tl.includes('time'))?'tp-itt':'tp-flat';
+  return `<span class="s-type ${cls}">${t}</span>`;
+};
+
+const fmtDate = d => {
+  if (!d) return '';
+  try { return new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}); } catch{ return d; }
+};
+
+const specBar = (val, max, colorClass) => {
+  const pct = Math.round((val||0) / max * 100);
+  return `<div class="spec-bar-fill ${colorClass}" style="width:${pct}%"></div>`;
+};
+
+/* ════════════════════════════════════════════════════════════
+   ROW RENDERING
+   ════════════════════════════════════════════════════════════ */
+function riderRowHTML(r, riders, valKey='value') {
+  const rd = (riders||{})[r.slug] || {};
+  const ph = rd.photo || r.photo;
+  const sp = rd.specialties || {};
+  const val = r[valKey] || r.value || r.time || '—';
+
+  // Specialty pip indicator (top 3 scores)
+  let specHtml = '';
+  if (sp.gc||sp.sprint||sp.tt||sp.climber) {
+    const maxSp = Math.max(sp.gc||0, sp.sprint||0, sp.tt||0, sp.climber||0, sp.oneday||0);
+    if (maxSp > 200) {
+      const best = [{k:'gc',v:sp.gc,c:'on-gc'},{k:'pts',v:sp.sprint,c:'on-pts'},{k:'tt',v:sp.tt,c:'on-tt'},{k:'clm',v:sp.climber,c:'on-climb'}]
+        .filter(x=>x.v>100).sort((a,b)=>b.v-a.v).slice(0,3);
+      specHtml = `<div class="spec-mini">${best.map(b=>`<div class="spec-pip ${b.c}" title="${b.k}"></div>`).join('')}</div>`;
+    }
+  }
+
+  return `<div class="res-row">
+    <span class="${rankCls(r.rank)}">${r.rank}</span>
+    ${photoEl(ph, r.name)}
+    <div class="rr-info">
+      <div class="rr-name" onclick="openRider('${r.slug}')">${r.name}</div>
+      <div class="rr-sub"><span class="x-link" onclick="filterTeam('${esc(r.team)}')">${r.team||'—'}</span></div>
+      ${specHtml}
+    </div>
+    <span class="rr-flag">${fl(r.nat)}</span>
+    <span class="rr-time${r.rank===1?' v1':''}">${val}</span>
+  </div>`;
+}
+
+function esc(s) { return (s||'').replace(/'/g,"\\'"); }
+
+/* ════════════════════════════════════════════════════════════
+   STAGE LIST
+   ════════════════════════════════════════════════════════════ */
+function renderStageList(raceId, stages, riders) {
+  if (!stages||!stages.length) return '<div class="no-data">No stage data</div>';
+  return stages.map(s => {
+    const sid = `si-${raceId}-${s.num}`;
+    const hasR = s.results && s.results.length > 0;
+    const metaParts = [];
+    if (s.km)   metaParts.push(`<span>📏 ${s.km} km</span>`);
+    if (s.elev) metaParts.push(`<span>▲ ${s.elev} m</span>`);
+    if (s.from && s.to) metaParts.push(`<span>${s.from} → ${s.to}</span>`);
+    if (s.date) metaParts.push(`<span>${fmtDate(s.date)}</span>`);
+    return `<div class="stage-item" id="${sid}">
+      <div class="stage-hdr" onclick="toggleStage('${sid}')">
+        <span class="s-num">${s.num}</span>
+        <span class="s-label">${s.label||'Stage '+s.num}</span>
+        ${hasR ? `<span class="s-win">${fl(s.winnerNat)}<span class="rr-name" onclick="event.stopPropagation();openRiderByName('${esc(s.winner)}')">${s.winner||''}</span></span>` : ''}
+        ${stageTag(s.type)}
+        ${hasR ? `<span class="s-chev">▼</span>` : ''}
+      </div>
+      ${metaParts.length ? `<div class="s-meta">${metaParts.join('')}</div>` : ''}
+      <div class="s-results">
+        ${s.profileImg ? `<img class="s-profile-img" src="${s.profileImg}" loading="lazy" alt="Stage profile">` : ''}
+        <div class="res-rows">${hasR ? s.results.map(r=>riderRowHTML(r,riders,'time')).join('') : '<div class="no-data">No results yet</div>'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════════════════════════════════
+   RACE CARD
+   ════════════════════════════════════════════════════════════ */
+function buildCard(race, riders) {
+  const id = race.id;
+  const isStage = race.raceType === 'stage';
+  const cl = race.classifications || {};
+  const dotCls = race.status==='live'?'s-live':race.status==='upcoming'?'s-upcoming':'s-recent';
+
+  let tabs='', panes='', firstActive='';
+
+  if (isStage) {
+    const hasStageR = race.stages && race.stages.some(s=>s.results&&s.results.length);
+    if (hasStageR) firstActive='stages';
+    tabs += `<button class="cl-tab${hasStageR?' t-stages':''}" onclick="switchTab('${id}','stages',this)">Stages</button>`;
+    panes+= `<div class="cl-pane${hasStageR?' show':''}" id="p-${id}-stages"><div class="stage-list">${renderStageList(id, race.stages, riders)}</div></div>`;
+
+    [{k:'gc',l:'GC 🟡',t:'t-gc'},{k:'points',l:'Pts 🟢',t:'t-pts'},{k:'kom',l:'KOM 🔴',t:'t-kom'},{k:'youth',l:'Youth ⚪',t:'t-youth'}]
+    .forEach(({k,l,t}) => {
+      const list = cl[k]||[];
+      const isF = !firstActive && list.length; if(isF) firstActive=k;
+      tabs += `<button class="cl-tab${isF?' '+t:''}" onclick="switchTab('${id}','${k}',this)">${l}</button>`;
+      panes+= `<div class="cl-pane${isF?' show':''}" id="p-${id}-${k}"><div class="res-rows">${list.length?list.map(r=>riderRowHTML(r,riders,'value')).join(''):'<div class="no-data">No data</div>'}</div></div>`;
+    });
+  } else {
+    tabs += `<button class="cl-tab t-result" onclick="switchTab('${id}','result',this)">Result</button>`;
+    panes+= `<div class="cl-pane show" id="p-${id}-result"><div class="res-rows">${(race.results||[]).length?race.results.map(r=>riderRowHTML(r,riders,'time')).join(''):'<div class="no-data">No data</div>'}</div></div>`;
+    firstActive='result';
+  }
+
+  // Upcoming info fallback
+  if (race.status==='upcoming' && !firstActive) {
+    const days = Math.ceil((new Date(race.startDate)-new Date())/86400000);
+    const ds = days<=0?'Today!':days===1?'Tomorrow':`In ${days} days`;
+    tabs = `<button class="cl-tab t-info">Info</button>`;
+    panes = `<div class="cl-pane show" id="p-${id}-info"><div class="info-pane">
+      <div class="info-row"><span class="info-k">When</span><span class="info-v">${ds} · ${fmtDate(race.startDate)}–${fmtDate(race.endDate)}</span></div>
+      <div class="info-row"><span class="info-k">Format</span><span class="info-v">${race.totalStages>1?race.totalStages+' stages':'One-day'}</span></div>
+      <div class="info-row"><span class="info-k">Category</span><span class="info-v">${race.category||'—'}</span></div>
+    </div></div>`;
+  }
+
+  // Winner bar
+  let winBar='';
+  if (race.winnerName) {
+    const ws = (race.results||[])[0] || {};
+    const wph = (riders[ws.slug]||{}).photo || ws.photo;
+    winBar = `<div class="winner-bar">
+      ${wph?`<img class="w-photo" src="${wph}" alt="${race.winnerName}" onerror="this.style.display='none'">` : ''}
+      <span class="w-label">Winner</span>${fl(race.winnerNat||ws.nat||'')}
+      <strong class="rr-name" style="cursor:pointer" onclick="openRiderByName('${esc(race.winnerName)}')">${race.winnerName}</strong>
+      ${isStage?`<span class="w-stages">${race.stagesCompleted||race.totalStages||0} stg</span>`:''}
+    </div>`;
+  } else if (race.gcLeader && race.gcLeader.length>2) {
+    winBar = `<div class="winner-bar"><span class="w-label">Leader</span> <strong>${race.gcLeader}</strong></div>`;
+  }
+
+  return `<div class="race-card" id="rc-${id}"
+    data-name="${(race.name||'').toLowerCase()}"
+    data-cat="${race.category||''}"
+    data-type="${race.raceType||''}"
+    data-date="${race.startDate||''}">
+    <div class="race-header" onclick="toggleCard('rc-${id}')">
+      ${catBadge(race.category)}
+      <div class="race-info">
+        <div class="race-name">${race.name}</div>
+        <div class="race-meta">
+          ${fmtDate(race.startDate)}${race.endDate!==race.startDate?' – '+fmtDate(race.endDate):''}
+          ${isStage?`<span style="color:var(--muted2)">·</span> <span>${race.stagesCompleted||0}/${race.totalStages||0} stg</span>`:''}
+        </div>
+      </div>
+      <span class="status-dot ${dotCls}"></span>
+      <span class="chevron">▼</span>
+    </div>
+    ${winBar}
+    <div class="race-body"><div class="cl-tabs">${tabs}</div>${panes}</div>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   STATS TAB
+   ════════════════════════════════════════════════════════════ */
+function renderStats() {
+  const riders = DATA.riders || {};
+  const maxW = WIN_LIST[0]?.wins || 1;
+
+  // Top winners (stage wins)
+  const winRows = WIN_LIST.slice(0,20).map((r,i) => `
+    <div class="stats-row">
+      <span class="stats-rank">${i+1}</span>
+      ${r.photo?`<img class="rr-photo" src="${r.photo}" width="26" height="26" style="border-radius:50%;object-fit:cover;flex-shrink:0" loading="lazy" onerror="this.style.display='none'">`:''}
+      <div style="flex:1;min-width:0">
+        <div class="stats-name" onclick="openRider('${r.slug}')">${r.name} ${fl(r.nat)}</div>
+        <div class="stats-sub">${r.team||''}</div>
+        <div class="bar-wrap" style="margin-top:2px"><div class="bar-fill" style="width:${Math.round(r.wins/maxW*100)}%"></div></div>
+      </div>
+      <span class="stats-wins">${r.wins}</span>
+    </div>`).join('');
+
+  // Top podiums
+  const podRows = [...WIN_LIST].sort((a,b)=>b.podiums-a.podiums||b.wins-a.wins).slice(0,15).map((r,i) => `
+    <div class="stats-row">
+      <span class="stats-rank">${i+1}</span>
+      <div style="flex:1;min-width:0"><div class="stats-name" onclick="openRider('${r.slug}')">${r.name} ${fl(r.nat)}</div><div class="stats-sub">${r.team||''}</div></div>
+      <span class="stats-wins" style="color:var(--blue)">${r.podiums}</span>
+    </div>`).join('');
+
+  // Teams by wins
+  const teams = Object.entries(TEAM_IDX).sort((a,b)=>b[1].wins-a[1].wins||b[1].podiums-a[1].podiums).slice(0,15);
+  const maxTW = teams[0]?.[1]?.wins || 1;
+  const teamRows = teams.map(([name,d],i) => `
+    <div class="stats-row">
+      <span class="stats-rank">${i+1}</span>
+      <div style="flex:1;min-width:0">
+        <div class="stats-name" onclick="filterTeam('${esc(name)}')">${name}</div>
+        <div class="bar-wrap" style="margin-top:2px"><div class="bar-fill" style="width:${Math.round(d.wins/maxTW*100)}%;background:var(--pts)"></div></div>
+      </div>
+      <span class="stats-wins" style="color:var(--pts)">${d.wins}</span>
+    </div>`).join('');
+
+  // Nations by wins
+  const nats = Object.entries(NAT_IDX).sort((a,b)=>b[1].wins-a[1].wins||b[1].podiums-a[1].podiums).slice(0,20);
+  const maxNW = nats[0]?.[1]?.wins || 1;
+  const natRows = nats.map(([nat,d],i) => `
+    <div class="stats-row">
+      <span class="stats-rank">${i+1}</span>
+      <span style="flex-shrink:0">${fl(nat)}</span>
+      <div style="flex:1;min-width:0">
+        <div class="stats-name">${nat.toUpperCase()}</div>
+        <div class="bar-wrap" style="margin-top:2px"><div class="bar-fill" style="width:${Math.round(d.wins/maxNW*100)}%;background:var(--kom)"></div></div>
+      </div>
+      <span class="stats-wins" style="color:var(--kom)">${d.wins}</span>
+    </div>`).join('');
+
+  // By category
+  const byCat = {};
+  for (const race of DATA.races||[]) {
+    if (race.status!=='recent') continue;
+    const cat = race.category||'Other';
+    if (!byCat[cat]) byCat[cat]={races:0,stageWins:{}};
+    byCat[cat].races++;
+  }
+
+  return `<div class="stats-grid">
+    <div class="stats-card">
+      <div class="stats-hdr">🏆 Stage/Race wins — 2026</div>
+      ${winRows||'<div class="no-data">No wins data</div>'}
+    </div>
+    <div class="stats-card">
+      <div class="stats-hdr">🥇🥈🥉 Most podiums — 2026</div>
+      ${podRows||'<div class="no-data">No data</div>'}
+    </div>
+    <div class="stats-card">
+      <div class="stats-hdr">👕 Teams by wins</div>
+      ${teamRows||'<div class="no-data">No data</div>'}
+    </div>
+    <div class="stats-card">
+      <div class="stats-hdr">🌍 Nations by wins</div>
+      ${natRows||'<div class="no-data">No data</div>'}
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   RIDER MODAL
+   ════════════════════════════════════════════════════════════ */
+function openRider(slug) {
+  if (!slug || !DATA) return;
+  const rd = (DATA.riders||{})[slug] || {};
+  const idx = RIDER_IDX[slug] || {wins:0, podiums:0, results:[], gcs:[]};
+
+  const sp = rd.specialties || {};
+  const spMax = 1500; // rough max for CyclingFlash specialty scores
+
+  const specRows = [
+    {label:'GC',val:sp.gc,max:1500,color:'var(--gc)'},
+    {label:'Sprint',val:sp.sprint,max:1500,color:'var(--pts)'},
+    {label:'Climber',val:sp.climber,max:1500,color:'var(--kom)'},
+    {label:'Time TT',val:sp.tt,max:1500,color:'var(--blue)'},
+    {label:'Oneday',val:sp.oneday,max:1500,color:'var(--orange)'},
+    {label:'Hills',val:sp.hills,max:1500,color:'var(--purple)'},
+  ].filter(s => s.val > 0);
+
+  // All results sorted by rank then date
+  const stageResults = idx.results.sort((a,b)=>a.rank-b.rank||(a.date||'').localeCompare(b.date||''));
+  const wins = stageResults.filter(r=>r.rank===1);
+  const podiums = stageResults.filter(r=>r.rank>1&&r.rank<=3);
+  const top10 = stageResults.filter(r=>r.rank>3&&r.rank<=10);
+  const other = stageResults.filter(r=>r.rank>10);
+
+  const pillFor = r => {
+    if (r.rank===1) return `<span class="rp-type-pill pill-w">WIN</span>`;
+    if (r.rank<=3)  return `<span class="rp-type-pill pill-2">P${r.rank}</span>`;
+    if (r.rank<=10) return `<span class="rp-type-pill pill-top">Top 10</span>`;
+    return `<span class="rp-type-pill" style="background:var(--surface2);color:var(--muted2)">${r.rank}</span>`;
+  };
+
+  const resultRow = r => `<div class="rp-row" onclick="jumpToRace('${r.raceId}')">
+    ${pillFor(r)}
+    <div class="rp-race">
+      <div class="rp-race-name">${r.raceName}${r.stageLabel?' · '+r.stageLabel:''}</div>
+      <div class="rp-race-sub">${r.team||''}${r.date?' · '+fmtDate(r.date):''}</div>
+    </div>
+    <span class="rp-time-val">${r.time||''}</span>
+  </div>`;
+
+  const gcRow = g => `<div class="rp-row" onclick="jumpToRace('${g.raceId}')">
+    <span class="rp-type-pill pill-gc">${g.type.toUpperCase()} P${g.rank}</span>
+    <div class="rp-race">
+      <div class="rp-race-name">${g.raceName}</div>
+      <div class="rp-race-sub">${g.team||''}</div>
+    </div>
+    <span class="rp-time-val">${g.value||''}</span>
+  </div>`;
+
+  const dob = rd.dob ? `DOB: ${rd.dob}` : '';
+  const team = firstTeam(idx) || '';
+  const nat = rd.nat || '';
+
+  const ph = rd.photo
+    ? `<img class="rp-photo" src="${rd.photo}" alt="${rd.name||slug}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="rp-nophoto" style="display:none">👤</span>`
+    : `<span class="rp-nophoto">👤</span>`;
+
+  let specHtml = '';
+  if (specRows.length) {
+    specHtml = `<div class="spec-section">
+      <div class="spec-title">Specialties (CyclingFlash score)</div>
+      ${specRows.map(s=>`<div class="spec-row">
+        <span class="spec-label">${s.label}</span>
+        <div class="spec-bar-wrap"><div class="spec-bar-fill" style="width:${Math.round((s.val||0)/spMax*100)}%;background:${s.color}"></div></div>
+        <span class="spec-score">${s.val}</span>
+      </div>`).join('')}
+    </div>`;
+  }
+
+  let resultsHtml = '';
+  if (wins.length) {
+    resultsHtml += `<div class="rp-section-hdr">🏆 Wins (${wins.length})</div>${wins.map(resultRow).join('')}`;
+  }
+  if (podiums.length) {
+    resultsHtml += `<div class="rp-section-hdr">🥈🥉 Podiums (${podiums.length})</div>${podiums.map(resultRow).join('')}`;
+  }
+  if (top10.length) {
+    resultsHtml += `<div class="rp-section-hdr">Top 10 finishes (${top10.length})</div>${top10.map(resultRow).join('')}`;
+  }
+  if (other.length) {
+    resultsHtml += `<div class="rp-section-hdr">Other results (${other.length})</div>${other.map(resultRow).join('')}`;
+  }
+  if (idx.gcs.length) {
+    resultsHtml += `<div class="rp-section-hdr">Classification standings (${idx.gcs.length})</div>${idx.gcs.sort((a,b)=>a.rank-b.rank).map(gcRow).join('')}`;
+  }
+  if (!resultsHtml) resultsHtml = '<div class="no-data" style="padding:20px">No 2026 results on record</div>';
+
+  document.getElementById('riderPanelContent').innerHTML = `
+    <div class="rp-head">
+      ${ph}
+      <div class="rp-info">
+        <div class="rp-name">${rd.name||slug}</div>
+        <div class="rp-meta">
+          ${fl(nat)} ${(rd.natName||nat||'').toUpperCase()}<br>
+          ${team ? `<span class="x-link" onclick="filterTeam('${esc(team)}')">${team}</span>` : ''}${team?'<br>':''}
+          ${dob}
+        </div>
+        <div class="rp-wins-badge">🏆 ${idx.wins} win${idx.wins!==1?'s':''} &nbsp;·&nbsp; 🥇🥈🥉 ${idx.podiums} podium${idx.podiums!==1?'s':''}</div>
+      </div>
+    </div>
+    ${specHtml}
+    <div class="rp-results">${resultsHtml}</div>`;
+
+  document.getElementById('riderOverlay').classList.add('show');
+  document.getElementById('riderPanel').classList.add('open');
+}
+
+function openRiderByName(name) {
+  if (!name) return;
+  const riders = DATA.riders || {};
+  const slug = Object.keys(riders).find(k => (riders[k].name||'').toLowerCase() === name.toLowerCase())
+            || Object.keys(RIDER_IDX).find(k => {
+                const r0 = RIDER_IDX[k].results[0];
+                return r0 && (r0.raceName||'') && false; // fallback placeholder
+              });
+  if (slug) { openRider(slug); return; }
+  // Try to find slug via results
+  for (const race of DATA.races||[]) {
+    for (const s of race.stages||[]) {
+      const r = (s.results||[]).find(r=>r.name===name);
+      if (r && r.slug) { openRider(r.slug); return; }
+    }
+    const r2 = (race.results||[]).find(r=>r.name===name);
+    if (r2 && r2.slug) { openRider(r2.slug); return; }
+  }
+}
+
+function closeRider() {
+  document.getElementById('riderOverlay').classList.remove('show');
+  document.getElementById('riderPanel').classList.remove('open');
+}
+
+function jumpToRace(raceId) {
+  closeRider();
+  showTab('recent');
+  setTimeout(() => {
+    const el = document.getElementById('rc-'+raceId);
+    if (el) { el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  }, 300);
+}
+
+/* ════════════════════════════════════════════════════════════
+   FILTERS
+   ════════════════════════════════════════════════════════════ */
+function applyFilters() {
+  const search = (document.getElementById('searchBox').value||'').toLowerCase().trim();
+  const cat    = document.getElementById('catFilter').value;
+  const type   = document.getElementById('typeFilter').value;
+  const month  = document.getElementById('monthFilter').value;
+
+  let visible=0, total=0;
+  document.querySelectorAll('.race-card').forEach(card => {
+    total++;
+    const name  = card.dataset.name||'';
+    const ccat  = card.dataset.cat||'';
+    const ctype = card.dataset.type||'';
+    const cdate = card.dataset.date||'';
+
+    const matchSearch = !search || name.includes(search) || searchRaceContent(card, search);
+    const matchCat    = !cat || ccat.includes(cat);
+    const matchType   = !type || ctype===type;
+    const matchMonth  = !month || cdate.includes(month);
+
+    const show = matchSearch && matchCat && matchType && matchMonth;
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  const fc = document.getElementById('fcount');
+  if (fc) fc.textContent = (search||cat||type||month) ? `${visible} of ${total} races` : '';
+}
+
+function searchRaceContent(card, term) {
+  // Also search rider names within the card's rendered content
+  const text = card.textContent.toLowerCase();
+  return text.includes(term);
+}
+
+function clearFilters() {
+  document.getElementById('searchBox').value = '';
+  document.getElementById('catFilter').value = '';
+  document.getElementById('typeFilter').value = '';
+  document.getElementById('monthFilter').value = '';
+  applyFilters();
+}
+
+function filterTeam(teamName) {
+  if (!teamName) return;
+  showTab('recent');
+  document.getElementById('searchBox').value = teamName;
+  applyFilters();
+}
+
+/* ════════════════════════════════════════════════════════════
+   TABS & CARDS
+   ════════════════════════════════════════════════════════════ */
+function showTab(tab) {
+  ACTIVE_TAB = tab;
+  ['live','upcoming','recent','stats'].forEach(t => {
+    document.getElementById('nt-'+t).classList.toggle('active', t===tab);
+  });
+  const filterBar = document.getElementById('filterBar');
+  filterBar.style.display = tab==='stats' ? 'none' : '';
+  renderMain();
+}
+
+function renderMain() {
+  if (!DATA) return;
+  const riders = DATA.riders||{};
+  if (ACTIVE_TAB==='stats') {
+    document.getElementById('main').innerHTML = renderStats();
+    return;
+  }
+  const races = (DATA.races||[]).filter(r=>r.status===ACTIVE_TAB);
+  if (!races.length) {
+    document.getElementById('main').innerHTML='<div class="no-data">No races in this section.</div>';
+    return;
+  }
+  const grid = races.map(r=>buildCard(r,riders)).join('');
+  document.getElementById('main').innerHTML=`<div class="race-grid">${grid}</div>`;
+  applyFilters();
+}
+
+function toggleCard(id) { document.getElementById(id).classList.toggle('open'); }
+function toggleStage(sid) { document.getElementById(sid).classList.toggle('open'); }
+
+function switchTab(raceId, pane, btn) {
+  const card = document.getElementById('rc-'+raceId);
+  card.querySelectorAll('.cl-tab').forEach(b=>{b.className='cl-tab'});
+  card.querySelectorAll('.cl-pane').forEach(p=>{p.classList.remove('show')});
+  const tMap={gc:'t-gc',points:'t-pts',kom:'t-kom',youth:'t-youth',stages:'t-stages',result:'t-result',info:'t-info'};
+  btn.classList.add(tMap[pane]||'t-stages');
+  const pEl=document.getElementById(`p-${raceId}-${pane}`);
+  if(pEl) pEl.classList.add('show');
+}
+
+/* ════════════════════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════════════════════ */
+window.addEventListener('load', () => {
+  if (typeof window.UCI_DATA === 'undefined') {
+    document.getElementById('main').innerHTML=`<div class="no-data" style="padding:40px">
+      ⚠️ <strong>data.js not found alongside this file.</strong><br><br>
+      Run <code>py import_to_db.py</code> to generate it, then re-open this file.
+    </div>`;
+    return;
+  }
+  DATA = window.UCI_DATA;
+  buildIndices();
+
+  const live     = (DATA.races||[]).filter(r=>r.status==='live').length;
+  const upcoming = (DATA.races||[]).filter(r=>r.status==='upcoming').length;
+  const recent   = (DATA.races||[]).filter(r=>r.status==='recent').length;
+  document.getElementById('nb-live').textContent=live;
+  document.getElementById('nb-upcoming').textContent=upcoming;
+  document.getElementById('nb-recent').textContent=recent;
+  document.getElementById('hdrDate').textContent=new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+
+  showTab(live>0?'live':'recent');
+});
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-import_to_db.py — UCI Cycling Data → SQLite
+import_to_db.py — UCI Cycling Data -> SQLite
 
 Run this after every scraper.py run to keep cycling.db in sync:
     py scraper.py
@@ -15,7 +15,7 @@ import json, sqlite3, shutil, os
 from datetime import datetime
 
 BASE    = os.path.dirname(os.path.abspath(__file__))
-TMP_DB  = '/tmp/cycling_import.db'  # build here
+TMP_DB  = os.path.join(os.environ.get('TEMP', os.path.join(BASE, '_tmp')), 'cycling_import.db')
 DEST_DB = os.path.join(BASE, 'cycling.db')
 NOW     = datetime.utcnow().isoformat()
 
@@ -190,7 +190,7 @@ def import_data_json(conn):
     with open(path, encoding='utf-8') as f:
         d = json.load(f)
 
-    # Build rider→team lookup from teams section
+    # Build rider->team lookup from teams section
     slug_to_team = {}
     for team in d.get('teams', []):
         tname = team.get('name', '')
@@ -334,7 +334,7 @@ def import_data_json(conn):
                          [wid, slug, w.get('year', ''), w.get('date', ''), w.get('race', ''), w.get('cat', '')])
 
     conn.commit()
-    print(f'  data.json → races:{rc}  stages:{sc}  results:{results}  classes:{cl}  photos:{photos}')
+    print(f'  data.json -> races:{rc}  stages:{sc}  results:{results}  classes:{cl}  photos:{photos}')
 
 
 # ── Import rider_profiles.json ─────────────────────────────────────────────────
@@ -372,7 +372,7 @@ def import_rider_profiles(conn):
             wins += 1
         n += 0
     conn.commit()
-    print(f'  rider_profiles.json → {n} riders, {wins} win records')
+    print(f'  rider_profiles.json -> {n} riders, {wins} win records')
 
 
 # ── Export data.js ──────────────────────────────────────────────────────────────
@@ -474,13 +474,13 @@ def export_data_js(conn):
     content  = 'window.UCI_DATA = ' + json.dumps(payload, ensure_ascii=False) + ';\n'
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write(content)
-    print(f'  data.js → {len(content):,} chars, {len(races_out)} races, {len(riders_map)} rider photos')
+    print(f'  data.js -> {len(content):,} chars, {len(races_out)} races, {len(riders_map)} rider photos')
 
 
 # ── Summary ─────────────────────────────────────────────────────────────────────
 
 def print_summary(conn):
-    print('\n══ cycling.db ══')
+    print('\n== cycling.db ==')
     for t in ['races', 'stages', 'stage_results', 'race_results',
               'classifications', 'riders', 'rider_wins', 'teams']:
         n = conn.execute(f'SELECT COUNT(*) FROM {t}').fetchone()[0]

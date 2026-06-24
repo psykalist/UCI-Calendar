@@ -1,0 +1,145 @@
+=== Step 1: Scraping winner profiles === 
+Wed 24/06/2026 20:09:37.96 
+Scrape rider profiles — UPDATE WINNERS mode
+============================================================
+Found 116 winner/leader slugs in data.json
+[1/116] afonso-eulalio                          ok    0 wins  7 teams   PT
+[2/116] aksel-bech-skot-hansen                  ok    0 wins  1 teams     
+[3/116] alberto-bettiol                         ok    9 wins  18 teams   IT
+[4/116] alec-segaert                            ok    4 wins  9 teams   BE
+[5/116] alex-aranburu-deba                      ok    0 wins  1 teams     
+[6/116] alex-baudin                             ok    3 wins  12 teams   FR
+[7/116] alexander-kamp-egested                  ok    0 wins  1 teams     
+[8/116] alexander-salby                         ok   14 wins  12 teams   DK
+[9/116] andrea-raccagni-noviero                 ok    0 wins  7 teams   IT
+[10/116] andreas-miltiadis                       ok   18 wins  8 teams   CY
+[11/116] andrew-august                           ok    2 wins  5 teams   US
+[12/116] anthon-charmig                          ok    2 wins  12 teams   DK
+[13/116] antoine-lhote                           ok    0 wins  1 teams     
+[14/116] antonio-tiberi                          ok    3 wins  10 teams   IT
+[15/116] arnaud-de-lie                           ok   35 wins  8 teams   BE
+[16/116] axel-laurance                           ok    9 wins  9 teams   FR
+[17/116] baptiste-veistroffer                    ok    1 wins  5 teams   FR
+[18/116] ben-oliver                              ok    3 wins  6 teams   NZ
+[19/116] benoit-cosnefroy                        ok   25 wins  16 teams   FR
+[20/116] biniam-girmay-hailu                     ok    0 wins  1 teams     
+[21/116] brady-gilmore                           ok    7 wins  8 teams   AU
+[22/116] casper-van-uden                         ok    6 wins  9 teams   NL
+[23/116] christian-bagatin                       ok    1 wins  9 teams   IT
+[24/116] christian-scaroni                       ok   10 wins  12 teams   IT
+[25/116] christophe-laporte                      ok   34 wins  16 teams   FR
+[26/116] clement-braz-afonso                     ok    0 wins  12 teams   FR
+[27/116] corbin-strong                           ok    9 wins  9 teams   NZ
+[28/116] danny-van-der-tuuk                      ok    0 wins  10 teams   PL
+[29/116] davide-ballerini                        ok   11 wins  14 teams   IT
+[30/116] davide-piganzoli                        ok    4 wins  10 teams   IT
+[31/116] diego-pablo-sevilla-lopez               ok    0 wins  1 teams     
+[32/116] dorian-godon                            ok   21 wins  16 teams   FR
+[33/116] dusan-rajovic                           ok   24 wins  10 teams   RS
+[34/116] erik-fetter                             ok    3 wins  8 teams   HU
+[35/116] erlend-blikra                           ok    4 wins  12 teams   NO
+[36/116] ethan-vernon                            ok   16 wins  8 teams   GB
+[37/116] fernando-diego-pescador-castro          ok    0 wins  1 teams     
+[38/116] filippo-ganna                           ok   40 wins  14 teams   IT
+[39/116] florian-lipowitz                        ok    6 wins  8 teams   DE
+[40/116] fredrik-dversnes                        ok    7 wins  11 teams   NO
+[41/116] georg-steinhauser                       ok    1 wins  9 teams   DE
+[42/116] giulio-ciccone                          ok   13 wins  17 teams   IT
+[43/116] giulio-pellizzari                       ok    4 wins  8 teams   IT
+[44/116] guillermo-thomas-silva-coussan          ok    8 wins  5 teams   UR
+[45/116] harold-alfonso-tejada-canacue           ok    0 wins  1 teams     
+[46/116] hector-alvarez-martinez                 ok    0 wins  4 teams   ES
+[47/116] igor-arrieta-lizarraga                  ok    2 wins  7 teams   ES
+[48/116] igor-chzhan                             ok    2 wins  9 teams   KZ
+[49/116] ineos-grenadiers-2026                   ok    0 wins  1 teams     
+[50/116] isaac-del-toro-romero                   ok    0 wins  1 teams     
+[51/116] ivan-ramiro-sosa                        ok   18 wins  10 teams   CO
+[52/116] ivan-romeo-abad                         ok    0 wins  1 teams     
+[53/116] jakob-omrzel                            ok    1 wins  7 teams   SI
+[54/116] jakob-soderqvist                        ok    5 wins  7 teams   SE
+[55/116] jan-christen                            ok    7 wins  10 teams   CH
+[56/116] jasper-philipsen                        ok   63 wins  14 teams   BE
+[57/116] jay-vine                                ok   14 wins  9 teams   AU
+[58/116] jhonnatan-manuel-narvaez                ok    0 wins  1 teams     
+[59/116] jonas-vingegaard                        ok   54 wins  16 teams   DK
+[60/116] jonathan-milan                          ok   32 wins  13 teams   IT
+[61/116] jordi-meeus                             ok   19 wins  12 teams   BE
+[62/116] josh-burnett                            ok    2 wins  5 teams   NZ
+[63/116] juan-ayuso-pesquera                     ok   18 wins  12 teams   ES
+[64/116] kevin-avoine                            ok    0 wins  11 teams   FR
+[65/116] laurence-pithie                         ok    8 wins  8 teams   NZ
+[66/116] lennart-jasch                           ok    1 wins  5 teams   DE
+[67/116] lenny-martinez                          ok   11 wins  8 teams   FR
+[68/116] louis-vervaeke                          ok    1 wins  16 teams   BE
+[69/116] luke-lamperti                           ok    7 wins  8 teams   US
+[70/116] magnus-cort-nielsen                     ok   35 wins  16 teams   DK
+[71/116] marceli-boguslawski                     ok    6 wins  9 teams   PL
+[72/116] martin-bugge-urianstad                  ok    0 wins  1 teams     
+[73/116] martins-pluto                           ok    1 wins  9 teams   LV
+[74/116] mathias-vacek                           ok    6 wins  11 teams   CZ
+[75/116] mathieu-van-der-poel                    ok   60 wins  17 teams   NL
+[76/116] matteo-malucelli                        ok   18 wins  13 teams   IT
+[77/116] matthew-brennan                         ok   17 wins  8 teams   GB
+[78/116] matthew-george-woods                    ok    0 wins  1 teams     
+[79/116] mauro-schmid                            ok   13 wins  10 teams   CH
+[80/116] max-kanter                              ok    3 wins  14 teams   DE
+[81/116] maxim-van-gils                          ok    8 wins  12 teams   BE
+[82/116] michael-valgren-andersen                ok   10 wins  18 teams   DK
+[83/116] milan-fretin                            ok    6 wins  10 teams   BE
+[84/116] nadav-raisberg                          ok    2 wins  5 teams   IL
+[85/116] natnael-tesfatsion-ocbit                ok    0 wins  1 teams     
+[86/116] olav-kooij                              ok   50 wins  11 teams   NL
+[87/116] paul-magnier                            ok   30 wins  9 teams   FR
+[88/116] paul-seixas                             ok    7 wins  5 teams   FR
+[89/116] quinn-simmons                           ok    9 wins  9 teams   US
+[90/116] rasmus-tiller                           ok    6 wins  14 teams   NO
+[91/116] raul-garcia-pierna                      ok    3 wins  10 teams   ES
+[92/116] remco-evenepoel                         ok   74 wins  10 teams   BE
+[93/116] roland-thalmann                         ok    0 wins  14 teams   CH
+[94/116] romain-gregoire                         ok   14 wins  9 teams   FR
+[95/116] romet-pajur                             ok    1 wins  5 teams   EE
+[96/116] ronan-auge                              ok    1 wins  6 teams   FR
+[97/116] sam-welsford                            ok   13 wins  10 teams   AU
+[98/116] sebastian-berwick                       ok    2 wins  10 teams   AU
+[99/116] sebastian-molano                        ok    0 wins  1 teams     
+[100/116] sepp-kuss                               ok   12 wins  13 teams   US
+[101/116] stanislaw-aniolkowski                   ok    6 wins  13 teams   PL
+[102/116] tadej-pogacar                           ok  121 wins  16 teams   SI
+[103/116] team-visma-lease-a-bike-2026            ok    0 wins  1 teams     
+[104/116] theo-delacroix                          ok    0 wins  9 teams   FR
+[105/116] thibaud-gruel                           ok    3 wins  8 teams   FR
+[106/116] tim-merlier                             ok   72 wins  19 teams   BE
+[107/116] tobias-lund-andresen                    ok   10 wins  10 teams   DK
+[108/116] tom-crabbe                              ok    5 wins  4 teams   BE
+[109/116] tom-mainguenaud                         ok    0 wins  8 teams   FR
+[110/116] tom-pidcock                             ok   14 wins  12 teams   GB
+[111/116] tomas-contte                            ok    1 wins  7 teams   AR
+[112/116] tommaso-dati                            ok    2 wins  6 teams   IT
+[113/116] victor-papon                            ok    1 wins  4 teams   FR
+[114/116] wout-van-aert                           ok   53 wins  16 teams   BE
+[115/116] xabier-berasategi-garmendia             ok    0 wins  6 teams   ES
+[116/116] yannis-voisard                          [main 8ca45c9] data: refresh winner profiles (116 riders)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+To https://github.com/psykalist/UCI-Calendar.git
+   8d2ae2d..8ca45c9  main -> main
+ok    2 wins  12 teams   CH
+
+Done. 116 updated, 0 errors.
+Committed and pushed rider_profiles.json
+ 
+=== Step 2: Injecting palmares === 
+Traceback (most recent call last):
+  File "C:\DataDrive\Documents\Claude\Projects\UCI Calendar & Results\inject_palmares.py", line 10, in <module>
+    c.execute("SELECT race_slug,year,winner_name,winner_slug,second_name,second_slug,third_name,third_slug FROM race_palmares WHERE classification='gc' ORDER BY race_slug,year DESC")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: race_palmares
+ 
+=== Step 3: Git add/commit/push === 
+[main 10af17b] data: winner profiles + palmares 2026-06-24
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+To https://github.com/psykalist/UCI-Calendar.git
+   8ca45c9..10af17b  main -> main
+=== Done === 
+Wed 24/06/2026 20:14:07.17 
