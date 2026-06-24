@@ -341,6 +341,37 @@ def collect_slugs():
 
 # -- Persistence ---------------------------------------------------------------
 
+def git_commit_push(msg):
+    """Stage rider_profiles.json, commit and push. Clears stale git lock files first."""
+    import subprocess
+    git_dir = BASE / '.git'
+    for lock in ('index.lock', 'HEAD.lock', 'config.lock'):
+        p = git_dir / lock
+        try:
+            if p.exists():
+                p.unlink()
+                print(f'Removed stale {lock}')
+        except Exception:
+            pass  # non-fatal if we can't remove it
+
+    try:
+        subprocess.run(['git', 'add', 'rider_profiles.json'], cwd=BASE, check=True)
+        result = subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd=BASE)
+        if result.returncode != 0:
+            subprocess.run(['git', 'commit', '-m', msg], cwd=BASE, check=True)
+            push = subprocess.run(['git', 'push'], cwd=BASE)
+            if push.returncode != 0:
+                print('Push rejected - pulling and retrying...')
+                subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], cwd=BASE, check=True)
+                subprocess.run(['git', 'push'], cwd=BASE, check=True)
+            print('Committed and pushed rider_profiles.json')
+        else:
+            print('No changes to commit.')
+    except Exception as e:
+        print('Git error: ' + str(e))
+        print('Manual push: git add rider_profiles.json && git commit -m "' + msg + '" && git push')
+
+
 def save(riders):
     data = {
         'scraped_at': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -459,28 +490,7 @@ def update_winners():
 
     save(existing)
     print(f'\nDone. {ok} updated, {err} errors.')
-
-    # Auto git commit + push (with pull-rebase retry on rejection)
-    import subprocess
-    try:
-        subprocess.run(['git', 'add', 'rider_profiles.json'], cwd=BASE, check=True)
-        result = subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd=BASE)
-        if result.returncode != 0:
-            subprocess.run(
-                ['git', 'commit', '-m', 'data: refresh winner profiles (' + str(ok) + ' riders)'],
-                cwd=BASE, check=True
-            )
-            push = subprocess.run(['git', 'push'], cwd=BASE)
-            if push.returncode != 0:
-                print('Push rejected - pulling and retrying...')
-                subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], cwd=BASE, check=True)
-                subprocess.run(['git', 'push'], cwd=BASE, check=True)
-            print('Committed and pushed rider_profiles.json')
-        else:
-            print('No changes to commit.')
-    except Exception as e:
-        print('Git error: ' + str(e))
-        print('Manual push: git add rider_profiles.json && git commit -m "data: winner profiles" && git push')
+    git_commit_push('data: refresh winner profiles (' + str(ok) + ' riders)')
 
 
 def main():
@@ -549,28 +559,8 @@ def main():
 
     save(existing)
     print('Done. ' + str(ok) + ' updated, ' + str(err) + ' errors.')
-
-    import subprocess
-    try:
-        subprocess.run(['git', 'add', 'rider_profiles.json'], cwd=BASE, check=True)
-        result = subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd=BASE)
-        if result.returncode != 0:
-            subprocess.run(
-                ['git', 'commit', '-m', 'data: refresh rider profiles (' + str(ok) + ' riders)'],
-                cwd=BASE, check=True
-            )
-            push2 = subprocess.run(['git', 'push'], cwd=BASE)
-            if push2.returncode != 0:
-                print('Push rejected - pulling and retrying...')
-                subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], cwd=BASE, check=True)
-                subprocess.run(['git', 'push'], cwd=BASE, check=True)
-            print('Committed and pushed rider_profiles.json')
-        else:
-            print('No changes to commit.')
-    except Exception as e:
-        print('Git error: ' + str(e))
+    git_commit_push('data: refresh rider profiles (' + str(ok) + ' riders)')
 
 
 if __name__ == '__main__':
     main()
-                          
