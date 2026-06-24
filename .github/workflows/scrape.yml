@@ -42,10 +42,33 @@ jobs:
       - name: Install dependencies
         run: pip install pywebpush
 
+      - name: Check cyclingflash.com reachability
+        id: reachability
+        run: |
+          python3 - <<'EOF'
+          import urllib.request, os
+          try:
+              req = urllib.request.Request(
+                  'https://cyclingflash.com/races.php?category=1&filter=Filter&p=uci&s=latest-results',
+                  headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+              )
+              with urllib.request.urlopen(req, timeout=15) as r:
+                  print(f'cyclingflash.com reachable — HTTP {r.status}')
+                  reachable = True
+          except Exception as e:
+              print(f'cyclingflash.com unreachable: {e}')
+              print('Skipping scrape — local Cowork scheduled tasks cover this.')
+              reachable = False
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f'reachable={"true" if reachable else "false"}\n')
+          EOF
+
       - name: Run results-only scraper
+        if: steps.reachability.outputs.reachable == 'true'
         run: python3 scraper.py --results-only
 
       - name: Strip any women's races from data.json
+        if: steps.reachability.outputs.reachable == 'true'
         run: |
           python3 - <<'EOF'
           import json, re
@@ -69,12 +92,14 @@ jobs:
           EOF
 
       - name: Detect changes and update changelog
+        if: steps.reachability.outputs.reachable == 'true'
         run: python3 detect_changes.py data_old.json data.json changelog.json
 
       - name: Clean up temp file
         run: rm -f data_old.json
 
       - name: Generate auto-team opponents (best_teams.json)
+        if: steps.reachability.outputs.reachable == 'true'
         run: python3 generate_best_teams.py
 
       - name: Commit and push if data changed
