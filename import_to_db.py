@@ -519,4 +519,3 @@ if __name__ == '__main__':
     print(f'\n✓ cycling.db saved ({sz:.1f} MB)')
     print('✓ data.js updated')
     print('\nRun again after each scraper.py run to keep the DB current.')
- again after each scraper.py run to keep the DB current.')
