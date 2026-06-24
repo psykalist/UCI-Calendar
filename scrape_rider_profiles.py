@@ -103,10 +103,14 @@ def parse_rider_page(html, slug):
     """Parse main rider page -> bio dict."""
     profile = {'slug': slug}
 
-    # Photo
-    m = re.search(r'<img[^>]+src="(https://www\.procyclingstats\.com/images/riders/[^"]+)"', html)
+    # Photo — PCS now serves relative URLs like "images/riders/vg/dq/slug.jpg"
+    m = re.search(r'src="([^"]*images/riders[^"]*\.(?:jpg|png|webp))"', html)
     if m:
-        profile['photo'] = m.group(1)
+        src = m.group(1)
+        if src.startswith('http'):
+            profile['photo'] = src
+        else:
+            profile['photo'] = 'https://www.procyclingstats.com/' + src.lstrip('/')
 
     # Info block: the borderbox left w65 div contains the li items
     block_m = re.search(r'borderbox left w65(.*?)(?:borderbox clear|<h4)', html, re.DOTALL)
@@ -206,53 +210,41 @@ def parse_team_history(html):
 
 def parse_season_results(html):
     """Parse /rider/{slug}/results page -> list of result dicts for current season.
-    Each dict: {date, race, stage, gc_pos, stage_pos, distance_km, pcs_points, uci_points}
+    PCS table columns: # | date | result | race | class | km | pcs_pts | uci_pts | vert
+    Each dict: {date, race, stage_pos, distance_km, pcs_points, uci_points}
     """
     if not html:
         return []
     results = []
-    current_year = datetime.datetime.now().year
 
-    # PCS results page HTML: table rows
-    # Typical row: <td class="date">21.06</td><td>1</td><td>Stage 5 - ...</td><td>150.7</td><td>50</td><td>60</td>
     rows = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
     for row in rows:
         cells_raw = re.findall(r'<td[^>]*>(.*?)</td>', row, re.DOTALL)
         cells = [re.sub(r'\s+', ' ', strip_tags(c)).strip() for c in cells_raw]
-        if len(cells) < 4:
+        # Expect at least 7 cols: #, date, pos, race, class, km, pcs_pts
+        if len(cells) < 7:
             continue
 
-        # Date cell: "21.06" or "17.06 › 21.06"
-        date_cell = cells[0]
-        dm = re.search(r'(\d{2})\.(\d{2})', date_cell)
-        if not dm:
+        # Col 1: ISO date e.g. "2026-06-12"
+        date_str = cells[1]
+        if not re.match(r'\d{4}-\d{2}-\d{2}', date_str):
             continue
 
-        date_str = f'{current_year}-{dm.group(2)}-{dm.group(1)}'
-        race_cell = cells[2] if len(cells) > 2 else ''
-        race_name = re.sub(r'\s*more\s*$', '', race_cell).strip()
+        pos_raw  = cells[2]   # "1", "DNS", "DNF", "117" etc.
+        race_name = re.sub(r'\s*more\s*$', '', cells[3]).strip()
+        dist_s   = cells[5]
+        pcs_s    = cells[6]
+        uci_s    = cells[7] if len(cells) > 7 else ''
 
-        # Positions: could be gc_pos + stage_pos or just one pos
-        pos1 = cells[1] if len(cells) > 1 else ''
-        pos2 = cells[3] if len(cells) > 3 else ''
-        pos1_n = int(pos1) if re.match(r'^\d+$', pos1) else None
-        pos2_n = int(pos2) if re.match(r'^\d+$', pos2) else None
+        stage_pos = int(pos_raw) if re.match(r'^\d+$', pos_raw) else None
+        dist      = float(dist_s) if re.match(r'^\d+\.?\d*$', dist_s) else None
+        pcs_pts   = int(pcs_s)    if re.match(r'^\d+$', pcs_s) else 0
+        uci_pts   = float(uci_s)  if re.match(r'^\d+\.?\d*$', uci_s) else 0
 
-        # Distance and points
-        dist_s  = cells[4] if len(cells) > 4 else ''
-        pcs_s   = cells[5] if len(cells) > 5 else ''
-        uci_s   = cells[6] if len(cells) > 6 else ''
-        dist    = float(dist_s) if re.match(r'^\d+\.?\d*$', dist_s) else None
-        pcs_pts = int(pcs_s)    if re.match(r'^\d+$', pcs_s) else 0
-        uci_pts = int(uci_s)    if re.match(r'^\d+$', uci_s) else 0
-
-        stage_m = re.search(r'Stage (\d+)', race_name, re.IGNORECASE)
         results.append({
             'date':        date_str,
             'race':        race_name,
-            'stage':       f'Stage {stage_m.group(1)}' if stage_m else '',
-            'gc_pos':      pos1_n if pos2_n is not None else None,
-            'stage_pos':   pos2_n if pos2_n is not None else pos1_n,
+            'stage_pos':   stage_pos,
             'distance_km': dist,
             'pcs_points':  pcs_pts,
             'uci_points':  uci_pts,
