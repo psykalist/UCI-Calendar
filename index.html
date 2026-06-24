@@ -310,6 +310,24 @@ header h1 span { color: var(--accent); }
 .stage-info-line { font-size: .74rem; color: var(--muted); padding: 0 12px 7px; margin-top: -4px; }
 .stage-description { font-size: .82rem; line-height: 1.55; color: var(--text); padding: 8px 12px 12px; border-top: 1px solid var(--border); }
 
+/* ── Race Programme table ── */
+.programme-toggle { font-size: .8rem; color: var(--muted); cursor: pointer; padding: 6px 12px; display: flex; align-items: center; gap: 6px; user-select: none; border-bottom: 1px solid var(--border); }
+.programme-toggle:hover { color: var(--text); }
+.programme-chev { font-size: .7rem; transition: transform .2s; }
+.programme-body { display: none; overflow-x: auto; }
+.programme-body.open { display: block; }
+.programme-table { width: 100%; border-collapse: collapse; font-size: .76rem; }
+.programme-table th { font-size: .65rem; text-transform: uppercase; color: var(--muted); font-weight: 700; padding: 5px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; text-align: left; }
+.programme-table td { padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: middle; white-space: nowrap; }
+.programme-table tr:last-child td { border-bottom: none; }
+.programme-table tr.stage-done td { color: var(--muted); }
+.programme-table tr.stage-next td { color: var(--text); font-weight: 600; }
+.programme-table tr.stage-rest td { color: var(--muted); font-style: italic; }
+.prog-route { white-space: normal; max-width: 160px; line-height: 1.3; }
+.prog-time { color: var(--upcoming); font-weight: 600; }
+.prog-dist { color: var(--muted); }
+.prog-elev { color: #a78bfa; }
+
 /* ── Top-10 table ── */
 .top10-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
 .top10-table th {
@@ -622,6 +640,58 @@ header h1 span { color: var(--accent); }
   text-decoration-color: rgba(255,255,255,.25);
   text-underline-offset: 2px;
 }
+/* ── Rider modal tabs ── */
+.rider-tabs { display: flex; gap: 4px; margin: 14px 0 0; border-bottom: 1px solid var(--border); }
+.rider-tab {
+  background: none; border: none; border-bottom: 2px solid transparent;
+  color: var(--muted); font-size: .78rem; font-weight: 600; padding: 6px 12px;
+  cursor: pointer; margin-bottom: -1px; transition: color .2s, border-color .2s;
+}
+.rider-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.rider-tab-panel { padding: 8px 0; }
+/* ── Team history ── */
+.team-history-list { padding: 4px 0 8px; }
+.team-hist-row { display: flex; gap: 10px; align-items: baseline; padding: 4px 0; border-bottom: 1px solid var(--border); }
+.team-hist-row:last-child { border-bottom: none; }
+.team-hist-year { font-size: .78rem; font-weight: 700; color: var(--accent); min-width: 36px; flex-shrink: 0; }
+.team-hist-name { font-size: .82rem; color: var(--fg); }
+/* ── Season results ── */
+.season-results-list { font-size: .78rem; }
+.season-results-header {
+  display: grid; grid-template-columns: 44px 1fr 32px 36px 36px;
+  gap: 4px; color: var(--muted); font-size: .68rem; font-weight: 700;
+  text-transform: uppercase; padding: 4px 0 6px; border-bottom: 1px solid var(--border);
+}
+.season-result-row {
+  display: grid; grid-template-columns: 44px 1fr 32px 36px 36px;
+  gap: 4px; padding: 5px 0; border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.season-result-row:last-child { border-bottom: none; }
+.sr-date { color: var(--muted); font-size: .72rem; }
+.sr-race { color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sr-pos { color: var(--upcoming); font-weight: 700; text-align: center; }
+.sr-pts { color: var(--muted); text-align: right; font-size: .72rem; }
+/* ── Palmares on race cards ── */
+.palmares-toggle-btn {
+  font-size: .78rem; color: var(--muted); padding: 10px 14px 8px;
+  cursor: pointer; border-top: 1px solid var(--border); margin-top: 10px;
+  display: flex; justify-content: space-between; align-items: center;
+  user-select: none; transition: color .2s;
+}
+.palmares-toggle-btn:hover { color: var(--fg); }
+.palmares-chev { font-size: .65rem; }
+.palmares-body { padding: 0 14px 10px; }
+.palmares-list { padding: 4px 0; }
+.palmares-row {
+  display: grid; grid-template-columns: 44px 1fr 1fr 1fr;
+  gap: 6px; padding: 5px 0; font-size: .78rem;
+  border-bottom: 1px solid var(--border); align-items: center;
+}
+.palmares-row:last-child { border-bottom: none; }
+.palmares-year { font-weight: 700; color: var(--accent); }
+.palmares-winner { font-weight: 600; }
+.palmares-second, .palmares-third { color: var(--muted); font-size: .73rem; }
 
 /* ── Rider search ── */
 .rider-search-wrap {
@@ -1091,10 +1161,73 @@ function renderStageBadge(s) {
 function renderStageInfo(s) {
   const parts = [];
   if (s.date_str) parts.push(s.date_str);
+  if (s.start_time) parts.push(`🕐 ${esc(s.start_time)}`);
   if (s.start_town && s.finish_town) parts.push(`${esc(s.start_town)} → ${esc(s.finish_town)}`);
   if (s.distance_km) parts.push(`${s.distance_km} km`);
   if (s.elevation_m) parts.push(`↑${Number(s.elevation_m).toLocaleString()} m`);
   return parts.length ? `<div class="stage-info-line">${parts.join(' · ')}</div>` : '';
+}
+
+function renderProgramme(race, cardId) {
+  const stages = race.stages || [];
+  if (stages.length < 2) return '';
+  const today = new Date().toISOString().slice(0,10);
+  const done  = race.stages_completed || 0;
+
+  const BADGE = {mountain:'🏔',medium_mountain:'⛰',hilly:'🏘',flat:'➡',ITT:'⏱',TTT:'👥'};
+
+  const rows = stages.map((s, i) => {
+    const isRest = s.label && /rest/i.test(s.label);
+    const isDone = s.winner || (s.top10 && s.top10.length) || i < done;
+    const isNext = !isDone && !isRest && stages.slice(0, i).every((p, j) => p.winner || j >= done);
+    const cls = isRest ? 'stage-rest' : isDone ? 'stage-done' : isNext ? 'stage-next' : '';
+    const typeIcon = BADGE[s.stage_type] || '';
+    const route = (s.start_town && s.finish_town)
+      ? `${esc(s.start_town)} → ${esc(s.finish_town)}`
+      : (s.label ? esc(s.label) : '');
+    const dist  = s.distance_km ? `${s.distance_km} km` : '—';
+    const elev  = s.elevation_m ? `↑${Number(s.elevation_m).toLocaleString()}` : '';
+    const time  = s.start_time  ? `<span class="prog-time">${esc(s.start_time)}</span>` : '—';
+    const date  = s.date_str    ? `<span style="opacity:.7">${esc(s.date_str)}</span>` : '';
+    const winnerCell = s.winner
+      ? (() => {
+          const slug = (s.top10 && s.top10[0]) ? (s.top10[0].rider_url||'').replace('/profile/','').replace(/^\/+/,'').trim() : '';
+          return slug
+            ? `<span class="rider-name-link" onclick="event.stopPropagation();openRiderModal('${esc(slug)}')">${esc(s.winner)}</span>`
+            : esc(s.winner);
+        })()
+      : '';
+    return `<tr class="${cls}">
+      <td>${date}</td>
+      <td style="font-weight:700">${typeIcon} St.${s.num}</td>
+      <td class="prog-route">${route}</td>
+      <td class="prog-dist">${dist}</td>
+      <td class="prog-elev">${elev}</td>
+      <td>${time}</td>
+      <td>${winnerCell}</td>
+    </tr>`;
+  }).join('');
+
+  const pid = `prog-${cardId}`;
+  return `<div class="programme-toggle" onclick="toggleProgramme('${pid}')">
+    📋 Full Programme (${stages.length} stages) <span class="programme-chev" id="${pid}-chev">▼</span>
+  </div>
+  <div class="programme-body" id="${pid}">
+    <table class="programme-table">
+      <thead><tr>
+        <th>Date</th><th>Stage</th><th>Route</th><th>Dist</th><th>Elev</th><th>Start</th><th>Winner</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+function toggleProgramme(pid) {
+  const body = document.getElementById(pid);
+  const chev = document.getElementById(pid + '-chev');
+  if (!body) return;
+  const open = body.classList.toggle('open');
+  if (chev) chev.textContent = open ? '▲' : '▼';
 }
 
 // ── Stages ─────────────────────────────────────────────────────────────────────
@@ -1200,9 +1333,10 @@ function renderRaceCard(race, status) {
 
   if (upcoming) {
     const datesDiv = `<div class="upcoming-dates">📅 ${dateRange(race.start_date, race.end_date) || 'Dates TBC'}${multi ? ` &nbsp;·&nbsp; ${total} stages` : ''}</div>`;
+    const programmeHtml = multi ? renderProgramme(race, id) : '';
     const stagesHtml = (multi && race.stages?.length) ? renderStages(race.stages, id) : '';
     const startlistHtml = renderStartlist(race);
-    body = `<div class="race-body-inner">${datesDiv}${stagesHtml}${startlistHtml}</div>`;
+    body = `<div class="race-body-inner">${datesDiv}${programmeHtml}${stagesHtml}${startlistHtml}</div>`;
   } else if (!multi) {
     // 1-stage race: top10 may be at race level or under stages[0]
     const stage0 = (race.stages || [])[0] || {};
@@ -1216,7 +1350,7 @@ function renderRaceCard(race, status) {
     const w = winner1d ? `<div class="single-winner"><span class="label">Winner</span> ${flagImg(winNat1d)}${winnerName1d}</div>` : '';
     body = `<div class="race-body-inner">${w}${renderStageImages(stage0.height_profile_img ? stage0 : race)}${renderTop10(top10_1d)}</div>`;
   } else {
-    body = `<div class="race-body-inner">${renderLeaders(race)}${renderStages(race.stages||[], id)}</div>`;
+    body = `<div class="race-body-inner">${renderLeaders(race)}${renderProgramme(race, id)}${renderStages(race.stages||[], id)}</div>`;
   }
 
   const meta = dateRange(race.start_date, race.end_date);
@@ -1224,6 +1358,33 @@ function renderRaceCard(race, status) {
   const MONUMENT_NAMES = ['Milano-Sanremo','Ronde van Vlaanderen','Paris-Roubaix','Liège-Bastogne-Liège','Il Lombardia'];
   const isMonument  = MONUMENT_NAMES.some(m => (race.name||'').includes(m));
   const isGrandTour = (race.total_stages||1) >= 21;
+
+  // Palmares section (for races that have historical data)
+  const palmaresData = race.palmares || (appData.palmares || {})[race.slug] || [];
+  const palmaresHTML = palmaresData.length
+    ? `<div class="palmares-toggle-btn" onclick="event.stopPropagation();togglePalmares('${id}')">
+        📜 Race History (${palmaresData.length} editions) <span class="palmares-chev">▼</span>
+      </div>
+      <div class="palmares-body" id="pal-${id}" style="display:none">
+        <div class="palmares-list">
+          <div class="palmares-row" style="font-size:.68rem;color:var(--muted);font-weight:700;text-transform:uppercase">
+            <span>Year</span><span>Winner</span><span>2nd</span><span>3rd</span>
+          </div>
+          ${palmaresData.map(p => `<div class="palmares-row">
+            <span class="palmares-year">${p.year}</span>
+            <span class="palmares-winner">${p.winner_slug
+              ? `<span class="rider-name-link" onclick="event.stopPropagation();openRiderModal('${esc(p.winner_slug)}')">${esc(p.winner_name||p.winner||'')}</span>`
+              : esc(p.winner_name||p.winner||'')}</span>
+            <span class="palmares-second">${p.second_slug
+              ? `<span class="rider-name-link" onclick="event.stopPropagation();openRiderModal('${esc(p.second_slug)}')">${esc(p.second_name||p.second||'')}</span>`
+              : esc(p.second_name||p.second||'')}</span>
+            <span class="palmares-third">${p.third_slug
+              ? `<span class="rider-name-link" onclick="event.stopPropagation();openRiderModal('${esc(p.third_slug)}')">${esc(p.third_name||p.third||'')}</span>`
+              : esc(p.third_name||p.third||'')}</span>
+          </div>`).join('')}
+        </div>
+      </div>`
+    : '';
 
   return `<div class="race-card ${status}-card" id="${id}" data-cat="${esc(race.category||'')}" data-monument="${isMonument}" data-grandtour="${isGrandTour}" data-stages="${total}" data-start="${race.start_date||''}" data-end="${race.end_date||''}">
     <div class="race-header" onclick="toggleCard('${id}')">
@@ -1238,11 +1399,20 @@ function renderRaceCard(race, status) {
         ${chevron('chevron')}
       </div>
     </div>
-    <div class="race-body">${body}</div>
+    <div class="race-body">${body}${palmaresHTML}</div>
   </div>`;
 }
 
 function toggleCard(id) { document.getElementById(id)?.classList.toggle('open'); }
+
+function togglePalmares(cardId) {
+  const body = document.getElementById('pal-' + cardId);
+  const chev = document.querySelector(`#${cardId} .palmares-chev`);
+  if (!body) return;
+  const open = body.style.display === 'none';
+  body.style.display = open ? 'block' : 'none';
+  if (chev) chev.textContent = open ? '▲' : '▼';
+}
 
 // ── Section renderers ──────────────────────────────────────────────────────────
 
@@ -1619,6 +1789,36 @@ async function openRiderModal(slug) {
     ? `unfollowRider('${esc(slug)}','${esc(name)}')`
     : `followRider('${esc(slug)}','${esc(name)}','${esc(nat)}')`;
 
+  // Team history
+  const teamHistory = (profile || {}).team_history || [];
+  const teamHistHTML = teamHistory.length
+    ? `<div class="team-history-list">${teamHistory.map(t =>
+        `<div class="team-hist-row">
+          <span class="team-hist-year">${t.year}</span>
+          <span class="team-hist-name">${esc(t.team)}</span>
+        </div>`).join('')}</div>`
+    : `<p class="rider-modal-no-data">${profile ? 'Team history not yet fetched' : 'Profile not yet scraped'}</p>`;
+
+  // Season results (current year)
+  const seasonResults = (profile || {}).season_results || [];
+  const currentYear = new Date().getFullYear();
+  const srFiltered = seasonResults.filter(r => r.pcs_points > 0 || r.uci_points > 0);
+  const seasonHTML = srFiltered.length
+    ? `<div class="season-results-list">
+        <div class="season-results-header">
+          <span>Date</span><span>Race / Stage</span><span>Pos</span><span>PCS</span><span>UCI</span>
+        </div>
+        ${srFiltered.map(r => `<div class="season-result-row">
+          <span class="sr-date">${esc((r.date||'').substring(5).replace('-','.'))}</span>
+          <span class="sr-race">${esc(r.race||'')}</span>
+          <span class="sr-pos">${r.stage_pos != null ? r.stage_pos : ''}</span>
+          <span class="sr-pts">${r.pcs_points||''}</span>
+          <span class="sr-pts">${r.uci_points||''}</span>
+        </div>`).join('')}
+      </div>`
+    : `<p class="rider-modal-no-data">${profile ? 'No points-scoring results this season' : 'Profile not yet scraped'}</p>`;
+
+  // Tabs: Palmares | Teams | Season
   content.innerHTML = `
     <div class="rider-modal-header">
       ${photoEl}
@@ -1630,9 +1830,23 @@ async function openRiderModal(slug) {
     </div>
     <div class="rider-modal-section">⭐ Specialties</div>
     ${specHTML}
-    <div class="rider-modal-section">🏆 Palmares (${wins.length} wins)</div>
-    <div class="wins-panel" style="display:block">${winsHTML}</div>
+    <div class="rider-tabs">
+      <button class="rider-tab active" onclick="switchRiderTab(this,'tab-palmares')">🏆 Palmares (${wins.length})</button>
+      <button class="rider-tab" onclick="switchRiderTab(this,'tab-teams')">👕 Teams</button>
+      <button class="rider-tab" onclick="switchRiderTab(this,'tab-season')">${currentYear} Results</button>
+    </div>
+    <div id="tab-palmares" class="rider-tab-panel active">${winsHTML}</div>
+    <div id="tab-teams"    class="rider-tab-panel" style="display:none">${teamHistHTML}</div>
+    <div id="tab-season"   class="rider-tab-panel" style="display:none">${seasonHTML}</div>
   `;
+}
+
+function switchRiderTab(btn, tabId) {
+  btn.closest('.rider-modal, #riderModalContent').querySelectorAll('.rider-tab').forEach(b => b.classList.remove('active'));
+  btn.closest('.rider-modal, #riderModalContent').querySelectorAll('.rider-tab-panel').forEach(p => { p.style.display='none'; p.classList.remove('active'); });
+  btn.classList.add('active');
+  const panel = document.getElementById(tabId);
+  if (panel) { panel.style.display='block'; panel.classList.add('active'); }
 }
 
 function closeRiderModal(e) {
