@@ -1777,7 +1777,9 @@ async function openRiderModal(slug) {
   const photo    = (profile || {}).photo;
   const dob      = (profile || {}).dob;
   const wins     = (profile || {}).wins || [];
-  const teamName = (baseInfo || {}).teamName || '';
+  const teamHistory = (profile || {}).team_history || [];
+  const currentYearTeam = (teamHistory.find(t => t.year === new Date().getFullYear()) || {}).team || '';
+  const teamName = currentYearTeam || (baseInfo || {}).teamName || '';
   const weight   = (profile || {}).weight;
   const height   = (profile || {}).height;
 
@@ -1841,7 +1843,6 @@ async function openRiderModal(slug) {
     : `followRider('${esc(slug)}','${esc(name)}','${esc(nat)}')`;
 
   // Team history
-  const teamHistory = (profile || {}).team_history || [];
   const teamHistHTML = teamHistory.length
     ? `<div class="team-history-list">${teamHistory.map(t =>
         `<div class="team-hist-row">
