@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-23T19:46:21.093566+00:00",
+  "updated_at": "2026-06-24T01:53:24.621968+00:00",
   "source": "ci",
   "overall": "warning",
   "errors": [],
@@ -18,7 +18,7 @@
     "specialties_missing": 0,
     "specialties_with_data": 0,
     "scraped_at": "2026-06-23T06:04:28.055767+00:00",
-    "data_age_hours": 13.7,
+    "data_age_hours": 19.8,
     "index_html_bytes": 148508,
     "changelog_entries": 12
   }
