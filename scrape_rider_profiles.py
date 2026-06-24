@@ -167,6 +167,100 @@ def parse_rider_page(html, slug):
     return profile
 
 
+def parse_team_history(html):
+    """Parse team history from rider profile page HTML.
+    Returns list of {year, team, team_slug} sorted newest-first."""
+    if not html:
+        return []
+    teams = []
+    seen_years = set()
+
+    # PCS HTML: <li><a href="/team/uae-team-emirates-xrg-2026">UAE Team Emirates</a> (WT)</li>
+    # or plain text blocks like "2026\nUAE Team Emirates - XRG (WT)"
+    team_pattern = re.compile(
+        r'href=["\'](?:https://www\.procyclingstats\.com)?/team/([^"\']+)["\'][^>]*>([^<]+)<',
+        re.IGNORECASE
+    )
+    for m in team_pattern.finditer(html):
+        team_slug = m.group(1).strip()
+        team_name = strip_tags(m.group(2)).strip()
+        # Extract year from slug (e.g. "uae-team-emirates-xrg-2026" → 2026)
+        yr_m = re.search(r'-(20\d{2})$', team_slug)
+        if yr_m and team_name:
+            yr = int(yr_m.group(1))
+            if yr not in seen_years:
+                seen_years.add(yr)
+                teams.append({'year': yr, 'team': team_name, 'team_slug': team_slug})
+
+    # Fallback: plain text "YEAR\nTeam Name (CAT)"
+    if not teams:
+        for m in re.finditer(r'\b(20\d{2})\b\s+([A-Z][A-Za-z0-9 \'\-\.]{4,60}?)(?:\s*\((?:WT|PT|CT|CC|CLUB)\))?(?:\n|<)', html):
+            yr = int(m.group(1))
+            name = m.group(2).strip()
+            if yr not in seen_years and len(name) > 4:
+                seen_years.add(yr)
+                teams.append({'year': yr, 'team': name, 'team_slug': None})
+
+    return sorted(teams, key=lambda t: t['year'], reverse=True)
+
+
+def parse_season_results(html):
+    """Parse /rider/{slug}/results page -> list of result dicts for current season.
+    Each dict: {date, race, stage, gc_pos, stage_pos, distance_km, pcs_points, uci_points}
+    """
+    if not html:
+        return []
+    results = []
+    current_year = datetime.datetime.now().year
+
+    # PCS results page HTML: table rows
+    # Typical row: <td class="date">21.06</td><td>1</td><td>Stage 5 - ...</td><td>150.7</td><td>50</td><td>60</td>
+    rows = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
+    for row in rows:
+        cells_raw = re.findall(r'<td[^>]*>(.*?)</td>', row, re.DOTALL)
+        cells = [re.sub(r'\s+', ' ', strip_tags(c)).strip() for c in cells_raw]
+        if len(cells) < 4:
+            continue
+
+        # Date cell: "21.06" or "17.06 › 21.06"
+        date_cell = cells[0]
+        dm = re.search(r'(\d{2})\.(\d{2})', date_cell)
+        if not dm:
+            continue
+
+        date_str = f'{current_year}-{dm.group(2)}-{dm.group(1)}'
+        race_cell = cells[2] if len(cells) > 2 else ''
+        race_name = re.sub(r'\s*more\s*$', '', race_cell).strip()
+
+        # Positions: could be gc_pos + stage_pos or just one pos
+        pos1 = cells[1] if len(cells) > 1 else ''
+        pos2 = cells[3] if len(cells) > 3 else ''
+        pos1_n = int(pos1) if re.match(r'^\d+$', pos1) else None
+        pos2_n = int(pos2) if re.match(r'^\d+$', pos2) else None
+
+        # Distance and points
+        dist_s  = cells[4] if len(cells) > 4 else ''
+        pcs_s   = cells[5] if len(cells) > 5 else ''
+        uci_s   = cells[6] if len(cells) > 6 else ''
+        dist    = float(dist_s) if re.match(r'^\d+\.?\d*$', dist_s) else None
+        pcs_pts = int(pcs_s)    if re.match(r'^\d+$', pcs_s) else 0
+        uci_pts = int(uci_s)    if re.match(r'^\d+$', uci_s) else 0
+
+        stage_m = re.search(r'Stage (\d+)', race_name, re.IGNORECASE)
+        results.append({
+            'date':        date_str,
+            'race':        race_name,
+            'stage':       f'Stage {stage_m.group(1)}' if stage_m else '',
+            'gc_pos':      pos1_n if pos2_n is not None else None,
+            'stage_pos':   pos2_n if pos2_n is not None else pos1_n,
+            'distance_km': dist,
+            'pcs_points':  pcs_pts,
+            'uci_points':  uci_pts,
+        })
+
+    return results
+
+
 def parse_wins_page(html):
     """Parse /statistics/wins page -> list of win dicts."""
     if not html:
@@ -348,12 +442,20 @@ def update_winners():
             continue
 
         profile = parse_rider_page(html_main, slug)
+        profile['team_history'] = parse_team_history(html_main)
+
         html_wins = fetch_html(f'https://www.procyclingstats.com/rider/{slug}/statistics/wins')
         time.sleep(DELAY)
         profile['wins'] = parse_wins_page(html_wins) if html_wins else []
+
+        html_results = fetch_html(f'https://www.procyclingstats.com/rider/{slug}/results')
+        time.sleep(DELAY)
+        profile['season_results'] = parse_season_results(html_results) if html_results else []
+        profile['fetched_at'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
         existing[slug] = profile
         ok += 1
-        print(f'ok  {len(profile["wins"]):>3} wins  {profile.get("nat",""):>3}')
+        print(f'ok  {len(profile["wins"]):>3} wins  {len(profile.get("team_history",[]))} teams  {profile.get("nat",""):>3}')
 
     save(existing)
     print(f'\nDone. {ok} updated, {err} errors.')
@@ -365,91 +467,88 @@ def update_winners():
         result = subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd=BASE)
         if result.returncode != 0:
             subprocess.run(
-                ['git', 'commit', '-m', f'data: refresh winner profiles ({ok} riders)'],
+                ['git', 'commit', '-m', 'data: refresh winner profiles (' + str(ok) + ' riders)'],
                 cwd=BASE, check=True
             )
             push = subprocess.run(['git', 'push'], cwd=BASE)
             if push.returncode != 0:
-                print('Push rejected — pulling and retrying...')
+                print('Push rejected - pulling and retrying...')
                 subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], cwd=BASE, check=True)
                 subprocess.run(['git', 'push'], cwd=BASE, check=True)
             print('Committed and pushed rider_profiles.json')
         else:
             print('No changes to commit.')
     except Exception as e:
-        print(f'Git error: {e}')
+        print('Git error: ' + str(e))
         print('Manual push: git add rider_profiles.json && git commit -m "data: winner profiles" && git push')
 
 
 def main():
-    fix_empty = '--fix-empty' in sys.argv
-    fetch_all = '--all' in sys.argv
+    fix_empty  = '--fix-empty' in sys.argv
+    fetch_all  = '--all' in sys.argv
     update_win = '--update-winners' in sys.argv
 
     if update_win:
         update_winners()
         return
 
-    # Load existing
     existing = {}
     if PROFILES_FILE.exists():
         try:
             existing = json.loads(PROFILES_FILE.read_text('utf-8')).get('riders', {})
-            print(f'Loaded {len(existing)} existing profiles from {PROFILES_FILE.name}')
+            print('Loaded ' + str(len(existing)) + ' existing profiles')
         except Exception as e:
-            print(f'Warning: could not load existing profiles: {e}')
+            print('Warning: could not load existing profiles: ' + str(e))
 
     all_slugs = collect_slugs()
-    print(f'Found {len(all_slugs)} unique rider slugs across pcs_stats.json + data.json')
+    print('Found ' + str(len(all_slugs)) + ' unique rider slugs')
 
     if fetch_all:
         todo = sorted(all_slugs)
-        print(f'--all: re-fetching all {len(todo)} riders')
     elif fix_empty:
         todo = sorted(s for s in all_slugs if not existing.get(s, {}).get('wins'))
-        print(f'--fix-empty: fetching {len(todo)} riders with 0 wins')
+        print('--fix-empty: fetching ' + str(len(todo)) + ' riders with 0 wins')
     else:
         todo = sorted(s for s in all_slugs if s not in existing)
-        print(f'Fetching {len(todo)} new riders (skipping {len(all_slugs)-len(todo)} already done)')
+        print('Fetching ' + str(len(todo)) + ' new riders (skipping ' + str(len(all_slugs)-len(todo)) + ' already done)')
 
     if not todo:
-        print('Nothing to do — all riders already fetched.')
-        print(f'Use --fix-empty to retry riders with 0 wins, --all to re-fetch everything.')
+        print('Nothing to do -- all riders already fetched.')
         return
 
     ok = err = 0
     start = time.time()
 
     for i, slug in enumerate(todo, 1):
-        elapsed = time.time() - start
-        eta = (elapsed / i) * (len(todo) - i) if i > 1 else 0
-        print(f'[{i}/{len(todo)}] {slug:<40}', end='', flush=True)
+        print('[' + str(i) + '/' + str(len(todo)) + '] ' + slug.ljust(40), end='', flush=True)
 
-        # Main profile page
-        html_main = fetch_html(f'https://www.procyclingstats.com/rider/{slug}')
+        html_main = fetch_html('https://www.procyclingstats.com/rider/' + slug)
         time.sleep(DELAY)
 
         if html_main is None:
             print('X (not found)')
             err += 1
-            # Store a stub so we don't retry on next run
             existing[slug] = {'slug': slug, 'wins': [], 'error': 'not_found'}
             continue
 
         profile = parse_rider_page(html_main, slug)
+        profile['team_history'] = parse_team_history(html_main)
 
-        # Wins page
-        html_wins = fetch_html(f'https://www.procyclingstats.com/rider/{slug}/statistics/wins')
+        html_wins = fetch_html('https://www.procyclingstats.com/rider/' + slug + '/statistics/wins')
         time.sleep(DELAY)
-        wins = parse_wins_page(html_wins) if html_wins else []
-        profile['wins'] = wins
+        profile['wins'] = parse_wins_page(html_wins) if html_wins else []
+
+        html_results = fetch_html('https://www.procyclingstats.com/rider/' + slug + '/results')
+        time.sleep(DELAY)
+        profile['season_results'] = parse_season_results(html_results) if html_results else []
+        profile['fetched_at'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
         existing[slug] = profile
         ok += 1
-        print(f'ok  {len(profile["wins"]):>3} wins  {profile.get("nat",""):>3}')
+        print('ok  ' + str(len(profile['wins'])).rjust(3) + ' wins  ' + str(len(profile.get('team_history',[]))).rjust(2) + ' teams')
 
     save(existing)
-    print(f'\nDone. {ok} updated, {err} errors.')
+    print('Done. ' + str(ok) + ' updated, ' + str(err) + ' errors.')
 
     import subprocess
     try:
@@ -457,20 +556,19 @@ def main():
         result = subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd=BASE)
         if result.returncode != 0:
             subprocess.run(
-                ['git', 'commit', '-m', f'data: refresh rider profiles ({ok} riders)'],
+                ['git', 'commit', '-m', 'data: refresh rider profiles (' + str(ok) + ' riders)'],
                 cwd=BASE, check=True
             )
-            push = subprocess.run(['git', 'push'], cwd=BASE)
-            if push.returncode != 0:
-                print('Push rejected — pulling and retrying...')
+            push2 = subprocess.run(['git', 'push'], cwd=BASE)
+            if push2.returncode != 0:
+                print('Push rejected - pulling and retrying...')
                 subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], cwd=BASE, check=True)
                 subprocess.run(['git', 'push'], cwd=BASE, check=True)
             print('Committed and pushed rider_profiles.json')
         else:
             print('No changes to commit.')
     except Exception as e:
-        print(f'Git error: {e}')
-        print('Manual push: git add rider_profiles.json && git commit -m "data: rider profiles" && git push')
+        print('Git error: ' + str(e))
 
 
 if __name__ == '__main__':
