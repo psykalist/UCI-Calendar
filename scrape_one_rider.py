@@ -21,8 +21,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from scrape_rider_profiles import (
     fetch_html, parse_rider_page, parse_team_history,
-    parse_wins_page, parse_season_results, save, PROFILES_FILE, DELAY
+    parse_wins_page, parse_season_results, save, save_rider_to_db, PROFILES_FILE, DELAY
 )
+from db_safe import get_db, ensure_schema
 import json, time, datetime
 
 def main():
@@ -68,6 +69,19 @@ def main():
     profile['fetched_at'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
     existing[slug] = profile
+
+    # Write to DB with read-back verification
+    db_conn = get_db()
+    ensure_schema(db_conn)
+    try:
+        save_rider_to_db(db_conn, slug, profile)
+        print(f"  DB write: ✓")
+    except Exception as e:
+        print(f"  DB write: ✗ {e}")
+    finally:
+        db_conn.close()
+
+    # Safe JSON write with validation
     save(existing)
     print(f"\nSaved. Now run:")
     print(f'  git add rider_profiles.json && git commit -m "data: refresh {slug}" && git push')

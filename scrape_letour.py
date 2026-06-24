@@ -23,6 +23,7 @@ import re, time, json, os, sys, datetime, argparse
 from pathlib import Path
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError, URLError
+from db_safe import safe_json_write, db_upsert, pre_scrape_check, get_db, ensure_schema
 
 BASE      = Path(__file__).parent
 LETOUR    = 'https://www.letour.fr/en/stage-'
@@ -176,16 +177,40 @@ def inject_into_data(stages_data):
                 updated += 1
 
     if updated:
-        tmp = str(DATA_FILE) + '.tmp'
-        with open(tmp, 'w', encoding='utf-8') as f:
-            json.dump(d, f, ensure_ascii=False, separators=(',', ':'))
-        os.replace(tmp, str(DATA_FILE))
+        safe_json_write(
+            DATA_FILE, d,
+            required_keys=['live', 'upcoming', 'recent', 'scraped_at'],
+            min_ratio=0.90,
+            label='data.json (letour inject)',
+        )
         print(f'Injected letour data into {updated} TDF stages in data.json')
     else:
         print('No TDF stages found in data.json to inject into')
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
+
+def save_stage_to_db(conn, stage_num, data):
+    """Write one letour stage to cycling.db stages table with read-back verification."""
+    # Find the stage row by stage_num in the TDF race
+    row = conn.execute(
+        "SELECT id, race_id FROM stages WHERE stage_num=? AND race_id LIKE '%tour-de-france%'",
+        (stage_num,)
+    ).fetchone()
+    if row is None:
+        return  # Stage not in DB yet — will be added by main scraper later
+
+    upsert_row = {
+        'id':           row['id'],
+        'race_id':      row['race_id'],
+        'stage_num':    stage_num,
+        'map_img':      data.get('map_img', ''),
+        'profile_img':  data.get('profile_img', ''),
+        'roadbook_json':json.dumps(data.get('roadbook', []), ensure_ascii=False),
+        'start_time':   data.get('first_start', ''),
+    }
+    db_upsert(conn, 'stages', upsert_row, pk_col='id')
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -194,6 +219,10 @@ def main():
     parser.add_argument('--total', type=int, default=21, help='Total stages (default 21)')
     args = parser.parse_args()
 
+    # ── DB setup ──────────────────────────────────────────────────────────────
+    db_conn = get_db()
+    ensure_schema(db_conn)
+
     # Load existing letour data if any
     existing = {}
     if OUT_FILE.exists():
@@ -201,6 +230,19 @@ def main():
             existing = json.loads(OUT_FILE.read_text('utf-8'))
         except Exception:
             pass
+
+    # ── Pre-scrape sample check ───────────────────────────────────────────────
+    def validate_stage(s):
+        if not isinstance(s, dict):
+            raise ValueError('not a dict')
+        if 'stage_num' not in s:
+            raise ValueError('missing stage_num')
+
+    if existing:
+        pre_scrape_check(
+            list(existing.values()), sample_size=min(3, len(existing)),
+            validator=validate_stage, label='letour_stages.json'
+        )
 
     stage_nums = [args.stage] if args.stage else list(range(1, args.total + 1))
     print(f'Scraping {len(stage_nums)} stage(s) from letour.fr...')
@@ -220,17 +262,28 @@ def main():
 
         data = parse_stage(html, n)
         results[n] = data
-        ok += 1
 
+        # Write to DB with read-back
+        try:
+            save_stage_to_db(db_conn, n, data)
+        except Exception as db_err:
+            print(f'  ⚠ DB write failed for stage {n}: {db_err}', flush=True)
+
+        ok += 1
         map_ok     = '✓' if data.get('map_img')     else '✗'
         profile_ok = '✓' if data.get('profile_img') else '✗'
         rb_count   = len(data.get('roadbook', []))
         print(f'map:{map_ok} profile:{profile_ok} roadbook:{rb_count} rows')
 
-    # Save letour_stages.json
-    OUT_FILE.write_text(
-        json.dumps(results, ensure_ascii=False, indent=2),
-        encoding='utf-8'
+    db_conn.close()
+
+    # Save letour_stages.json with full validation
+    safe_json_write(
+        OUT_FILE,
+        results,
+        required_keys=[],   # keys are stage numbers, no fixed required keys
+        min_ratio=0.80,
+        label='letour_stages.json',
     )
     print(f'\nSaved {len(results)} stages to {OUT_FILE.name}')
     print(f'Done: {ok} scraped, {err} errors')

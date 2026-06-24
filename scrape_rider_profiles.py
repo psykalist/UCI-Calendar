@@ -20,6 +20,7 @@ After running:
 
 import json, os, re, time, sys, datetime
 from pathlib import Path
+from db_safe import safe_json_write, db_upsert, pre_scrape_check, get_db, ensure_schema
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError, URLError
 
@@ -370,15 +371,39 @@ def save(riders):
         'count': len(riders),
         'riders': riders,
     }
-    tmp = PROFILES_FILE.with_suffix('.tmp')
-    for _ in range(5):
-        try:
-            tmp.write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':')), 'utf-8')
-            os.replace(tmp, PROFILES_FILE)
-            return
-        except PermissionError:
-            time.sleep(0.5)
-    raise RuntimeError(f'Could not write {PROFILES_FILE}')
+    safe_json_write(
+        PROFILES_FILE,
+        data,
+        required_keys=['riders', 'count', 'scraped_at'],
+        min_ratio=0.85,
+        label='rider_profiles.json',
+    )
+
+
+def save_rider_to_db(conn, slug, profile):
+    """Write one rider profile to cycling.db with read-back verification."""
+    sp = profile.get('specialties', {})
+    row = {
+        'slug':                 slug,
+        'name':                 profile.get('name', slug),
+        'nat':                  profile.get('nat', ''),
+        'nat_name':             profile.get('nat_name', ''),
+        'dob':                  profile.get('dob', ''),
+        'height':               profile.get('height'),
+        'weight':               profile.get('weight'),
+        'photo_url':            profile.get('photo', ''),
+        'sp_oneday':            sp.get('oneday', 0),
+        'sp_gc':                sp.get('gc', 0),
+        'sp_tt':                sp.get('tt', 0),
+        'sp_sprint':            sp.get('sprint', 0),
+        'sp_climber':           sp.get('climber', 0),
+        'sp_hills':             sp.get('hills', 0),
+        'wins_json':            json.dumps(profile.get('wins', []), ensure_ascii=False),
+        'team_history_json':    json.dumps(profile.get('team_history', []), ensure_ascii=False),
+        'season_results_json':  json.dumps(profile.get('season_results', []), ensure_ascii=False),
+        'fetched_at':           profile.get('fetched_at', ''),
+    }
+    db_upsert(conn, 'riders', row, pk_col='slug')
 
 
 # -- Main ----------------------------------------------------------------------
@@ -494,6 +519,10 @@ def main():
         update_winners()
         return
 
+    # ── DB setup ──────────────────────────────────────────────────────────────
+    db_conn = get_db()
+    ensure_schema(db_conn)
+
     existing = {}
     if PROFILES_FILE.exists():
         try:
@@ -501,6 +530,18 @@ def main():
             print('Loaded ' + str(len(existing)) + ' existing profiles')
         except Exception as e:
             print('Warning: could not load existing profiles: ' + str(e))
+
+    # ── Pre-scrape sample check ───────────────────────────────────────────────
+    def validate_rider(r):
+        if not isinstance(r, dict):
+            raise ValueError('not a dict')
+        if not r.get('slug'):
+            raise ValueError('missing slug')
+        if 'fetched_at' not in r:
+            raise ValueError('missing fetched_at')
+
+    if existing:
+        pre_scrape_check(existing, sample_size=5, validator=validate_rider, label='rider_profiles.json')
 
     all_slugs = collect_slugs()
     print('Found ' + str(len(all_slugs)) + ' unique rider slugs')
@@ -546,9 +587,17 @@ def main():
         profile['fetched_at'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
         existing[slug] = profile
+
+        # Write to DB with read-back verification
+        try:
+            save_rider_to_db(db_conn, slug, profile)
+        except Exception as db_err:
+            print(f'  ⚠ DB write failed for {slug}: {db_err}', flush=True)
+
         ok += 1
         print('ok  ' + str(len(profile['wins'])).rjust(3) + ' wins  ' + str(len(profile.get('team_history',[]))).rjust(2) + ' teams')
 
+    db_conn.close()
     save(existing)
     print('Done. ' + str(ok) + ' updated, ' + str(err) + ' errors.')
     git_commit_push('data: refresh rider profiles (' + str(ok) + ' riders)')
