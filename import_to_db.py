@@ -145,6 +145,19 @@ CREATE INDEX IF NOT EXISTS idx_cl_race   ON classifications(race_id);
 CREATE INDEX IF NOT EXISTS idx_cl_type   ON classifications(race_id, type);
 CREATE INDEX IF NOT EXISTS idx_st_race   ON stages(race_id);
 CREATE INDEX IF NOT EXISTS idx_rw_rider  ON rider_wins(rider_slug);
+CREATE TABLE IF NOT EXISTS race_palmares (
+    id           TEXT PRIMARY KEY,
+    race_slug    TEXT NOT NULL,
+    year         INTEGER NOT NULL,
+    winner       TEXT,
+    winner_slug  TEXT,
+    second       TEXT,
+    second_slug  TEXT,
+    third        TEXT,
+    third_slug   TEXT,
+    UNIQUE(race_slug, year)
+);
+CREATE INDEX IF NOT EXISTS idx_rp_race ON race_palmares(race_slug);
 '''
 
 def open_db():
