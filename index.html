@@ -171,7 +171,9 @@ header h1 span { color: var(--accent); }
 .race-name {
   font-size: 1rem;
   font-weight: 600;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .race-meta { font-size: .8rem; color: var(--muted); margin-top: 3px; }
 
@@ -1440,7 +1442,7 @@ function renderRaceCard(race, status) {
   return `<div class="race-card ${status}-card" id="${id}" data-cat="${esc(race.category||'')}" data-monument="${isMonument}" data-grandtour="${isGrandTour}" data-stages="${total}" data-start="${race.start_date||''}" data-end="${race.end_date||''}">
     <div class="race-header" onclick="toggleCard('${id}')">
       <div class="race-title">
-        <div class="race-name">${esc(race.name||race.slug)}</div>
+        <div class="race-name" title="${esc(race.name||race.slug)}">${esc(race.name||race.slug)}</div>
         ${meta ? `<div class="race-meta">${meta}</div>` : ''}
       </div>
       <div class="race-right">
