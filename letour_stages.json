@@ -1,0 +1,636 @@
+{
+  "3": {
+    "stage_num": 3,
+    "map_img": "https://img.aso.fr/core_app/img-cycling-tdf-jpg/tdf26-et03-cartepot-v5/71050/0:0,1169:1654-960-0-90/f3454",
+    "profile_img": "https://img.aso.fr/core_app/img-cycling-tdf-jpg/3-tdf26-profils-web-fr/70962/0:0,1004:602-960-0-90/55d8b",
+    "title": "Granollers > Les Angles - Tour de France 2026",
+    "roadbook": [
+      {
+        "location": "ESPAGNE",
+        "caravan_time": "09:55",
+        "peloton_time": "12:10",
+        "director_time": "12:10"
+      },
+      {
+        "location": "BARCELONA",
+        "caravan_time": "09:55",
+        "peloton_time": "12:10",
+        "director_time": "12:10"
+      },
+      {
+        "location": "VC GRANOLLERS",
+        "km_finish": 195.9,
+        "km_start": 0.0,
+        "caravan_time": "09:55",
+        "peloton_time": "12:10",
+        "director_time": "12:10"
+      },
+      {
+        "location": "Corró d&#039;Avall (VC-C-352) (LES FRANQUESES DEL VALLÈS)",
+        "km_finish": 195.9,
+        "km_start": 0.0,
+        "caravan_time": "09:58",
+        "peloton_time": "12:14",
+        "director_time": "12:14"
+      },
+      {
+        "location": "C-352 CANOVELLES (C-352-C-1415b)",
+        "km_finish": 195.9,
+        "km_start": 0.0,
+        "caravan_time": "10:00",
+        "peloton_time": "12:16",
+        "director_time": "12:16"
+      },
+      {
+        "location": "C-1415b GRANOLLERS",
+        "km_finish": 195.9,
+        "km_start": 0.0,
+        "caravan_time": "10:05",
+        "peloton_time": "12:20",
+        "director_time": "12:20"
+      },
+      {
+        "location": "LLIÇÀ D&#039;AMUNT",
+        "km_finish": 194.7,
+        "km_start": 1.2,
+        "caravan_time": "10:07",
+        "peloton_time": "12:22",
+        "director_time": "12:22"
+      },
+      {
+        "location": "Can Farell (près)",
+        "km_finish": 193.0,
+        "km_start": 2.9,
+        "caravan_time": "10:10",
+        "peloton_time": "12:24",
+        "director_time": "12:24"
+      },
+      {
+        "location": "SANTA EULÀLIA DE RONÇANA",
+        "km_finish": 191.0,
+        "km_start": 4.9,
+        "caravan_time": "10:14",
+        "peloton_time": "12:27",
+        "director_time": "12:27"
+      },
+      {
+        "location": "CALDES DE MONTBUI (près) (C-1415b-C-59)",
+        "km_finish": 188.4,
+        "km_start": 7.5,
+        "caravan_time": "10:18",
+        "peloton_time": "12:30",
+        "director_time": "12:31"
+      },
+      {
+        "location": "C-59 Els Saulons",
+        "km_finish": 186.1,
+        "km_start": 9.8,
+        "caravan_time": "10:22",
+        "peloton_time": "12:34",
+        "director_time": "12:34"
+      },
+      {
+        "location": "SANT FELIU DE CODINES",
+        "km_finish": 182.5,
+        "km_start": 13.4,
+        "caravan_time": "10:29",
+        "peloton_time": "12:41",
+        "director_time": "12:42"
+      },
+      {
+        "location": "Côte de Saint Feliu de Codines",
+        "km_finish": 178.7,
+        "km_start": 17.2,
+        "caravan_time": "10:35",
+        "peloton_time": "12:48",
+        "director_time": "12:49"
+      },
+      {
+        "location": "Carrefour C-59-C-1413b",
+        "km_finish": 177.6,
+        "km_start": 18.3,
+        "caravan_time": "10:37",
+        "peloton_time": "12:49",
+        "director_time": "12:51"
+      },
+      {
+        "location": "C-1413b Les Clotes (près) (SANT QUIRZE SAFAJA)",
+        "km_finish": 175.4,
+        "km_start": 20.5,
+        "caravan_time": "10:41",
+        "peloton_time": "12:52",
+        "director_time": "12:54"
+      },
+      {
+        "location": "Les Comes (près) (SANT MARTÍ DE CENTELLES)",
+        "km_finish": 165.0,
+        "km_start": 30.9,
+        "caravan_time": "10:59",
+        "peloton_time": "13:06",
+        "director_time": "13:08"
+      },
+      {
+        "location": "CENTELLES",
+        "km_finish": 161.5,
+        "km_start": 34.4,
+        "caravan_time": "11:06",
+        "peloton_time": "13:10",
+        "director_time": "13:13"
+      },
+      {
+        "location": "Els Hostalets de Balenyà (C-1413b-N-152a-VC) (BALENYÀ)",
+        "km_finish": 158.2,
+        "km_start": 37.7,
+        "caravan_time": "11:11",
+        "peloton_time": "13:15",
+        "director_time": "13:18"
+      },
+      {
+        "location": "VC TONA (VC-BV-5303)",
+        "km_finish": 154.2,
+        "km_start": 41.7,
+        "caravan_time": "11:18",
+        "peloton_time": "13:20",
+        "director_time": "13:23"
+      },
+      {
+        "location": "BV-5303 Sant Miquel de Balenyà (BV-5303-BV-5305) (SEVA)",
+        "km_finish": 152.7,
+        "km_start": 43.2,
+        "caravan_time": "11:21",
+        "peloton_time": "13:22",
+        "director_time": "13:26"
+      },
+      {
+        "location": "TARADELL (BV-5305-VC-B-520)",
+        "km_finish": 149.0,
+        "km_start": 46.9,
+        "caravan_time": "11:28",
+        "peloton_time": "13:27",
+        "director_time": "13:31"
+      },
+      {
+        "location": "B-520 SANTA EUGÈNIA DE BERGA",
+        "km_finish": 144.8,
+        "km_start": 51.1,
+        "caravan_time": "11:35",
+        "peloton_time": "13:33",
+        "director_time": "13:36"
+      },
+      {
+        "location": "VIC (B-520-VC-B-522)",
+        "km_finish": 141.1,
+        "km_start": 54.8,
+        "caravan_time": "11:42",
+        "peloton_time": "13:38",
+        "director_time": "13:42"
+      },
+      {
+        "location": "B-522 Granollers de la Plana (près) (GURB)",
+        "km_finish": 133.8,
+        "km_start": 62.1,
+        "caravan_time": "11:55",
+        "peloton_time": "13:47",
+        "director_time": "13:52"
+      },
+      {
+        "location": "MANLLEU (B-522-BV-5224)",
+        "km_finish": 131.8,
+        "km_start": 64.1,
+        "caravan_time": "11:58",
+        "peloton_time": "13:50",
+        "director_time": "13:55"
+      },
+      {
+        "location": "BV-5224 TORELLÓ (BV-5224-VC-BV-5226)",
+        "km_finish": 126.0,
+        "km_start": 69.9,
+        "caravan_time": "12:08",
+        "peloton_time": "13:58",
+        "director_time": "14:03"
+      },
+      {
+        "location": "BV-5226 Vila-seca (SANT VICENÇ DE TORELLÓ)",
+        "km_finish": 122.4,
+        "km_start": 73.5,
+        "caravan_time": "12:15",
+        "peloton_time": "14:03",
+        "director_time": "14:08"
+      },
+      {
+        "location": "Borgonyà (BV-5226-VC) (SANT VICENÇ DE TORELLÓ)",
+        "km_finish": 121.0,
+        "km_start": 74.9,
+        "caravan_time": "12:17",
+        "peloton_time": "14:04",
+        "director_time": "14:10"
+      },
+      {
+        "location": "VC La Mambla (près) (ORÍS)",
+        "km_finish": 119.4,
+        "km_start": 76.5,
+        "caravan_time": "12:20",
+        "peloton_time": "14:07",
+        "director_time": "14:12"
+      },
+      {
+        "location": "Carrefour VC-C-17",
+        "km_finish": 117.9,
+        "km_start": 78.0,
+        "caravan_time": "12:23",
+        "peloton_time": "14:09",
+        "director_time": "14:14"
+      },
+      {
+        "location": "C-17 Tunnel de Sant Quirze de Besora",
+        "km_finish": 116.6,
+        "km_start": 79.3,
+        "caravan_time": "12:25",
+        "peloton_time": "14:10",
+        "director_time": "14:16"
+      },
+      {
+        "location": "SANT QUIRZE DE BESORA (C-17-C-17z)",
+        "km_finish": 115.5,
+        "km_start": 80.4,
+        "caravan_time": "12:27",
+        "peloton_time": "14:12",
+        "director_time": "14:17"
+      },
+      {
+        "location": "C-17z MONTESQUIU (C-17z-C-17Z-C-17Z-C-17Z-C-17Z-C-17Z)",
+        "km_finish": 114.4,
+        "km_start": 81.5,
+        "caravan_time": "12:29",
+        "peloton_time": "14:13",
+        "director_time": "14:19"
+      },
+      {
+        "location": "Carrefour C-17z-C-17",
+        "km_finish": 112.7,
+        "km_start": 83.2,
+        "caravan_time": "12:32",
+        "peloton_time": "14:16",
+        "director_time": "14:21"
+      },
+      {
+        "location": "GIRONA",
+        "caravan_time": "12:34",
+        "peloton_time": "14:17",
+        "director_time": "14:23"
+      },
+      {
+        "location": "C-17 Tunnel de la Farga de Bebié (LES LLOSSES)",
+        "km_finish": 111.2,
+        "km_start": 84.7,
+        "caravan_time": "12:34",
+        "peloton_time": "14:18",
+        "director_time": "14:23"
+      },
+      {
+        "location": "BARCELONA",
+        "caravan_time": "12:36",
+        "peloton_time": "14:19",
+        "director_time": "14:25"
+      },
+      {
+        "location": "GIRONA",
+        "caravan_time": "12:37",
+        "peloton_time": "14:19",
+        "director_time": "14:25"
+      },
+      {
+        "location": "Tunnel de la Cúbia",
+        "km_finish": 109.4,
+        "km_start": 86.5,
+        "caravan_time": "12:38",
+        "peloton_time": "14:20",
+        "director_time": "14:26"
+      },
+      {
+        "location": "Tunnel de Terradelles",
+        "km_finish": 107.9,
+        "km_start": 88.0,
+        "caravan_time": "12:40",
+        "peloton_time": "14:22",
+        "director_time": "14:28"
+      },
+      {
+        "location": "RIPOLL (C-17-C-26-N-260)",
+        "km_finish": 104.2,
+        "km_start": 91.7,
+        "caravan_time": "12:47",
+        "peloton_time": "14:27",
+        "director_time": "14:33"
+      },
+      {
+        "location": "N-260 CAMPDEVÀNOL (entrée)",
+        "km_finish": 98.6,
+        "km_start": 97.3,
+        "caravan_time": "12:57",
+        "peloton_time": "14:34",
+        "director_time": "14:41"
+      },
+      {
+        "location": "CAMPDEVÀNOL",
+        "km_finish": 97.5,
+        "km_start": 98.4,
+        "caravan_time": "12:59",
+        "peloton_time": "14:36",
+        "director_time": "14:42"
+      },
+      {
+        "location": "Colònia Molinou",
+        "km_finish": 97.0,
+        "km_start": 98.9,
+        "caravan_time": "12:59",
+        "peloton_time": "14:37",
+        "director_time": "14:43"
+      },
+      {
+        "location": "Colònia Pernau",
+        "km_finish": 96.6,
+        "km_start": 99.3,
+        "caravan_time": "13:00",
+        "peloton_time": "14:37",
+        "director_time": "14:44"
+      },
+      {
+        "location": "Colònia Herand",
+        "km_finish": 95.7,
+        "km_start": 100.2,
+        "caravan_time": "13:02",
+        "peloton_time": "14:38",
+        "director_time": "14:45"
+      },
+      {
+        "location": "RIBES DE FRESER",
+        "km_finish": 88.9,
+        "km_start": 107.0,
+        "caravan_time": "13:14",
+        "peloton_time": "14:47",
+        "director_time": "14:54"
+      },
+      {
+        "location": "PLANOLES",
+        "km_finish": 81.5,
+        "km_start": 114.4,
+        "caravan_time": "13:27",
+        "peloton_time": "14:57",
+        "director_time": "15:05"
+      },
+      {
+        "location": "Planès (N-260-GIV-4016)",
+        "km_finish": 80.6,
+        "km_start": 115.3,
+        "caravan_time": "13:28",
+        "peloton_time": "14:58",
+        "director_time": "15:06"
+      },
+      {
+        "location": "GV-4016 Espinosa",
+        "km_finish": 77.8,
+        "km_start": 118.1,
+        "caravan_time": "13:33",
+        "peloton_time": "15:02",
+        "director_time": "15:10"
+      },
+      {
+        "location": "Fornells de la Muntanya",
+        "km_finish": 75.5,
+        "km_start": 120.4,
+        "caravan_time": "13:37",
+        "peloton_time": "15:07",
+        "director_time": "15:15"
+      },
+      {
+        "location": "TOSES (GIV-4016-VC)",
+        "km_finish": 72.5,
+        "km_start": 123.4,
+        "caravan_time": "13:43",
+        "peloton_time": "15:14",
+        "director_time": "15:23"
+      },
+      {
+        "location": "Col de Toses",
+        "km_finish": 68.2,
+        "km_start": 127.7,
+        "caravan_time": "13:50",
+        "peloton_time": "15:23",
+        "director_time": "15:33"
+      },
+      {
+        "location": "LA MOLINA (GI-400-VC-GIV-4082)",
+        "km_finish": 64.1,
+        "km_start": 131.8,
+        "caravan_time": "13:58",
+        "peloton_time": "15:28",
+        "director_time": "15:38"
+      },
+      {
+        "location": "GI-400 Tunnel de la Molina (GI-400-400-VC)",
+        "km_finish": 63.1,
+        "km_start": 132.8,
+        "caravan_time": "13:59",
+        "peloton_time": "15:29",
+        "director_time": "15:39"
+      },
+      {
+        "location": "GV-4082 ALP (près) (GIV-4082-C-162)",
+        "km_finish": 51.7,
+        "km_start": 144.2,
+        "caravan_time": "14:19",
+        "peloton_time": "15:43",
+        "director_time": "15:53"
+      },
+      {
+        "location": "C-162 Escadarcs (près) (FONTANALS DE CERDANYA)",
+        "km_finish": 50.3,
+        "km_start": 145.6,
+        "caravan_time": "14:22",
+        "peloton_time": "15:45",
+        "director_time": "15:55"
+      },
+      {
+        "location": "Queixans (près) (C-162-N-260) (FONTANALS DE CERDANYA)",
+        "km_finish": 47.4,
+        "km_start": 148.5,
+        "caravan_time": "14:27",
+        "peloton_time": "15:48",
+        "director_time": "15:59"
+      },
+      {
+        "location": "N-260 PUIGCERDÀ (N-260-N-152-N-154)",
+        "km_finish": 44.4,
+        "km_start": 151.5,
+        "caravan_time": "14:32",
+        "peloton_time": "15:52",
+        "director_time": "16:02"
+      },
+      {
+        "location": "FRANCE",
+        "caravan_time": "14:37",
+        "peloton_time": "15:55",
+        "director_time": "16:06"
+      },
+      {
+        "location": "PYRÉNÉES-ORIENTALES (66)",
+        "caravan_time": "14:37",
+        "peloton_time": "15:55",
+        "director_time": "16:06"
+      },
+      {
+        "location": "N20 UR (N20-D618)",
+        "km_finish": 39.7,
+        "km_start": 156.2,
+        "caravan_time": "14:41",
+        "peloton_time": "15:57",
+        "director_time": "16:08"
+      },
+      {
+        "location": "D618 Villeneuve-des-Escaldes (ANGOUSTRINE-VILLENEUVE-DES-ESCALDES)",
+        "km_finish": 37.0,
+        "km_start": 158.9,
+        "caravan_time": "14:45",
+        "peloton_time": "16:01",
+        "director_time": "16:12"
+      },
+      {
+        "location": "Angoustrine (ANGOUSTRINE-VILLENEUVE-DES-ESCALDES)",
+        "km_finish": 36.1,
+        "km_start": 159.8,
+        "caravan_time": "14:47",
+        "peloton_time": "16:02",
+        "director_time": "16:13"
+      },
+      {
+        "location": "TARGASONNE",
+        "km_finish": 30.1,
+        "km_start": 165.8,
+        "caravan_time": "14:57",
+        "peloton_time": "16:12",
+        "director_time": "16:24"
+      },
+      {
+        "location": "Col de Fau (D618-D10 F)",
+        "km_finish": 28.1,
+        "km_start": 167.8,
+        "caravan_time": "15:01",
+        "peloton_time": "16:16",
+        "director_time": "16:28"
+      },
+      {
+        "location": "D10 F ÉGAT",
+        "km_finish": 27.5,
+        "km_start": 168.4,
+        "caravan_time": "15:02",
+        "peloton_time": "16:17",
+        "director_time": "16:29"
+      },
+      {
+        "location": "FONT-ROMEU-ODEILLO-VIA (D10 F-D618)",
+        "km_finish": 26.1,
+        "km_start": 169.8,
+        "caravan_time": "15:05",
+        "peloton_time": "16:20",
+        "director_time": "16:32"
+      },
+      {
+        "location": "D618 L&#039;Ermitage",
+        "km_finish": 24.0,
+        "km_start": 171.9,
+        "caravan_time": "15:08",
+        "peloton_time": "16:24",
+        "director_time": "16:36"
+      },
+      {
+        "location": "Col du Calvaire",
+        "km_finish": 23.6,
+        "km_start": 172.3,
+        "caravan_time": "15:09",
+        "peloton_time": "16:24",
+        "director_time": "16:37"
+      },
+      {
+        "location": "BOLQUÈRE",
+        "km_finish": 22.7,
+        "km_start": 173.2,
+        "caravan_time": "15:11",
+        "peloton_time": "16:25",
+        "director_time": "16:38"
+      },
+      {
+        "location": "LA CABANASSE (D618-D118)",
+        "km_finish": 17.6,
+        "km_start": 178.3,
+        "caravan_time": "15:20",
+        "peloton_time": "16:32",
+        "director_time": "16:45"
+      },
+      {
+        "location": "D118 LA LLAGONNE",
+        "km_finish": 15.6,
+        "km_start": 180.3,
+        "caravan_time": "15:23",
+        "peloton_time": "16:34",
+        "director_time": "16:47"
+      },
+      {
+        "location": "Col de la Quillane",
+        "km_finish": 11.9,
+        "km_start": 184.0,
+        "caravan_time": "15:30",
+        "peloton_time": "16:38",
+        "director_time": "16:52"
+      },
+      {
+        "location": "Lac de Matemale",
+        "km_finish": 8.6,
+        "km_start": 187.3,
+        "caravan_time": "15:35",
+        "peloton_time": "16:42",
+        "director_time": "16:56"
+      },
+      {
+        "location": "MATEMALE (près) (D118-D52)",
+        "km_finish": 7.0,
+        "km_start": 188.9,
+        "caravan_time": "15:38",
+        "peloton_time": "16:44",
+        "director_time": "16:58"
+      },
+      {
+        "location": "D52 Carrefour D52-D32",
+        "km_finish": 4.7,
+        "km_start": 191.2,
+        "caravan_time": "15:42",
+        "peloton_time": "16:47",
+        "director_time": "17:01"
+      },
+      {
+        "location": "D32 LES ANGLES (D32-VC) (entrée)",
+        "km_finish": 3.9,
+        "km_start": 192.0,
+        "caravan_time": "15:44",
+        "peloton_time": "16:48",
+        "director_time": "17:02"
+      },
+      {
+        "location": "VC Pla del Mir",
+        "km_finish": 0.1,
+        "km_start": 195.8,
+        "caravan_time": "15:50",
+        "peloton_time": "16:54",
+        "director_time": "17:08"
+      },
+      {
+        "location": "LES ANGLES",
+        "km_finish": 0.0,
+        "km_start": 195.9,
+        "caravan_time": "15:51",
+        "peloton_time": "16:54",
+        "director_time": "17:08"
+      }
+    ]
+  }
+}
