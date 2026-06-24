@@ -271,21 +271,46 @@ def collect_winner_slugs():
     slugs = set()
     if not DATA_FILE.exists():
         return slugs
+
+    def slug_from_url(url):
+        """Extract slug from /profile/{slug} or /rider/{slug} URLs."""
+        if not url:
+            return None
+        return url.strip().rstrip('/').split('/')[-1] or None
+
     try:
         data = json.loads(DATA_FILE.read_text('utf-8'))
-        for race in data.get('live', []) + data.get('recent', []):
+        # data.json stores all races under 'races' with a 'status' field;
+        # also check legacy top-level 'live'/'recent' lists if present.
+        all_races = [r for r in data.get('races', [])
+                     if r.get('status') in ('live', 'recent')]
+        for legacy_key in ('live', 'recent'):
+            val = data.get(legacy_key)
+            if isinstance(val, list):
+                all_races += val
+
+        cls_keys = ['gc_top10', 'points_top10', 'kom_top10', 'youth_top10']
+        for race in all_races:
+            # Stage winners — results[0]['slug'] is the winner
             for stage in race.get('stages', []):
                 results = stage.get('results', [])
                 if results and isinstance(results[0], dict):
-                    slug = results[0].get('rider_slug')
-                    if slug:
-                        slugs.add(slug)
-            # Also grab GC leaders
-            for cls_rows in race.get('classifications', {}).values():
-                if isinstance(cls_rows, list) and cls_rows:
-                    row = cls_rows[0]
-                    if isinstance(row, dict) and row.get('rider_slug'):
-                        slugs.add(row['rider_slug'])
+                    s = results[0].get('slug')
+                    if s:
+                        slugs.add(s)
+                # Legacy: top10[0]['rider_url']
+                top10 = stage.get('top10', [])
+                if top10 and isinstance(top10[0], dict):
+                    s = slug_from_url(top10[0].get('rider_url'))
+                    if s:
+                        slugs.add(s)
+            # Classification leaders (GC, points, KOM, youth)
+            for key in cls_keys:
+                rows = race.get(key, [])
+                if rows and isinstance(rows[0], dict):
+                    s = rows[0].get('slug') or slug_from_url(rows[0].get('rider_url'))
+                    if s:
+                        slugs.add(s)
     except Exception as e:
         print(f'Warning: could not parse {DATA_FILE.name}: {e}')
     return {s for s in slugs if s and re.match(r'^[a-z0-9\-]+$', s)}
@@ -421,20 +446,31 @@ def main():
 
         existing[slug] = profile
         ok += 1
-
-        eta_str = f'{eta:.0f}s left' if eta > 0 else ''
-        print(f'ok  {len(wins):>3} wins  {profile.get("nat",""):>3}  {eta_str}')
-
-        # Save every 20 riders
-        if ok % 20 == 0:
-            save(existing)
-            print(f'  -> saved checkpoint ({len(existing)} riders)')
+        print(f'ok  {len(profile["wins"]):>3} wins  {profile.get("nat",""):>3}')
 
     save(existing)
-    total_wins = sum(len(r.get('wins', [])) for r in existing.values())
-    print(f'\nDone. {ok} fetched, {err} errors.')
-    print(f'Total: {len(existing)} rider profiles, {total_wins} career wins stored.')
-    print(f'\ngit add rider_profiles.json && git commit -m "data: rider profiles ({len(existing)} riders)" && git push')
+    print(f'\nDone. {ok} updated, {err} errors.')
+
+    import subprocess
+    try:
+        subprocess.run(['git', 'add', 'rider_profiles.json'], cwd=BASE, check=True)
+        result = subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd=BASE)
+        if result.returncode != 0:
+            subprocess.run(
+                ['git', 'commit', '-m', f'data: refresh rider profiles ({ok} riders)'],
+                cwd=BASE, check=True
+            )
+            push = subprocess.run(['git', 'push'], cwd=BASE)
+            if push.returncode != 0:
+                print('Push rejected — pulling and retrying...')
+                subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], cwd=BASE, check=True)
+                subprocess.run(['git', 'push'], cwd=BASE, check=True)
+            print('Committed and pushed rider_profiles.json')
+        else:
+            print('No changes to commit.')
+    except Exception as e:
+        print(f'Git error: {e}')
+        print('Manual push: git add rider_profiles.json && git commit -m "data: rider profiles" && git push')
 
 
 if __name__ == '__main__':
