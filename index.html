@@ -1796,7 +1796,8 @@ async function openRiderModal(slug) {
   const wins     = (profile || {}).wins || [];
   const teamHistory = (profile || {}).team_history || [];
   const currentYearTeam = (teamHistory.find(t => t.year === new Date().getFullYear()) || {}).team || '';
-  const teamName = currentYearTeam || (baseInfo || {}).teamName || '';
+  // Prefer live roster (data.json) over stale PCS team_history
+  const teamName = (baseInfo || {}).teamName || currentYearTeam || '';
   const weight   = (profile || {}).weight;
   const height   = (profile || {}).height;
 
