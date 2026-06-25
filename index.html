@@ -2109,7 +2109,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v31';
+const APP_VERSION = 'v32';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3344,28 +3344,4 @@ function exportSubscribers(){
       await w.write(json);
       await w.close();
       localStorage.removeItem('uci_subscribers_dirty');
-      alert('✅ subscribers.json saved — the scraper will use it for email notifications.');
-      renderFantasy();
-    }).catch(()=>{});
-    return;
-  }
-  // Fallback: trigger download
-  const blob=new Blob([json],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='subscribers.json';
-  document.body.appendChild(a);a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  localStorage.removeItem('uci_subscribers_dirty');
-  alert('✅ Downloaded — move subscribers.json to the UCI Calendar & Results folder so the scraper can find it.');
-  renderFantasy();
-}
-
-// ── Service Worker ─────────────────────────────────────────────────────────
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('SW:',e));
-}
-</script>
-</body>
-</html>
+      alert('✅ subscribers.json saved �

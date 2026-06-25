@@ -7,6 +7,7 @@ Takes ~2 minutes (35 teams × ~3s each)
 import sys, json, time
 sys.path.insert(0, '.')
 from scraper import scrape_team, WORLD_TEAMS, PRO_TEAMS
+from db_safe import safe_json_write
 
 DATA = "data.json"
 
@@ -28,5 +29,5 @@ for i, (slug, cat) in enumerate(pairs, 1):
 d['teams'] = teams
 total_riders = sum(len(t.get('riders',[])) for t in teams)
 print(f"\n✅  {len(teams)} teams, {total_riders} riders — writing {DATA}")
-json.dump(d, open(DATA, 'w', encoding='utf-8'), separators=(',', ':'))
+safe_json_write(DATA, d, required_keys=['live','upcoming','recent','scraped_at'], min_ratio=0.90, label='data.json (teams)')
 print("Done. Commit and push with: bash git-push.sh \"data: scrape team rosters\"")
