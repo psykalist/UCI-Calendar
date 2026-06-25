@@ -332,13 +332,13 @@ header h1 span { color: var(--accent); }
 /* ── Roadbook ── */
 .roadbook-toggle { font-size: .75rem; color: var(--muted); cursor: pointer; padding: 5px 12px; display: flex; align-items: center; gap: 5px; border-top: 1px solid var(--border); user-select: none; }
 .roadbook-toggle:hover { color: var(--text); }
-.roadbook-body { display: none; overflow-x: auto; max-height: 340px; overflow-y: auto; }
+.roadbook-body { display: none; overflow-x: auto; -webkit-overflow-scrolling: touch; max-height: 340px; overflow-y: auto; }
 .roadbook-body.open { display: block; }
-.roadbook-table { width: 100%; border-collapse: collapse; font-size: .72rem; }
+.roadbook-table { width: max-content; min-width: 100%; border-collapse: collapse; font-size: .72rem; }
 .roadbook-table th { font-size: .62rem; text-transform: uppercase; color: var(--muted); font-weight: 700; padding: 4px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; text-align: left; position: sticky; top: 0; background: var(--card); }
 .roadbook-table td { padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,.03); white-space: nowrap; }
 .roadbook-table tr:last-child td { border-bottom: none; }
-.rb-location { white-space: normal; max-width: 180px; }
+.rb-location { white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis; }
 .rb-km { color: var(--muted); text-align: right; }
 .rb-time { color: var(--upcoming); font-variant-numeric: tabular-nums; }
 .rb-chrono { background: rgba(67,97,238,.08); font-weight: 600; }
