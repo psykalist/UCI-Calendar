@@ -1519,8 +1519,9 @@ function renderRiderRow(r, teamId, idx) {
   const natImg = r.nat
     ? `<img src="https://flagcdn.com/16x12/${(r.nat).toLowerCase()}.png" width="16" height="11" style="vertical-align:middle;margin-right:4px;border-radius:1px" loading="lazy">`
     : '';
-  const photo = r.photo
-    ? `<img class="rider-photo" src="${esc(r.photo)}" alt="${esc(r.name)}" loading="lazy">`
+  const photoUrl = r.photo || getRiderPhoto(r.slug || '');
+  const photo = photoUrl
+    ? `<img class="rider-photo" src="${esc(photoUrl)}" alt="${esc(r.name)}" loading="lazy" onerror="this.style.display='none'">`
     : `<div class="rider-photo-ph">🚴</div>`;
 
   let dob = '';
@@ -1650,6 +1651,20 @@ async function searchRiders(q) {
 
 let riderProfilesData = null;
 let riderProfilesLoading = false;
+
+// ── Slim photo index (slug→url, loaded on startup) ────────────────────────────
+let riderPhotosIndex = {};
+(async () => {
+  try {
+    const r = await fetch('./rider_photos.json');
+    if (r.ok) riderPhotosIndex = await r.json();
+  } catch(e) {}
+})();
+
+function getRiderPhoto(slug) {
+  if (!slug) return null;
+  return riderPhotosIndex[slug] || (appData && appData.rider_profiles && appData.rider_profiles[slug] && appData.rider_profiles[slug].photo) || null;
+}
 
 // ── Best-teams loader ──────────────────────────────────────────────────────────
 let bestTeamsData = null;
