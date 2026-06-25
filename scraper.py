@@ -57,7 +57,6 @@ WORLD_TEAMS = [
     "decathlon-cma-cgm-team-2026",
     "ef-education-easypost-2026",
     "groupama-fdj-united-2026",
-    "ineos-grenadiers-2026",
     "lidl-trek-2026",
     "lotto-intermarche-2026",
     "movistar-team-2026",
@@ -820,9 +819,10 @@ def scrape_team(slug, cat):
     logo   = _cdn_url(html, 'logo_600_600')
     jersey = _cdn_url(html, 'shirt_600_600')
 
-    # Rider rows from the roster table
+    # Rider rows from the roster table (exclude staff rows which have 4 tds: #, name, age, function)
     tr_blocks  = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
-    rider_rows = [t for t in tr_blocks if '/profile/' in t]
+    rider_rows = [t for t in tr_blocks if '/profile/' in t
+                  and len(re.findall(r'<td[^>]*>', t)) == 3]
     riders = []
     for row in rider_rows:
         slug_m = re.search(r'/profile/([a-z0-9-]+)', row)
