@@ -1795,7 +1795,7 @@ async function openRiderModal(slug) {
   const dob      = (profile || {}).dob;
   const wins     = (profile || {}).wins || [];
   const teamHistory = (profile || {}).team_history || [];
-  const currentYearTeam = (teamHistory.find(t => t.year === new Date().getFullYear()) || {}).team || '';
+  const currentYearTeam = (teamHistory.filter(t => t.year <= new Date().getFullYear()).sort((a,b) => b.year - a.year)[0] || {}).team || '';
   // Prefer live roster (data.json) over stale PCS team_history
   const teamName = (baseInfo || {}).teamName || currentYearTeam || '';
   const weight   = (profile || {}).weight;
