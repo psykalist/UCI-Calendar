@@ -1161,8 +1161,8 @@ function renderStageImages(s) {
   const rt = s.route_img;
   if (!hp && !rt) return '';
   return `<div class="stage-images">
-    ${hp ? `<div><img src="${esc(hp)}" alt="Height profile" loading="lazy"><div class="stage-img-label">Height profile</div></div>` : ''}
-    ${rt ? `<div><img src="${esc(rt)}" alt="Route map" loading="lazy"><div class="stage-img-label">Route map</div></div>` : ''}
+    ${hp ? `<div><img src="${esc(hp)}" alt="Height profile" loading="lazy" referrerpolicy="no-referrer"><div class="stage-img-label">Height profile</div></div>` : ''}
+    ${rt ? `<div><img src="${esc(rt)}" alt="Route map" loading="lazy" referrerpolicy="no-referrer"><div class="stage-img-label">Route map</div></div>` : ''}
   </div>`;
 }
 
@@ -1264,9 +1264,9 @@ function renderRoadbook(s, uid) {
     </tr>`;
   }).join('');
   return `<div class="roadbook-toggle" onclick="toggleRoadbook('${rbId}')">
-    🗺️ Road Book (${rb.length} points) <span id="${rbId}-chev" style="font-size:.7rem">▼</span>
+    🗺️ Timetable (${rb.length} points) <span id="${rbId}-chev" style="font-size:.7rem">▲</span>
   </div>
-  <div class="roadbook-body" id="${rbId}">
+  <div class="roadbook-body open" id="${rbId}">
     <table class="roadbook-table">
       <thead><tr>
         <th>Location</th><th>← Fin</th><th>Start →</th>
