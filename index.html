@@ -1733,7 +1733,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
           <div style="font-size:.72rem;color:var(--muted)">AI-picked fantasy opponent</div>
         </div>
       </div>
-      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted)">I Claudius teams are generated automatically after each race update — no Python or setup needed. Check back once the race has a startlist.</div>
+      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted)">I Claudius is available once the full startlist is confirmed for this race.</div>
     </div>`;
   }
 
@@ -1748,7 +1748,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
         </div>
         <div style="display:flex;gap:6px">${tierBtns}</div>
       </div>
-      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted);text-align:center">No startlist available for this race yet — I Claudius needs a startlist to pick a team.</div>
+      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted);text-align:center">I Claudius hasn't been built yet — the team is locked in once all riders for this race are confirmed.</div>
     </div>`;
   }
 
@@ -1798,9 +1798,9 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
 async function addIClaudiusToLeague(){
   const rk=fantasyGetRace();
   const bt=await loadBestTeams();
-  if(!bt||!bt.races){alert('I Claudius data not available yet — teams are generated automatically after each race update. Try again shortly.');return;}
+  if(!bt||!bt.races){alert('I Claudius isn't ready yet — the team is built once the full startlist is confirmed.');return;}
   const raceEntry=bt.races[rk];
-  if(!raceEntry||!raceEntry.teams){alert('No I Claudius team for this race — a startlist is needed.');return;}
+  if(!raceEntry||!raceEntry.teams){alert('I Claudius isn't available yet — the team will be ready once all riders are confirmed.');return;}
   const tier=autoTierLoad();
   const team=raceEntry.teams[tier]||raceEntry.teams.elite;
   const tierLabel={easy:'Easy',pro:'Pro',elite:'Elite'}[tier]||'Elite';
@@ -2171,7 +2171,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v38';
+const APP_VERSION = 'v39';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
