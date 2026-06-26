@@ -1364,6 +1364,21 @@ function renderStartlist(race) {
   <div class="startlist-body" style="display:none"><div class="startlist-teams">${rows}</div></div>`;
 }
 
+// ── Startlist completeness helpers ────────────────────────────────────────────
+function slExpected(race) {
+  const s = race.total_stages || 1;
+  if (s >= 21) return 184;   // Grand Tour: 23 teams × 8 riders
+  if (s >= 5)  return 140;   // Big stage race: ~25 teams × ~6
+  if (s >= 2)  return 80;    // Short stage race
+  return 120;                 // 1-day race
+}
+function slStatus(race) {
+  const count = (race.startlist||[]).length;
+  if (count === 0) return 'none';
+  if (count >= slExpected(race) * 0.95) return 'complete';
+  return 'partial';
+}
+
 function renderRaceCard(race, status) {
   const id = `rc-${cardIdx++}`;
   race._uid = id;
@@ -1378,10 +1393,13 @@ function renderRaceCard(race, status) {
 
   let body = '';
   const slCount = (race.startlist||[]).length;
+  const _slSt = slStatus(race);
   const slBadge = upcoming
-    ? (slCount
-      ? `<span style="font-size:.72rem;background:rgba(67,97,238,.15);color:var(--upcoming);border:1px solid rgba(67,97,238,.3);border-radius:12px;padding:2px 8px;font-weight:700;margin-left:6px">👥 ${slCount} riders</span>`
-      : `<span style="font-size:.72rem;background:rgba(255,165,0,.1);color:#f97316;border:1px solid rgba(255,165,0,.3);border-radius:12px;padding:2px 8px;font-weight:700;margin-left:6px">⏳ Startlist pending</span>`)
+    ? (_slSt === 'complete'
+      ? `<span style="font-size:.72rem;background:rgba(45,211,111,.12);color:#2dd36f;border:1px solid rgba(45,211,111,.35);border-radius:12px;padding:2px 8px;font-weight:700;margin-left:6px">✅ Startlist complete · ${slCount} riders</span>`
+      : _slSt === 'partial'
+      ? `<span style="font-size:.72rem;background:rgba(234,179,8,.12);color:#eab308;border:1px solid rgba(234,179,8,.35);border-radius:12px;padding:2px 8px;font-weight:700;margin-left:6px">⚠️ ${slCount} of ~${slExpected(race)} riders confirmed</span>`
+      : `<span style="font-size:.72rem;background:rgba(255,165,0,.1);color:#f97316;border:1px solid rgba(255,165,0,.3);border-radius:12px;padding:2px 8px;font-weight:700;margin-left:6px">⏳ Startlist TBA</span>`)
     : '';
 
   if (upcoming) {
@@ -2153,7 +2171,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v37';
+const APP_VERSION = 'v38';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2858,10 +2876,14 @@ function renderFantasySetup(){
   const _srl=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_srk);
   const _srLabel=_srl?_srl.name:'Select a race above';
   const _slCount=(_srl&&_srl.startlist)?_srl.startlist.length:0;
+  const _slStat=_srl?slStatus(_srl):'none';
+  const _slExp=_srl?slExpected(_srl):0;
   const _slBanner=_srk
-    ?(_slCount
-      ?'<div style="margin-bottom:12px;padding:10px 14px;background:rgba(67,97,238,.1);border:1px solid rgba(67,97,238,.3);border-radius:8px;font-size:.82rem;color:var(--upcoming)">👥 Picking from the official startlist · <strong>'+_slCount+' riders</strong></div>'
-      :'<div style="margin-bottom:12px;padding:10px 14px;background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.3);border-radius:8px;font-size:.82rem;color:#f97316">⏳ <strong>Startlist not yet published.</strong> You can pick from the full WorldTour roster — your team will be scored against the actual race startlist once available. Run <code>py scraper.py --startlists-only</code> to check for updates.</div>'
+    ?(_slStat==='complete'
+      ?'<div style="margin-bottom:12px;padding:10px 14px;background:rgba(45,211,111,.1);border:1px solid rgba(45,211,111,.3);border-radius:8px;font-size:.82rem;color:#2dd36f">✅ <strong>Startlist confirmed — '+_slCount+' riders.</strong> You are picking from the full official squad.</div>'
+      :_slStat==='partial'
+      ?'<div style="margin-bottom:12px;padding:10px 14px;background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.35);border-radius:8px;font-size:.82rem;color:#eab308">⚠️ <strong>Startlist not yet finalised.</strong> Only '+_slCount+' of ~'+_slExp+' riders confirmed so far — your choice will be limited. More riders will be added as teams announce their selections. You can still pick a team now and swap riders later.</div>'
+      :'<div style="margin-bottom:12px;padding:10px 14px;background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.3);border-radius:8px;font-size:.82rem;color:#f97316">⏳ <strong>Startlist not yet published.</strong> You can pick from the full WorldTour roster — your team will be scored against the actual race startlist once it is confirmed.</div>'
     )
     :'';
   const html = '<div style="max-width:480px;margin:0 auto;padding:16px">'
