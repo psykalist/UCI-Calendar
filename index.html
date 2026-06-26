@@ -2153,7 +2153,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v32';
+const APP_VERSION = 'v33';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2674,10 +2674,14 @@ function computePoints(riderNames,createdAt){
         if(p>0){pts+=p;breakdown.push({race:race.name,label:'GC',rank:r.rank,pts:p,rider:r.name});}
       }
     }
+    // Yellow jersey holder (GC leader) — jersey bonuses don't stack with Yellow
+    const yellowNorm=normName(((cl.gc||[])[0]||{}).name||'');
     const sp=(cl.points||[])[0];
-    if(sp&&myNorm.has(normName(sp.name))){pts+=JERSEY_PTS;breakdown.push({race:race.name,label:'Sprint Jersey',rank:1,pts:JERSEY_PTS,rider:sp.name});}
+    if(sp&&myNorm.has(normName(sp.name))&&normName(sp.name)!==yellowNorm){pts+=JERSEY_PTS;breakdown.push({race:race.name,label:'Points Jersey 🟢',rank:1,pts:JERSEY_PTS,rider:sp.name});}
     const km=(cl.mountain||[])[0];
-    if(km&&myNorm.has(normName(km.name))){pts+=JERSEY_PTS;breakdown.push({race:race.name,label:'KOM Jersey',rank:1,pts:JERSEY_PTS,rider:km.name});}
+    if(km&&myNorm.has(normName(km.name))&&normName(km.name)!==yellowNorm){pts+=JERSEY_PTS;breakdown.push({race:race.name,label:'KOM Jersey 🔴',rank:1,pts:JERSEY_PTS,rider:km.name});}
+    const yu=(cl.youth||[])[0];
+    if(yu&&myNorm.has(normName(yu.name))&&normName(yu.name)!==yellowNorm){pts+=JERSEY_PTS;breakdown.push({race:race.name,label:'Youth Jersey ⚪',rank:1,pts:JERSEY_PTS,rider:yu.name});}
   }
   return{total:pts,breakdown};
 }
@@ -2765,7 +2769,7 @@ function renderHowToPlay(){
       +'<div style="display:flex;gap:12px;margin-bottom:14px;padding-top:4px">'
         +'<span style="font-size:1.3rem;flex-shrink:0">1&#65039;&#8419;</span>'
         +'<div><div style="font-weight:700;font-size:.9rem;margin-bottom:2px">Everyone creates their own team</div>'
-        +'<div style="font-size:.82rem;color:var(--muted)">Pick 9 riders on your own phone or computer. Set a 4-digit PIN to protect your team. Points count from your creation date onwards.</div></div>'
+        +'<div style="font-size:.82rem;color:var(--muted)">Pick your squad — 8 riders for Grand Tours (e.g. Tour de France), 7 for all other races. Set a 4-digit PIN to protect your team. Points count from your creation date onwards.</div></div>'
       +'</div>'
       +'<div style="display:flex;gap:12px;margin-bottom:14px">'
         +'<span style="font-size:1.3rem;flex-shrink:0">2&#65039;&#8419;</span>'
@@ -2791,7 +2795,8 @@ function renderHowToPlay(){
   +'</details>';
 }
 
-function renderRulesCard(){
+function renderRulesCard(ms){
+  ms=ms||maxSquad();
   return '<details style="background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden">'
     +'<summary style="padding:12px 14px;font-size:.82rem;font-weight:700;color:var(--muted);cursor:pointer;letter-spacing:.8px;text-transform:uppercase;list-style:none;display:flex;justify-content:space-between;align-items:center">📋 Rules &amp; Scoring <span style="font-size:.9rem">▾</span></summary>'
     +'<div style="padding:0 14px 14px">'
@@ -2802,7 +2807,7 @@ function renderRulesCard(){
           +'<div style="font-size:.72rem;color:var(--muted);margin-top:2px">CREDIT BUDGET</div>'
         +'</div>'
         +'<div style="background:var(--surface2);border-radius:8px;padding:10px;text-align:center">'
-          +'<div style="font-size:1.4rem;font-weight:800;color:var(--text)">9</div>'
+          +'<div style="font-size:1.4rem;font-weight:800;color:var(--text)">'+ms+'</div>'
           +'<div style="font-size:.72rem;color:var(--muted);margin-top:2px">SQUAD SIZE</div>'
         +'</div>'
         +'<div style="background:var(--surface2);border-radius:8px;padding:10px;text-align:center">'
@@ -2834,7 +2839,7 @@ function renderRulesCard(){
         +'<div style="display:flex;justify-content:space-between;padding:5px 8px">'
           +'<span style="color:var(--muted)">GC P4–10</span><span style="color:var(--muted)">8 pts each</span></div>'
         +'<div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--surface2);border-radius:5px">'
-          +'<span>Sprint / KOM / Youth jersey</span><span style="font-weight:700;color:var(--gold)">15 pts</span></div>'
+          +'<span>Points / KOM jersey (not if Yellow)</span><span style="font-weight:700;color:var(--gold)">15 pts</span></div>'+'<div style="display:flex;justify-content:space-between;padding:5px 8px">'+'<span style="color:var(--muted)">Youth jersey (not if Yellow)</span><span style="color:var(--muted)">15 pts</span></div>'
       +'</div>'
     +'</div>'
   +'</details>';
