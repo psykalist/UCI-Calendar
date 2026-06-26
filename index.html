@@ -1798,9 +1798,9 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
 async function addIClaudiusToLeague(){
   const rk=fantasyGetRace();
   const bt=await loadBestTeams();
-  if(!bt||!bt.races){alert('I Claudius isn't ready yet — the team is built once the full startlist is confirmed.');return;}
+  if(!bt||!bt.races){alert("I Claudius isn't ready yet — the team is built once the full startlist is confirmed.");return;}
   const raceEntry=bt.races[rk];
-  if(!raceEntry||!raceEntry.teams){alert('I Claudius isn't available yet — the team will be ready once all riders are confirmed.');return;}
+  if(!raceEntry||!raceEntry.teams){alert("I Claudius isn't available yet — the team will be ready once all riders are confirmed.");return;}
   const tier=autoTierLoad();
   const team=raceEntry.teams[tier]||raceEntry.teams.elite;
   const tierLabel={easy:'Easy',pro:'Pro',elite:'Elite'}[tier]||'Elite';
@@ -2171,7 +2171,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v39';
+const APP_VERSION = 'v40';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
