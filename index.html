@@ -1791,7 +1791,7 @@ async function openRiderModal(slug) {
   const name     = (profile || baseInfo || {}).name || slug.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
   const nat      = ((profile || baseInfo || {}).nat || '').toLowerCase();
   const natName  = (profile || {}).nat_name || nat.toUpperCase();
-  const photo    = (profile || {}).photo;
+  const photo    = (profile || {}).photo || (baseInfo || {}).photo || getRiderPhoto(slug);
   const dob      = (profile || {}).dob;
   const wins     = (profile || {}).wins || [];
   const teamHistory = (profile || {}).team_history || [];
