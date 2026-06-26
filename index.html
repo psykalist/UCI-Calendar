@@ -1715,7 +1715,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
           <div style="font-size:.72rem;color:var(--muted)">AI-picked fantasy opponent</div>
         </div>
       </div>
-      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted)">Auto-teams not generated yet — run <code>py generate_best_teams.py</code> locally or trigger the CI workflow.</div>
+      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted)">I Claudius teams are generated automatically after each race update — no Python or setup needed. Check back once the race has a startlist.</div>
     </div>`;
   }
 
@@ -1780,7 +1780,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
 async function addIClaudiusToLeague(){
   const rk=fantasyGetRace();
   const bt=await loadBestTeams();
-  if(!bt||!bt.races){alert('I Claudius data not available — run generate_best_teams.py first.');return;}
+  if(!bt||!bt.races){alert('I Claudius data not available yet — teams are generated automatically after each race update. Try again shortly.');return;}
   const raceEntry=bt.races[rk];
   if(!raceEntry||!raceEntry.teams){alert('No I Claudius team for this race — a startlist is needed.');return;}
   const tier=autoTierLoad();
@@ -2153,7 +2153,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v36';
+const APP_VERSION = 'v37';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3120,9 +3120,9 @@ function renderMySquad(team,total,breakdown){
       +'<button onclick="fDeleteTeam()" style="padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--live);font-size:.85rem;cursor:pointer">🗑</button>'
     +'</div>'
     +(localStorage.getItem('uci_subscribers_dirty')?
-      '<button onclick="exportSubscribers()" style="width:100%;margin-top:8px;padding:11px;background:rgba(67,97,238,.18);border:1px solid var(--upcoming);border-radius:8px;color:var(--upcoming);font-size:.85rem;font-weight:700;cursor:pointer">📧 Save subscribers.json — needed for email notifications</button>'
+      '<button onclick="exportSubscribers()" style="width:100%;margin-top:8px;padding:11px;background:rgba(67,97,238,.18);border:1px solid var(--upcoming);border-radius:8px;color:var(--upcoming);font-size:.85rem;font-weight:700;cursor:pointer">📧 Update race notification list</button>'
     :
-      '<button onclick="exportSubscribers()" style="width:100%;margin-top:8px;padding:9px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.8rem;cursor:pointer">📧 Export subscriber list</button>'
+      '<button onclick="exportSubscribers()" style="width:100%;margin-top:8px;padding:9px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.8rem;cursor:pointer">📧 Manage race notifications</button>'
     )
   +'</div>';
 }
@@ -3390,7 +3390,7 @@ function exportSubscribers(){
   addTeam(fantasyLoad(),'own');
   for(const t of leagueLoad()) addTeam(t,'imported');
   if(!all.length){
-    alert('No subscribers yet — team owners need to enter an email when creating their team.');
+    alert('No emails saved yet — team owners need to add an email when creating their team.');
     return;
   }
   const json=JSON.stringify(all,null,2);
@@ -3403,7 +3403,7 @@ function exportSubscribers(){
       await w.write(json);
       await w.close();
       localStorage.removeItem('uci_subscribers_dirty');
-      alert('✅ subscribers.json saved — the scraper will use it for email notifications.');
+      alert('✅ Notification list saved — your friends will receive race alerts.');
       renderFantasy();
     }).catch(()=>{});
     return;
@@ -3417,7 +3417,7 @@ function exportSubscribers(){
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   localStorage.removeItem('uci_subscribers_dirty');
-  alert('✅ Downloaded — move subscribers.json to the UCI Calendar & Results folder so the scraper can find it.');
+  alert('✅ Downloaded — save this file to your UCI Calendar folder to enable race alerts.');
   renderFantasy();
 }
 
