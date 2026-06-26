@@ -1719,21 +1719,21 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
 
   const challengeBtn = alreadyAdded
     ? `<div style="display:flex;gap:8px;margin-top:10px">
-        <div style="flex:1;padding:9px 12px;border-radius:8px;background:rgba(124,58,237,.12);border:1px solid #7c3aed;color:#a78bfa;font-size:.8rem;font-weight:700;text-align:center">⚔️ I Claudius is in your league</div>
-        <button onclick="removeIClaudius()" style="padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.78rem;font-weight:600;cursor:pointer" title="Remove I Claudius from league">✕ Remove</button>
+        <div style="flex:1;padding:9px 12px;border-radius:8px;background:rgba(124,58,237,.12);border:1px solid #7c3aed;color:#a78bfa;font-size:.8rem;font-weight:700;text-align:center">🏛️ Team Claudius is in your league</div>
+        <button onclick="removeIClaudius()" style="padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.78rem;font-weight:600;cursor:pointer" title="Remove Team Claudius from league">✕ Remove Team Claudius</button>
       </div>`
-    : `<button onclick="addIClaudiusToLeague()" style="width:100%;margin-top:10px;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:.88rem;font-weight:700;cursor:pointer;letter-spacing:.3px">⚔️ Challenge I Claudius</button>`;
+    : `<button onclick="addIClaudiusToLeague()" style="width:100%;margin-top:10px;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:.88rem;font-weight:700;cursor:pointer;letter-spacing:.3px">⚔️ Challenge Team Claudius</button>`;
 
   if (!bt) {
     return `<div id="auto-team-panel" style="max-width:480px;margin:0 auto 24px;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid #7c3aed33">
       <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
         <span style="font-size:1.4rem">🏛️</span>
         <div>
-          <div style="font-weight:800;font-size:.95rem;color:#a78bfa">I Claudius</div>
+          <div style="font-weight:800;font-size:.95rem;color:#a78bfa">Team Claudius</div>
           <div style="font-size:.72rem;color:var(--muted)">AI-picked fantasy opponent</div>
         </div>
       </div>
-      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted)">I Claudius is available once the full startlist is confirmed for this race.</div>
+      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted)">Team Claudius will be auto-built once the full startlist is confirmed.</div>
     </div>`;
   }
 
@@ -1743,12 +1743,12 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
       <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
         <span style="font-size:1.4rem">🏛️</span>
         <div style="flex:1">
-          <div style="font-weight:800;font-size:.95rem;color:#a78bfa">I Claudius</div>
+          <div style="font-weight:800;font-size:.95rem;color:#a78bfa">Team Claudius</div>
           <div style="font-size:.72rem;color:var(--muted)">AI-picked fantasy opponent</div>
         </div>
         <div style="display:flex;gap:6px">${tierBtns}</div>
       </div>
-      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted);text-align:center">I Claudius hasn't been built yet — the team is locked in once all riders for this race are confirmed.</div>
+      <div style="padding:14px 16px;font-size:.82rem;color:var(--muted);text-align:center">Team Claudius is auto-built once all riders for this race are confirmed.</div>
     </div>`;
   }
 
@@ -1760,7 +1760,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
   let comparison = '';
   if (myTotal > 0 || autoScore > 0) {
     if (diff > 0)      comparison = `<span style="color:var(--live);font-weight:700">You lead by ${diff} pts 🏆</span>`;
-    else if (diff < 0) comparison = `<span style="color:#ef4444;font-weight:700">I Claudius leads by ${Math.abs(diff)} pts</span>`;
+    else if (diff < 0) comparison = `<span style="color:#ef4444;font-weight:700">Team Claudius leads by ${Math.abs(diff)} pts</span>`;
     else               comparison = `<span style="color:var(--muted);font-weight:700">Level — ${myTotal} pts each</span>`;
   }
 
@@ -1779,7 +1779,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span style="font-size:1.4rem">🏛️</span>
         <div style="flex:1">
-          <div style="font-weight:800;font-size:.95rem;color:#a78bfa">I Claudius</div>
+          <div style="font-weight:800;font-size:.95rem;color:#a78bfa">Team Claudius</div>
           <div style="font-size:.72rem;color:var(--muted)">Statistically optimal AI team</div>
         </div>
         <div style="display:flex;gap:6px">${tierBtns}</div>
@@ -1798,13 +1798,13 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
 async function addIClaudiusToLeague(){
   const rk=fantasyGetRace();
   const bt=await loadBestTeams();
-  if(!bt||!bt.races){alert("I Claudius isn't ready yet — the team is built once the full startlist is confirmed.");return;}
+  if(!bt||!bt.races){alert("Team Claudius isn't ready yet — it's built once the full startlist is confirmed.");return;}
   const raceEntry=bt.races[rk];
-  if(!raceEntry||!raceEntry.teams){alert("I Claudius isn't available yet — the team will be ready once all riders are confirmed.");return;}
+  if(!raceEntry||!raceEntry.teams){alert("Team Claudius isn't available for this race yet.");return;}
   const tier=autoTierLoad();
   const team=raceEntry.teams[tier]||raceEntry.teams.elite;
   const tierLabel={easy:'Easy',pro:'Pro',elite:'Elite'}[tier]||'Elite';
-  iClaudiusSet(rk,{name:'I Claudius',owner:'🤖 AI · '+tierLabel+' tier',riders:team.riders,created_at:new Date().toISOString(),isIClaudius:true,tier,total_cost:team.total_cost});
+  iClaudiusSet(rk,{name:'Team Claudius',owner:'🤖 AI · '+tierLabel+' tier',riders:team.riders,created_at:new Date().toISOString(),isIClaudius:true,tier,total_cost:team.total_cost});
   renderFantasy();
 }
 
@@ -1815,6 +1815,23 @@ function removeIClaudius(){
 
 async function loadAndRenderAutoTeam(raceKey, myTotal) {
   const bt = await loadBestTeams();
+  // Auto-generate Team Claudius when startlist is complete and not yet built
+  if (bt && bt.races && bt.races[raceKey] && !iClaudiusGet(raceKey)) {
+    const allRaces = [...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])];
+    const race = allRaces.find(r => _raceKey(r) === raceKey);
+    if (race && slStatus(race) === 'complete') {
+      const raceEntry = bt.races[raceKey];
+      if (raceEntry && raceEntry.teams) {
+        const tier = autoTierLoad();
+        const team = raceEntry.teams[tier] || raceEntry.teams.elite;
+        const tierLabel = {easy:'Easy',pro:'Pro',elite:'Elite'}[tier] || 'Elite';
+        iClaudiusSet(raceKey, {name:'Team Claudius',owner:'🤖 AI · '+tierLabel+' tier',riders:team.riders,
+          created_at:new Date().toISOString(),isIClaudius:true,tier,total_cost:team.total_cost});
+        renderFantasy();
+        return;
+      }
+    }
+  }
   const panel = document.getElementById('auto-team-panel');
   if (panel) panel.outerHTML = renderAutoTeamPanel(bt, raceKey, myTotal);
 }
@@ -2171,7 +2188,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v40';
+const APP_VERSION = 'v41';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2605,6 +2622,8 @@ function fantasySave(t){const d=fantasyLoadAll(),k=fantasyGetRace();if(k){d[k]=t
 function fantasyDelete(){const d=fantasyLoadAll(),k=fantasyGetRace();if(k){delete d[k];fantasySaveAll(d);}}
 function leagueLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_LEAGUE_KEY)||'[]');}catch(e){return[];}}
 function leagueSave(l){localStorage.setItem(FANTASY_LEAGUE_KEY,JSON.stringify(l));}
+function leagueAdd(t){const l=leagueLoad();l.push(t);leagueSave(l);}
+function leagueRemove(i){const l=leagueLoad();l.splice(i,1);leagueSave(l);renderFantasy();}
 function watchLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_WATCH_KEY)||'[]');}catch(e){return[];}}
 function draftLoad(){try{return JSON.parse(localStorage.getItem(FANTASY_DRAFT_KEY)||'null');}catch(e){return null;}}
 function draftSave(d){localStorage.setItem(FANTASY_DRAFT_KEY,JSON.stringify(d));}
@@ -2751,7 +2770,7 @@ function renderFantasy(){
   const _arl=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_ark);
   const _raceBanner=_arl?'<div style="font-size:.82rem;font-weight:700;color:var(--accent);margin-bottom:12px">🏁 '+esc(_arl.name)+'</div>':'';
   const _icTeam=iClaudiusGet(_ark);
-  const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at).total})),...(_icTeam?[{..._icTeam,points:computePoints((_icTeam.riders||[]).map(r=>r.name),_icTeam.created_at).total,isIClaudius:true}]:[])];
+  const allTeams=[{...myTeam,points:total,isMine:true},...league.map((t,i)=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at).total,leagueIdx:i})),...(_icTeam?[{..._icTeam,points:computePoints((_icTeam.riders||[]).map(r=>r.name),_icTeam.created_at).total,isIClaudius:true}]:[])];
   allTeams.sort((a,b)=>b.points-a.points);
   el.innerHTML='<div style="max-width:480px;margin:0 auto;padding:16px">'
     +renderHowToPlay()
@@ -2759,7 +2778,7 @@ function renderFantasy(){
     +renderRaceSelector()
     +'</div>'
     // Auto-team placeholder (replaced async once best_teams.json loads)
-    +'<div id="auto-team-panel" style="max-width:480px;margin:0 auto 24px;padding:20px;text-align:center;color:var(--muted);font-size:.82rem">⏳ Summoning I Claudius…</div>'
+    +'<div id="auto-team-panel" style="max-width:480px;margin:0 auto 24px;padding:20px;text-align:center;color:var(--muted);font-size:.82rem">⏳ Building Team Claudius…</div>'
     +renderLeagueTable(allTeams)+renderMySquad(myTeam,total,breakdown)+renderWatchlist(watchLoad());
   // Load auto-team async (non-blocking)
   loadAndRenderAutoTeam(_ark, total).catch(()=>{});
@@ -3234,15 +3253,22 @@ function renderLeagueTable(teams){
           :'<span style="font-size:.78rem;color:var(--live);font-weight:600">−'+(leaderPts-t.points)+' pts</span>';
         const created=t.created_at?'<span style="font-size:.7rem;color:var(--muted)"> · From '+fmtDate(t.created_at)+'</span>':'';
         const isIC=t.isIClaudius;
+        const canDelete = !t.isMine && !isIC && t.leagueIdx !== undefined;
+        const deleteBtn = canDelete
+          ? '<button onclick="leagueRemove('+t.leagueIdx+')" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.72rem;cursor:pointer;margin-left:4px" title="Remove from league">✕</button>'
+          : '';
         return '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;'+(t.isMine?'background:rgba(67,97,238,.1)':isIC?'background:rgba(124,58,237,.07)':'')+'">'
           +'<span style="font-size:1.1rem;min-width:26px">'+(isIC?'🏛️':(medals[i]||(i+1)))+'</span>'
           +'<div style="flex:1;min-width:0">'
             +'<div style="font-weight:600;font-size:.92rem">'+esc(t.name)+(t.isMine?' <span style="font-size:.68rem;background:var(--upcoming);color:#fff;padding:1px 6px;border-radius:10px">YOU</span>':isIC?' <span style="font-size:.68rem;background:#7c3aed;color:#fff;padding:1px 6px;border-radius:10px">AI</span>':'')+' </div>'
             +'<div style="font-size:.76rem;color:var(--muted)">'+esc(t.owner)+created+'</div>'
           +'</div>'
-          +'<div style="text-align:right">'
-            +'<div style="font-size:1.2rem;font-weight:800;color:var(--gold)">'+t.points+'</div>'
-            +'<div style="margin-top:1px">'+gap+'</div>'
+          +'<div style="text-align:right;display:flex;align-items:center;gap:4px">'
+            +'<div>'
+              +'<div style="font-size:1.2rem;font-weight:800;color:var(--gold)">'+t.points+'</div>'
+              +'<div style="margin-top:1px">'+gap+'</div>'
+            +'</div>'
+            +deleteBtn
           +'</div>'
         +'</div>';
       }).join('')
@@ -3353,12 +3379,20 @@ function fDoImport(code){
   try{
     const raw=JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
     if(!raw||!Array.isArray(raw.riders)||!raw.riders.length) throw new Error('bad');
-    // Save as own team (own device) — strips pin so user sets their own
+    // Validate squad size — hard cap 8 riders max
+    if(raw.riders.length>8){
+      alert('❌ This team has '+raw.riders.length+' riders — max allowed is 8. Import rejected.');return;
+    }
+    // Validate budget using current rider pricing
+    const cost=squadCost(raw.riders);
+    if(cost>FANTASY_BUDGET){
+      alert('❌ This team costs '+cost+' credits (budget is '+FANTASY_BUDGET+'). Import rejected.');return;
+    }
     const t={name:raw.name||'Imported Team',owner:raw.owner||'',riders:raw.riders,
-      created_at:raw.created_at||new Date().toISOString()};
-    fantasySave(t);
+      created_at:raw.created_at||new Date().toISOString(),total_cost:cost};
+    leagueAdd(t);
     renderFantasy();
-    alert('✅ Team imported: '+t.name+' ('+t.riders.length+' riders)');
+    alert('✅ '+t.name+' added to your league ('+t.riders.length+' riders, '+cost+' credits)');
   }catch(e){alert('❌ Invalid code — check you pasted it correctly.');}
 }
 
