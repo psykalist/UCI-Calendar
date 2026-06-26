@@ -2415,7 +2415,7 @@ async function renderFollowing() {
 
   const cards = list.map(f => {
     const p = cached[f.slug] || {};
-    const photo = p.photo
+    const photo = p.photo || getRiderPhoto(f.slug)
       ? `<img class="following-card-photo" src="${esc(p.photo)}" loading="lazy" onerror="this.style.display='none'">`
       : `<div class="following-card-photo-ph">🚴</div>`;
     const nat = f.nat || p.nat || '';
