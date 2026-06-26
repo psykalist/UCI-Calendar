@@ -2729,12 +2729,12 @@ function renderFantasy(){
   }
   const{total,breakdown}=computePoints(myTeam.riders.map(r=>r.name),myTeam.created_at);
   const league=leagueLoad();
-  const _icTeam=iClaudiusGet(_ark);
-  const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at).total})),...(_icTeam?[{..._icTeam,points:computePoints((_icTeam.riders||[]).map(r=>r.name),_icTeam.created_at).total,isIClaudius:true}]:[])];
-  allTeams.sort((a,b)=>b.points-a.points);
   const _ark=fantasyGetRace();
   const _arl=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_ark);
   const _raceBanner=_arl?'<div style="font-size:.82rem;font-weight:700;color:var(--accent);margin-bottom:12px">🏁 '+esc(_arl.name)+'</div>':'';
+  const _icTeam=iClaudiusGet(_ark);
+  const allTeams=[{...myTeam,points:total,isMine:true},...league.map(t=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at).total})),...(_icTeam?[{..._icTeam,points:computePoints((_icTeam.riders||[]).map(r=>r.name),_icTeam.created_at).total,isIClaudius:true}]:[])];
+  allTeams.sort((a,b)=>b.points-a.points);
   el.innerHTML='<div style="max-width:480px;margin:0 auto;padding:16px">'
     +renderHowToPlay()
     +renderRulesCard()
@@ -2933,12 +2933,14 @@ function fSearchRiders(q){
   el.innerHTML=matches.map(r=>{
     const c=riderCost(r.name);
     const canAfford=c<=remaining&&_fPicked.length<maxSquad();
+    const overBudget=c>remaining&&_fPicked.length<maxSquad();
     const restrictedBadge=r.restricted?'<span style="font-size:.68rem;font-weight:700;color:#f97316;background:rgba(249,115,22,.15);border-radius:3px;padding:1px 5px;flex-shrink:0">DNS?</span>':'';
+    const budgetBadge=overBudget?'<span style="font-size:.68rem;font-weight:700;color:#ef4444;background:rgba(239,68,68,.12);border-radius:3px;padding:1px 5px;flex-shrink:0">💰over</span>':'';
     const infoBtn=r.slug?'<button onclick="event.stopPropagation();openRiderModal(\''+esc(r.slug)+'\')" style="background:none;border:none;cursor:pointer;font-size:.9rem;padding:0 2px;opacity:.6;flex-shrink:0" title="View profile">ℹ️</button>':'';
-    return '<div data-pick="'+esc(r.name)+'" style="padding:9px 12px;cursor:'+(canAfford?'pointer':'default')+';display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:background .15s;opacity:'+(canAfford?'1':'.45')+'" onmouseenter="if('+(canAfford?'true':'false')+')this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
+    return '<div '+(canAfford?'data-pick="'+esc(r.name)+'"':'data-pick-disabled="1"') style="padding:9px 12px;cursor:'+(canAfford?'pointer':'default')+';display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:background .15s;opacity:'+(canAfford?'1':'.45')+'" onmouseenter="if('+(canAfford?'true':'false')+')this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
       +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
       +'<span style="flex:1;font-size:.9rem">'+esc(r.name)+'</span>'
-      +restrictedBadge
+      +restrictedBadge+budgetBadge
       +'<span style="font-size:.75rem;color:var(--muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.teamName||'')+'</span>'
       +costBadge(r.name)
       +infoBtn
