@@ -46,7 +46,7 @@ GIT_INDEX_LOCK  = os.path.join(BASE, ".git", "index.lock")
 GIT_HEAD_LOCK   = os.path.join(BASE, ".git", "HEAD.lock")
 
 LOG_MAX_LINES   = 1000
-LOCK_STALE_SECS = 300       # lock files older than 5 min are stale
+LOCK_STALE_SECS = 30        # lock files older than 30 sec are stale
 DATA_WARN_HOURS = 26        # warn if data older than this
 DATA_ERROR_HOURS = 72       # error if data older than this
 SPECIALTY_WARN_PCT = 80     # warn if fewer than this % of riders have specialties
@@ -335,9 +335,16 @@ def check_index_html():
 
 def check_git_sync():
     """Warn if local branch is behind origin/main."""
-    r = run(["git", "fetch", "--dry-run", "origin", "main"])
-    # A real check: compare HEAD vs origin/main
-    r2 = run(["git", "rev-list", "--count", "HEAD..origin/main"])
+    # Clear any stale lock files before running git commands to avoid collisions
+    # with other processes (sandbox commits, scheduled scrapers, etc.)
+    for lf in [GIT_HEAD_LOCK, GIT_INDEX_LOCK]:
+        if os.path.exists(lf):
+            try:
+                os.remove(lf)
+                log(f"Cleared {os.path.basename(lf)} before git sync check", "REPAIR")
+            except Exception as e:
+                log(f"Could not clear {os.path.basename(lf)}: {e}", "WARN")
+    # Use rev-list only (no fetch) to avoid creating new lock files
     if r2.returncode == 0:
         behind = int(r2.stdout.strip() or "0")
         _info["git_behind"] = behind

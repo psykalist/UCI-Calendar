@@ -18,7 +18,7 @@ UCI Calendar & Results — a single-file PWA (`index.html`) deployed on GitHub P
 
 ### 1. Use Bash for git — do not ask the user to run git add/commit
 
-After every change to `index.html` (or any project file):
+After every change to `index.html` (or any project file), run from the sandbox:
 
 ```bash
 cd "/sessions/gifted-keen-rubin/mnt/UCI Calendar & Results"
@@ -26,8 +26,22 @@ git add index.html          # add other changed files too if needed
 git commit -m "vNN: description"
 ```
 
-Then tell the user: **`git push`** — that is the only command they need to run.
+Then tell the user to run **one of these** — both handle HEAD.lock automatically:
+
+```bash
+# Option A — Git Bash (simple)
+bash git-push.sh "vNN: description"
+
+# Option B — manual
+rm -f .git/HEAD.lock .git/index.lock
+git push
+```
+
 Claude cannot run `git push` (no credentials in sandbox), but must run add + commit.
+
+**HEAD.lock collisions:** heal.py runs every 5 min and can leave lock files.
+The fix is already in heal.py (clears locks before git ops, 30s stale threshold).
+If a commit still fails with HEAD.lock, tell the user to run `bash git-push.sh`.
 
 ### 2. Bump APP_VERSION on every change
 
