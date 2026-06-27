@@ -1953,7 +1953,7 @@ async function openRiderModal(slug) {
   // Season results (current year)
   const seasonResults = (profile || {}).season_results || [];
   const currentYear = new Date().getFullYear();
-  const srFiltered = seasonResults.filter(r => (r.pcs_points > 0 || r.uci_points > 0) && (r.date||'').startsWith(String(currentYear)));
+  const srFiltered = seasonResults.filter(r => r.pcs_points > 0 || r.uci_points > 0);
   const seasonHTML = srFiltered.length
     ? `<div class="season-results-list">
         <div class="season-results-header">
@@ -1984,7 +1984,7 @@ async function openRiderModal(slug) {
     <div class="rider-tabs">
       <button class="rider-tab active" onclick="switchRiderTab(this,'tab-palmares')">🏆 Palmares (${wins.length})</button>
       <button class="rider-tab" onclick="switchRiderTab(this,'tab-teams')">👕 Teams</button>
-      <button class="rider-tab" onclick="switchRiderTab(this,'tab-season')">${currentYear} Results</button>
+      <button class="rider-tab" onclick="switchRiderTab(this,'tab-season')">Career Results</button>
     </div>
     <div id="tab-palmares" class="rider-tab-panel active">${winsHTML}</div>
     <div id="tab-teams"    class="rider-tab-panel" style="display:none">${teamHistHTML}</div>
