@@ -1957,12 +1957,13 @@ async function openRiderModal(slug) {
   const seasonHTML = srFiltered.length
     ? `<div class="season-results-list">
         <div class="season-results-header">
-          <span>Year</span><span>Race / Stage</span><span>Pos</span><span>UCI</span>
+          <span>Date</span><span>Race / Stage</span><span>Pos</span><span>PCS</span><span>UCI</span>
         </div>
         ${srFiltered.map(r => `<div class="season-result-row">
-          <span class="sr-date">${esc((r.date||'').substring(0,4))}</span>
+          <span class="sr-date">${esc((r.date||'').substring(5).replace('-','.'))}</span>
           <span class="sr-race">${esc(r.race||'')}</span>
           <span class="sr-pos">${r.stage_pos != null ? r.stage_pos : ''}</span>
+          <span class="sr-pts">${r.pcs_points||''}</span>
           <span class="sr-pts">${r.uci_points||''}</span>
         </div>`).join('')}
       </div>`
@@ -2190,7 +2191,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v49';
+const APP_VERSION = 'v47';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
