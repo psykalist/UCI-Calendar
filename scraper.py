@@ -2073,4 +2073,5 @@ if __name__ == "__main__":
         main_teams_only()
     elif "--startlists-only" in sys.argv:
         main_startlists_only()
-    
+    else:
+        main()
