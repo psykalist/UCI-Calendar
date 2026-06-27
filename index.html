@@ -1856,8 +1856,10 @@ let pcsEnrichmentData = null;
 async function loadPcsEnrichment() {
   if (pcsEnrichmentData) return pcsEnrichmentData;
   try {
-    const r = await fetch('./pcs_enrichment.json', {cache: 'no-cache'});
-    if (r.ok) pcsEnrichmentData = await r.json();
+    const timeout = new Promise(res => setTimeout(() => res(null), 3000));
+    const fetched = fetch('./pcs_enrichment.json').then(r => r.ok ? r.json() : null).catch(() => null);
+    const result = await Promise.race([fetched, timeout]);
+    if (result) pcsEnrichmentData = result;
   } catch(e) {}
   return pcsEnrichmentData || {};
 }
