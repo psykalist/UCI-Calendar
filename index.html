@@ -2013,25 +2013,6 @@ let statsData   = null;
 let statsCurCat = 'riders';
 let statsOpenId = null;
 
-const HIDDEN_STATS = new Set([
-  'riders/family-stats',
-  'riders/hometown-winners',
-  'riders/injuries',
-  'riders/season-injuries',
-  'riders/most-dnf',
-  'riders/nationality-changes',
-  'riders/not-returned',
-  'riders/oldest-riders',
-  'riders/recently-passed-away',
-  'riders/age-first-win',
-  'riders/born-on-date',
-  'riders/last-season-best',
-  'riders/longest-no-dnf',
-  'riders/most-competed-one-race',
-  'riders/most-races-started',
-  'riders/youngest-winners',
-]);
-
 const STAT_CATS = [
   ['riders',      'Riders'],
   ['grandtours',  'Grand Tours'],
@@ -2081,7 +2062,7 @@ function renderStats() {
   }</div>`;
 
   const entries = Object.entries(stats)
-    .filter(([id, s]) => s.category === statsCurCat && s.row_count > 0 && !HIDDEN_STATS.has(id))
+    .filter(([, s]) => s.category === statsCurCat && s.row_count > 0)
     .sort((a, b) => a[1].label.localeCompare(b[1].label));
 
   const cards = entries.map(([id, s]) => {
@@ -2111,7 +2092,7 @@ function setStatCat(cat) {
   // Auto-open the first card in the new category
   const stats = (statsData || {}).stats || {};
   const first = Object.entries(stats)
-    .filter(([id, s]) => s.category === cat && s.row_count > 0 && !HIDDEN_STATS.has(id))
+    .filter(([, s]) => s.category === cat && s.row_count > 0)
     .sort((a, b) => a[1].label.localeCompare(b[1].label))[0];
   if (first) statsOpenId = first[0];
   renderStats();
@@ -2207,7 +2188,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v42';
+const APP_VERSION = 'v43';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
