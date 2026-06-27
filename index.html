@@ -1886,9 +1886,12 @@ async function openRiderModal(slug) {
   const photo    = (profile || {}).photo || (baseInfo || {}).photo || getRiderPhoto(slug);
   const dob        = enrich.dob || (profile || {}).dob;
   const birthplace = enrich.birthplace || null;
+<<<<<<< HEAD
   const pcsRanking = enrich.pcs_ranking || null;
   const grandTours = enrich.grand_tours != null ? enrich.grand_tours : null;
   const classics   = enrich.classics   != null ? enrich.classics   : null;
+=======
+>>>>>>> b85a308 (v52: rider modal — DOB/birthplace from enrichment; remove PCS col; full dates; conditional UCI; fix team history msg; bump sw.js cache to v52)
   const wins     = (profile || {}).wins || [];
   const teamHistory = (profile || {}).team_history || [];
   const currentYearTeam = (teamHistory.filter(t => t.year <= new Date().getFullYear()).sort((a,b) => b.year - a.year)[0] || {}).team || '';
@@ -1909,7 +1912,11 @@ async function openRiderModal(slug) {
     const dobFmt = dob.length === 10
       ? new Date(dob + 'T00:00:00').toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
       : dob;
+<<<<<<< HEAD
     meta += (meta ? '<br>' : '') + `${esc(dobFmt)}${(!isNaN(age) && age > 0) ? ` (age ${age})` : ''}`;
+=======
+    meta += (meta ? '<br>' : '') + `${esc(dobFmt)}${(!isNaN(age) && age >= 14 && age <= 55) ? ` (age ${age})` : ''}`;
+>>>>>>> b85a308 (v52: rider modal — DOB/birthplace from enrichment; remove PCS col; full dates; conditional UCI; fix team history msg; bump sw.js cache to v52)
   }
   if (weight || height) {
     const wh = [weight ? weight + 'kg' : '', height ? height + 'm' : ''].filter(Boolean).join(' · ');
@@ -1972,26 +1979,32 @@ async function openRiderModal(slug) {
           <span class="team-hist-year">${t.year}</span>
           <span class="team-hist-name">${esc(t.team)}</span>
         </div>`).join('')}</div>`
-    : `<p class="rider-modal-no-data">${profile ? 'Team history not yet fetched' : 'Profile not yet scraped'}</p>`;
+    : `<p class="rider-modal-no-data">${profile ? 'No team history recorded' : 'Profile not yet scraped'}</p>`;
 
   // Season results (current year)
   const seasonResults = (profile || {}).season_results || [];
   const currentYear = new Date().getFullYear();
   const srFiltered = seasonResults.filter(r => r.pcs_points > 0 || r.uci_points > 0);
+  const hasUci = srFiltered.some(r => (r.uci_points || 0) > 0);
   const seasonHTML = srFiltered.length
     ? `<div class="season-results-list">
         <div class="season-results-header">
-          <span>Date</span><span>Race / Stage</span><span>Pos</span><span>PCS</span><span>UCI</span>
+          <span>Date</span><span>Race / Stage</span><span>Pos</span>${hasUci ? '<span>UCI</span>' : ''}
         </div>
-        ${srFiltered.map(r => `<div class="season-result-row">
-          <span class="sr-date">${esc((r.date||'').substring(5).replace('-','.'))}</span>
+        ${srFiltered.map(r => {
+          const d = r.date || '';
+          const dateFmt = d.length >= 10
+            ? new Date(d.substring(0,10) + 'T00:00:00').toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
+            : d;
+          return `<div class="season-result-row">
+          <span class="sr-date">${esc(dateFmt)}</span>
           <span class="sr-race">${esc(r.race||'')}</span>
           <span class="sr-pos">${r.stage_pos != null ? r.stage_pos : ''}</span>
-          <span class="sr-pts">${r.pcs_points||''}</span>
-          <span class="sr-pts">${r.uci_points||''}</span>
-        </div>`).join('')}
+          ${hasUci ? `<span class="sr-pts">${(r.uci_points||0) > 0 ? r.uci_points : ''}</span>` : ''}
+        </div>`;
+        }).join('')}
       </div>`
-    : `<p class="rider-modal-no-data">${profile ? 'No points-scoring results this season' : 'Profile not yet scraped'}</p>`;
+    : `<p class="rider-modal-no-data">${profile ? 'No recorded results' : 'Profile not yet scraped'}</p>`;
 
   // Tabs: Palmares | Teams | Season
   content.innerHTML = `
@@ -2215,7 +2228,11 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
+<<<<<<< HEAD
 const APP_VERSION = 'v50';
+=======
+const APP_VERSION = 'v52';
+>>>>>>> b85a308 (v52: rider modal — DOB/birthplace from enrichment; remove PCS col; full dates; conditional UCI; fix team history msg; bump sw.js cache to v52)
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
