@@ -2185,8 +2185,11 @@ function buildStatTable(s) {
   // Header row
   const ths = cols.map(c => `<th>${esc(c.replace(/_/g,' '))}</th>`).join('');
 
+  // Filter out women's riders
+  const WOMEN_SLUGS = new Set(['marianne-vos','annemiek-van-vleuten','anna-van-der-breggen','demi-vollering','lotte-kopecky','elisa-longo-borghini','lorena-wiebes','marlen-reusser','elisa-balsamo','yara-kastelijn','mischa-bredewold','karlijn-swinkels','elise-chabbey','cedrine-kerbaol','franziska-koch','noemi-ruegg','judith-arndt','shari-bossuyt','paula-blasi','femke-de-vries','celia-gery','carys-lloyd','ally-wollaston','petra-stiasny','dominika-wlodarczyk','zoe-backstedt','deska-raya-adya']);
+  const filteredRows = rows.filter(r => !r.slug || r.type !== 'rider' || !WOMEN_SLUGS.has(r.slug));
   // Data rows (cap at 50)
-  const trs = rows.slice(0, 50).map(r => {
+  const trs = filteredRows.slice(0, 50).map(r => {
     const tds = cols.map(c => {
       let v = r[c] ?? '';
       // Rider names open in-app modal; falls back to PCS link footer inside modal
@@ -2260,7 +2263,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v56';
+const APP_VERSION = 'v57';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
