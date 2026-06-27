@@ -1887,7 +1887,30 @@ async function openRiderModal(slug) {
   const dob        = enrich.dob || (profile || {}).dob;
   const birthplace = enrich.birthplace || null;
   const wins     = (profile || {}).wins || [];
-  const teamHistory = (profile || {}).team_history || [];
+  const HISTORICAL_TEAMS = {
+    'jacques-anquetil': [
+      {year:1953,team:'C.C. Sotteville'},{year:1954,team:'La Perle-Hutchinson'},
+      {year:1955,team:'Caminade-Hutchinson-Leroux'},{year:1956,team:'La Perle-Hutchinson'},
+      {year:1957,team:'Helyett-Potin'},{year:1958,team:'Helyett-Potin'},
+      {year:1959,team:'Helyett-Potin'},{year:1960,team:'Helyett-Potin'},
+      {year:1961,team:'St Raphaël-Helyett-Hutchinson'},{year:1962,team:'St Raphaël-Helyett-Hutchinson'},
+      {year:1963,team:'St Raphaël-Helyett-Hutchinson'},{year:1964,team:'Ford-France'},
+      {year:1965,team:'Ford-France-Gitane'},{year:1966,team:'Bic'},
+      {year:1967,team:'Bic'},{year:1968,team:'Bic'},{year:1969,team:'Bic'},
+    ],
+    'eddy-merckx': [
+      {year:1961,team:'Faema-Guerra (amateur)'},{year:1962,team:'Faema-Guerra (amateur)'},
+      {year:1963,team:'Solo-Superia'},{year:1964,team:'Solo-Superia'},
+      {year:1965,team:'Peugeot-BP-Michelin'},{year:1966,team:'Peugeot-BP-Michelin'},
+      {year:1967,team:'Peugeot-BP-Michelin'},{year:1968,team:'Faema'},
+      {year:1969,team:'Faema'},{year:1970,team:'Molteni'},
+      {year:1971,team:'Molteni'},{year:1972,team:'Molteni'},
+      {year:1973,team:'Molteni'},{year:1974,team:'Molteni'},
+      {year:1975,team:'Molteni'},{year:1976,team:'Fiat-France'},
+      {year:1977,team:'Fiat-France'},
+    ],
+  };
+  const teamHistory = (profile || {}).team_history || HISTORICAL_TEAMS[slug] || [];
   const currentYearTeam = (teamHistory.filter(t => t.year <= new Date().getFullYear()).sort((a,b) => b.year - a.year)[0] || {}).team || '';
   // Prefer live roster (data.json) over stale PCS team_history
   const teamName = (baseInfo || {}).teamName || currentYearTeam || '';
@@ -1979,7 +2002,7 @@ async function openRiderModal(slug) {
         ${srFiltered.map(r => {
           const d = r.date || '';
           const dateFmt = d.length >= 10
-            ? new Date(d.substring(0,10) + 'T00:00:00').toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
+            ? new Date(d.substring(0,10) + 'T00:00:00').toLocaleDateString('en-GB', {month:'short',year:'numeric'})
             : d;
           return `<div class="season-result-row">
           <span class="sr-date">${esc(dateFmt)}</span>
@@ -2213,7 +2236,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v53';
+const APP_VERSION = 'v54';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
