@@ -935,6 +935,17 @@ header h1 span { color: var(--accent); }
 .rankings-loading{padding:40px;text-align:center;color:var(--muted)}
 .rankings-subtitle{font-size:.72rem;color:var(--muted);padding:4px 12px 8px;font-style:italic}
 
+
+/* ── Help tab ─────────────────────────────────────────────────────── */
+.help-wrap{padding:12px 12px 80px;max-width:600px;margin:0 auto}
+.help-section{margin-bottom:24px}
+.help-section-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding:6px 0 8px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.help-row{display:flex;gap:12px;padding:7px 0;border-bottom:1px solid var(--border)}
+.help-row:last-child{border-bottom:none}
+.help-term{font-weight:700;font-size:.83rem;min-width:90px;flex-shrink:0;color:var(--text)}
+.help-def{font-size:.82rem;color:var(--muted);line-height:1.45}
+.help-note{font-size:.75rem;color:var(--muted);background:var(--surface);border-left:3px solid var(--accent);padding:8px 10px;border-radius:0 6px 6px 0;margin:8px 0 4px;line-height:1.5}
+
 </style>
 </head>
 <body>
@@ -990,6 +1001,7 @@ header h1 span { color: var(--accent); }
   <div class="section" id="sec-fantasy"></div>
   <div class="section" id="sec-stats"></div>
   <div class="section" id="sec-rankings"></div>
+  <div class="section" id="sec-help"></div>
 </main>
 
 <nav class="bottom-nav">
@@ -1017,6 +1029,9 @@ header h1 span { color: var(--accent); }
   </button>
   <button class="nav-btn" id="nav-rankings" onclick="showSec('rankings',this)">
     <span class="nav-icon">🎖️</span><span>Rankings</span>
+  </button>
+  <button class="nav-btn" id="nav-help" onclick="showSec('help',this)">
+    <span class="nav-icon">❓</span><span>Help</span>
   </button>
 </nav>
 
@@ -1060,16 +1075,18 @@ function showSec(name, btn) {
   const isStats     = name === 'stats';
   const isFollowing = name === 'following';
   const isRankings  = name === 'rankings';
-  document.getElementById('filter-bar').style.display = (isFantasy||isStats||isFollowing||isRankings) ? 'none' : '';
+  const isHelp      = name === 'help';
+  document.getElementById('filter-bar').style.display = (isFantasy||isStats||isFollowing||isRankings||isHelp) ? 'none' : '';
   // Swap race/team chips
   const isTeams = name === 'teams';
-  document.querySelectorAll('.race-chip').forEach(c => c.style.display = (isTeams||isStats||isFollowing||isRankings) ? 'none' : '');
-  document.querySelectorAll('.team-chip').forEach(c => c.style.display = (isTeams&&!isStats&&!isFollowing&&!isRankings) ? '' : 'none');
-  if (!isFantasy && !isStats && !isFollowing && !isRankings) applyFilter(curFilter);
+  document.querySelectorAll('.race-chip').forEach(c => c.style.display = (isTeams||isStats||isFollowing||isRankings||isHelp) ? 'none' : '');
+  document.querySelectorAll('.team-chip').forEach(c => c.style.display = (isTeams&&!isStats&&!isFollowing&&!isRankings&&!isHelp) ? '' : 'none');
+  if (!isFantasy && !isStats && !isFollowing && !isRankings && !isHelp) applyFilter(curFilter);
   if (isFantasy)   renderFantasy();
   if (isStats)     loadStats();
   if (isFollowing) renderFollowing();
   if (isRankings)  loadRankings();
+  if (isHelp)      renderHelp();
 }
 
 // ── Filter ─────────────────────────────────────────────────────────────────────
@@ -2263,7 +2280,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v57';
+const APP_VERSION = 'v58';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3645,6 +3662,97 @@ function renderRankings() {
   el.innerHTML = catBar
     + `<div class="rankings-subtitle">${cat.desc} · wins since ${new Date().getFullYear()-3}</div>`
     + `<div class="rankings-list">${rows || '<p style="padding:20px;color:var(--muted)">No data</p>'}</div>`;
+}
+
+
+// ── Help ──────────────────────────────────────────────────────────────────
+function renderHelp() {
+  const el = document.getElementById('sec-help');
+
+  const sections = [
+    {
+      title: 'Race Types',
+      rows: [
+        ['Grand Tour',    'A three-week stage race — the Tour de France, Giro d\'Italia, and Vuelta a España. The biggest events in cycling.'],
+        ['Stage Race',    'A multi-day race where each day is a separate "stage". The winner is whoever has the lowest total time across all stages.'],
+        ['One-Day Race',  'A single race from start to finish, often called a "Classic". Examples: Paris–Roubaix, Tour of Flanders.'],
+        ['Monument',      'The five most prestigious one-day races: Milan–San Remo, Tour of Flanders, Paris–Roubaix, Liège–Bastogne–Liège, Il Lombardia.'],
+        ['Time Trial',    'Riders race individually against the clock — no drafting, pure speed and power. Also called "the race of truth".'],
+        ['Criterium',     'A short circuit race held in a town or city, usually multiple laps of a closed loop.'],
+      ]
+    },
+    {
+      title: 'Race Acronyms',
+      rows: [
+        ['GT',   'Grand Tour — one of the three major three-week races.'],
+        ['TT',   'Time Trial — race against the clock.'],
+        ['ITT',  'Individual Time Trial — solo TT, one rider at a time.'],
+        ['TTT',  'Team Time Trial — the whole team rides together, timed on the fifth rider to finish.'],
+        ['KOM',  'King of the Mountains — awarded to the best climber, earns the polka-dot jersey at the Tour de France.'],
+        ['UCI',  'Union Cycliste Internationale — the world governing body for cycling. They issue the official points rankings.'],
+        ['WT',   'WorldTour — the top tier of professional road cycling, featuring the biggest teams and races.'],
+        ['PCS',  'ProCyclingStats — the website (procyclingstats.com) used to source rider and race statistics in this app.'],
+      ]
+    },
+    {
+      title: 'Race Results',
+      rows: [
+        ['GC',       'General Classification — the overall standings in a stage race, based on cumulative time.'],
+        ['DNF',      'Did Not Finish — the rider abandoned the race.'],
+        ['DNS',      'Did Not Start — the rider withdrew before the stage began.'],
+        ['OTL',      'Outside Time Limit — arrived too far behind the stage winner and was eliminated.'],
+        ['DSQ',      'Disqualified — removed from results for breaking race rules.'],
+        ['Palmares', 'A rider\'s career record of victories and notable results. From the French word for "prize list".'],
+      ]
+    },
+    {
+      title: 'Jerseys (Tour de France)',
+      rows: [
+        ['🟡 Yellow',    'Maillot Jaune — worn by the overall GC leader, the rider with the lowest total time.'],
+        ['🟢 Green',     'Points jersey — worn by the leader of the points classification, usually a sprinter.'],
+        ['🔴 Polka Dot', 'King of the Mountains jersey — worn by the best climber.'],
+        ['⚪ White',     'Best young rider — worn by the best-placed rider aged 25 or under.'],
+      ]
+    },
+    {
+      title: 'Rider Specialities',
+      rows: [
+        ['GC',       'General Classification rider — built for three-week stage races, excels at climbing and time trialling.'],
+        ['Climber',  'A lightweight rider who excels on steep mountain stages. Often small and light.'],
+        ['Sprinter', 'A powerful rider who wins bunch sprints at the end of flat stages. Usually the fastest over 200–300m.'],
+        ['Puncheur', 'A rider suited to short, punchy climbs — strong enough to break away on hills but faster than a pure climber in a sprint.'],
+        ['One-Day',  'A specialist in single-day races and Classics. Often strong, durable riders who can handle cobbles and varied terrain.'],
+        ['TT Specialist', 'A rider who excels in time trials — aerodynamic, powerful, and consistent.'],
+      ]
+    },
+    {
+      title: 'Fantasy League',
+      rows: [
+        ['Budget',    'You have 100 credits to spend on your squad. Riders cost between 4 and 22 credits based on their ability.'],
+        ['Squad',     'Your picked team of riders — 8 riders for Grand Tours, 7 for all other races.'],
+        ['Stage Pts', 'Points for stage finishes: 1st=25, 2nd=12, 3rd=8, 4th–10th=3.'],
+        ['GC Pts',    'Points for GC standings at the end: 1st=50, 2nd=30, 3rd=20, 4th–10th=8.'],
+        ['Jersey Pts','15 points per stage for holding the Points, KOM, or White jersey (not awarded if the rider also leads GC).'],
+        ['I Claudius','The AI opponent. Three difficulty levels — Easy 🟢, Pro 🟡, Elite 🔴. Generated from historical race data.'],
+        ['Watchlist', 'A list of riders you want to keep an eye on without adding to your squad.'],
+      ]
+    },
+  ];
+
+  const html = `<div class="help-wrap">
+    <div class="help-note">This app tracks men\'s professional road cycling — UCI WorldTour and Pro Series races. Tap any rider\'s name to open their full profile.</div>
+    ${sections.map(sec => `
+    <div class="help-section">
+      <div class="help-section-title">${esc(sec.title)}</div>
+      ${sec.rows.map(([term, def]) => `
+      <div class="help-row">
+        <div class="help-term">${esc(term)}</div>
+        <div class="help-def">${esc(def)}</div>
+      </div>`).join('')}
+    </div>`).join('')}
+  </div>`;
+
+  el.innerHTML = html;
 }
 
 // ── Service Worker ─────────────────────────────────────────────────────────
