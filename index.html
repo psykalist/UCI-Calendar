@@ -2260,7 +2260,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v55';
+const APP_VERSION = 'v56';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3573,6 +3573,7 @@ async function loadRankings() {
     const data = await r.json();
     rankingsProfiles = data.riders || data;
     if (!rankingsProfiles || typeof rankingsProfiles !== 'object') throw new Error('Bad data');
+    await loadPcsEnrichment(); // ensure men's peloton filter is ready
   } catch(e) {
     el.innerHTML = `<div class="rankings-loading">⚠️ Could not load rider data<br><small>${esc(e.message)}</small></div>`;
     return;
@@ -3612,8 +3613,11 @@ function renderRankings() {
 
   const cat = RANKING_CATS.find(c=>c.key===rankingsCurCat);
 
+  // Filter to current men's WT/Pro peloton only (via pcs_enrichment slugs)
+  const mensSlugs = pcsEnrichmentData ? new Set(Object.keys(pcsEnrichmentData)) : null;
   // Build ranked list — only riders with a meaningful score
   const ranked = Object.entries(profiles)
+    .filter(([slug]) => !mensSlugs || mensSlugs.has(slug))
     .map(([slug, p]) => ({ slug, p, score: getRankingScore(p, rankingsCurCat), wins: recentWins(p) }))
     .filter(x => x.score > 0)
     .sort((a,b) => b.score - a.score)
