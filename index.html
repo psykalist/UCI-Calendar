@@ -1886,12 +1886,6 @@ async function openRiderModal(slug) {
   const photo    = (profile || {}).photo || (baseInfo || {}).photo || getRiderPhoto(slug);
   const dob        = enrich.dob || (profile || {}).dob;
   const birthplace = enrich.birthplace || null;
-<<<<<<< HEAD
-  const pcsRanking = enrich.pcs_ranking || null;
-  const grandTours = enrich.grand_tours != null ? enrich.grand_tours : null;
-  const classics   = enrich.classics   != null ? enrich.classics   : null;
-=======
->>>>>>> b85a308 (v52: rider modal — DOB/birthplace from enrichment; remove PCS col; full dates; conditional UCI; fix team history msg; bump sw.js cache to v52)
   const wins     = (profile || {}).wins || [];
   const teamHistory = (profile || {}).team_history || [];
   const currentYearTeam = (teamHistory.filter(t => t.year <= new Date().getFullYear()).sort((a,b) => b.year - a.year)[0] || {}).team || '';
@@ -1912,11 +1906,7 @@ async function openRiderModal(slug) {
     const dobFmt = dob.length === 10
       ? new Date(dob + 'T00:00:00').toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
       : dob;
-<<<<<<< HEAD
-    meta += (meta ? '<br>' : '') + `${esc(dobFmt)}${(!isNaN(age) && age > 0) ? ` (age ${age})` : ''}`;
-=======
     meta += (meta ? '<br>' : '') + `${esc(dobFmt)}${(!isNaN(age) && age >= 14 && age <= 55) ? ` (age ${age})` : ''}`;
->>>>>>> b85a308 (v52: rider modal — DOB/birthplace from enrichment; remove PCS col; full dates; conditional UCI; fix team history msg; bump sw.js cache to v52)
   }
   if (weight || height) {
     const wh = [weight ? weight + 'kg' : '', height ? height + 'm' : ''].filter(Boolean).join(' · ');
@@ -2228,11 +2218,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-<<<<<<< HEAD
-const APP_VERSION = 'v50';
-=======
 const APP_VERSION = 'v52';
->>>>>>> b85a308 (v52: rider modal — DOB/birthplace from enrichment; remove PCS col; full dates; conditional UCI; fix team history msg; bump sw.js cache to v52)
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
