@@ -1852,6 +1852,16 @@ async function loadRiderProfiles() {
   return riderProfilesData;
 }
 
+let pcsEnrichmentData = null;
+async function loadPcsEnrichment() {
+  if (pcsEnrichmentData) return pcsEnrichmentData;
+  try {
+    const r = await fetch('./pcs_enrichment.json', {cache: 'no-cache'});
+    if (r.ok) pcsEnrichmentData = await r.json();
+  } catch(e) {}
+  return pcsEnrichmentData || {};
+}
+
 async function openRiderModal(slug) {
   // Show modal immediately with loading state
   const modal = document.getElementById('riderModal');
@@ -1860,8 +1870,9 @@ async function openRiderModal(slug) {
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  const profiles = await loadRiderProfiles();
+  const [profiles, enrich0] = await Promise.all([loadRiderProfiles(), loadPcsEnrichment()]);
   const profile = { ...(profiles[slug] || {}), ...((appData.rider_profiles || {})[slug] || {}) };
+  const enrich  = enrich0[slug] || {};
 
   let baseInfo = null;
   for (const team of (appData.teams || [])) {
@@ -1873,7 +1884,11 @@ async function openRiderModal(slug) {
   const nat      = ((profile || baseInfo || {}).nat || '').toLowerCase();
   const natName  = (profile || {}).nat_name || nat.toUpperCase();
   const photo    = (profile || {}).photo || (baseInfo || {}).photo || getRiderPhoto(slug);
-  const dob      = (profile || {}).dob;
+  const dob        = enrich.dob || (profile || {}).dob;
+  const birthplace = enrich.birthplace || null;
+  const pcsRanking = enrich.pcs_ranking || null;
+  const grandTours = enrich.grand_tours != null ? enrich.grand_tours : null;
+  const classics   = enrich.classics   != null ? enrich.classics   : null;
   const wins     = (profile || {}).wins || [];
   const teamHistory = (profile || {}).team_history || [];
   const currentYearTeam = (teamHistory.filter(t => t.year <= new Date().getFullYear()).sort((a,b) => b.year - a.year)[0] || {}).team || '';
@@ -1888,15 +1903,24 @@ async function openRiderModal(slug) {
 
   let meta = '';
   if (nat) meta += `<img src="https://flagcdn.com/16x12/${nat}.png" width="16" height="11" style="vertical-align:middle;margin-right:4px;border-radius:1px"> ${esc(natName)}`;
+  if (birthplace) meta += (meta ? ' · ' : '') + `📍 ${esc(birthplace)}`;
   if (dob) {
-    const age = Math.floor((Date.now() - new Date(dob)) / (365.25*86400000));
-    meta += (meta ? ' · ' : '') + `${esc(dob)}${(!isNaN(age) && age > 0) ? ` (${age})` : ''}`;
+    const age = Math.floor((Date.now() - new Date(dob + 'T00:00:00')) / (365.25*86400000));
+    const dobFmt = dob.length === 10
+      ? new Date(dob + 'T00:00:00').toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
+      : dob;
+    meta += (meta ? '<br>' : '') + `${esc(dobFmt)}${(!isNaN(age) && age > 0) ? ` (age ${age})` : ''}`;
   }
   if (weight || height) {
     const wh = [weight ? weight + 'kg' : '', height ? height + 'm' : ''].filter(Boolean).join(' · ');
-    meta += (meta ? '<br>' : '') + esc(wh);
+    meta += (meta ? ' · ' : '') + esc(wh);
   }
   if (teamName) meta += (meta ? '<br>' : '') + esc(teamName);
+  const careerParts = [];
+  if (pcsRanking)         careerParts.push(`🏅 PCS #${pcsRanking}`);
+  if (grandTours != null) careerParts.push(`🏔️ ${grandTours} grand tours`);
+  if (classics   != null) careerParts.push(`🔶 ${classics} classics`);
+  if (careerParts.length) meta += (meta ? '<br>' : '') + careerParts.join(' · ');
 
   // Specialty bars — scraper keys: gc, oneday, tt, sprint, climber, hills
   const specialties = (profile || {}).specialties || {};
@@ -2191,7 +2215,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v47';
+const APP_VERSION = 'v50';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
