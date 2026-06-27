@@ -1953,7 +1953,7 @@ async function openRiderModal(slug) {
   // Season results (current year)
   const seasonResults = (profile || {}).season_results || [];
   const currentYear = new Date().getFullYear();
-  const srFiltered = seasonResults.filter(r => r.pcs_points > 0 || r.uci_points > 0);
+  const srFiltered = seasonResults.filter(r => (r.pcs_points > 0 || r.uci_points > 0) && (r.date||'').startsWith(String(currentYear)));
   const seasonHTML = srFiltered.length
     ? `<div class="season-results-list">
         <div class="season-results-header">
@@ -2122,14 +2122,14 @@ function buildStatTable(s) {
       let v = r[c] ?? '';
       // Rider names open in-app modal; falls back to PCS link footer inside modal
       if (c === 'name' && r.slug && r.type === 'rider') {
-        return `<td><a href="#" onclick="openRiderModal('${esc(r.slug)}');return false;" style="color:#ffd700;text-decoration:underline">${esc(String(v))}</a></td>`;
+        return `<td><a href="#" onclick="openRiderModal('${esc(r.slug)}');return false;" style="color:#1a0dab;text-decoration:none">${esc(String(v))}</a></td>`;
       }
       if ((c === 'rider1_name' || c === 'rider2_name') && r[c.replace('_name','_slug')]) {
         const slug = r[c.replace('_name','_slug')];
-        return `<td><a href="#" onclick="openRiderModal('${esc(slug)}');return false;" style="color:#ffd700;text-decoration:underline">${esc(String(v))}</a></td>`;
+        return `<td><a href="#" onclick="openRiderModal('${esc(slug)}');return false;" style="color:#1a0dab;text-decoration:none">${esc(String(v))}</a></td>`;
       }
       if (c === 'rider_name' && r.rider_slug) {
-        return `<td><a href="#" onclick="openRiderModal('${esc(r.rider_slug)}');return false;" style="color:#ffd700;text-decoration:underline">${esc(String(v))}</a></td>`;
+        return `<td><a href="#" onclick="openRiderModal('${esc(r.rider_slug)}');return false;" style="color:#1a0dab;text-decoration:none">${esc(String(v))}</a></td>`;
       }
       // Reddish for unlinked rider/name columns
       const nameCol = (c === 'name' && r.type === 'rider') || c === 'rider_name' || c === 'rider1_name' || c === 'rider2_name';
@@ -2191,7 +2191,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v46';
+const APP_VERSION = 'v47';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
