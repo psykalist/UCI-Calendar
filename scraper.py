@@ -81,7 +81,7 @@ PRO_TEAMS = [
     "euskaltel-euskadi-2026",
     "mbh-bank-csb-telecom-fort-2026",
     "modern-adventure-pro-cycling-2026",
-    "pinarello-q36",
+    "pinarello-q365-pro-cycling-team-2026",
     "solution-tech-nippo-rali-2026",
     "team-flanders-baloise-2026",
     "team-novo-nordisk-2026",
@@ -2073,5 +2073,4 @@ if __name__ == "__main__":
         main_teams_only()
     elif "--startlists-only" in sys.argv:
         main_startlists_only()
-    else:
-        main()
+    
