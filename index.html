@@ -917,6 +917,24 @@ header h1 span { color: var(--accent); }
 .stat-tbl tr:last-child td { border-bottom:none; }
 .stat-pos { color:var(--muted); font-size:.75rem; min-width:24px; }
 .stats-loading { text-align:center; padding:60px 20px; color:var(--muted); }
+
+/* ── Rankings tab ─────────────────────────────── */
+.rankings-cat-bar{display:flex;gap:6px;flex-wrap:wrap;padding:12px 12px 6px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--border)}
+.rankings-cat-btn{padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.78rem;cursor:pointer;white-space:nowrap;transition:background .15s}
+.rankings-cat-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rankings-list{padding:8px 12px 80px}
+.rankings-row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:background .12s}
+.rankings-row:hover{background:var(--surface)}
+.rankings-row:not(:last-child){border-bottom:1px solid var(--border)}
+.rankings-pos{font-size:.75rem;color:var(--muted);width:24px;text-align:right;flex-shrink:0}
+.rankings-medal{width:22px;text-align:center;flex-shrink:0;font-size:1rem}
+.rankings-flag{width:18px;flex-shrink:0}
+.rankings-name{flex:1;font-size:.88rem;font-weight:500}
+.rankings-score{font-size:.75rem;color:var(--muted);text-align:right;flex-shrink:0}
+.rankings-wins{font-size:.72rem;color:var(--accent);background:var(--surface2);padding:2px 7px;border-radius:10px;flex-shrink:0}
+.rankings-loading{padding:40px;text-align:center;color:var(--muted)}
+.rankings-subtitle{font-size:.72rem;color:var(--muted);padding:4px 12px 8px;font-style:italic}
+
 </style>
 </head>
 <body>
@@ -971,6 +989,7 @@ header h1 span { color: var(--accent); }
   <div class="section" id="sec-following"></div>
   <div class="section" id="sec-fantasy"></div>
   <div class="section" id="sec-stats"></div>
+  <div class="section" id="sec-rankings"></div>
 </main>
 
 <nav class="bottom-nav">
@@ -995,6 +1014,9 @@ header h1 span { color: var(--accent); }
   </button>
   <button class="nav-btn" id="nav-stats" onclick="showSec('stats',this)">
     <span class="nav-icon">📊</span><span>Stats</span>
+  </button>
+  <button class="nav-btn" id="nav-rankings" onclick="showSec('rankings',this)">
+    <span class="nav-icon">🎖️</span><span>Rankings</span>
   </button>
 </nav>
 
@@ -1037,15 +1059,17 @@ function showSec(name, btn) {
   const isFantasy   = name === 'fantasy';
   const isStats     = name === 'stats';
   const isFollowing = name === 'following';
-  document.getElementById('filter-bar').style.display = (isFantasy||isStats||isFollowing) ? 'none' : '';
+  const isRankings  = name === 'rankings';
+  document.getElementById('filter-bar').style.display = (isFantasy||isStats||isFollowing||isRankings) ? 'none' : '';
   // Swap race/team chips
   const isTeams = name === 'teams';
-  document.querySelectorAll('.race-chip').forEach(c => c.style.display = (isTeams||isStats||isFollowing) ? 'none' : '');
-  document.querySelectorAll('.team-chip').forEach(c => c.style.display = (isTeams&&!isStats&&!isFollowing) ? '' : 'none');
-  if (!isFantasy && !isStats && !isFollowing) applyFilter(curFilter);
+  document.querySelectorAll('.race-chip').forEach(c => c.style.display = (isTeams||isStats||isFollowing||isRankings) ? 'none' : '');
+  document.querySelectorAll('.team-chip').forEach(c => c.style.display = (isTeams&&!isStats&&!isFollowing&&!isRankings) ? '' : 'none');
+  if (!isFantasy && !isStats && !isFollowing && !isRankings) applyFilter(curFilter);
   if (isFantasy)   renderFantasy();
   if (isStats)     loadStats();
   if (isFollowing) renderFollowing();
+  if (isRankings)  loadRankings();
 }
 
 // ── Filter ─────────────────────────────────────────────────────────────────────
@@ -2236,7 +2260,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v54';
+const APP_VERSION = 'v55';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3523,6 +3547,97 @@ function exportSubscribers(){
   localStorage.removeItem('uci_subscribers_dirty');
   alert('✅ Downloaded — save this file to your UCI Calendar folder to enable race alerts.');
   renderFantasy();
+}
+
+
+// ── Rankings ──────────────────────────────────────────────────────────────
+const RANKING_CATS = [
+  { key:'gc',      label:'GC / Tours',  icon:'🏔️',  desc:'Grand tour specialists ranked by GC specialty score' },
+  { key:'climber', label:'Climbers',    icon:'⛰️',  desc:'Best climbers ranked by climbing specialty score' },
+  { key:'sprint',  label:'Sprinters',   icon:'⚡',  desc:'Best sprinters ranked by sprint specialty score' },
+  { key:'oneday',  label:'Classics',    icon:'🔶',  desc:'One-day race specialists ranked by one-day specialty score' },
+  { key:'tt',      label:'Time Trial',  icon:'🕐',  desc:'Best time trialists ranked by TT specialty score' },
+  { key:'hills',   label:'Puncheurs',   icon:'💥',  desc:'Hilly terrain specialists ranked by hills specialty score' },
+  { key:'allround',label:'All-Round',   icon:'🌟',  desc:'Most versatile riders — average of top 3 specialty scores' },
+];
+let rankingsCurCat = 'gc';
+let rankingsProfiles = null;
+
+async function loadRankings() {
+  const el = document.getElementById('sec-rankings');
+  if (rankingsProfiles) { renderRankings(); return; }
+  el.innerHTML = '<div class="rankings-loading">⏳ Loading rider data…</div>';
+  try {
+    const r = await fetch('./rider_profiles.json');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    rankingsProfiles = data.riders || data;
+    if (!rankingsProfiles || typeof rankingsProfiles !== 'object') throw new Error('Bad data');
+  } catch(e) {
+    el.innerHTML = `<div class="rankings-loading">⚠️ Could not load rider data<br><small>${esc(e.message)}</small></div>`;
+    return;
+  }
+  renderRankings();
+}
+
+function getRankingScore(profile, key) {
+  const sp = profile.specialties || {};
+  if (key === 'allround') {
+    const vals = Object.values(sp).filter(Number.isFinite).sort((a,b)=>b-a).slice(0,3);
+    return vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : 0;
+  }
+  return (sp[key] || 0);
+}
+
+function recentWins(profile) {
+  const cutoff = (new Date().getFullYear() - 3) + '-01-01';
+  return (profile.wins || []).filter(w => (w.date||'') >= cutoff).length;
+}
+
+function setRankingCat(key) {
+  rankingsCurCat = key;
+  renderRankings();
+}
+
+function renderRankings() {
+  const el = document.getElementById('sec-rankings');
+  const profiles = rankingsProfiles;
+  if (!profiles) return;
+
+  const catBar = `<div class="rankings-cat-bar">${
+    RANKING_CATS.map(c =>
+      `<button class="rankings-cat-btn${c.key===rankingsCurCat?' active':''}" onclick="setRankingCat('${c.key}')">${c.icon} ${c.label}</button>`
+    ).join('')
+  }</div>`;
+
+  const cat = RANKING_CATS.find(c=>c.key===rankingsCurCat);
+
+  // Build ranked list — only riders with a meaningful score
+  const ranked = Object.entries(profiles)
+    .map(([slug, p]) => ({ slug, p, score: getRankingScore(p, rankingsCurCat), wins: recentWins(p) }))
+    .filter(x => x.score > 0)
+    .sort((a,b) => b.score - a.score)
+    .slice(0, 25);
+
+  const MEDALS = ['🥇','🥈','🥉'];
+  const rows = ranked.map((x, i) => {
+    const name = x.p.name || x.slug.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+    const nat  = (x.p.nat||'').toLowerCase();
+    const flag = nat ? `<img src="https://flagcdn.com/16x12/${nat}.png" width="16" height="11" style="vertical-align:middle;border-radius:1px" onerror="this.style.display='none'">` : '';
+    const medal = i < 3 ? `<span class="rankings-medal">${MEDALS[i]}</span>` : `<span class="rankings-pos">${i+1}</span>`;
+    const winsEl = x.wins > 0 ? `<span class="rankings-wins">${x.wins}W</span>` : '';
+    return `<div class="rankings-row" onclick="openRiderModal('${esc(x.slug)}')">
+      ${medal}
+      <span class="rankings-flag">${flag}</span>
+      <span class="rankings-name">${esc(name)}</span>
+      ${winsEl}
+      <span class="rankings-score">${x.score.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = catBar
+    + `<div class="rankings-subtitle">${cat.desc} · wins since ${new Date().getFullYear()-3}</div>`
+    + `<div class="rankings-list">${rows || '<p style="padding:20px;color:var(--muted)">No data</p>'}</div>`;
 }
 
 // ── Service Worker ─────────────────────────────────────────────────────────
