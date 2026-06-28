@@ -7,7 +7,7 @@ name: Update UCI Race Data
 # To run a full scrape manually:  python scraper.py              (local only)
 # To refresh teams manually:      python scraper.py --teams-only (local only)
 #
-# Runner: self-hosted Windows machine (no WSL) -- uses pwsh + python shells
+# Runner: self-hosted Windows machine -- uses cmd + python shells (no WSL/pwsh needed)
 
 on:
   schedule:
@@ -28,21 +28,21 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure git + pull latest
-        shell: pwsh
+        shell: cmd
         run: |
-          git config --global user.name  'UCI Calendar Bot'
-          git config --global user.email 'uci-bot@users.noreply.github.com'
-          git pull --rebase origin main
-          if ($LASTEXITCODE -ne 0) { git pull origin main }
+          git config --global user.name "UCI Calendar Bot"
+          git config --global user.email "uci-bot@users.noreply.github.com"
+          git pull --rebase origin main || git pull origin main
 
       - name: Save old data.json for change detection
-        shell: pwsh
+        shell: python
         run: |
-          if (Test-Path data.json) {
-            Copy-Item data.json data_old.json
-          } else {
-            '{"live":[],"upcoming":[],"recent":[],"teams":[]}' | Out-File data_old.json -Encoding utf8
-          }
+          import shutil, os
+          if os.path.exists('data.json'):
+              shutil.copy('data.json', 'data_old.json')
+          else:
+              with open('data_old.json', 'w') as f:
+                  f.write('{"live":[],"upcoming":[],"recent":[],"teams":[]}')
 
       - name: Check cyclingflash.com reachability
         id: reachability
@@ -65,7 +65,7 @@ jobs:
 
       - name: Run results-only scraper
         if: steps.reachability.outputs.reachable == 'true'
-        shell: pwsh
+        shell: cmd
         run: python scraper.py --results-only
 
       - name: Strip any women's races from data.json
@@ -93,21 +93,23 @@ jobs:
 
       - name: Detect changes and update changelog
         if: steps.reachability.outputs.reachable == 'true'
-        shell: pwsh
+        shell: cmd
         run: python detect_changes.py data_old.json data.json changelog.json
 
       - name: Clean up temp file
-        shell: pwsh
-        run: Remove-Item -ErrorAction SilentlyContinue data_old.json
+        shell: python
+        run: |
+          import os
+          if os.path.exists('data_old.json'):
+              os.remove('data_old.json')
 
       - name: Generate auto-team opponents (best_teams.json)
         if: steps.reachability.outputs.reachable == 'true'
-        shell: pwsh
+        shell: cmd
         run: python generate_best_teams.py
 
       - name: Commit and push if data changed
-        shell: pwsh
+        shell: python
         run: |
-          git add data.json changelog.json best_teams.json
-          $diff = git diff --staged --quiet
-          if ($LASTEXIT
+          import subprocess, sys
+         
