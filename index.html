@@ -2280,7 +2280,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v58';
+const APP_VERSION = 'v60';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3635,11 +3635,16 @@ function renderRankings() {
 
   // Filter to current men's WT/Pro peloton only (via pcs_enrichment slugs)
   const mensSlugs = pcsEnrichmentData ? new Set(Object.keys(pcsEnrichmentData)) : null;
-  // Build ranked list — only riders with a meaningful score
+  // Option B ranking: specialty × (recent_wins + 1)
+  // Minimum specialty score per category prevents cross-discipline pollution
+  // (e.g. sprinters appearing in GC rankings due to high win counts)
+  const MIN_SPEC = {gc:2000, climber:2000, sprint:1500, oneday:2000, tt:2000, hills:2000, allround:0};
+  const minSpec  = MIN_SPEC[rankingsCurCat] || 0;
   const ranked = Object.entries(profiles)
     .filter(([slug]) => !mensSlugs || mensSlugs.has(slug))
-    .map(([slug, p]) => ({ slug, p, score: getRankingScore(p, rankingsCurCat), wins: recentWins(p) }))
-    .filter(x => x.score > 0)
+    .map(([slug, p]) => ({ slug, p, spec: getRankingScore(p, rankingsCurCat), wins: recentWins(p) }))
+    .filter(x => x.spec >= Math.max(1, minSpec))
+    .map(x => ({ ...x, score: x.spec * (x.wins + 1) }))
     .sort((a,b) => b.score - a.score)
     .slice(0, 25);
 
@@ -3655,7 +3660,7 @@ function renderRankings() {
       <span class="rankings-flag">${flag}</span>
       <span class="rankings-name">${esc(name)}</span>
       ${winsEl}
-      <span class="rankings-score">${x.score.toLocaleString()}</span>
+      <span class="rankings-score">${x.spec.toLocaleString()}</span>
     </div>`;
   }).join('');
 
