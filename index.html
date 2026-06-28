@@ -2280,7 +2280,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v62';
+const APP_VERSION = 'v63';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3623,13 +3623,19 @@ function recentWins(profile) {
   return (profile.wins || []).filter(w => (w.date||'') >= cutoff).length;
 }
 function qualityScore(profile) {
-  // Sum pcs_points earned in top-5 finishes over last 3 years.
-  // Rewards big-race podiums over volume of small wins.
+  // Primary: sum pcs_points from top-5 finishes in last 3 years (rewards big-race results).
+  // Fallback: if season_results is empty/missing (scraper gap), use recent wins × 50pts each
+  // so riders like Vingegaard aren't silently penalised by missing data.
   const cutoff = (new Date().getFullYear() - 3) + '-01-01';
   let total = 0;
   for (const r of profile.season_results || []) {
     if ((r.date || '') < cutoff) continue;
     if (r.stage_pos && r.stage_pos <= 5 && (r.pcs_points || 0) > 0) total += r.pcs_points;
+  }
+  if (total === 0) {
+    // Fallback: count recent wins × 50 pts — degrades gracefully when results data is absent
+    const wins = (profile.wins || []).filter(w => (w.date || '') >= cutoff).length;
+    total = wins * 50;
   }
   return total;
 }
