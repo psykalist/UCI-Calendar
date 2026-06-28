@@ -332,7 +332,7 @@ header h1 span { color: var(--accent); }
 .roadbook-body { display: none; overflow-x: auto; -webkit-overflow-scrolling: touch; max-height: 340px; overflow-y: auto; }
 .roadbook-body.open { display: block; }
 .roadbook-table { width: max-content; min-width: 100%; border-collapse: collapse; font-size: .72rem; }
-.roadbook-table th { font-size: .62rem; text-transform: uppercase; color: var(--muted); font-weight: 700; padding: 4px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; text-align: left; position: sticky; top: 0; background: var(--card); }
+.roadbook-table th { font-size: .62rem; text-transform: uppercase; color: var(--muted); font-weight: 700; padding: 4px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; text-align: left; position: sticky; top: 0; background: var(--surface2); }
 .roadbook-table td { padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,.03); white-space: nowrap; }
 .roadbook-table tr:last-child td { border-bottom: none; }
 .rb-location { white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis; }
@@ -647,7 +647,7 @@ header h1 span { color: var(--accent); }
 .spec-label { font-size: .72rem; color: var(--muted); width: 64px; flex-shrink: 0; text-align: right; }
 .spec-track { flex: 1; height: 7px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
 .spec-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
-.spec-score { font-size: .72rem; color: var(--fg); width: 44px; text-align: right; flex-shrink: 0; }
+.spec-score { font-size: .72rem; color: var(--text); width: 44px; text-align: right; flex-shrink: 0; }
 .rider-name-link {
   cursor: pointer;
   text-decoration: underline;
@@ -668,7 +668,7 @@ header h1 span { color: var(--accent); }
 .team-hist-row { display: flex; gap: 10px; align-items: baseline; padding: 4px 0; border-bottom: 1px solid var(--border); }
 .team-hist-row:last-child { border-bottom: none; }
 .team-hist-year { font-size: .78rem; font-weight: 700; color: var(--accent); min-width: 36px; flex-shrink: 0; }
-.team-hist-name { font-size: .82rem; color: var(--fg); }
+.team-hist-name { font-size: .82rem; color: var(--text); }
 /* ── Season results ── */
 .season-results-list { font-size: .78rem; }
 .season-results-header {
@@ -683,7 +683,7 @@ header h1 span { color: var(--accent); }
 }
 .season-result-row:last-child { border-bottom: none; }
 .sr-date { color: var(--muted); font-size: .72rem; }
-.sr-race { color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sr-race { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sr-pos { color: var(--upcoming); font-weight: 700; text-align: center; }
 .sr-pts { color: var(--muted); text-align: right; font-size: .72rem; }
 /* ── Palmares on race cards ── */
@@ -693,7 +693,7 @@ header h1 span { color: var(--accent); }
   display: flex; justify-content: space-between; align-items: center;
   user-select: none; transition: color .2s;
 }
-.palmares-toggle-btn:hover { color: var(--fg); }
+.palmares-toggle-btn:hover { color: var(--text); }
 .palmares-chev { font-size: .65rem; }
 .palmares-body { padding: 0 14px 10px; }
 .palmares-list { padding: 4px 0; }
@@ -711,6 +711,7 @@ header h1 span { color: var(--accent); }
 .rider-search-wrap {
   padding: 10px 14px 4px;
   background: var(--bg);
+  position: relative;
 }
 .rider-search-input {
   width: 100%;
@@ -731,8 +732,6 @@ header h1 span { color: var(--accent); }
   font-size: .95rem;
   pointer-events: none;
 }
-.rider-search-wrap { position: relative; }
-
 /* ── Following tab ── */
 .following-header {
   padding: 14px 14px 6px;
@@ -875,7 +874,7 @@ header h1 span { color: var(--accent); }
   left: 50%;
   transform: translateX(-50%);
   width: min(480px, calc(100vw - 24px));
-  background: var(--card);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-left: 4px solid var(--upcoming);
   border-radius: 12px;
@@ -1560,7 +1559,7 @@ function renderRecent(races) {
   const el = document.getElementById('sec-recent');
   if (!races.length) { el.innerHTML = '<p class="empty">No recent results.</p>'; return; }
   const sorted = [...races].sort((a,b) => (b.end_date||'').localeCompare(a.end_date||''));
-  const gt     = sorted.filter(r => r.category==='2.UWT' && (r.total_stages||1)>1);
+  const gt     = sorted.filter(r => (r.total_stages||1) >= 21);
   const stage  = sorted.filter(r => !gt.includes(r) && (r.total_stages||1)>1);
   const oneday = sorted.filter(r => (r.total_stages||1)===1);
   el.innerHTML =
@@ -1766,7 +1765,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
     : `<button onclick="addIClaudiusToLeague()" style="width:100%;margin-top:10px;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:.88rem;font-weight:700;cursor:pointer;letter-spacing:.3px">⚔️ Challenge Team Claudius</button>`;
 
   if (!bt) {
-    return `<div id="auto-team-panel" style="max-width:480px;margin:0 auto 24px;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid #7c3aed33">
+    return `<div id="auto-team-panel" style="max-width:480px;margin:0 auto 24px;background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid #7c3aed33">
       <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
         <span style="font-size:1.4rem">🏛️</span>
         <div>
@@ -1780,7 +1779,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
 
   const raceEntry = bt.races ? bt.races[raceKey] : null;
   if (!raceEntry) {
-    return `<div id="auto-team-panel" style="max-width:480px;margin:0 auto 24px;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid #7c3aed33">
+    return `<div id="auto-team-panel" style="max-width:480px;margin:0 auto 24px;background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid #7c3aed33">
       <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
         <span style="font-size:1.4rem">🏛️</span>
         <div style="flex:1">
@@ -1815,7 +1814,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
     </div>`;
   }).join('');
 
-  return `<div id="auto-team-panel" style="max-width:480px;margin:0 auto 24px;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid #7c3aed55">
+  return `<div id="auto-team-panel" style="max-width:480px;margin:0 auto 24px;background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid #7c3aed55">
     <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span style="font-size:1.4rem">🏛️</span>
@@ -2280,7 +2279,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v63';
+const APP_VERSION = 'v64';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2365,6 +2364,7 @@ async function silentCheck() {
     if (d.scraped_at && d.scraped_at !== _lastScrapedAt) {
       // Detect newly completed stages since last check
       const prevLive = appData.live || [];
+      const prevUpcoming = appData.upcoming || [];
       const prevWinners = new Set();
       for(const race of prevLive) for(const s of (race.stages||[])) if(s.winner) prevWinners.add(`${race.slug}-${s.num}`);
 
@@ -2417,7 +2417,7 @@ async function silentCheck() {
         }
       }
       // Notify when a startlist becomes newly available for any upcoming race
-      const prevSlMap=new Map(prevLive.concat(appData.upcoming||[]).map(r=>[r.slug||r.cf_slug,(r.startlist||[]).length]));
+      const prevSlMap=new Map(prevLive.concat(prevUpcoming).map(r=>[r.slug||r.cf_slug,(r.startlist||[]).length]));
       for(const race of [...(d.live||[]),...(d.upcoming||[])]){
         const key=race.slug||race.cf_slug;
         const prevCount=prevSlMap.get(key)??-1;
@@ -2431,6 +2431,12 @@ async function silentCheck() {
     }
   } catch(e) {}
 }
+function dismissBanner() {
+  const b = document.getElementById('whats-new-banner');
+  if (b) b.classList.remove('show');
+  try { localStorage.setItem('uci_wn_dismissed', APP_VERSION); } catch(e) {}
+}
+
 function showBanner(msg) {
   let b = document.getElementById('update-banner');
   if (!b) {
@@ -2588,8 +2594,9 @@ async function renderFollowing() {
 
   const cards = list.map(f => {
     const p = cached[f.slug] || {};
-    const photo = p.photo || getRiderPhoto(f.slug)
-      ? `<img class="following-card-photo" src="${esc(p.photo)}" loading="lazy" onerror="this.style.display='none'">`
+    const photoUrl = p.photo || getRiderPhoto(f.slug);
+    const photo = photoUrl
+      ? `<img class="following-card-photo" src="${esc(photoUrl)}" loading="lazy" onerror="this.style.display='none'">`
       : `<div class="following-card-photo-ph">🚴</div>`;
     const nat = f.nat || p.nat || '';
     const natFlag = flagImg(nat);
@@ -2639,7 +2646,6 @@ function maxSquad(raceKey) {
   const race = [...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===k);
   return (race && (race.total_stages||0) >= 21) ? 8 : 7;
 }
-const MAX_SQUAD = 9; // legacy — kept only for watchlist; use maxSquad() for squad logic
 const MAX_TRANSFERS = 5;
 const MAX_WATCH     = 10;
 const FANTASY_BUDGET = 100;   // total credits per team
@@ -2792,7 +2798,7 @@ function computePoints(riderNames,createdAt){
       for(const r of (stage.top10||[])){
         if(r.rank>=1&&r.rank<=10&&myNorm.has(normName(r.name))){
           const p=STAGE_PTS[r.rank]||0;
-          if(p>0){pts+=p;breakdown.push({race:race.name,label:'Stage '+stage.stage_num,rank:r.rank,pts:p,rider:r.name});}
+          if(p>0){pts+=p;breakdown.push({race:race.name,label:'Stage '+stage.num,rank:r.rank,pts:p,rider:r.name});}
         }
       }
     }
@@ -3313,6 +3319,14 @@ function fSearchSwap(q){
   el.querySelectorAll('[data-doswap]').forEach(node=>node.addEventListener('click',()=>fDoSwap(node.dataset.doswap)));
 }
 
+function fDeleteTeam(){
+  const team=fantasyLoad();if(!team)return;
+  fVerifyPin(team,'delete your team',()=>{
+    if(!confirm('Delete your team? This cannot be undone.'))return;
+    fantasyDelete();draftClear();_fPicked=[];renderFantasy();
+  });
+}
+
 function fDoSwap(inName){
   const team=fantasyLoad();if(!team)return;
   if((team.transfers_used||0)>=team.transfers_total){alert('No transfers remaining!');return;}
@@ -3788,10 +3802,6 @@ function renderHelp() {
   el.innerHTML = html;
 }
 
-// ── Service Worker ─────────────────────────────────────────────────────────
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('SW:',e));
-}
 </script>
 </body>
 </html>

@@ -153,7 +153,7 @@ Triggered by `heal.py --push` or on a 6-hour schedule. Re-runs the scraper if da
 | `rider_profiles.json` | All rider profiles — photo, bio, specialty scores, career wins (~4–5 MB) |
 | `pcs_stats.json` | PCS statistics tables powering the Stats tab |
 | `changelog.json` | Recent notable changes shown in the app |
-| `index.html` | Entire PWA — HTML + CSS + JS in one file (service worker v28) |
+| `index.html` | Entire PWA — HTML + CSS + JS in one file (~3806 lines, current APP_VERSION v64) |
 | `sw.js` | Service worker — network-first for data files, cache-first for static assets |
 | `manifest.json` | PWA manifest — icons, theme colour, install behaviour |
 | `push_subscriptions.json` | Browser push subscription endpoints (not in git if not committed) |
@@ -164,12 +164,23 @@ Triggered by `heal.py --push` or on a 6-hour schedule. Re-runs the scraper if da
 
 | Tab | Data source | Notes |
 |-----|-------------|-------|
-| Live / Upcoming / Recent | `data.json` | Auto-refreshes every 30 min |
-| Teams | `data.json` teams section | Rider rows open modal from `rider_profiles.json` |
-| Stats | `pcs_stats.json` | Category filter + accordion rows |
-| Fantasy | Local state | No backend |
+| Live / Upcoming / Recent | `data.json` | Auto-refreshes every 30 min; `silentCheck()` runs on tab visibility too |
+| Teams | `data.json` teams section | Rider rows open modal from `rider_profiles.json`; full-peloton search |
+| Following | `localStorage` + `rider_profiles.json` | Star riders, see live status and last result |
+| Stats | `pcs_stats.json` | Category filter + accordion rows; filters out women's riders by slug |
+| Rankings | `rider_profiles.json` | Spec score × quality multiplier; capped at age ≤35, current roster only |
+| Fantasy | `localStorage` | No backend — teams stored per-race keyed by slug |
+| Help | Static | Inline glossary |
 
-**Rider modal:** lazy-loads `rider_profiles.json` on first open, cached in memory. Shows photo, bio, specialty bars, and career wins for any of the ~1800 profiled riders. Triggered from race results, team rosters, and stats tables — no external links.
+**Rider modal:** lazy-loads `rider_profiles.json` on first open, cached in memory. Shows photo, bio, specialty bars, and career wins for any of the ~1800 profiled riders. Triggered from race results, team rosters, stats tables, rankings, and the Following tab — no external links.
+
+**Fantasy league mechanics:**
+- Squad size: `maxSquad()` — 8 riders for Grand Tours (≥21 stages), 7 for all others
+- Budget: 100 credits; costs scaled `COST_FLOOR=4` to `COST_CEIL=22` via √ of race points
+- Points: stage top-10, GC top-10, jersey holders (Points/KOM/Youth, 15 pts — not if rider also leads GC/Yellow)
+- Team codes: base64-encoded JSON; max 8 riders enforced on import
+- `Team Claudius` (I Claudius): AI opponent loaded from `best_teams.json`, three tiers Easy/Pro/Elite
+- Teams stored in `localStorage` under `fantasy_race_teams` keyed by race slug
 
 ---
 
@@ -205,45 +216,7 @@ git pull --rebase && git push
 
 **Men's only:** women's races filtered by UCI category (`1.WWT`, `2.WWT`, `1.W`, `2.W`, `1.1W`, `2.1W`) and by name keywords (women, ladies, femmes, dames). Applied in scraper + CI post-scrape.
 
-**Filter chips in app:** All / Grand Tours / Monuments / UWT ⭐ / Pro Series / 1.1 / 2.1 / This Week.
+**Filter chips in app:** All / Grand Tours / Monuments / UWT ⭐ / Pro Series / 1.1 / 2.1 / This Week. Filter bar hides on Fantasy, Stats, Following, Rankings, and Help tabs.
 
-- Grand Tours: `total_stages >= 21`
-- Monuments: Milano-Sanremo, Ronde van Vlaanderen, Paris-Roubaix, Liège-Bastogne-Liège, Il Lombardia
-
----
-
-## Self-Healing Runbook
-
-### data.json is corrupt
-```bash
-git checkout HEAD -- data.json
-```
-
-### Teams out of date (mid-season transfer)
-```bash
-py scraper.py --teams-only
-git add data.json && git commit -m "data: refresh teams" && git push
-```
-
-### Rider missing from search
-Rider search reads `rider_profiles.json` directly (~1800 riders). If a rider is missing, run:
-```bash
-py scrape_rider_profiles.py        # picks up any new riders
-git add rider_profiles.json && git commit -m "data: rider profiles" && git push
-```
-
-### Startlist missing for upcoming race
-```bash
-py scraper.py --startlists-only
-git add data.json && git commit -m "data: startlists" && git push
-```
-
-### App shows stale data
-1. Hard-refresh: Ctrl+Shift+R
-2. Check GitHub Actions — scraper may have failed
-3. Trigger manually: GitHub → Actions → Run workflow
-
-### Push notifications not working
-- Check `push_subscriptions.json` exists in project folder and is committed
-- Check `pywebpush` is installed: `pip install pywebpush`
-- Corporate networks may block FCM — test on mobile data
+- Grand Tours: `total_stages >= 21` (consistent across Live, Upcoming, and Recent grouping)
+- Monuments: Milano-Sanremo, Ron
