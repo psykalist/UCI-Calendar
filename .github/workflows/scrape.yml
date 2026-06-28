@@ -6,6 +6,8 @@ name: Update UCI Race Data
 #
 # To run a full scrape manually:  python scraper.py              (local only)
 # To refresh teams manually:      python scraper.py --teams-only (local only)
+#
+# Runner: self-hosted Windows machine (no WSL) -- uses pwsh + python shells
 
 on:
   schedule:
@@ -19,10 +21,6 @@ jobs:
     permissions:
       contents: write
 
-    defaults:
-      run:
-        shell: bash
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -30,18 +28,26 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure git + pull latest
+        shell: pwsh
         run: |
           git config --global user.name  'UCI Calendar Bot'
           git config --global user.email 'uci-bot@users.noreply.github.com'
-          git pull --rebase origin main || git pull origin main
+          git pull --rebase origin main
+          if ($LASTEXITCODE -ne 0) { git pull origin main }
 
       - name: Save old data.json for change detection
-        run: cp data.json data_old.json 2>/dev/null || echo '{"live":[],"upcoming":[],"recent":[],"teams":[]}' > data_old.json
+        shell: pwsh
+        run: |
+          if (Test-Path data.json) {
+            Copy-Item data.json data_old.json
+          } else {
+            '{"live":[],"upcoming":[],"recent":[],"teams":[]}' | Out-File data_old.json -Encoding utf8
+          }
 
       - name: Check cyclingflash.com reachability
         id: reachability
+        shell: python
         run: |
-          python - <<'EOF'
           import urllib.request, os
           try:
               req = urllib.request.Request(
@@ -56,57 +62,52 @@ jobs:
               reachable = False
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
               f.write(f'reachable={"true" if reachable else "false"}\n')
-          EOF
 
       - name: Run results-only scraper
         if: steps.reachability.outputs.reachable == 'true'
+        shell: pwsh
         run: python scraper.py --results-only
 
       - name: Strip any women's races from data.json
         if: steps.reachability.outputs.reachable == 'true'
+        shell: python
         run: |
-          python - <<'EOF'
           import json
           WOMEN_KEYWORDS = ['women', 'ladies', 'femmes', 'dames']
           WOMEN_CATS = {'1.WWT','2.WWT','1.W','2.W','1.1W','2.1W'}
           with open('data.json') as f:
               d = json.load(f)
           removed = 0
-          for key in ('live','upcoming','recent'):
-              before = len(d.get(key,[]))
-              d[key] = [r for r in d.get(key,[])
-                        if not any(w in (r.get('name','') or '').lower() for w in WOMEN_KEYWORDS)
-                        and (r.get('category','') or '') not in WOMEN_CATS]
+          for key in ('live', 'upcoming', 'recent'):
+              before = len(d.get(key, []))
+              d[key] = [r for r in d.get(key, [])
+                        if not any(w in (r.get('name', '') or '').lower() for w in WOMEN_KEYWORDS)
+                        and (r.get('category', '') or '') not in WOMEN_CATS]
               removed += before - len(d[key])
           if removed:
-              with open('data.json','w') as f:
-                  json.dump(d, f, ensure_ascii=False, separators=(',',':'))
+              with open('data.json', 'w') as f:
+                  json.dump(d, f, ensure_ascii=False, separators=(',', ':'))
               print(f'Removed {removed} womens race(s)')
           else:
               print('No womens races found')
-          EOF
 
       - name: Detect changes and update changelog
         if: steps.reachability.outputs.reachable == 'true'
+        shell: pwsh
         run: python detect_changes.py data_old.json data.json changelog.json
 
       - name: Clean up temp file
-        run: rm -f data_old.json
+        shell: pwsh
+        run: Remove-Item -ErrorAction SilentlyContinue data_old.json
 
       - name: Generate auto-team opponents (best_teams.json)
         if: steps.reachability.outputs.reachable == 'true'
+        shell: pwsh
         run: python generate_best_teams.py
 
       - name: Commit and push if data changed
+        shell: pwsh
         run: |
           git add data.json changelog.json best_teams.json
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
-            git commit -m "results: auto-scrape ${TIMESTAMP}"
-            git push origin main || (
-              git pull --rebase origin main && git push origin main
-            )
-            echo "Pushed to GitHub"
-          fi
+          $diff = git diff --staged --quiet
+          if ($LASTEXIT
