@@ -112,4 +112,17 @@ jobs:
         shell: python
         run: |
           import subprocess, sys
-         
+          from datetime import datetime, timezone
+
+          subprocess.run(['git', 'add', 'data.json', 'changelog.json', 'best_teams.json'], check=True)
+          diff = subprocess.run(['git', 'diff', '--staged', '--quiet'])
+          if diff.returncode != 0:
+              timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+              subprocess.run(['git', 'commit', '-m', f'results: auto-scrape {timestamp}'], check=True)
+              result = subprocess.run(['git', 'push', 'origin', 'main'])
+              if result.returncode != 0:
+                  subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], check=True)
+                  subprocess.run(['git', 'push', 'origin', 'main'], check=True)
+              print('Pushed to GitHub')
+          else:
+              print('No changes to commit')

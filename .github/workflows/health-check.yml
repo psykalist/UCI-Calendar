@@ -207,4 +207,46 @@ jobs:
                           errors.append(f"data.json is {age_h:.0f}h old -- run scraper.py locally")
                       elif age_h > 48:
                           warnings.append(f"data.json is {age_h:.0f}h old -- consider running scraper.py")
-              except json.JSONDec
+              except json.JSONDecodeError as e:
+                  errors.append(f"data.json invalid JSON: {e}")
+
+          if os.path.exists("index.html"):
+              sz = os.path.getsize("index.html")
+              info["index_html_bytes"] = sz
+              if sz < 80_000:
+                  errors.append(f"index.html too small: {sz} bytes")
+          else:
+              errors.append("index.html missing")
+
+          overall = "error" if errors else ("warning" if warnings else "ok")
+          status = {
+              "updated_at": datetime.now(timezone.utc).isoformat(),
+              "source": "ci",
+              "overall": overall,
+              "errors": errors,
+              "warnings": warnings,
+              "repairs": [],
+              "data": info,
+          }
+          with open("status.json", "w") as f:
+              json.dump(status, f, indent=2)
+
+          print(f"STATUS: {overall.upper()}")
+          for e in errors:   print(f"  x {e}")
+          for w in warnings: print(f"  ! {w}")
+
+          if errors:
+              sys.exit(1)
+          EOF
+
+      # -- Commit and push -----------------------------------------------------
+      - name: Commit and push
+        run: |
+          git add data.json changelog.json status.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "heal(ci): auto-repair ${TIMESTAMP}"
+            git push
+          fi
