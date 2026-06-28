@@ -2280,7 +2280,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v61';
+const APP_VERSION = 'v62';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3572,7 +3572,6 @@ function exportSubscribers(){
 
 // ── Rankings ──────────────────────────────────────────────────────────────
 const RANKING_CATS = [
-  { key:'gc',      label:'GC / Tours',  icon:'🏔️',  desc:'Grand tour specialists ranked by GC specialty score' },
   { key:'climber', label:'Climbers',    icon:'⛰️',  desc:'Best climbers ranked by climbing specialty score' },
   { key:'sprint',  label:'Sprinters',   icon:'⚡',  desc:'Best sprinters ranked by sprint specialty score' },
   { key:'oneday',  label:'Classics',    icon:'🔶',  desc:'One-day race specialists ranked by one-day specialty score' },
@@ -3580,10 +3579,9 @@ const RANKING_CATS = [
   { key:'hills',   label:'Puncheurs',   icon:'💥',  desc:'Hilly terrain specialists ranked by hills specialty score' },
   { key:'allround',label:'All-Round',   icon:'🌟',  desc:'Most versatile riders — average of top 3 specialty scores' },
 ];
-let rankingsCurCat  = 'gc';
+let rankingsCurCat  = 'climber';
 let rankingsProfiles = null;
 let rankingsAgeMap   = null;   // slug → age (from appData.teams)
-let rankingsGcSlugs  = null;   // top-25 GC slugs, cached after first render
 
 async function loadRankings() {
   const el = document.getElementById('sec-rankings');
@@ -3603,7 +3601,7 @@ async function loadRankings() {
         if (rider.slug && rider.age) rankingsAgeMap[rider.slug] = parseInt(rider.age) || 0;
       }
     }
-    rankingsGcSlugs = null; // reset on fresh load
+
   } catch(e) {
     el.innerHTML = `<div class="rankings-loading">⚠️ Could not load rider data<br><small>${esc(e.message)}</small></div>`;
     return;
@@ -3654,34 +3652,23 @@ function renderRankings() {
 
   const cat = RANKING_CATS.find(c=>c.key===rankingsCurCat);
 
-  // Filter to current men's WT/Pro peloton only (via pcs_enrichment slugs)
-  const mensSlugs = pcsEnrichmentData ? new Set(Object.keys(pcsEnrichmentData)) : null;
+  // Filter to current active roster (data.json teams) — more complete than pcs_enrichment
   // Ranking rules:
   //  • specialty × (1 + qualityPts/500) — big-race top-5s beat sheer volume
   //  • per-category minimum specialty score — no cross-discipline bleed
   //  • riders >35 excluded
-  //  • GC top-25 excluded from all other categories
-  const MIN_SPEC = {gc:2000, climber:2000, sprint:1500, oneday:2000, tt:2000, hills:2000, allround:0};
-
-  function buildRanked(key, excludeSlugs) {
-    const minSpec = MIN_SPEC[key] || 0;
-    return Object.entries(profiles)
-      .filter(([slug]) => !mensSlugs || mensSlugs.has(slug))
-      .filter(([slug]) => !excludeSlugs.has(slug))
-      .filter(([slug]) => { const a = rankingsAgeMap ? rankingsAgeMap[slug] : null; return a && a <= 35; })
-      .map(([slug, p]) => ({ slug, p, spec: getRankingScore(p, key), q: qualityScore(p), wins: recentWins(p) }))
-      .filter(x => x.spec >= Math.max(1, minSpec))
-      .map(x => ({ ...x, score: x.spec * (1 + x.q / 500) }))
-      .sort((a,b) => b.score - a.score)
-      .slice(0, 25);
-  }
-
-  // Build (or use cached) GC top-25 for exclusion
-  if (!rankingsGcSlugs) {
-    rankingsGcSlugs = new Set(buildRanked('gc', new Set()).map(x => x.slug));
-  }
-  const excludeSlugs = rankingsCurCat === 'gc' ? new Set() : rankingsGcSlugs;
-  const ranked = buildRanked(rankingsCurCat, excludeSlugs);
+  //  • riders can appear in multiple categories
+  const rosterSlugs = rankingsAgeMap ? new Set(Object.keys(rankingsAgeMap)) : null;
+  const MIN_SPEC = {climber:2000, sprint:1500, oneday:2000, tt:2000, hills:2000, allround:0};
+  const minSpec = MIN_SPEC[rankingsCurCat] || 0;
+  const ranked = Object.entries(profiles)
+    .filter(([slug]) => !rosterSlugs || rosterSlugs.has(slug))
+    .filter(([slug]) => { const a = rankingsAgeMap ? rankingsAgeMap[slug] : null; return a && a <= 35; })
+    .map(([slug, p]) => ({ slug, p, spec: getRankingScore(p, rankingsCurCat), q: qualityScore(p), wins: recentWins(p) }))
+    .filter(x => x.spec >= Math.max(1, minSpec))
+    .map(x => ({ ...x, score: x.spec * (1 + x.q / 500) }))
+    .sort((a,b) => b.score - a.score)
+    .slice(0, 25);
 
   const MEDALS = ['🥇','🥈','🥉'];
   const rows = ranked.map((x, i) => {
@@ -3700,7 +3687,7 @@ function renderRankings() {
   }).join('');
 
   el.innerHTML = catBar
-    + `<div class="rankings-subtitle">${cat.desc} · quality scoring · age ≤35 · GC riders separate</div>`
+    + `<div class="rankings-subtitle">${cat.desc} · quality scoring · age ≤35</div>`
     + `<div class="rankings-list">${rows || '<p style="padding:20px;color:var(--muted)">No data</p>'}</div>`;
 }
 
