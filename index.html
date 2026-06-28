@@ -2280,7 +2280,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v60';
+const APP_VERSION = 'v61';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3580,8 +3580,10 @@ const RANKING_CATS = [
   { key:'hills',   label:'Puncheurs',   icon:'💥',  desc:'Hilly terrain specialists ranked by hills specialty score' },
   { key:'allround',label:'All-Round',   icon:'🌟',  desc:'Most versatile riders — average of top 3 specialty scores' },
 ];
-let rankingsCurCat = 'gc';
+let rankingsCurCat  = 'gc';
 let rankingsProfiles = null;
+let rankingsAgeMap   = null;   // slug → age (from appData.teams)
+let rankingsGcSlugs  = null;   // top-25 GC slugs, cached after first render
 
 async function loadRankings() {
   const el = document.getElementById('sec-rankings');
@@ -3594,6 +3596,14 @@ async function loadRankings() {
     rankingsProfiles = data.riders || data;
     if (!rankingsProfiles || typeof rankingsProfiles !== 'object') throw new Error('Bad data');
     await loadPcsEnrichment(); // ensure men's peloton filter is ready
+    // Build age map from already-loaded team rosters
+    rankingsAgeMap = {};
+    for (const team of (appData && appData.teams) || []) {
+      for (const rider of team.riders || []) {
+        if (rider.slug && rider.age) rankingsAgeMap[rider.slug] = parseInt(rider.age) || 0;
+      }
+    }
+    rankingsGcSlugs = null; // reset on fresh load
   } catch(e) {
     el.innerHTML = `<div class="rankings-loading">⚠️ Could not load rider data<br><small>${esc(e.message)}</small></div>`;
     return;
@@ -3613,6 +3623,17 @@ function getRankingScore(profile, key) {
 function recentWins(profile) {
   const cutoff = (new Date().getFullYear() - 3) + '-01-01';
   return (profile.wins || []).filter(w => (w.date||'') >= cutoff).length;
+}
+function qualityScore(profile) {
+  // Sum pcs_points earned in top-5 finishes over last 3 years.
+  // Rewards big-race podiums over volume of small wins.
+  const cutoff = (new Date().getFullYear() - 3) + '-01-01';
+  let total = 0;
+  for (const r of profile.season_results || []) {
+    if ((r.date || '') < cutoff) continue;
+    if (r.stage_pos && r.stage_pos <= 5 && (r.pcs_points || 0) > 0) total += r.pcs_points;
+  }
+  return total;
 }
 
 function setRankingCat(key) {
@@ -3635,18 +3656,32 @@ function renderRankings() {
 
   // Filter to current men's WT/Pro peloton only (via pcs_enrichment slugs)
   const mensSlugs = pcsEnrichmentData ? new Set(Object.keys(pcsEnrichmentData)) : null;
-  // Option B ranking: specialty × (recent_wins + 1)
-  // Minimum specialty score per category prevents cross-discipline pollution
-  // (e.g. sprinters appearing in GC rankings due to high win counts)
+  // Ranking rules:
+  //  • specialty × (1 + qualityPts/500) — big-race top-5s beat sheer volume
+  //  • per-category minimum specialty score — no cross-discipline bleed
+  //  • riders >35 excluded
+  //  • GC top-25 excluded from all other categories
   const MIN_SPEC = {gc:2000, climber:2000, sprint:1500, oneday:2000, tt:2000, hills:2000, allround:0};
-  const minSpec  = MIN_SPEC[rankingsCurCat] || 0;
-  const ranked = Object.entries(profiles)
-    .filter(([slug]) => !mensSlugs || mensSlugs.has(slug))
-    .map(([slug, p]) => ({ slug, p, spec: getRankingScore(p, rankingsCurCat), wins: recentWins(p) }))
-    .filter(x => x.spec >= Math.max(1, minSpec))
-    .map(x => ({ ...x, score: x.spec * (x.wins + 1) }))
-    .sort((a,b) => b.score - a.score)
-    .slice(0, 25);
+
+  function buildRanked(key, excludeSlugs) {
+    const minSpec = MIN_SPEC[key] || 0;
+    return Object.entries(profiles)
+      .filter(([slug]) => !mensSlugs || mensSlugs.has(slug))
+      .filter(([slug]) => !excludeSlugs.has(slug))
+      .filter(([slug]) => { const a = rankingsAgeMap ? rankingsAgeMap[slug] : null; return a && a <= 35; })
+      .map(([slug, p]) => ({ slug, p, spec: getRankingScore(p, key), q: qualityScore(p), wins: recentWins(p) }))
+      .filter(x => x.spec >= Math.max(1, minSpec))
+      .map(x => ({ ...x, score: x.spec * (1 + x.q / 500) }))
+      .sort((a,b) => b.score - a.score)
+      .slice(0, 25);
+  }
+
+  // Build (or use cached) GC top-25 for exclusion
+  if (!rankingsGcSlugs) {
+    rankingsGcSlugs = new Set(buildRanked('gc', new Set()).map(x => x.slug));
+  }
+  const excludeSlugs = rankingsCurCat === 'gc' ? new Set() : rankingsGcSlugs;
+  const ranked = buildRanked(rankingsCurCat, excludeSlugs);
 
   const MEDALS = ['🥇','🥈','🥉'];
   const rows = ranked.map((x, i) => {
@@ -3665,7 +3700,7 @@ function renderRankings() {
   }).join('');
 
   el.innerHTML = catBar
-    + `<div class="rankings-subtitle">${cat.desc} · wins since ${new Date().getFullYear()-3}</div>`
+    + `<div class="rankings-subtitle">${cat.desc} · quality scoring · age ≤35 · GC riders separate</div>`
     + `<div class="rankings-list">${rows || '<p style="padding:20px;color:var(--muted)">No data</p>'}</div>`;
 }
 
