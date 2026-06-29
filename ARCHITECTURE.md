@@ -216,4 +216,83 @@ git pull --rebase && git push
 
 **Men's only:** women's races filtered by UCI category (`1.WWT`, `2.WWT`, `1.W`, `2.W`, `1.1W`, `2.1W`) and by name keywords (women, ladies, femmes, dames). Applied in scraper + CI post-scrape.
 
-**Filter chips in app:** All / Grand Tours / Monuments / UWT ⭐ / Pro Series / 1.
+**Filter chips in app:** All / Grand Tours / Monuments / UWT ⭐ / Pro Series / 1.1 / 2.1 / This Week. Filter bar hides on Fantasy, Stats, Following, Rankings, and Help tabs.
+
+- Grand Tours: `total_stages >= 21` (consistent across Live, Upcoming, and Recent grouping)
+- Monuments: Milano-Sanremo, Ronde van Vlaanderen, Paris-Roubaix, Liège-Bastogne-Liège, Il Lombardia
+- `isMonument` and `isGrandTour` flags set as `data-*` attributes on race cards for CSS/filter use
+
+---
+
+## CSS Design Tokens (`:root`)
+
+All colours are CSS custom properties on `:root`. Never use `var(--card)` or `var(--fg)` — these are **not defined** and will render transparent/invisible. Use:
+
+| Variable | Use |
+|----------|-----|
+| `--bg` | Page background (`#0f1117`) |
+| `--surface` | Card / panel background (`#1a1d27`) |
+| `--surface2` | Inset / input background (`#22263a`) |
+| `--border` | Borders and dividers (`#2e334d`) |
+| `--text` | Primary text (`#e8eaf0`) — use instead of `--fg` |
+| `--muted` | Secondary / placeholder text (`#8890b0`) |
+| `--accent` | Orange highlight (`#f4a261`) |
+| `--live` | Red / live indicator (`#e63946`) |
+| `--upcoming` | Blue / future (`#4361ee`) |
+| `--recent` | Green / past (`#2d6a4f`) |
+| `--gold` / `--silver` / `--bronze` | Podium colours |
+
+---
+
+## Key localStorage Keys
+
+| Key | Purpose |
+|-----|---------|
+| `uci_following` | Array of followed riders `{slug, name, nat}` |
+| `fantasy_race_teams` | Object keyed by race slug, each a saved team |
+| `fantasy_active_race` | Currently selected race slug |
+| `fantasy_league` | Array of imported friend teams |
+| `fantasy_watchlist` | Array of watchlisted riders |
+| `fantasy_draft` | In-progress team being built |
+| `iclaudius_teams` | Object keyed by race slug: Team Claudius entries |
+| `uci_auto_tier` | Selected I Claudius difficulty (`easy`/`pro`/`elite`) |
+| `uci_subscribers_dirty` | Flag: prompt user to re-export subscribers.json |
+| `uci_wn_dismissed` | APP_VERSION string when user last dismissed the What's New banner |
+
+---
+
+## Self-Healing Runbook
+
+### data.json is corrupt
+```bash
+git checkout HEAD -- data.json
+```
+
+### Teams out of date (mid-season transfer)
+```bash
+py scraper.py --teams-only
+git add data.json && git commit -m "data: refresh teams" && git push
+```
+
+### Rider missing from search
+Rider search reads `rider_profiles.json` directly (~1800 riders). If a rider is missing, run:
+```bash
+py scrape_rider_profiles.py        # picks up any new riders
+git add rider_profiles.json && git commit -m "data: rider profiles" && git push
+```
+
+### Startlist missing for upcoming race
+```bash
+py scraper.py --startlists-only
+git add data.json && git commit -m "data: startlists" && git push
+```
+
+### App shows stale data
+1. Hard-refresh: Ctrl+Shift+R
+2. Check GitHub Actions — scraper may have failed
+3. Trigger manually: GitHub → Actions → Run workflow
+
+### Push notifications not working
+- Check `push_subscriptions.json` exists in project folder and is committed
+- Check `pywebpush` is installed: `pip install pywebpush`
+- Corporate networks may block FCM — test on mobile data
