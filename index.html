@@ -369,7 +369,6 @@ header h1 span { color: var(--accent); }
 .startlist-toggle { display:flex; align-items:center; gap:6px; padding:10px 16px; font-size:.85rem; font-weight:600; color:var(--muted); cursor:pointer; border-top:1px solid var(--border); user-select:none; }
 .startlist-toggle:hover { color:var(--text); }
 .startlist-body { display:none; padding:0 16px 12px; }
-.race-card.open .startlist-body { display:block; }
 .startlist-teams { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:4px 16px; margin-top:6px; }
 .startlist-team-name { font-size:.72rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin-top:10px; margin-bottom:2px; grid-column:1/-1; }
 .startlist-rider { font-size:.82rem; color:var(--text); padding:1px 0; display:flex; align-items:center; gap:5px; }
@@ -672,12 +671,12 @@ header h1 span { color: var(--accent); }
 /* ── Season results ── */
 .season-results-list { font-size: .78rem; }
 .season-results-header {
-  display: grid; grid-template-columns: 44px 1fr 32px 36px 36px;
+  display: grid; grid-template-columns: 44px 1fr 32px 36px;
   gap: 4px; color: var(--muted); font-size: .68rem; font-weight: 700;
   text-transform: uppercase; padding: 4px 0 6px; border-bottom: 1px solid var(--border);
 }
 .season-result-row {
-  display: grid; grid-template-columns: 44px 1fr 32px 36px 36px;
+  display: grid; grid-template-columns: 44px 1fr 32px 36px;
   gap: 4px; padding: 5px 0; border-bottom: 1px solid var(--border);
   align-items: center;
 }
@@ -1132,7 +1131,7 @@ function applyFilters() {
   });
 }
 
-function applyFilter(f) { applyFilters(); }
+function applyFilter() { applyFilters(); }
 
 // ── Top-10 table ───────────────────────────────────────────────────────────────
 
@@ -2279,7 +2278,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v64';
+const APP_VERSION = 'v65';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2635,7 +2634,6 @@ async function renderFollowing() {
 
 // ── Fantasy League ─────────────────────────────────────────────────────────────
 
-const FANTASY_TEAM_KEY   = 'fantasy_my_team';
 const FANTASY_LEAGUE_KEY = 'fantasy_league';
 const FANTASY_WATCH_KEY  = 'fantasy_watchlist';
 const FANTASY_DRAFT_KEY  = 'fantasy_draft';
@@ -2646,8 +2644,7 @@ function maxSquad(raceKey) {
   const race = [...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===k);
   return (race && (race.total_stages||0) >= 21) ? 8 : 7;
 }
-const MAX_TRANSFERS = 5;
-const MAX_WATCH     = 10;
+const MAX_WATCH = 10;
 const FANTASY_BUDGET = 100;   // total credits per team
 const COST_FLOOR    = 4;      // cheapest rider
 const COST_CEIL     = 22;     // most expensive rider (sqrt-scaled from race results)
@@ -3207,9 +3204,6 @@ function _notifySubscribersExportNeeded(){
 // ── My Squad ─────────────────────────────────────────────────────────────────
 
 function renderMySquad(team,total,breakdown){
-  const left=team.transfers_total-(team.transfers_used||0);
-  const tCol=left===0?'var(--live)':left<=2?'var(--accent)':'#2dd36f';
-
   const totalCost=squadCost(team.riders);
   const rows=team.riders.map(r=>{
     const rpts=breakdown.filter(b=>normName(b.rider)===normName(r.name)).reduce((s,b)=>s+b.pts,0);
@@ -3240,8 +3234,6 @@ function renderMySquad(team,total,breakdown){
       +'</details>';
   }
 
-  const swapPanel='';
-
   return '<div style="margin-bottom:16px">'
     +'<div class="group-header">👕 '+esc(team.name)+(team._race?' — '+esc(team._race):'')+'</div>'
     +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">'
@@ -3250,7 +3242,7 @@ function renderMySquad(team,total,breakdown){
         +'<div style="text-align:center"><div style="font-size:1.8rem;font-weight:800;color:var(--gold)">'+total+'</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.8px">POINTS</div></div>'
 
       +'</div>'
-      +rows+swapPanel
+      +rows
     +'</div>'
     +bdHtml
     +'<div style="display:flex;gap:8px;margin-top:12px">'
@@ -3264,59 +3256,6 @@ function renderMySquad(team,total,breakdown){
       '<button onclick="exportSubscribers()" style="width:100%;margin-top:8px;padding:9px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.8rem;cursor:pointer">📧 Manage race notifications</button>'
     )
   +'</div>';
-}
-
-function fOpenSwap(name){
-  _fSwapOut=name;
-  const panel=document.getElementById('fSwapPanel');
-  const label=document.getElementById('fSwapLabel');
-  const srch=document.getElementById('fSwapSearch');
-  const res=document.getElementById('fSwapResults');
-  if(!panel)return;
-  if(label)label.textContent='Swapping out: '+name+' (costs 1 transfer)';
-  if(srch)srch.value='';
-  if(res)res.style.display='none';
-  panel.style.display='';
-}
-
-function fCloseSwap(){
-  const p=document.getElementById('fSwapPanel');if(p)p.style.display='none';
-}
-
-function fSearchSwap(q){
-  const el=document.getElementById('fSwapResults');if(!el)return;
-  const raw=q.trim();
-  const team=fantasyLoad();
-  const squad=new Set((team&&team.riders||[]).map(r=>r.name));
-  const all=getAllRiders().filter(r=>!squad.has(r.name));
-  let matches;
-  if(!raw){
-    matches=all.slice(0,20);
-  } else {
-    const lq=raw.toLowerCase();
-    const starts=all.filter(r=>(r.name||'').toLowerCase().startsWith(lq));
-    const contains=all.filter(r=>!(r.name||'').toLowerCase().startsWith(lq)&&(r.name||'').toLowerCase().includes(lq));
-    matches=[...starts,...contains].slice(0,20);
-  }
-  if(!all.length){el.style.display='block';el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.85rem">No rider data yet.</div>';return;}
-  if(!matches.length){el.style.display='block';el.innerHTML='<div style="padding:10px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
-  el.style.display='block';
-  const curCost=squadCost(team&&team.riders||[]);
-  const outCost=riderCost(_fSwapOut||'');
-  el.innerHTML=matches.map(r=>{
-    const c=riderCost(r.name);
-    const netChange=c-outCost;
-    const affordable=(curCost-outCost+c)<=FANTASY_BUDGET;
-    const changeStr=netChange>0?'+'+netChange:netChange===0?'±0':''+netChange;
-    const changeCol=netChange>0?'var(--live)':netChange<0?'#2dd36f':'var(--muted)';
-    return '<div data-doswap="'+esc(r.name)+'" style="padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);transition:background .15s;opacity:'+(affordable?'1':'.4')+'" onmouseenter="this.style.background=\'var(--surface2)\'" onmouseleave="this.style.background=\'\'">'
-      +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
-      +'<span style="flex:1;font-size:.88rem">'+esc(r.name)+'</span>'
-      +costBadge(r.name)
-      +'<span style="font-size:.72rem;font-weight:700;color:'+changeCol+';min-width:26px;text-align:right">'+changeStr+'</span>'
-    +'</div>';
-  }).join('');
-  el.querySelectorAll('[data-doswap]').forEach(node=>node.addEventListener('click',()=>fDoSwap(node.dataset.doswap)));
 }
 
 function fDeleteTeam(){
@@ -3804,13 +3743,5 @@ function renderHelp() {
 
 </script>
 </body>
-</html>).join('')}
-    </div>`).join('')}
-  </div>`;
-
-  el.innerHTML = html;
-}
-
-</script>
-</body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
