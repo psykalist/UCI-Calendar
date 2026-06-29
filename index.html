@@ -1976,9 +1976,25 @@ async function openRiderModal(slug) {
   }
   if (teamName) meta += (meta ? '<br>' : '') + esc(teamName);
 
-  // Specialty bars — scraper keys: gc, oneday, tt, sprint, climber, hills
+  // Specialty bars — prefer CyclingOracle co_stats (0–100), fall back to PCS specialties
+  const coStats    = (profile || {}).co_stats;
   const specialties = (profile || {}).specialties || {};
-  const SPEC_ORDER = [
+  // CyclingOracle layout: grouped by terrain / finish / TT
+  const CO_ORDER = [
+    { key:'average',      label:'Form',      color:'#e63946' },
+    { key:'mountain',     label:'Mountain',  color:'#2a9d8f' },
+    { key:'hill',         label:'Hills',     color:'#52b788' },
+    { key:'flat',         label:'Flat',      color:'#8ecae6' },
+    { key:'cobble',       label:'Cobbles',   color:'#adb5bd' },
+    { key:'gc',           label:'GC',        color:'#c77dff' },
+    { key:'onedaypoints', label:'One Day',   color:'#f4a261' },
+    { key:'sprint',       label:'Sprint',    color:'#e9c46a' },
+    { key:'timetrial',    label:'TT',        color:'#4361ee' },
+    { key:'ttlong',       label:'TT Long',   color:'#4895ef' },
+    { key:'ttshort',      label:'TT Short',  color:'#4cc9f0' },
+    { key:'prologue',     label:'Prologue',  color:'#7b2d8b' },
+  ];
+  const PCS_ORDER = [
     { key: 'climber', label: 'Climber',    color: '#2a9d8f' },
     { key: 'gc',      label: 'GC',         color: '#e63946' },
     { key: 'oneday',  label: 'One Day',    color: '#f4a261' },
@@ -1986,9 +2002,23 @@ async function openRiderModal(slug) {
     { key: 'tt',      label: 'Time Trial', color: '#4361ee' },
     { key: 'hills',   label: 'Hills',      color: '#8ecae6' },
   ];
-  const maxSpec = Math.max(1, ...Object.values(specialties).filter(Number.isFinite));
-  const specHTML = Object.keys(specialties).length
-    ? `<div class="spec-bars">${SPEC_ORDER.map(({key, label, color}) => {
+  let specHTML;
+  if (coStats) {
+    // CyclingOracle scores — all on 0–100 scale
+    specHTML = `<div class="spec-bars">${CO_ORDER.map(({key, label, color}) => {
+        const score = coStats[key];
+        if (score == null) return '';
+        return `<div class="spec-row">
+          <div class="spec-label">${label}</div>
+          <div class="spec-track"><div class="spec-fill" style="width:${score}%;background:${color}"></div></div>
+          <div class="spec-score">${score}</div>
+        </div>`;
+      }).join('')
+    }<div style="font-size:.68rem;color:var(--muted);text-align:right;margin-top:4px">CyclingOracle · /100</div></div>`;
+  } else if (Object.keys(specialties).length) {
+    // PCS fallback
+    const maxSpec = Math.max(1, ...Object.values(specialties).filter(Number.isFinite));
+    specHTML = `<div class="spec-bars">${PCS_ORDER.map(({key, label, color}) => {
         const score = specialties[key];
         if (!score) return '';
         const bar = Math.round((score / maxSpec) * 100);
@@ -1997,8 +2027,11 @@ async function openRiderModal(slug) {
           <div class="spec-track"><div class="spec-fill" style="width:${bar}%;background:${color}"></div></div>
           <div class="spec-score">${score.toLocaleString()}</div>
         </div>`;
-      }).join('')}</div>`
-    : `<p class="rider-modal-no-data">Specialty scores not available</p>`;
+      }).join('')
+    }</div>`;
+  } else {
+    specHTML = `<p class="rider-modal-no-data">Specialty scores not available</p>`;
+  }
 
   // Wins — scraper: {nr, race, class, date, cat}
   const winsHTML = wins.length
@@ -2278,7 +2311,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v65';
+const APP_VERSION = 'v66';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3524,15 +3557,19 @@ function exportSubscribers(){
 
 
 // ── Rankings ──────────────────────────────────────────────────────────────
+// Categories use CyclingOracle co_stats keys (0–100 scale).
+// Falls back to PCS specialties (rescaled) when co_stats is absent.
 const RANKING_CATS = [
-  { key:'climber', label:'Climbers',    icon:'⛰️',  desc:'Best climbers ranked by climbing specialty score' },
-  { key:'sprint',  label:'Sprinters',   icon:'⚡',  desc:'Best sprinters ranked by sprint specialty score' },
-  { key:'oneday',  label:'Classics',    icon:'🔶',  desc:'One-day race specialists ranked by one-day specialty score' },
-  { key:'tt',      label:'Time Trial',  icon:'🕐',  desc:'Best time trialists ranked by TT specialty score' },
-  { key:'hills',   label:'Puncheurs',   icon:'💥',  desc:'Hilly terrain specialists ranked by hills specialty score' },
-  { key:'allround',label:'All-Round',   icon:'🌟',  desc:'Most versatile riders — average of top 3 specialty scores' },
+  { key:'average',      label:'In Form',   icon:'🔥', desc:'Current form — CyclingOracle shape score based on recent results' },
+  { key:'mountain',     label:'Climbers',  icon:'⛰️', desc:'Mountain climbing ability' },
+  { key:'sprint',       label:'Sprinters', icon:'⚡', desc:'Sprint finish ability' },
+  { key:'gc',           label:'GC',        icon:'🏆', desc:'Stage race GC ability' },
+  { key:'onedaypoints', label:'Classics',  icon:'🔶', desc:'One-day race specialists' },
+  { key:'timetrial',    label:'TT',        icon:'🕐', desc:'Time trial ability' },
+  { key:'hill',         label:'Puncheurs', icon:'💥', desc:'Hilly terrain specialists' },
+  { key:'cobble',       label:'Cobbles',   icon:'🪨', desc:'Cobblestone specialists — Spring classics' },
 ];
-let rankingsCurCat  = 'climber';
+let rankingsCurCat  = 'average';
 let rankingsProfiles = null;
 let rankingsAgeMap   = null;   // slug → age (from appData.teams)
 
@@ -3562,13 +3599,22 @@ async function loadRankings() {
   renderRankings();
 }
 
+// PCS specialty key → CO stat key (for fallback scoring)
+const PCS_TO_CO = { climber:'mountain', gc:'gc', oneday:'onedaypoints', sprint:'sprint', tt:'timetrial', hills:'hill' };
+
 function getRankingScore(profile, key) {
+  // Prefer CyclingOracle co_stats (0–100 scale)
+  const co = profile.co_stats;
+  if (co && co[key] != null) return co[key];
+  // Fallback: PCS specialties rescaled to 0–100
   const sp = profile.specialties || {};
-  if (key === 'allround') {
-    const vals = Object.values(sp).filter(Number.isFinite).sort((a,b)=>b-a).slice(0,3);
-    return vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : 0;
+  // Find which PCS key maps to this CO key
+  const pcsKey = Object.entries(PCS_TO_CO).find(([,v]) => v === key);
+  if (pcsKey) {
+    const raw = sp[pcsKey[0]] || 0;
+    return Math.min(100, Math.round(raw / 100)); // PCS scale ~0–10000 → 0–100
   }
-  return (sp[key] || 0);
+  return 0;
 }
 
 function recentWins(profile) {
@@ -3611,23 +3657,21 @@ function renderRankings() {
 
   const cat = RANKING_CATS.find(c=>c.key===rankingsCurCat);
 
-  // Filter to current active roster (data.json teams) — more complete than pcs_enrichment
   // Ranking rules:
-  //  • specialty × (1 + qualityPts/500) — big-race top-5s beat sheer volume
-  //  • per-category minimum specialty score — no cross-discipline bleed
-  //  • riders >35 excluded
-  //  • riders can appear in multiple categories
+  //  • Primary sort: CyclingOracle co_stats score (0–100), or PCS fallback
+  //  • Tie-break: qualityScore (recent top-5 race points)
+  //  • Riders >35 excluded; restricted to current active roster
+  //  • Minimum score of 1 to filter out riders with no data for this category
   const rosterSlugs = rankingsAgeMap ? new Set(Object.keys(rankingsAgeMap)) : null;
-  const MIN_SPEC = {climber:2000, sprint:1500, oneday:2000, tt:2000, hills:2000, allround:0};
-  const minSpec = MIN_SPEC[rankingsCurCat] || 0;
+  // Check how many profiles have co_stats for banner display
+  const coCount = Object.values(profiles).filter(p => p.co_stats).length;
   const ranked = Object.entries(profiles)
     .filter(([slug]) => !rosterSlugs || rosterSlugs.has(slug))
     .filter(([slug]) => { const a = rankingsAgeMap ? rankingsAgeMap[slug] : null; return a && a <= 35; })
-    .map(([slug, p]) => ({ slug, p, spec: getRankingScore(p, rankingsCurCat), q: qualityScore(p), wins: recentWins(p) }))
-    .filter(x => x.spec >= Math.max(1, minSpec))
-    .map(x => ({ ...x, score: x.spec * (1 + x.q / 500) }))
-    .sort((a,b) => b.score - a.score)
-    .slice(0, 25);
+    .map(([slug, p]) => ({ slug, p, spec: getRankingScore(p, rankingsCurCat), wins: recentWins(p) }))
+    .filter(x => x.spec >= 1)
+    .sort((a,b) => b.spec - a.spec || qualityScore(b.p) - qualityScore(a.p))
+    .slice(0, 30);
 
   const MEDALS = ['🥇','🥈','🥉'];
   const rows = ranked.map((x, i) => {
@@ -3636,18 +3680,25 @@ function renderRankings() {
     const flag = nat ? `<img src="https://flagcdn.com/16x12/${nat}.png" width="16" height="11" style="vertical-align:middle;border-radius:1px" onerror="this.style.display='none'">` : '';
     const medal = i < 3 ? `<span class="rankings-medal">${MEDALS[i]}</span>` : `<span class="rankings-pos">${i+1}</span>`;
     const winsEl = x.wins > 0 ? `<span class="rankings-wins">${x.wins}W</span>` : '';
+    // Score bar — fill proportional to score (CO: 0–100, show as coloured pill)
+    const barW = Math.round(x.spec);
+    const barColor = barW >= 90 ? '#e63946' : barW >= 75 ? '#f4a261' : '#4361ee';
     return `<div class="rankings-row" onclick="openRiderModal('${esc(x.slug)}')">
       ${medal}
       <span class="rankings-flag">${flag}</span>
       <span class="rankings-name">${esc(name)}</span>
       ${winsEl}
-      <span class="rankings-score">${x.spec.toLocaleString()}</span>
+      <span class="rankings-score" title="Score: ${x.spec}/100" style="color:${barColor};font-weight:600">${x.spec}</span>
     </div>`;
   }).join('');
 
+  const sourceNote = coCount > 100
+    ? `CyclingOracle · ${coCount} riders · age ≤35`
+    : `⚠️ Run <code>py scrape_cyclingoracle.py</code> for live scores · PCS fallback active`;
+
   el.innerHTML = catBar
-    + `<div class="rankings-subtitle">${cat.desc} · quality scoring · age ≤35</div>`
-    + `<div class="rankings-list">${rows || '<p style="padding:20px;color:var(--muted)">No data</p>'}</div>`;
+    + `<div class="rankings-subtitle">${cat.desc} · ${sourceNote}</div>`
+    + `<div class="rankings-list">${rows || '<p style="padding:20px;color:var(--muted)">No data — run scrape_cyclingoracle.py</p>'}</div>`;
 }
 
 
