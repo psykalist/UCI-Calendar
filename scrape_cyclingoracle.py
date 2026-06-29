@@ -215,4 +215,104 @@ def main():
         all_co_riders.extend(riders)
         print(f'    got {len(riders)} riders (total so far: {len(all_co_riders)})')
 
-        if len(all_co_riders) >= total or 
+        if len(all_co_riders) >= total or not riders:
+            break
+
+        page += 1
+        time.sleep(DELAY)
+
+    print(f'\n✅  Fetched {len(all_co_riders)} CyclingOracle riders')
+
+    # Country name → ISO2 code (for CO nation field)
+    COUNTRY_ISO = {
+        'Albania':'al','Algeria':'dz','Andorra':'ad','Argentina':'ar','Armenia':'am',
+        'Australia':'au','Austria':'at','Azerbaijan':'az','Bahrain':'bh','Belgium':'be',
+        'Bolivia':'bo','Brazil':'br','Bulgaria':'bg','Cameroon':'cm','Canada':'ca',
+        'Chile':'cl','Colombia':'co','Costa Rica':'cr','Croatia':'hr','Czech Republic':'cz',
+        'Czechia':'cz','Denmark':'dk','Ecuador':'ec','Egypt':'eg','Eritrea':'er',
+        'Estonia':'ee','Ethiopia':'et','Finland':'fi','France':'fr','Georgia':'ge',
+        'Germany':'de','Great Britain':'gb','Greece':'gr','Hungary':'hu','Ireland':'ie',
+        'Israel':'il','Italy':'it','Japan':'jp','Kazakhstan':'kz','Kenya':'ke',
+        'Kosovo':'xk','Latvia':'lv','Lithuania':'lt','Luxembourg':'lu','Mexico':'mx',
+        'Moldova':'md','Monaco':'mc','Morocco':'ma','Netherlands':'nl','New Zealand':'nz',
+        'Norway':'no','Panama':'pa','Poland':'pl','Portugal':'pt','Romania':'ro',
+        'Rwanda':'rw','Serbia':'rs','Slovakia':'sk','Slovenia':'si','South Africa':'za',
+        'Spain':'es','Sweden':'se','Switzerland':'ch','Turkey':'tr','Ukraine':'ua',
+        'United States':'us','Uzbekistan':'uz','Venezuela':'ve',
+    }
+
+    # Match and merge
+    matched   = 0
+    created   = 0
+    unmatched = []
+
+    for co_rider in all_co_riders:
+        co_name  = co_rider.get('fullName', '')
+        co_stats = co_rider.get('currentStats')
+        if not co_name or not co_stats:
+            continue
+
+        pcs_slug = lookup_rider(co_name, exact_index, prefix_index)
+
+        if pcs_slug:
+            if not DRY_RUN:
+                riders_json[pcs_slug]['co_stats'] = co_stats
+            matched += 1
+        else:
+            # Create a minimal profile entry using the CO slug (strip numeric suffix)
+            co_slug_raw = co_rider.get('slug', '')
+            # CO slug format: 'jonas-vingegaard-38195' → strip trailing -NNNNN
+            pcs_slug_candidate = re.sub(r'-\d+$', '', co_slug_raw)
+            if not pcs_slug_candidate:
+                pcs_slug_candidate = normalise(co_name)
+
+            if not DRY_RUN:
+                nat = COUNTRY_ISO.get(co_rider.get('nation', ''), '')
+                team_name = (co_rider.get('currentTeam') or {}).get('name', '')
+                existing = riders_json.get(pcs_slug_candidate, {})
+                riders_json[pcs_slug_candidate] = {
+                    **existing,                        # preserve any existing PCS data
+                    'name':    existing.get('name', co_name),
+                    'nat':     existing.get('nat', nat),
+                    'co_stats': co_stats,
+                    '_co_only': not bool(existing),   # flag: no PCS profile, CO-sourced only
+                }
+                if team_name and not existing.get('team'):
+                    riders_json[pcs_slug_candidate]['team'] = team_name
+            created += 1
+
+    print(f'\n🔗  Matched:   {matched} riders (existing PCS profiles)')
+    print(f'➕  Created:   {created} minimal profiles (CO-only, no PCS data)')
+    unmatched_count = len(all_co_riders) - matched - created
+    if unmatched_count:
+        print(f'❓  Skipped:   {unmatched_count} (no name/stats)')
+
+    if DRY_RUN:
+        print('\n🔍  Dry run — no file written.')
+        print(f'    Would write {len(riders_json):,} total profiles ({matched} updated, {created} new)')
+        return
+
+    # Write back
+    if isinstance(db, dict) and 'riders' in db:
+        db['riders'] = riders_json
+        import datetime
+        db['co_scraped_at'] = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    else:
+        db = riders_json
+
+    tmp = PROFILES_FILE.with_suffix('.tmp')
+    with open(tmp, 'w', encoding='utf-8') as f:
+        json.dump(db, f, ensure_ascii=False, separators=(',', ':'))
+    os.replace(tmp, PROFILES_FILE)
+
+    size_mb = PROFILES_FILE.stat().st_size / 1_048_576
+    print(f'\n💾  Written rider_profiles.json  ({size_mb:.1f} MB)')
+    print(f'\nTotal profiles: {len(riders_json):,} ({matched} updated, {created} new CO-only entries)')
+    print('\nNext steps:')
+    print('  git add rider_profiles.json')
+    print('  git commit -m "data: cyclingoracle stats"')
+    print('  git push')
+
+
+if __name__ == '__main__':
+    main()
