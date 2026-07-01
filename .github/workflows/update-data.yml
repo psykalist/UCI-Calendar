@@ -66,21 +66,70 @@ jobs:
         shell: powershell
         run: |
           $found = $null
+
+          # 1) py launcher -- works even when python.exe itself isn't on PATH
           try {
             $viaPy = & py -3 -c "import sys; print(sys.executable)" 2>$null
             if ($LASTEXITCODE -eq 0 -and $viaPy) { $found = Split-Path $viaPy }
           } catch {}
+
+          # 2) where.exe -- catches installs on PATH that our candidate list
+          # below doesn't know about, while skipping 0-byte Microsoft Store
+          # app-execution-alias stubs (those just pop the Store, not Python).
+          if (-not $found) {
+            foreach ($exe in @('python.exe','python3.exe')) {
+              try {
+                $whereOut = & where.exe $exe 2>$null
+                if ($LASTEXITCODE -eq 0 -and $whereOut) {
+                  foreach ($line in ($whereOut -split "`r?`n")) {
+                    if ($line -and (Test-Path $line) -and ((Get-Item $line).Length -gt 0)) {
+                      $found = Split-Path $line
+                      break
+                    }
+                  }
+                }
+              } catch {}
+              if ($found) { break }
+            }
+          }
+
+          # 3) Windows registry -- python.org/winget installers register here
+          # regardless of PATH, so this survives PATH getting reset by a
+          # Windows or Git update.
+          if (-not $found) {
+            $regRoots = @(
+              'HKLM:\SOFTWARE\Python\PythonCore',
+              'HKLM:\SOFTWARE\WOW6432Node\Python\PythonCore',
+              'HKCU:\SOFTWARE\Python\PythonCore'
+            )
+            foreach ($root in $regRoots) {
+              if (Test-Path $root) {
+                $versions = Get-ChildItem $root -ErrorAction SilentlyContinue | Sort-Object Name -Descending
+                foreach ($v in $versions) {
+                  $ip = Get-ItemProperty -Path (Join-Path $v.PSPath 'InstallPath') -ErrorAction SilentlyContinue
+                  $dir = $ip.'(default)'
+                  if ($dir -and (Test-Path (Join-Path $dir 'python.exe'))) { $found = $dir.TrimEnd('\'); break }
+                }
+              }
+              if ($found) { break }
+            }
+          }
+
+          # 4) Filesystem sweep of common install locations (original
+          # fallback, now also checking Chocolatey's install dir).
           if (-not $found) {
             $candidates = @()
             $candidates += Get-ChildItem "C:\Program Files\Python*" -Directory -ErrorAction SilentlyContinue
             $candidates += Get-ChildItem "C:\Program Files (x86)\Python*" -Directory -ErrorAction SilentlyContinue
             $candidates += Get-ChildItem "C:\Users\*\AppData\Local\Programs\Python\Python*" -Directory -ErrorAction SilentlyContinue
             $candidates += Get-ChildItem "C:\Python*" -Directory -ErrorAction SilentlyContinue
-            $match = $candidates | Where-Object { Test-Path (Join-Path $_.FullName "python.exe") } | Select-Object -First 1
+            $candidates += Get-ChildItem "C:\ProgramData\chocolatey\lib\python*\tools" -Directory -ErrorAction SilentlyContinue
+            $match = $candidates | Where-Object { Test-Path (Join-Path $_.FullName "python.exe") } | Sort-Object FullName -Descending | Select-Object -First 1
             if ($match) { $found = $match.FullName }
           }
+
           if (-not $found) {
-            Write-Error "Could not locate python.exe in any known install location. Install Python 'for all users', or add its folder to this runner's system PATH manually."
+            Write-Error "Could not locate python.exe via py launcher, where.exe, registry, or filesystem search. Install Python 'for all users' (so it's machine-wide, not user-profile-only -- the runner service can't see user profiles), or add its folder to this runner's system PATH manually."
             exit 1
           }
           Write-Host "Found Python at: $found"
@@ -197,55 +246,4 @@ jobs:
 
           # 6. Each live race has a name and slug
           for r in d.get("live", []):
-              if not r.get("name") or not (r.get("slug") or r.get("cf_slug")):
-                  errors.append(f"live race missing name/slug: {r}")
-                  break
-
-          live     = len(d.get("live", []))
-          upcoming = len(d.get("upcoming", []))
-          recent   = len(d.get("recent", []))
-
-          if errors:
-              for e in errors:
-                  print(f"✗ {e}")
-              sys.exit(1)
-
-          print(f"✓ data.json valid — {live} live, {upcoming} upcoming, {recent} recent")
-          print(f"  scraped_at: {d.get('scraped_at_human', d.get('scraped_at', '?'))}")
-          print("=== Validation passed ===")
-          PYEOF
-
-      # ── Change detection (non-critical) ───────────────────────────────────
-      - name: Detect changes and update changelog
-        continue-on-error: true
-        run: |
-          if [ -f data_old.json ]; then
-            python3 detect_changes.py data_old.json data.json changelog.json \
-              && echo "✓ Changelog updated" \
-              || echo "⚠ detect_changes.py failed — continuing without changelog update"
-          else
-            echo "ℹ No data_old.json — skipping change detection"
-          fi
-
-      # ── Cleanup (always runs) ──────────────────────────────────────────────
-      - name: Clean up temp files
-        if: always()
-        run: rm -f data_old.json
-
-      # ── Commit & push ──────────────────────────────────────────────────────
-      - name: Commit and push
-        run: |
-          git add data.json changelog.json
-          if git diff --staged --quiet; then
-            echo "ℹ No changes to commit"
-          else
-            git commit -m "chore: update race data $(date -u '+%Y-%m-%d %H:%M UTC')"
-            # Retry once on push conflict (another push may have landed during scrape)
-            git push origin main || (
-              echo "Push rejected — pulling and retrying..."
-              git pull --rebase origin main \
-                && git push origin main \
-                || (echo "✗ Push failed after retry" && exit 1)
-            )
-            echo "✓ Pushed to GitHub"
-          fi
+              if not r.get("name") or not (r.get("slug") or r.get("cf_s

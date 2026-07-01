@@ -48,21 +48,70 @@ jobs:
         shell: powershell
         run: |
           $found = $null
+
+          # 1) py launcher -- works even when python.exe itself isn't on PATH
           try {
             $viaPy = & py -3 -c "import sys; print(sys.executable)" 2>$null
             if ($LASTEXITCODE -eq 0 -and $viaPy) { $found = Split-Path $viaPy }
           } catch {}
+
+          # 2) where.exe -- catches installs on PATH that our candidate list
+          # below doesn't know about, while skipping 0-byte Microsoft Store
+          # app-execution-alias stubs (those just pop the Store, not Python).
+          if (-not $found) {
+            foreach ($exe in @('python.exe','python3.exe')) {
+              try {
+                $whereOut = & where.exe $exe 2>$null
+                if ($LASTEXITCODE -eq 0 -and $whereOut) {
+                  foreach ($line in ($whereOut -split "`r?`n")) {
+                    if ($line -and (Test-Path $line) -and ((Get-Item $line).Length -gt 0)) {
+                      $found = Split-Path $line
+                      break
+                    }
+                  }
+                }
+              } catch {}
+              if ($found) { break }
+            }
+          }
+
+          # 3) Windows registry -- python.org/winget installers register here
+          # regardless of PATH, so this survives PATH getting reset by a
+          # Windows or Git update.
+          if (-not $found) {
+            $regRoots = @(
+              'HKLM:\SOFTWARE\Python\PythonCore',
+              'HKLM:\SOFTWARE\WOW6432Node\Python\PythonCore',
+              'HKCU:\SOFTWARE\Python\PythonCore'
+            )
+            foreach ($root in $regRoots) {
+              if (Test-Path $root) {
+                $versions = Get-ChildItem $root -ErrorAction SilentlyContinue | Sort-Object Name -Descending
+                foreach ($v in $versions) {
+                  $ip = Get-ItemProperty -Path (Join-Path $v.PSPath 'InstallPath') -ErrorAction SilentlyContinue
+                  $dir = $ip.'(default)'
+                  if ($dir -and (Test-Path (Join-Path $dir 'python.exe'))) { $found = $dir.TrimEnd('\'); break }
+                }
+              }
+              if ($found) { break }
+            }
+          }
+
+          # 4) Filesystem sweep of common install locations (original
+          # fallback, now also checking Chocolatey's install dir).
           if (-not $found) {
             $candidates = @()
             $candidates += Get-ChildItem "C:\Program Files\Python*" -Directory -ErrorAction SilentlyContinue
             $candidates += Get-ChildItem "C:\Program Files (x86)\Python*" -Directory -ErrorAction SilentlyContinue
             $candidates += Get-ChildItem "C:\Users\*\AppData\Local\Programs\Python\Python*" -Directory -ErrorAction SilentlyContinue
             $candidates += Get-ChildItem "C:\Python*" -Directory -ErrorAction SilentlyContinue
-            $match = $candidates | Where-Object { Test-Path (Join-Path $_.FullName "python.exe") } | Select-Object -First 1
+            $candidates += Get-ChildItem "C:\ProgramData\chocolatey\lib\python*\tools" -Directory -ErrorAction SilentlyContinue
+            $match = $candidates | Where-Object { Test-Path (Join-Path $_.FullName "python.exe") } | Sort-Object FullName -Descending | Select-Object -First 1
             if ($match) { $found = $match.FullName }
           }
+
           if (-not $found) {
-            Write-Error "Could not locate python.exe in any known install location. Install Python 'for all users', or add its folder to this runner's system PATH manually."
+            Write-Error "Could not locate python.exe via py launcher, where.exe, registry, or filesystem search. Install Python 'for all users' (so it's machine-wide, not user-profile-only -- the runner service can't see user profiles), or add its folder to this runner's system PATH manually."
             exit 1
           }
           Write-Host "Found Python at: $found"
@@ -115,56 +164,4 @@ jobs:
         shell: python
         run: |
           import json
-          WOMEN_KEYWORDS = ['women', 'ladies', 'femmes', 'dames']
-          WOMEN_CATS = {'1.WWT','2.WWT','1.W','2.W','1.1W','2.1W'}
-          with open('data.json') as f:
-              d = json.load(f)
-          removed = 0
-          for key in ('live', 'upcoming', 'recent'):
-              before = len(d.get(key, []))
-              d[key] = [r for r in d.get(key, [])
-                        if not any(w in (r.get('name', '') or '').lower() for w in WOMEN_KEYWORDS)
-                        and (r.get('category', '') or '') not in WOMEN_CATS]
-              removed += before - len(d[key])
-          if removed:
-              with open('data.json', 'w') as f:
-                  json.dump(d, f, ensure_ascii=False, separators=(',', ':'))
-              print(f'Removed {removed} womens race(s)')
-          else:
-              print('No womens races found')
-
-      - name: Detect changes and update changelog
-        if: steps.reachability.outputs.reachable == 'true'
-        shell: cmd
-        run: python detect_changes.py data_old.json data.json changelog.json
-
-      - name: Clean up temp file
-        shell: python
-        run: |
-          import os
-          if os.path.exists('data_old.json'):
-              os.remove('data_old.json')
-
-      - name: Generate auto-team opponents (best_teams.json)
-        if: steps.reachability.outputs.reachable == 'true'
-        shell: cmd
-        run: python generate_best_teams.py
-
-      - name: Commit and push if data changed
-        shell: python
-        run: |
-          import subprocess, sys
-          from datetime import datetime, timezone
-
-          subprocess.run(['git', 'add', 'data.json', 'changelog.json', 'best_teams.json'], check=True)
-          diff = subprocess.run(['git', 'diff', '--staged', '--quiet'])
-          if diff.returncode != 0:
-              timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
-              subprocess.run(['git', 'commit', '-m', f'results: auto-scrape {timestamp}'], check=True)
-              result = subprocess.run(['git', 'push', 'origin', 'main'])
-              if result.returncode != 0:
-                  subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], check=True)
-                  subprocess.run(['git', 'push', 'origin', 'main'], check=True)
-              print('Pushed to GitHub')
-          else:
-              print('No changes to commit')
+          WOMEN_KEYWORDS
