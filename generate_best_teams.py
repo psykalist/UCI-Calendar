@@ -23,7 +23,8 @@ Scoring constants must stay in sync with index.html:
     STAGE_PTS  = {1:25,2:12,3:8,4..10:3}
     GC_PTS     = {1:50,2:30,3:20,4..10:8}
     JERSEY_PTS = 15
-    BUDGET=100  MAX_SQUAD=9  COST_FLOOR=4  COST_CEIL=22
+    BUDGET=100  MAX_SQUAD_GT=8 (>=21 stages)  MAX_SQUAD=7 (other stage races)
+    MAX_SQUAD_ONEDAY=3 (total_stages==1)  COST_FLOOR=4  COST_CEIL=22
 """
 
 import json, math, re, unicodedata
@@ -33,8 +34,9 @@ BASE = Path(__file__).parent
 
 # ── Fantasy constants (mirror index.html exactly) ─────────────────────────────
 BUDGET      = 100
-MAX_SQUAD_GT = 8   # Grand Tours (total_stages >= 21)
-MAX_SQUAD    = 7   # All other races
+MAX_SQUAD_GT     = 8   # Grand Tours (total_stages >= 21)
+MAX_SQUAD        = 7   # All other stage races
+MAX_SQUAD_ONEDAY = 3   # One-day races (total_stages == 1): pick the podium, don't spread bets
 COST_FLOOR  = 4
 COST_CEIL   = 22
 STAGE_PTS   = {1:25, 2:12, 3:8, 4:3, 5:3, 6:3, 7:3, 8:3, 9:3, 10:3}
@@ -206,7 +208,8 @@ def build_auto_team(race, costs, profiles):
     if not startlist:
         return None
 
-    n_picks = MAX_SQUAD_GT if (race.get('total_stages') or 1) >= 21 else MAX_SQUAD
+    _stages = race.get('total_stages') or 1
+    n_picks = MAX_SQUAD_ONEDAY if _stages == 1 else (MAX_SQUAD_GT if _stages >= 21 else MAX_SQUAD)
     weights = race_weights(race)
 
     # Score every starter

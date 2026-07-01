@@ -1,5 +1,5 @@
 // UCI Calendar 2026 - Service Worker
-const CACHE_NAME = 'uci-calendar-v58';
+const CACHE_NAME = 'uci-calendar-v70';
 const STATIC = ['./manifest.json', './icon-192.png', './icon-512.png'];
 
 // Install: pre-cache only truly static assets (NOT index.html or data.json)
@@ -34,9 +34,14 @@ self.addEventListener('fetch', event => {
   const isData = url.pathname.endsWith('data.json') || url.pathname.endsWith('pcs_stats.json') || url.pathname.endsWith('rider_profiles.json') || url.pathname.endsWith('pcs_enrichment.json');
 
   if (isHtml || isData) {
-    // Network-first: try live, fall back to cache
+    // Network-first: try live, fall back to cache.
+    // {cache:'reload'} forces this fetch to bypass the browser's HTTP disk
+    // cache and revalidate with the network -- without it, a plain
+    // fetch(event.request) can still be satisfied straight from HTTP cache
+    // (per whatever Cache-Control GitHub Pages sent), defeating the whole
+    // point of "network-first" and serving stale data.json/index.html.
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request, {cache: 'reload'})
         .then(resp => {
           if (resp.ok) {
             const clone = resp.clone();

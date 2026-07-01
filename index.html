@@ -2240,8 +2240,15 @@ let appData = {};
 
 async function loadData(force=false) {
   try {
-    const url = force ? './data.json?t=' + Date.now() : './data.json';
-    const opts = force ? {cache:'no-cache'} : {};
+    // Always bust the HTTP cache, not just on manual refresh -- data.json can
+    // change several times a day, and a plain './data.json' request can be
+    // served straight from the browser's disk cache (within GitHub Pages'
+    // Cache-Control window) even though the service worker's fetch handler
+    // intends to always hit the network. That silently showed stale race
+    // data (e.g. a newly-added race missing) for as long as the cached
+    // response stayed valid, with no visible error.
+    const url = './data.json?t=' + Date.now();
+    const opts = {cache:'no-store'};
     const r = await fetch(url, opts);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     appData = await r.json();
@@ -2283,7 +2290,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v69';
+const APP_VERSION = 'v70';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2643,11 +2650,16 @@ const FANTASY_LEAGUE_KEY = 'fantasy_league';
 const FANTASY_WATCH_KEY  = 'fantasy_watchlist';
 const FANTASY_DRAFT_KEY  = 'fantasy_draft';
 const ICLAUDIUS_KEY      = 'iclaudius_teams';  // {raceKey: I Claudius team}
-// Squad size varies by race type (Grand Tour: 8, everything else: 7)
+// Squad size varies by race type: one-day races (total_stages===1) get a
+// tight 3-rider squad -- the aim is to nail the actual podium, not spread
+// bets across 7-8 riders the way a multi-day race rewards. Grand Tours (>=21
+// stages) get 8, all other stage races get 7.
 function maxSquad(raceKey) {
   const k = raceKey || fantasyGetRace();
   const race = [...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===k);
-  return (race && (race.total_stages||0) >= 21) ? 8 : 7;
+  const stages = race ? (race.total_stages||0) : 0;
+  if (stages === 1) return 3;
+  return stages >= 21 ? 8 : 7;
 }
 const MAX_WATCH = 10;
 const FANTASY_BUDGET = 100;   // total credits per team
@@ -2831,6 +2843,17 @@ function computePoints(riderNames,createdAt,raceKey){
   return{total:pts,breakdown};
 }
 
+const FANTASY_MIN_STAGES_KEY = 'uci_fantasy_min_stages';
+function _fGetMinStages(){
+  const v = parseInt(localStorage.getItem(FANTASY_MIN_STAGES_KEY), 10);
+  return Number.isFinite(v) && v >= 1 ? v : 1;
+}
+function _fSetMinStages(v){
+  const n = Math.max(1, parseInt(v, 10) || 1);
+  localStorage.setItem(FANTASY_MIN_STAGES_KEY, String(n));
+  renderFantasy();
+}
+
 function renderRaceSelector(){
   const teams=fantasyLoadAll();
   const activeKey=fantasyGetRace();
@@ -2838,18 +2861,30 @@ function renderRaceSelector(){
   const seen=new Set();
   const unique=races.filter(r=>{const k=_raceKey(r);if(!k||seen.has(k))return false;seen.add(k);return true;});
   if(!unique.length)return '';
-  const opts=unique.map(r=>{
+  // Chronological: soonest-starting (or, for races with no start_date, soonest-ending) first.
+  unique.sort((a,b)=>(a.start_date||a.end_date||'').localeCompare(b.start_date||b.end_date||''));
+  const minStages=_fGetMinStages();
+  const filtered=unique.filter(r=>(r.total_stages||1) >= minStages);
+  const opts=filtered.map(r=>{
     const k=_raceKey(r);
     const has=!!teams[k];
-    const label=esc(r.name)+(has?' ✓':'');
+    const days=r.total_stages||1;
+    const label=esc(r.name)+' · '+days+(days===1?' day':' days')+(has?' ✓':'');
     return '<option value="'+k+'"'+(k===activeKey?' selected':'')+'>'+label+'</option>';
   }).join('');
+  const emptyMsg=filtered.length?'':'<div style="font-size:.78rem;color:var(--muted);margin-top:6px">No races with '+minStages+'+ stages — lower the filter below.</div>';
   return '<div style="margin-bottom:14px">'
     +'<label style="display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:6px">🏁 Pick a Race</label>'
     +'<select onchange="fSwitchRace(this.value)" style="width:100%;padding:10px 12px;border-radius:8px;border:2px solid var(--upcoming);background:var(--surface);color:var(--text);font-size:.88rem;font-weight:600;cursor:pointer;appearance:auto">'
       +'<option value="" disabled'+(activeKey?'':' selected')+'>— choose a race —</option>'
       +opts
     +'</select>'
+    +'<div style="display:flex;align-items:center;gap:8px;margin-top:8px">'
+      +'<label for="fMinStages" style="font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">Min. stages</label>'
+      +'<input id="fMinStages" type="number" inputmode="numeric" min="1" max="25" step="1" value="'+minStages+'" onchange="_fSetMinStages(this.value)" style="width:64px;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.85rem">'
+      +'<span style="font-size:.72rem;color:var(--muted)">— bump this up to hide one-day races and find longer tours</span>'
+    +'</div>'
+    +emptyMsg
   +'</div>';
 }
 
