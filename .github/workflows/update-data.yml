@@ -48,8 +48,13 @@ jobs:
 
       - name: Configure git + pull latest
         run: |
-          git config --global user.name  'UCI Calendar Bot'
-          git config --global user.email 'uci-bot@users.noreply.github.com'
+          # Local (not --global) config: the self-hosted runner service has
+          # no normal user profile, so --global tries to write to
+          # C:\Program Files\Git\.gitconfig and fails with "Permission
+          # denied". Local config writes into this repo's own .git/config,
+          # which we already have write access to (we just checked it out).
+          git config user.name  'UCI Calendar Bot'
+          git config user.email 'uci-bot@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
 
       # ── Pre-scrape checks ──────────────────────────────────────────────────
@@ -170,33 +175,4 @@ jobs:
       - name: Detect changes and update changelog
         continue-on-error: true
         run: |
-          if [ -f data_old.json ]; then
-            python3 detect_changes.py data_old.json data.json changelog.json \
-              && echo "✓ Changelog updated" \
-              || echo "⚠ detect_changes.py failed — continuing without changelog update"
-          else
-            echo "ℹ No data_old.json — skipping change detection"
-          fi
-
-      # ── Cleanup (always runs) ──────────────────────────────────────────────
-      - name: Clean up temp files
-        if: always()
-        run: rm -f data_old.json
-
-      # ── Commit & push ──────────────────────────────────────────────────────
-      - name: Commit and push
-        run: |
-          git add data.json changelog.json
-          if git diff --staged --quiet; then
-            echo "ℹ No changes to commit"
-          else
-            git commit -m "chore: update race data $(date -u '+%Y-%m-%d %H:%M UTC')"
-            # Retry once on push conflict (another push may have landed during scrape)
-            git push origin main || (
-              echo "Push rejected — pulling and retrying..."
-              git pull --rebase origin main \
-                && git push origin main \
-                || (echo "✗ Push failed after retry" && exit 1)
-            )
-            echo "✓ Pushed to GitHub"
-          fi
+          if [ -f data
