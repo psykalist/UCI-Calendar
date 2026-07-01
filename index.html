@@ -2290,7 +2290,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v70';
+const APP_VERSION = 'v71';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2857,19 +2857,35 @@ function _fSetMinStages(v){
 function renderRaceSelector(){
   const teams=fantasyLoadAll();
   const activeKey=fantasyGetRace();
-  const races=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])];
+  // Tag each race with which data.json section it came from before merging --
+  // "recent" means the race has already finished (results are in). We use
+  // that categorization instead of comparing dates ourselves, since it
+  // avoids timezone/format edge cases around exactly when a live race's
+  // end_date tips into "the past".
+  const races=[
+    ...(appData.live||[]).map(r=>({...r,_src:'live'})),
+    ...(appData.upcoming||[]).map(r=>({...r,_src:'upcoming'})),
+    ...(appData.recent||[]).map(r=>({...r,_src:'recent'})),
+  ];
   const seen=new Set();
   const unique=races.filter(r=>{const k=_raceKey(r);if(!k||seen.has(k))return false;seen.add(k);return true;});
-  if(!unique.length)return '';
+  // Drop races that have already finished, unless you already drafted a
+  // squad for one -- keeps the picker to live/upcoming races instead of
+  // filling up with the whole season's past Classics and stage races, while
+  // still letting you switch back to check a squad you made before the race
+  // ended.
+  const current=unique.filter(r=>r._src!=='recent' || !!teams[_raceKey(r)]);
+  if(!current.length)return '';
   // Chronological: soonest-starting (or, for races with no start_date, soonest-ending) first.
-  unique.sort((a,b)=>(a.start_date||a.end_date||'').localeCompare(b.start_date||b.end_date||''));
+  current.sort((a,b)=>(a.start_date||a.end_date||'').localeCompare(b.start_date||b.end_date||''));
   const minStages=_fGetMinStages();
-  const filtered=unique.filter(r=>(r.total_stages||1) >= minStages);
+  const filtered=current.filter(r=>(r.total_stages||1) >= minStages);
   const opts=filtered.map(r=>{
     const k=_raceKey(r);
     const has=!!teams[k];
     const days=r.total_stages||1;
-    const label=esc(r.name)+' · '+days+(days===1?' day':' days')+(has?' ✓':'');
+    const finished=r._src==='recent';
+    const label=esc(r.name)+' · '+days+(days===1?' day':' days')+(finished?' (finished)':'')+(has?' ✓':'');
     return '<option value="'+k+'"'+(k===activeKey?' selected':'')+'>'+label+'</option>';
   }).join('');
   const emptyMsg=filtered.length?'':'<div style="font-size:.78rem;color:var(--muted);margin-top:6px">No races with '+minStages+'+ stages — lower the filter below.</div>';
@@ -3781,7 +3797,8 @@ function renderHelp() {
       title: 'Fantasy League',
       rows: [
         ['Budget',    'You have 100 credits to spend on your squad. Riders cost between 4 and 22 credits based on their ability.'],
-        ['Squad',     'Your picked team of riders — 8 riders for Grand Tours, 7 for all other races.'],
+        ['Squad',     'Your picked team of riders — 8 for Grand Tours, 7 for other stage races, but just 3 for one-day races (Classics, Monuments). One-day races only run 24 hours, so instead of spreading bets across a big squad you pick the 3 riders you think will actually make the podium.'],
+        ['Race Picker','Only shows live and upcoming races, sorted soonest-first, so the list doesn\'t fill up with the whole season\'s past races. A race drops off the list once it finishes — unless you already drafted a squad for it, in which case it stays (marked "finished") so you can still check how it scored. Use the "Min. stages" spinner to filter out one-day races and jump straight to longer tours.'],
         ['Stage Pts', 'Points for stage finishes: 1st=25, 2nd=12, 3rd=8, 4th–10th=3.'],
         ['GC Pts',    'Points for GC standings at the end: 1st=50, 2nd=30, 3rd=20, 4th–10th=8.'],
         ['Jersey Pts','15 points per stage for holding the Points, KOM, or White jersey (not awarded if the rider also leads GC).'],
