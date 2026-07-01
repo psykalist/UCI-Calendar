@@ -2290,7 +2290,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v72';
+const APP_VERSION = 'v73';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3064,10 +3064,19 @@ function renderFantasySetup(){
       :'<div style="margin-bottom:12px;padding:10px 14px;background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.3);border-radius:8px;font-size:.82rem;color:#f97316">⏳ <strong>Startlist not yet published.</strong> You can pick from the full WorldTour roster — your team will be scored against the actual race startlist once it is confirmed.</div>'
     )
     :'';
+  // TEMP DIAGNOSTIC (remove once the squad-cap mismatch bug is found): shows
+  // the raw values maxSquad()/slStatus() are actually reading for the active
+  // race, so a screenshot alone is enough to debug without needing devtools
+  // (most reports of this come from mobile, where console access isn't
+  // realistic). Delete this block once confirmed fixed.
+  const _dbg='<div style="margin-bottom:10px;padding:8px 10px;background:rgba(255,0,255,.08);border:1px dashed #d946ef;border-radius:6px;font-size:.68rem;color:#d946ef;font-family:monospace">'
+    +'DEBUG raceKey='+esc(_srk)+' found='+(!!_srl)+' total_stages='+(_srl?JSON.stringify(_srl.total_stages):'n/a')+' startlist.length='+(_srl?(_srl.startlist||[]).length:'n/a')+' slExpected='+_slExp+' slStatus='+_slStat+' maxSquad='+MS
+  +'</div>';
   const html = '<div style="max-width:480px;margin:0 auto;padding:16px">'
     +renderHowToPlay()
     +renderRulesCard()
     +renderRaceSelector()
+    +_dbg
     +_slBanner
     +'<div style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px">'
       +'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">'
