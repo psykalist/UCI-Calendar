@@ -2290,7 +2290,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v74';
+const APP_VERSION = 'v75';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2764,11 +2764,31 @@ function getRaceRiders(){
     }
   }
   const riders=[],seen=new Set();
+  const startedTeams=new Set();
   for(const r of sl){
     if(!r.name||seen.has(r.name))continue;
     seen.add(r.name);
     const enriched=rosterMap.get(normName(r.name))||{};
-    riders.push({name:r.name,slug:r.slug||enriched.slug||'',nat:(r.nat||enriched.nat||'').toLowerCase(),photo:enriched.photo||'',teamName:enriched.teamName||r.team||''});
+    const teamName=enriched.teamName||r.team||'';
+    if(teamName) startedTeams.add(teamName);
+    riders.push({name:r.name,slug:r.slug||enriched.slug||'',nat:(r.nat||enriched.nat||'').toLowerCase(),photo:enriched.photo||'',teamName});
+  }
+  // Also surface teammates of confirmed starters who aren't themselves in the
+  // scraped startlist yet. The source startlist can lag a team's real
+  // announcement (or simply be recorded before every last name trickled in),
+  // and without this a rider who's genuinely riding -- possibly a team's own
+  // GC leader -- can be completely invisible in the picker with zero
+  // explanation. Marked restricted (shows the existing "DNS?" badge, which
+  // was already wired into the picker UI but never actually populated by
+  // any code path) so it's clear they're not officially confirmed for this
+  // specific race and might not score.
+  for(const team of (appData.teams||[])){
+    if(!startedTeams.has(team.name))continue;
+    for(const r of (team.riders||[])){
+      if(!r.name||seen.has(r.name))continue;
+      seen.add(r.name);
+      riders.push({name:r.name,slug:r.slug||'',nat:(r.nat||'').toLowerCase(),photo:r.photo||'',teamName:team.name,restricted:true});
+    }
   }
   return riders.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
 }
@@ -3196,7 +3216,7 @@ function fSearchRiders(q){
     const c=riderCost(r.name);
     const canAfford=!squadFull&&c<=remaining;
     const overBudget=!squadFull&&c>remaining;
-    const restrictedBadge=r.restricted?'<span style="font-size:.68rem;font-weight:700;color:#f97316;background:rgba(249,115,22,.15);border-radius:3px;padding:1px 5px;flex-shrink:0">DNS?</span>':'';
+    const restrictedBadge=r.restricted?'<span title="Not yet on the official startlist for this race — a teammate of a confirmed rider, might not actually start" style="font-size:.68rem;font-weight:700;color:#f97316;background:rgba(249,115,22,.15);border-radius:3px;padding:1px 5px;flex-shrink:0">DNS?</span>':'';
     const statusBadge=squadFull
       ?'<span style="font-size:.68rem;font-weight:700;color:var(--muted);background:rgba(255,255,255,.08);border-radius:3px;padding:1px 5px;flex-shrink:0">squad full</span>'
       :(overBudget?'<span style="font-size:.68rem;font-weight:700;color:#ef4444;background:rgba(239,68,68,.12);border-radius:3px;padding:1px 5px;flex-shrink:0">💰over</span>':'');
@@ -3867,6 +3887,7 @@ function renderHelp() {
         ['GC Pts',    'Points for GC standings at the end: 1st=50, 2nd=30, 3rd=20, 4th–10th=8.'],
         ['Jersey Pts','15 points per stage for holding the Points, KOM, or White jersey (not awarded if the rider also leads GC).'],
         ['I Claudius','The AI opponent — a single statistically-optimal squad picked from CyclingOracle rider stats for this race.'],
+        ['DNS? badge','This rider isn\'t on the official confirmed startlist for this race yet — you can still pick them (they\'re a teammate of someone who is confirmed), but there\'s a real chance they don\'t actually start, in which case they\'ll score zero.'],
         ['Watchlist', 'A list of riders you want to keep an eye on without adding to your squad.'],
       ]
     },
