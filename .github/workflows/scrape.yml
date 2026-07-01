@@ -164,4 +164,56 @@ jobs:
         shell: python
         run: |
           import json
-          WOMEN_KEYWORDS
+          WOMEN_KEYWORDS = ['women', 'ladies', 'femmes', 'dames']
+          WOMEN_CATS = {'1.WWT','2.WWT','1.W','2.W','1.1W','2.1W'}
+          with open('data.json') as f:
+              d = json.load(f)
+          removed = 0
+          for key in ('live', 'upcoming', 'recent'):
+              before = len(d.get(key, []))
+              d[key] = [r for r in d.get(key, [])
+                        if not any(w in (r.get('name', '') or '').lower() for w in WOMEN_KEYWORDS)
+                        and (r.get('category', '') or '') not in WOMEN_CATS]
+              removed += before - len(d[key])
+          if removed:
+              with open('data.json', 'w') as f:
+                  json.dump(d, f, ensure_ascii=False, separators=(',', ':'))
+              print(f'Removed {removed} womens race(s)')
+          else:
+              print('No womens races found')
+
+      - name: Detect changes and update changelog
+        if: steps.reachability.outputs.reachable == 'true'
+        shell: cmd
+        run: python detect_changes.py data_old.json data.json changelog.json
+
+      - name: Clean up temp file
+        shell: python
+        run: |
+          import os
+          if os.path.exists('data_old.json'):
+              os.remove('data_old.json')
+
+      - name: Generate auto-team opponents (best_teams.json)
+        if: steps.reachability.outputs.reachable == 'true'
+        shell: cmd
+        run: python generate_best_teams.py
+
+      - name: Commit and push if data changed
+        shell: python
+        run: |
+          import subprocess, sys
+          from datetime import datetime, timezone
+
+          subprocess.run(['git', 'add', 'data.json', 'changelog.json', 'best_teams.json'], check=True)
+          diff = subprocess.run(['git', 'diff', '--staged', '--quiet'])
+          if diff.returncode != 0:
+              timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+              subprocess.run(['git', 'commit', '-m', f'results: auto-scrape {timestamp}'], check=True)
+              result = subprocess.run(['git', 'push', 'origin', 'main'])
+              if result.returncode != 0:
+                  subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'], check=True)
+                  subprocess.run(['git', 'push', 'origin', 'main'], check=True)
+              print('Pushed to GitHub')
+          else:
+              print('No changes to commit')

@@ -246,4 +246,55 @@ jobs:
 
           # 6. Each live race has a name and slug
           for r in d.get("live", []):
-              if not r.get("name") or not (r.get("slug") or r.get("cf_s
+              if not r.get("name") or not (r.get("slug") or r.get("cf_slug")):
+                  errors.append(f"live race missing name/slug: {r}")
+                  break
+
+          live     = len(d.get("live", []))
+          upcoming = len(d.get("upcoming", []))
+          recent   = len(d.get("recent", []))
+
+          if errors:
+              for e in errors:
+                  print(f"✗ {e}")
+              sys.exit(1)
+
+          print(f"✓ data.json valid — {live} live, {upcoming} upcoming, {recent} recent")
+          print(f"  scraped_at: {d.get('scraped_at_human', d.get('scraped_at', '?'))}")
+          print("=== Validation passed ===")
+          PYEOF
+
+      # ── Change detection (non-critical) ───────────────────────────────────
+      - name: Detect changes and update changelog
+        continue-on-error: true
+        run: |
+          if [ -f data_old.json ]; then
+            python3 detect_changes.py data_old.json data.json changelog.json \
+              && echo "✓ Changelog updated" \
+              || echo "⚠ detect_changes.py failed — continuing without changelog update"
+          else
+            echo "ℹ No data_old.json — skipping change detection"
+          fi
+
+      # ── Cleanup (always runs) ──────────────────────────────────────────────
+      - name: Clean up temp files
+        if: always()
+        run: rm -f data_old.json
+
+      # ── Commit & push ──────────────────────────────────────────────────────
+      - name: Commit and push
+        run: |
+          git add data.json changelog.json
+          if git diff --staged --quiet; then
+            echo "ℹ No changes to commit"
+          else
+            git commit -m "chore: update race data $(date -u '+%Y-%m-%d %H:%M UTC')"
+            # Retry once on push conflict (another push may have landed during scrape)
+            git push origin main || (
+              echo "Push rejected — pulling and retrying..."
+              git pull --rebase origin main \
+                && git push origin main \
+                || (echo "✗ Push failed after retry" && exit 1)
+            )
+            echo "✓ Pushed to GitHub"
+          fi
