@@ -93,4 +93,24 @@ if [ "$STASHED" -eq 1 ]; then
 fi
 
 # ── 6. Stage and commit ───────────────────────────────────────────────────────
-CHANGED=$(git status --porcelain 2>/dev/null | grep
+CHANGED=$(git status --porcelain 2>/dev/null | grep -v '^?' || true)
+if [ -z "$CHANGED" ]; then
+  log "Nothing to commit — pushing existing commits"
+else
+  log "Staging all tracked changes…"
+  git add -u >> "$LOG" 2>&1
+  log "Committing: $MSG"
+  git commit -m "$MSG" >> "$LOG" 2>&1
+fi
+
+# ── 7. Push ───────────────────────────────────────────────────────────────────
+log "Pushing to origin/main…"
+if git push origin main >> "$LOG" 2>&1; then
+  HASH=$(git rev-parse --short HEAD)
+  log "✅  Push successful — HEAD is now $HASH"
+else
+  log "❌  Push failed — check $LOG for details"
+  exit 1
+fi
+
+log "━━━━ Done ━━━━"
