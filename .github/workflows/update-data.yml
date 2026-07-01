@@ -17,7 +17,14 @@ jobs:
 
     defaults:
       run:
-        shell: bash
+        # Explicit path to Git Bash's bash.exe. Plain "shell: bash" lets the
+        # runner's PATH lookup resolve to C:\Windows\System32\bash.exe (the
+        # WSL launcher stub) instead of Git Bash, which fails with
+        # "Windows Subsystem for Linux has no installed distributions" if no
+        # WSL distro is installed. Pointing at Git's bash.exe directly avoids
+        # that PATH ambiguity. Adjust the path below if Git is installed
+        # somewhere other than the default location.
+        shell: 'C:\Program Files\Git\bin\bash.exe -e -o pipefail "{0}"'
 
     steps:
       # ── Setup ──────────────────────────────────────────────────────────────
@@ -168,15 +175,3 @@ jobs:
         run: |
           git add data.json changelog.json
           if git diff --staged --quiet; then
-            echo "ℹ No changes to commit"
-          else
-            git commit -m "chore: update race data $(date -u '+%Y-%m-%d %H:%M UTC')"
-            # Retry once on push conflict (another push may have landed during scrape)
-            git push origin main || (
-              echo "Push rejected — pulling and retrying..."
-              git pull --rebase origin main \
-                && git push origin main \
-                || (echo "✗ Push failed after retry" && exit 1)
-            )
-            echo "✓ Pushed to GitHub"
-          fi
