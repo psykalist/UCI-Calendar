@@ -1,0 +1,7 @@
+# Normalize line endings to LF in the repo regardless of which OS/editor
+# touches these files (self-hosted Windows runner + local Windows edits +
+# this Linux sandbox all write to the same tree). Prevents whole-file
+# CRLF/LF diff noise on every commit.
+* text=auto eol=lf
+
+*.json linguist-generated=true
