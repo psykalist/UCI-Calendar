@@ -15,6 +15,15 @@ on:
     - cron: '0 17 * * *'  # 5pm UTC  -- catches afternoon stage finishes
   workflow_dispatch:        # Manual trigger from GitHub Actions tab
 
+# The self-hosted Windows runner's console codepage is cp1252, not UTF-8.
+# Every script here (and scraper.py/detect_changes.py/generate_best_teams.py)
+# prints unicode symbols like checkmark/cross/warning. Without forcing UTF-8
+# mode, the first such print crashes with UnicodeEncodeError and kills the
+# step (exit code 1) -- even on the success path.
+env:
+  PYTHONUTF8: "1"
+  PYTHONIOENCODING: "utf-8"
+
 jobs:
   scrape:
     runs-on: self-hosted

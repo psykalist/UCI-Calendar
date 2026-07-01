@@ -10,6 +10,13 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  # The self-hosted Windows runner's console codepage is cp1252, not UTF-8.
+  # Every script here (and scraper.py/detect_changes.py) prints unicode
+  # symbols like checkmark/cross/warning. Without forcing UTF-8 mode, the
+  # first such print crashes with UnicodeEncodeError and kills the step
+  # (exit code 1) -- even on the success path.
+  PYTHONUTF8: "1"
+  PYTHONIOENCODING: "utf-8"
 
 jobs:
   scrape:
@@ -104,7 +111,10 @@ jobs:
           try:
               req = urllib.request.Request(
                   "https://cyclingflash.com",
-                  headers={"User-Agent": "Mozilla/5.0"}
+                  # A bare "Mozilla/5.0" UA gets a 403 from cyclingflash.com --
+                  # needs a full browser-like string, same as the other
+                  # workflows' reachability checks.
+                  headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
               )
               with urllib.request.urlopen(req, timeout=15) as r:
                   body = r.read(2000).decode("utf-8", errors="replace")
