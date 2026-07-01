@@ -33,6 +33,13 @@ OUTPUT_FILE = "data.json"
 DELAY = 1.2          # seconds between requests
 REQUEST_TIMEOUT = 20  # seconds
 
+# Startlists get re-fetched daily once a race is within this many days of its
+# start date, even if a (possibly partial) startlist is already cached.
+# Squads keep getting finalized/adjusted right up to race day -- freezing the
+# very first fetch forever meant a 118-rider partial Tour de France roster
+# fetched weeks out would never grow to the real ~176-184 rider field.
+STARTLIST_REFRESH_WINDOW_DAYS = 10
+
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -1588,15 +1595,26 @@ def main():
             days_away = (datetime.strptime(start_date, "%Y-%m-%d").date() - datetime.now(timezone.utc).date()).days
         except Exception:
             days_away = 999
-        if cf_slug in cached_startlists:
-            race_obj["startlist"] = cached_startlists[cf_slug]
-            print(f"  {race_obj.get('name','?')} (cached {len(race_obj['startlist'])} riders)", flush=True)
-        elif days_away <= 21:
+        have_cache = cf_slug in cached_startlists
+        # Inside the refresh window, re-fetch even if already cached -- a
+        # partial list fetched weeks out needs a chance to grow to the full
+        # field as teams finalize rosters.
+        in_refresh_window = 0 <= days_away <= STARTLIST_REFRESH_WINDOW_DAYS
+        if (not have_cache and days_away <= 21) or (have_cache and in_refresh_window):
             year_sl = race_obj.get("year", str(datetime.now(timezone.utc).year))
             sl = scrape_startlist(cf_slug, year_sl)
-            race_obj["startlist"] = sl
-            print(f"  {race_obj.get('name','?')} → {len(sl)} riders", flush=True)
+            if sl:
+                race_obj["startlist"] = sl
+                print(f"  {race_obj.get('name','?')} → {len(sl)} riders", flush=True)
+            else:
+                # Fetch failed/empty -- fall back to whatever's cached rather
+                # than wiping out a good list with a blocked/empty response.
+                race_obj["startlist"] = cached_startlists.get(cf_slug, [])
+                print(f"  {race_obj.get('name','?')} → refetch failed, kept {len(race_obj['startlist'])} cached riders", flush=True)
             time.sleep(0.5)
+        elif have_cache:
+            race_obj["startlist"] = cached_startlists[cf_slug]
+            print(f"  {race_obj.get('name','?')} (cached {len(race_obj['startlist'])} riders)", flush=True)
         else:
             race_obj["startlist"] = []
             print(f"  {race_obj.get('name','?')} → {days_away}d away, skipping", flush=True)
@@ -1984,7 +2002,12 @@ def main_startlists_only():
     for r in all_races:
         sl = r.get("startlist", [])
         days = _days_away(r)
-        if not sl and 0 <= days <= 60:
+        needs_initial = (not sl) and (0 <= days <= 60)
+        # Re-fetch even an already-cached startlist once the race is close --
+        # squads keep getting finalized/adjusted right up to race day, so a
+        # partial list fetched weeks out never grows unless we keep checking.
+        needs_refresh = bool(sl) and (0 <= days <= STARTLIST_REFRESH_WINDOW_DAYS)
+        if needs_initial or needs_refresh:
             startlists_needed.append({
                 "name":       r.get("name", "?"),
                 "cf_slug":    r.get("cf_slug", r.get("slug", "")),
