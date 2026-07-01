@@ -55,7 +55,12 @@ log "Pulling origin/main (rebase)…"
 if ! git pull origin main --rebase >> "$LOG" 2>&1; then
   log "  Rebase conflict detected — trying auto-resolve on data.json…"
   git checkout --theirs data.json 2>/dev/null && git add data.json || true
-  if git rebase --continue >> "$LOG" 2>&1; then
+  # GIT_EDITOR=true: `rebase --continue` still wants to confirm the replayed
+  # commit's message, which pops an interactive editor. Since stdout here is
+  # redirected to $LOG, the editor's screen draws into the log file instead
+  # of the terminal, so it just looks hung. `true` accepts the pre-filled
+  # message with no prompt at all.
+  if GIT_EDITOR=true git rebase --continue >> "$LOG" 2>&1; then
     log "  Rebase completed after auto-resolve"
   else
     log "  ERROR: Rebase still failing. Run 'git rebase --abort' and resolve manually."
