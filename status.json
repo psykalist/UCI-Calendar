@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-07-01T09:23:53.261430+00:00",
+  "updated_at": "2026-07-01T13:59:45.328789+00:00",
   "source": "ci",
   "overall": "warning",
   "errors": [],
   "warnings": [
-    "data.json is 159h old -- consider running scraper.py"
+    "data.json is 164h old -- consider running scraper.py"
   ],
   "repairs": [],
   "data": {
@@ -14,7 +14,7 @@
     "data_teams": 34,
     "rider_profiles": 50,
     "scraped_at": "2026-06-24T18:26:29.597501+00:00",
-    "data_age_hours": 159.0,
+    "data_age_hours": 163.6,
     "index_html_bytes": 186843
   }
 }
