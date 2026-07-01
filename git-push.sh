@@ -24,19 +24,34 @@ LOCKS=(
   ".git/refs/heads/master.lock"
   ".git/MERGE_HEAD"
   ".git/CHERRY_PICK_HEAD"
+  ".git/REBASE_HEAD"
 )
 for f in "${LOCKS[@]}"; do
   if [ -f "$REPO/$f" ]; then
     rm -f "$REPO/$f" && log "  Removed $f" || log "  WARNING: could not remove $f — delete it manually"
   fi
 done
+if [ -d "$REPO/.git/rebase-merge" ] || [ -d "$REPO/.git/rebase-apply" ]; then
+  log "  Removing stale rebase-merge/rebase-apply state…"
+  rm -rf "$REPO/.git/rebase-merge" "$REPO/.git/rebase-apply" || log "  WARNING: could not remove stale rebase dir — delete it manually"
+fi
 
-# ── 2. Rebuild index if corrupt ───────────────────────────────────────────────
+# ── 2. Rebuild index if corrupt or stale relative to HEAD ─────────────────────
+# (out-of-band commits — e.g. Claude's plumbing-commit workaround for locked
+#  index/HEAD — move HEAD without touching the index, which leaves git status
+#  showing confusing staged D/M entries that a plain `git add -u` would then
+#  commit as real deletions. Detect that mismatch and resync the index first.)
+INDEX_STALE=0
 if ! git status --short &>/dev/null; then
-  log "Index appears corrupt — rebuilding from HEAD…"
+  INDEX_STALE=1
+elif ! git diff --quiet --cached HEAD -- 2>/dev/null; then
+  INDEX_STALE=1
+fi
+if [ "$INDEX_STALE" -eq 1 ]; then
+  log "Index appears corrupt or out of sync with HEAD — rebuilding…"
   GIT_INDEX_FILE=/tmp/uci_git_idx git read-tree HEAD
   cp /tmp/uci_git_idx .git/index
-  log "  Index rebuilt"
+  log "  Index rebuilt from HEAD"
 fi
 
 # ── 3. Stash any uncommitted changes ─────────────────────────────────────────
@@ -78,24 +93,4 @@ if [ "$STASHED" -eq 1 ]; then
 fi
 
 # ── 6. Stage and commit ───────────────────────────────────────────────────────
-CHANGED=$(git status --porcelain 2>/dev/null | grep -v '^?' || true)
-if [ -z "$CHANGED" ]; then
-  log "Nothing to commit — pushing existing commits"
-else
-  log "Staging all tracked changes…"
-  git add -u >> "$LOG" 2>&1
-  log "Committing: $MSG"
-  git commit -m "$MSG" >> "$LOG" 2>&1
-fi
-
-# ── 7. Push ───────────────────────────────────────────────────────────────────
-log "Pushing to origin/main…"
-if git push origin main >> "$LOG" 2>&1; then
-  HASH=$(git rev-parse --short HEAD)
-  log "✅  Push successful — HEAD is now $HASH"
-else
-  log "❌  Push failed — check $LOG for details"
-  exit 1
-fi
-
-log "━━━━ Done ━━━━"
+CHANGED=$(git status --porcelain 2>/dev/null | grep
