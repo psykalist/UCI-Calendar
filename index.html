@@ -1731,29 +1731,7 @@ async function loadBestTeams() {
   return bestTeamsData;
 }
 
-const AUTO_TIER_KEY = 'uci_auto_tier';
-function autoTierLoad() { return localStorage.getItem(AUTO_TIER_KEY) || 'pro'; }
-function autoTierSave(t) { localStorage.setItem(AUTO_TIER_KEY, t); }
-
-function selectAutoTier(tier) {
-  autoTierSave(tier);
-  // Re-render just the panel
-  const panel = document.getElementById('auto-team-panel');
-  if (panel) {
-    const raceKey = fantasyGetRace();
-    const myTeam  = fantasyLoad();
-    const myTotal = myTeam ? computePoints(myTeam.riders.map(r => r.name), myTeam.created_at).total : 0;
-    panel.outerHTML = renderAutoTeamPanel(bestTeamsData, raceKey, myTotal);
-  }
-}
-
 function renderAutoTeamPanel(bt, raceKey, myTotal) {
-  const tier = autoTierLoad();
-  const tierLabels = { easy: 'Easy 🟢', pro: 'Pro 🟡', elite: 'Elite 🔴' };
-  const tierBtns = ['easy','pro','elite'].map(t =>
-    `<button onclick="selectAutoTier('${t}')" style="padding:6px 14px;border-radius:16px;border:1px solid var(--border);background:${t===tier?'#7c3aed':'var(--surface2)'};color:${t===tier?'#fff':'var(--text)'};font-size:.8rem;font-weight:600;cursor:pointer">${tierLabels[t]}</button>`
-  ).join('');
-
   const alreadyAdded = !!iClaudiusGet(raceKey);
 
   const challengeBtn = alreadyAdded
@@ -1785,16 +1763,15 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
           <div style="font-weight:800;font-size:.95rem;color:#a78bfa">Team Claudius</div>
           <div style="font-size:.72rem;color:var(--muted)">AI-picked fantasy opponent</div>
         </div>
-        <div style="display:flex;gap:6px">${tierBtns}</div>
       </div>
       <div style="padding:14px 16px;font-size:.82rem;color:var(--muted);text-align:center">Team Claudius is auto-built once all riders for this race are confirmed.</div>
     </div>`;
   }
 
-  const team = raceEntry.teams[tier] || raceEntry.teams.elite;
+  const team = raceEntry.team;
   if (!team) return '';
 
-  const autoScore = computePoints(team.riders.map(r => r.name), null).total;
+  const autoScore = computePoints(team.riders.map(r => r.name), null, raceKey).total;
   const diff = myTotal - autoScore;
   let comparison = '';
   if (myTotal > 0 || autoScore > 0) {
@@ -1804,7 +1781,7 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
   }
 
   const rows = team.riders.map(r => {
-    const rpts = computePoints([r.name], null).total;
+    const rpts = computePoints([r.name], null, raceKey).total;
     const nat  = r.nat ? `<img src="https://flagcdn.com/16x12/${r.nat.toLowerCase()}.png" width="16" height="11" style="vertical-align:middle;margin-right:4px;border-radius:1px">` : '';
     return `<div style="display:flex;align-items:center;gap:8px;padding:9px 16px;border-bottom:1px solid var(--border)">
       ${nat}<span style="flex:1;font-size:.88rem;font-weight:600">${esc(r.name)}</span>
@@ -1819,15 +1796,14 @@ function renderAutoTeamPanel(bt, raceKey, myTotal) {
         <span style="font-size:1.4rem">🏛️</span>
         <div style="flex:1">
           <div style="font-weight:800;font-size:.95rem;color:#a78bfa">Team Claudius</div>
-          <div style="font-size:.72rem;color:var(--muted)">Statistically optimal AI team</div>
+          <div style="font-size:.72rem;color:var(--muted)">Statistically optimal AI team (CyclingOracle stats)</div>
         </div>
-        <div style="display:flex;gap:6px">${tierBtns}</div>
       </div>
       ${comparison ? `<div style="font-size:.85rem;margin-bottom:8px">${comparison}</div>` : ''}
       ${challengeBtn}
     </div>
     <div style="display:flex;justify-content:space-between;padding:8px 16px;background:var(--surface2);font-size:.78rem;color:var(--muted)">
-      <span>${esc(raceEntry.name)} · ${tierLabels[tier]}</span>
+      <span>${esc(raceEntry.name)}</span>
       <span style="font-weight:700;color:var(--text)">${autoScore} pts · ${team.total_cost}cr</span>
     </div>
     ${rows}
@@ -1839,11 +1815,9 @@ async function addIClaudiusToLeague(){
   const bt=await loadBestTeams();
   if(!bt||!bt.races){alert("Team Claudius isn't ready yet — it's built once the full startlist is confirmed.");return;}
   const raceEntry=bt.races[rk];
-  if(!raceEntry||!raceEntry.teams){alert("Team Claudius isn't available for this race yet.");return;}
-  const tier=autoTierLoad();
-  const team=raceEntry.teams[tier]||raceEntry.teams.elite;
-  const tierLabel={easy:'Easy',pro:'Pro',elite:'Elite'}[tier]||'Elite';
-  iClaudiusSet(rk,{name:'Team Claudius',owner:'🤖 AI · '+tierLabel+' tier',riders:team.riders,created_at:new Date().toISOString(),isIClaudius:true,tier,total_cost:team.total_cost});
+  if(!raceEntry||!raceEntry.team){alert("Team Claudius isn't available for this race yet.");return;}
+  const team=raceEntry.team;
+  iClaudiusSet(rk,{name:'Team Claudius',owner:'🤖 AI · CyclingOracle picks',riders:team.riders,created_at:new Date().toISOString(),isIClaudius:true,total_cost:team.total_cost});
   renderFantasy();
 }
 
@@ -1860,12 +1834,10 @@ async function loadAndRenderAutoTeam(raceKey, myTotal) {
     const race = allRaces.find(r => _raceKey(r) === raceKey);
     if (race && slStatus(race) === 'complete') {
       const raceEntry = bt.races[raceKey];
-      if (raceEntry && raceEntry.teams) {
-        const tier = autoTierLoad();
-        const team = raceEntry.teams[tier] || raceEntry.teams.elite;
-        const tierLabel = {easy:'Easy',pro:'Pro',elite:'Elite'}[tier] || 'Elite';
-        iClaudiusSet(raceKey, {name:'Team Claudius',owner:'🤖 AI · '+tierLabel+' tier',riders:team.riders,
-          created_at:new Date().toISOString(),isIClaudius:true,tier,total_cost:team.total_cost});
+      if (raceEntry && raceEntry.team) {
+        const team = raceEntry.team;
+        iClaudiusSet(raceKey, {name:'Team Claudius',owner:'🤖 AI · CyclingOracle picks',riders:team.riders,
+          created_at:new Date().toISOString(),isIClaudius:true,total_cost:team.total_cost});
         renderFantasy();
         return;
       }
@@ -2311,7 +2283,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v67';
+const APP_VERSION = 'v68';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2818,11 +2790,19 @@ function getAllRiders(){
   return riders.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
 }
 
-function computePoints(riderNames,createdAt){
+function computePoints(riderNames,createdAt,raceKey){
+  // NOTE: raceKey scopes scoring to a single race. Fantasy teams are drafted
+  // per-race (see ARCHITECTURE.md — "teams stored per-race keyed by slug"),
+  // so without this filter a squad picks up stage/GC/jersey points from every
+  // OTHER race its riders happened to do well in this season — e.g. Team
+  // Claudius showing it "already leads" on a race that hasn't started yet,
+  // just because its strong riders won stages elsewhere.
   const myNorm=new Set(riderNames.map(normName));
   const cutoff=createdAt?new Date(createdAt):null;
   let pts=0;const breakdown=[];
-  for(const race of [...(appData.recent||[]),...(appData.live||[])]){
+  const pool=[...(appData.recent||[]),...(appData.live||[])];
+  const races=raceKey?pool.filter(race=>_raceKey(race)===raceKey):pool;
+  for(const race of races){
     if(cutoff&&race.end_date){const rd=new Date(race.end_date);if(rd<cutoff)continue;}
     for(const stage of (race.stages||[])){
       for(const r of (stage.top10||[])){
@@ -2892,13 +2872,13 @@ function renderFantasy(){
     el.innerHTML=renderFantasySetup();
     return;
   }
-  const{total,breakdown}=computePoints(myTeam.riders.map(r=>r.name),myTeam.created_at);
-  const league=leagueLoad();
   const _ark=fantasyGetRace();
+  const{total,breakdown}=computePoints(myTeam.riders.map(r=>r.name),myTeam.created_at,_ark);
+  const league=leagueLoad();
   const _arl=[...(appData.live||[]),...(appData.upcoming||[]),...(appData.recent||[])].find(r=>_raceKey(r)===_ark);
   const _raceBanner=_arl?'<div style="font-size:.82rem;font-weight:700;color:var(--accent);margin-bottom:12px">🏁 '+esc(_arl.name)+'</div>':'';
   const _icTeam=iClaudiusGet(_ark);
-  const allTeams=[{...myTeam,points:total,isMine:true},...league.map((t,i)=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at).total,leagueIdx:i})),...(_icTeam?[{..._icTeam,points:computePoints((_icTeam.riders||[]).map(r=>r.name),_icTeam.created_at).total,isIClaudius:true}]:[])];
+  const allTeams=[{...myTeam,points:total,isMine:true},...league.map((t,i)=>({...t,points:computePoints((t.riders||[]).map(r=>r.name),t.created_at,_ark).total,leagueIdx:i})),...(_icTeam?[{..._icTeam,points:computePoints((_icTeam.riders||[]).map(r=>r.name),_icTeam.created_at,_ark).total,isIClaudius:true}]:[])];
   allTeams.sort((a,b)=>b.points-a.points);
   el.innerHTML='<div style="max-width:480px;margin:0 auto;padding:16px">'
     +renderHowToPlay()
@@ -3441,7 +3421,7 @@ function fRemoveWatch(name){
 
 function fExportTeam(){
   const team=fantasyLoad();if(!team)return;
-  const{total}=computePoints((team.riders||[]).map(r=>r.name),team.created_at);
+  const{total}=computePoints((team.riders||[]).map(r=>r.name),team.created_at,fantasyGetRace());
   const code=btoa(unescape(encodeURIComponent(JSON.stringify({...team,points:total}))));
   navigator.clipboard&&navigator.clipboard.writeText(code).catch(()=>{});
   const box=fModal(
@@ -3770,7 +3750,7 @@ function renderHelp() {
         ['Stage Pts', 'Points for stage finishes: 1st=25, 2nd=12, 3rd=8, 4th–10th=3.'],
         ['GC Pts',    'Points for GC standings at the end: 1st=50, 2nd=30, 3rd=20, 4th–10th=8.'],
         ['Jersey Pts','15 points per stage for holding the Points, KOM, or White jersey (not awarded if the rider also leads GC).'],
-        ['I Claudius','The AI opponent. Three difficulty levels — Easy 🟢, Pro 🟡, Elite 🔴. Generated from historical race data.'],
+        ['I Claudius','The AI opponent — a single statistically-optimal squad picked from CyclingOracle rider stats for this race.'],
         ['Watchlist', 'A list of riders you want to keep an eye on without adding to your squad.'],
       ]
     },

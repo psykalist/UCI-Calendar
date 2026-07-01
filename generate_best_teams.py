@@ -1,10 +1,20 @@
 """
 generate_best_teams.py
 ======================
-Generates three auto-team opponents per race (Easy / Pro / Elite) for the
-Fantasy tab.  Reads data.json + rider_profiles.json, builds best_teams.json.
+Generates one auto-team opponent ("Team Claudius") per race for the Fantasy
+tab. Reads data.json + rider_profiles.json, builds best_teams.json.
 
-Run automatically by CI after every scrape.  Can also be run locally:
+Rider suitability is scored from CyclingOracle stats (`co_stats` on each rider
+profile — 13 attributes on a 0-100 scale, scraped by scrape_cyclingoracle.py).
+Riders with no CyclingOracle entry get a flat low baseline value instead
+(procyclingstats.com "specialties" scores are NOT normalised to 0-100 and are
+not comparable — see predict_value() below).
+
+The squad itself is chosen by an exact 0/1 knapsack maximising total
+predicted value under the budget cap, not a greedy value/cost-ratio pick —
+see _optimal_team() for why that distinction matters.
+
+Run automatically by CI after every scrape. Can also be run locally:
     py generate_best_teams.py
 
 Output: best_teams.json  (committed to GitHub Pages alongside data.json)
@@ -16,7 +26,7 @@ Scoring constants must stay in sync with index.html:
     BUDGET=100  MAX_SQUAD=9  COST_FLOOR=4  COST_CEIL=22
 """
 
-import json, math, re, unicodedata, random
+import json, math, re, unicodedata
 from pathlib import Path
 
 BASE = Path(__file__).parent
@@ -41,7 +51,9 @@ def norm(n):
 
 
 def build_costs(data):
-    """Replicate index.html buildRiderCosts() exactly."""
+    """Replicate index.html buildRiderCosts() exactly — cost reflects actual
+    results scored this season (market price), independent of the CyclingOracle
+    suitability score used to pick the squad."""
     scores = {}
 
     def add(name, pts):
@@ -79,71 +91,117 @@ def rider_cost(name, costs):
     return costs.get(norm(name), COST_FLOOR)
 
 
-# ── Race-type specialty weights ───────────────────────────────────────────────
+# ── Race-type specialty weights (keyed to CyclingOracle `co_stats` fields) ────
+# co_stats fields: flat, cobble, hill, mountain, sprint, timetrial, gc,
+#                  onedaypoints, ttlong, ttshort, prologue, leadout, average
 
 MONUMENT_NAMES = {'sanremo', 'vlaanderen', 'roubaix', 'liège', 'liege', 'lombardia'}
 
 def race_weights(race):
-    """
-    Return a dict of {specialty: weight} for this race.
-    Specialties: gc, oneday, climber, sprint, tt, hills
-    """
+    """Return a dict of {co_stats field: weight} for this race."""
     name_lc  = (race.get('name') or '').lower()
     n_stages = race.get('total_stages') or 1
     is_gt    = n_stages >= 21
     is_mon   = any(m in name_lc for m in MONUMENT_NAMES)
 
     if is_gt:
-        return {'gc': 0.45, 'climber': 0.30, 'tt': 0.15, 'hills': 0.05, 'oneday': 0.05}
+        return {'gc': 0.40, 'mountain': 0.30, 'timetrial': 0.15, 'hill': 0.10, 'onedaypoints': 0.05}
     if is_mon:
         if 'sanremo' in name_lc or 'vlaanderen' in name_lc:
-            return {'oneday': 0.35, 'sprint': 0.30, 'hills': 0.25, 'gc': 0.10}
+            return {'onedaypoints': 0.30, 'flat': 0.20, 'cobble': 0.20, 'hill': 0.20, 'sprint': 0.10}
         if 'roubaix' in name_lc:
-            return {'oneday': 0.50, 'hills': 0.30, 'sprint': 0.20}
+            return {'onedaypoints': 0.35, 'cobble': 0.45, 'flat': 0.20}
         # Liège, Lombardia — climbers' classics
-        return {'oneday': 0.35, 'climber': 0.45, 'hills': 0.20}
+        return {'onedaypoints': 0.30, 'hill': 0.35, 'mountain': 0.25, 'gc': 0.10}
     if n_stages <= 1:
-        return {'oneday': 0.40, 'sprint': 0.30, 'hills': 0.15, 'gc': 0.15}
+        return {'onedaypoints': 0.40, 'flat': 0.25, 'sprint': 0.20, 'hill': 0.15}
     if n_stages <= 5:
-        return {'gc': 0.25, 'oneday': 0.35, 'climber': 0.20, 'tt': 0.10, 'hills': 0.10}
-    # Multi-stage (7–20 stages)
-    return {'gc': 0.35, 'climber': 0.30, 'tt': 0.15, 'hills': 0.10, 'oneday': 0.10}
+        return {'gc': 0.25, 'onedaypoints': 0.25, 'hill': 0.20, 'timetrial': 0.15, 'mountain': 0.15}
+    # Multi-stage (7-20 stages)
+    return {'gc': 0.35, 'mountain': 0.25, 'hill': 0.15, 'timetrial': 0.15, 'onedaypoints': 0.10}
 
+
+# NOTE: procyclingstats "specialties" scores are NOT on a 0-100 scale — they're
+# raw cumulative career points that can range from 0 to 10,000+ depending on a
+# rider's career length and calibre (e.g. Pogačar's climber specialty is
+# 10122; a modest domestique's might be 50). CyclingOracle's co_stats, in
+# contrast, are properly normalised to 0-100. Blending the two directly (as an
+# earlier version of this script did) let a handful of specialties-only
+# riders score higher than genuine elite CyclingOracle-rated riders just from
+# scale mismatch. So: use co_stats only, and fall back to a flat low baseline
+# (not specialties) for the small number of starters with no CyclingOracle
+# entry yet.
 
 def predict_value(slug, profiles, weights):
-    """Predicted race suitability (0–100) from PCS specialty scores."""
-    spec = (profiles.get(slug) or {}).get('specialties') or {}
-    if not spec:
-        return 15.0  # unknown rider base value
-    return sum(spec.get(k, 0) * w for k, w in weights.items())
+    """Predicted race suitability from CyclingOracle stats (co_stats). Riders
+    with no CyclingOracle entry get a flat low baseline rather than an
+    unnormalised procyclingstats specialty score."""
+    prof = profiles.get(slug) or {}
+    co = prof.get('co_stats')
+    if co:
+        return sum(co.get(k, 0) * w for k, w in weights.items())
+    return 15.0  # no CyclingOracle data — unknown rider base value
 
 
 # ── Team picker ───────────────────────────────────────────────────────────────
 
-def _greedy_pick(candidates, budget, n, rng=None):
-    """
-    Greedy knapsack by value/cost ratio.
-    If rng is provided, the top-half is shuffled first (introduces randomness
-    for lower difficulty tiers).
-    """
-    pool = sorted(candidates, key=lambda x: x['value'] / max(x['cost'], 1), reverse=True)
-    if rng is not None:
-        mid = max(1, len(pool) // 2)
-        top = pool[:mid]
-        rng.shuffle(top)
-        pool = top + pool[mid:]
+def _optimal_team(candidates, budget, n):
+    """Exact 0/1 knapsack: pick exactly `n` riders maximising total predicted
+    value subject to the budget cap.
 
-    picked, spent = [], 0
-    for r in pool:
-        if len(picked) >= n:
+    A greedy pick-by-value/cost-ratio was tried first, but it systematically
+    passes over the sport's actual best riders: someone like Pogačar or
+    Vingegaard costs 20-22cr (their `cost` reflects real results already
+    scored this season), so even a huge predicted value gets a mediocre
+    ratio next to a 4cr unknown who is merely decent — the greedy pick ends
+    up as a bench of unknowns with zero recognisable GC riders. An exact
+    knapsack instead finds the combination with the highest total value,
+    which naturally spends on the stars worth their price and fills the
+    rest of the squad with the best cheap options.
+    """
+    n = min(n, len(candidates))
+    if n == 0:
+        return []
+    NEG = float('-inf')
+    # dp[c][b] = best total value using exactly c riders and total cost <= b
+    dp = [[NEG] * (budget + 1) for _ in range(n + 1)]
+    dp[0][0] = 0.0
+    history = [[row[:] for row in dp]]  # snapshot after considering 0 riders
+    for r in candidates:
+        cost, val = r['cost'], r['value']
+        new_dp = [row[:] for row in dp]
+        for c in range(1, n + 1):
+            prev_row = dp[c - 1]
+            for b in range(cost, budget + 1):
+                cand = prev_row[b - cost]
+                if cand != NEG and cand + val > new_dp[c][b]:
+                    new_dp[c][b] = cand + val
+        dp = new_dp
+        history.append([row[:] for row in dp])
+
+    best_val, best_b = NEG, 0
+    for b in range(budget + 1):
+        if dp[n][b] > best_val:
+            best_val, best_b = dp[n][b], b
+    if best_val == NEG:
+        return []  # can't afford a full squad even at floor cost
+
+    # Backtrack through history to recover which riders were chosen.
+    chosen = []
+    c, b = n, best_b
+    for idx in range(len(candidates), 0, -1):
+        if c == 0:
             break
-        if spent + r['cost'] <= budget:
-            picked.append(r)
-            spent += r['cost']
-    return picked
+        r = candidates[idx - 1]
+        cost, val = r['cost'], r['value']
+        if b >= cost and history[idx - 1][c - 1][b - cost] + val == history[idx][c][b]:
+            chosen.append(r)
+            c -= 1
+            b -= cost
+    return chosen
 
 
-def build_auto_teams(race, costs, profiles):
+def build_auto_team(race, costs, profiles):
     startlist = race.get('startlist') or []
     if not startlist:
         return None
@@ -166,26 +224,16 @@ def build_auto_teams(race, costs, profiles):
     if not scored:
         return None
 
-    # Elite — pure greedy optimum (best possible team)
-    elite = _greedy_pick(scored, BUDGET, n_picks)
+    best = _optimal_team(scored, BUDGET, n_picks)
+    if not best:
+        return None
 
-    # Pro — randomised selection from top 50% by value/cost
-    rng_pro = random.Random(hash(race.get('slug') or race.get('name') or '') ^ 0xCAFE)
-    pro = _greedy_pick(scored, BUDGET, n_picks, rng=rng_pro)
-
-    # Easy — cheapest n_picks riders (riders with little/no results history)
-    cheap = sorted(scored, key=lambda x: (x['cost'], -x['value']))
-    easy  = cheap[:n_picks]
-
-    def fmt(team):
-        return {
-            'riders':    [{'name': r['name'], 'nat': r['nat'],
-                           'slug': r['slug'], 'cost': r['cost'],
-                           'predicted': round(r['value'])} for r in team],
-            'total_cost': sum(r['cost'] for r in team),
-        }
-
-    return {'elite': fmt(elite), 'pro': fmt(pro), 'easy': fmt(easy)}
+    return {
+        'riders':    [{'name': r['name'], 'nat': r['nat'],
+                       'slug': r['slug'], 'cost': r['cost'],
+                       'predicted': round(r['value'])} for r in best],
+        'total_cost': sum(r['cost'] for r in best),
+    }
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -206,6 +254,9 @@ def main():
             raw = json.load(f)
         profiles = raw.get('riders') or raw  # handle both formats
 
+    co_count = sum(1 for p in profiles.values() if p.get('co_stats'))
+    print(f'  {len(profiles)} rider profiles loaded ({co_count} with CyclingOracle stats)')
+
     print('Building rider cost table …')
     costs = build_costs(data)
 
@@ -217,12 +268,12 @@ def main():
             slug = race.get('slug') or race.get('name', '').lower().replace(' ', '-')
             if not slug:
                 continue
-            teams = build_auto_teams(race, costs, profiles)
-            if teams:
+            team = build_auto_team(race, costs, profiles)
+            if team:
                 result['races'][slug] = {
                     'name':     race.get('name', ''),
                     'section':  section,
-                    'teams':    teams,
+                    'team':     team,
                 }
                 total += 1
 
