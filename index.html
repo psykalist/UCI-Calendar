@@ -2290,7 +2290,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v71';
+const APP_VERSION = 'v72';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3126,21 +3126,32 @@ function fSearchRiders(q){
     const contains=all.filter(r=>!(r.name||'').toLowerCase().startsWith(lq)&&(r.name||'').toLowerCase().includes(lq));
     matches=[...starts,...contains];
   }
-  if(lbl)lbl.textContent='— '+matches.length+' available';
+  const ms=maxSquad();
+  const squadFull=_fPicked.length>=ms;
+  if(lbl)lbl.textContent=squadFull?'— squad full ('+_fPicked.length+'/'+ms+')':'— '+matches.length+' available';
   if(!matches.length){el.innerHTML='<div style="padding:12px;color:var(--muted);font-size:.85rem">No riders found</div>';return;}
+  // Squad-full and can't-afford both disable a row the same way (greyed out,
+  // no click handler) -- without a distinct badge for each, a rider well
+  // within budget (e.g. 10cr with 12cr left) looks identically "broken" as
+  // one you can't afford, with zero indication that the real blocker is
+  // squad size, not cost. Surfaced by a user report: "have 12 points left,
+  // can't select a 10-point rider" -- squad was simply already full.
+  const fullBanner=squadFull?'<div style="padding:9px 12px;font-size:.8rem;font-weight:600;color:var(--upcoming);background:rgba(67,97,238,.12);border-bottom:1px solid var(--border)">Squad full ('+_fPicked.length+'/'+ms+') — remove a rider below to make room.</div>':'';
   const spent=squadCost(_fPicked);
   const remaining=FANTASY_BUDGET-spent;
-  el.innerHTML=matches.map(r=>{
+  el.innerHTML=fullBanner+matches.map(r=>{
     const c=riderCost(r.name);
-    const canAfford=c<=remaining&&_fPicked.length<maxSquad();
-    const overBudget=c>remaining&&_fPicked.length<maxSquad();
+    const canAfford=!squadFull&&c<=remaining;
+    const overBudget=!squadFull&&c>remaining;
     const restrictedBadge=r.restricted?'<span style="font-size:.68rem;font-weight:700;color:#f97316;background:rgba(249,115,22,.15);border-radius:3px;padding:1px 5px;flex-shrink:0">DNS?</span>':'';
-    const budgetBadge=overBudget?'<span style="font-size:.68rem;font-weight:700;color:#ef4444;background:rgba(239,68,68,.12);border-radius:3px;padding:1px 5px;flex-shrink:0">💰over</span>':'';
+    const statusBadge=squadFull
+      ?'<span style="font-size:.68rem;font-weight:700;color:var(--muted);background:rgba(255,255,255,.08);border-radius:3px;padding:1px 5px;flex-shrink:0">squad full</span>'
+      :(overBudget?'<span style="font-size:.68rem;font-weight:700;color:#ef4444;background:rgba(239,68,68,.12);border-radius:3px;padding:1px 5px;flex-shrink:0">💰over</span>':'');
     const infoBtn=r.slug?'<button onclick="event.stopPropagation();openRiderModal(\''+esc(r.slug)+'\')" style="background:none;border:none;cursor:pointer;font-size:.9rem;padding:0 2px;opacity:.6;flex-shrink:0" title="View profile">ℹ️</button>':'';
     return '<div '+(canAfford?'data-pick="'+esc(r.name)+'"':'data-pick-disabled="1"')+' style="padding:9px 12px;cursor:'+(canAfford?'pointer':'default')+';display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:background .15s;opacity:'+(canAfford?'1':'.45')+'" onmouseenter="if('+(canAfford?'true':'false')+')this.style.background=\'var(--surface)\'" onmouseleave="this.style.background=\'\'">'
       +(r.nat?flag(r.nat):'<span style="width:20px;display:inline-block"></span>')
       +'<span style="flex:1;font-size:.9rem">'+esc(r.name)+'</span>'
-      +restrictedBadge+budgetBadge
+      +restrictedBadge+statusBadge
       +'<span style="font-size:.75rem;color:var(--muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.teamName||'')+'</span>'
       +costBadge(r.name)
       +infoBtn
