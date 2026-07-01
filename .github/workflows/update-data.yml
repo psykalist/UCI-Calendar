@@ -17,14 +17,7 @@ jobs:
 
     defaults:
       run:
-        # Explicit path to Git Bash's bash.exe. Plain "shell: bash" lets the
-        # runner's PATH lookup resolve to C:\Windows\System32\bash.exe (the
-        # WSL launcher stub) instead of Git Bash, which fails with
-        # "Windows Subsystem for Linux has no installed distributions" if no
-        # WSL distro is installed. Pointing at Git's bash.exe directly avoids
-        # that PATH ambiguity. Adjust the path below if Git is installed
-        # somewhere other than the default location.
-        shell: 'C:\Program Files\Git\bin\bash.exe -e -o pipefail "{0}"'
+        shell: bash
 
     steps:
       # ── Setup ──────────────────────────────────────────────────────────────
@@ -32,6 +25,26 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Plain "shell: bash" resolves bash.exe via PATH lookup. On this
+      # self-hosted Windows runner that lookup can land on
+      # C:\Windows\System32\bash.exe (the WSL launcher stub) instead of Git
+      # Bash, which fails with "Windows Subsystem for Linux has no installed
+      # distributions" since no WSL distro is installed here.
+      #
+      # (We previously tried pinning `shell:` directly to Git's bash.exe path,
+      # but the custom-shell string parser breaks on the space in
+      # "Program Files" -- it throws "Second path fragment must not be a
+      # drive or UNC name" trying to resolve the command. So instead we
+      # prepend Git's bin directory to PATH via GITHUB_PATH here, using
+      # "shell: cmd" -- a plain keyword with no string-parsing pitfalls --
+      # before any bash-default step runs. This makes the "bash" keyword
+      # lookup find Git Bash first for the rest of the job.)
+      - name: Ensure Git Bash wins over the WSL stub on PATH
+        shell: cmd
+        run: |
+          echo C:\Program Files\Git\bin>>%GITHUB_PATH%
+          echo C:\Program Files\Git\usr\bin>>%GITHUB_PATH%
 
       - name: Configure git + pull latest
         run: |
@@ -165,25 +178,4 @@ jobs:
             echo "ℹ No data_old.json — skipping change detection"
           fi
 
-      # ── Cleanup (always runs) ──────────────────────────────────────────────
-      - name: Clean up temp files
-        if: always()
-        run: rm -f data_old.json
-
-      # ── Commit & push ──────────────────────────────────────────────────────
-      - name: Commit and push
-        run: |
-          git add data.json changelog.json
-          if git diff --staged --quiet; then
-            echo "ℹ No changes to commit"
-          else
-            git commit -m "chore: update race data $(date -u '+%Y-%m-%d %H:%M UTC')"
-            # Retry once on push conflict (another push may have landed during scrape)
-            git push origin main || (
-              echo "Push rejected — pulling and retrying..."
-              git pull --rebase origin main \
-                && git push origin main \
-                || (echo "✗ Push failed after retry" && exit 1)
-            )
-            echo "✓ Pushed to GitHub"
-          fi
+      # �
