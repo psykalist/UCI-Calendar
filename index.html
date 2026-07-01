@@ -2290,7 +2290,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v73';
+const APP_VERSION = 'v74';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -2854,9 +2854,14 @@ function _fSetMinStages(v){
   renderFantasy();
 }
 
-function renderRaceSelector(){
+// Builds the base list of races the "Pick a Race" dropdown draws from:
+// dedup'd, finished-races-hidden (unless you already have a team there), and
+// sorted chronologically -- but NOT yet filtered by the "Min. stages"
+// spinner. Kept separate from the stages filter so callers can tell "no
+// races exist at all" apart from "the stages filter hid everything" (the
+// latter should still render the spinner so you can lower it back down).
+function _fSelectableRacesBase(){
   const teams=fantasyLoadAll();
-  const activeKey=fantasyGetRace();
   // Tag each race with which data.json section it came from before merging --
   // "recent" means the race has already finished (results are in). We use
   // that categorization instead of comparing dates ourselves, since it
@@ -2875,11 +2880,48 @@ function renderRaceSelector(){
   // still letting you switch back to check a squad you made before the race
   // ended.
   const current=unique.filter(r=>r._src!=='recent' || !!teams[_raceKey(r)]);
-  if(!current.length)return '';
   // Chronological: soonest-starting (or, for races with no start_date, soonest-ending) first.
   current.sort((a,b)=>(a.start_date||a.end_date||'').localeCompare(b.start_date||b.end_date||''));
+  return current;
+}
+// Same as above, plus the "Min. stages" filter applied -- this is the exact
+// set of races actually rendered as <option>s in the dropdown right now.
+function _fSelectableRaces(){
   const minStages=_fGetMinStages();
-  const filtered=current.filter(r=>(r.total_stages||1) >= minStages);
+  return _fSelectableRacesBase().filter(r=>(r.total_stages||1) >= minStages);
+}
+
+// Guards against a nasty desync bug: if the currently active race (whatever
+// fantasyGetRace() returns) has been filtered out of the dropdown -- e.g. it
+// finished months ago, or the min-stages spinner now excludes it -- the
+// native <select> has no matching <option>, so the browser silently falls
+// back to *displaying* the first option in the list without that actually
+// becoming the selected value underneath. Result: the dropdown visually
+// shows "Tour de France" while maxSquad()/getRaceRiders()/every other call
+// site is still silently operating on the real (stale, wrong) active race --
+// confirmed via a user report where the picker showed "Tour de France · 21
+// days" selected but the debug panel showed the true active race was a
+// long-finished 5-stage race, capping the squad at 7 instead of 8 with zero
+// indication anything was wrong. Call this before reading fantasyGetRace()
+// anywhere that matters (squad size, rider pool, startlist status) so state
+// always matches what's on screen.
+function _fEnsureActiveRaceValid(){
+  const activeKey=fantasyGetRace();
+  const selectable=_fSelectableRaces();
+  if(!selectable.length)return;
+  if(!selectable.some(r=>_raceKey(r)===activeKey)){
+    fantasySetRace(_raceKey(selectable[0]));
+  }
+}
+
+function renderRaceSelector(){
+  const base=_fSelectableRacesBase();
+  if(!base.length)return '';
+  const teams=fantasyLoadAll();
+  _fEnsureActiveRaceValid();
+  const activeKey=fantasyGetRace();
+  const minStages=_fGetMinStages();
+  const filtered=base.filter(r=>(r.total_stages||1) >= minStages);
   const opts=filtered.map(r=>{
     const k=_raceKey(r);
     const has=!!teams[k];
@@ -2913,6 +2955,7 @@ function fSwitchRace(key){
 function renderFantasy(){
   const el=document.getElementById('sec-fantasy');
   if(!el)return;
+  _fEnsureActiveRaceValid();
   const myTeam=fantasyLoad();
   if(!myTeam||(myTeam.riders&&myTeam.riders.length<maxSquad())){
     if(myTeam&&myTeam.riders&&myTeam.riders.length>0){
@@ -3042,6 +3085,7 @@ function renderRulesCard(ms){
 }
 
 function renderFantasySetup(){
+  _fEnsureActiveRaceValid();
   const draft=draftLoad();
   if(draft&&draft.picked&&draft.picked.length){_fPicked=draft.picked;}
   const n=_fPicked.length;
