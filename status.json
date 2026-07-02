@@ -1,20 +1,18 @@
 {
-  "updated_at": "2026-07-01T14:59:45.973780+00:00",
+  "updated_at": "2026-07-02T01:56:51.966433+00:00",
   "source": "ci",
-  "overall": "warning",
+  "overall": "ok",
   "errors": [],
-  "warnings": [
-    "data.json is 165h old -- consider running scraper.py"
-  ],
+  "warnings": [],
   "repairs": [],
   "data": {
-    "data_size_kb": 2043,
-    "data_upcoming": 37,
-    "data_recent": 64,
-    "data_teams": 34,
-    "rider_profiles": 50,
-    "scraped_at": "2026-06-24T18:26:29.597501+00:00",
-    "data_age_hours": 164.6,
-    "index_html_bytes": 186843
+    "data_size_kb": 2157,
+    "data_upcoming": 40,
+    "data_recent": 57,
+    "data_teams": 33,
+    "rider_profiles": 100,
+    "scraped_at": "2026-07-01T19:37:35.477682+00:00",
+    "data_age_hours": 6.3,
+    "index_html_bytes": 195253
   }
 }
