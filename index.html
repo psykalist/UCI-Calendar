@@ -2290,7 +2290,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-btn').style.display = 'none';
 });
 
-const APP_VERSION = 'v75';
+const APP_VERSION = 'v77';
 document.getElementById('app-version').textContent = APP_VERSION;
 
 if ('serviceWorker' in navigator) {
@@ -3128,19 +3128,10 @@ function renderFantasySetup(){
       :'<div style="margin-bottom:12px;padding:10px 14px;background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.3);border-radius:8px;font-size:.82rem;color:#f97316">⏳ <strong>Startlist not yet published.</strong> You can pick from the full WorldTour roster — your team will be scored against the actual race startlist once it is confirmed.</div>'
     )
     :'';
-  // TEMP DIAGNOSTIC (remove once the squad-cap mismatch bug is found): shows
-  // the raw values maxSquad()/slStatus() are actually reading for the active
-  // race, so a screenshot alone is enough to debug without needing devtools
-  // (most reports of this come from mobile, where console access isn't
-  // realistic). Delete this block once confirmed fixed.
-  const _dbg='<div style="margin-bottom:10px;padding:8px 10px;background:rgba(255,0,255,.08);border:1px dashed #d946ef;border-radius:6px;font-size:.68rem;color:#d946ef;font-family:monospace">'
-    +'DEBUG raceKey='+esc(_srk)+' found='+(!!_srl)+' total_stages='+(_srl?JSON.stringify(_srl.total_stages):'n/a')+' startlist.length='+(_srl?(_srl.startlist||[]).length:'n/a')+' slExpected='+_slExp+' slStatus='+_slStat+' maxSquad='+MS
-  +'</div>';
   const html = '<div style="max-width:480px;margin:0 auto;padding:16px">'
     +renderHowToPlay()
     +renderRulesCard()
     +renderRaceSelector()
-    +_dbg
     +_slBanner
     +'<div style="margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px">'
       +'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">'
@@ -3166,7 +3157,7 @@ function renderFantasySetup(){
       +'<div style="margin-bottom:14px"><label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Email <span style="font-weight:400;font-size:.76rem;color:var(--muted)">(optional — get notified before races &amp; when results come in)</span></label>'
       +'<input id="fOwnerEmail" type="email" placeholder="you@example.com" value="'+(((draft&&draft.email)||'').replace(/"/g,'&quot;'))+'" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.95rem;outline:none"></div>'
       +'<label style="font-size:.82rem;color:var(--muted);display:block;margin-bottom:5px">Add Riders <span id="fRiderCount" style="font-weight:400;font-size:.76rem;color:var(--muted)"></span></label>'
-      +'<input id="fRiderSearch" type="search" placeholder="Filter by name\u2026" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)">'
+      +'<input id="fRiderSearch" type="search" placeholder="Search by name\u2026 (also finds riders not yet on the startlist)" autocomplete="off" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:6px" oninput="fSearchRiders(this.value)">'
       +'<div id="fRiderResults" style="max-height:300px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;background:var(--surface2)"></div>'
     +'</div>'
     +'<div id="fPickedList" style="margin-bottom:14px"></div>'
@@ -3192,7 +3183,13 @@ function fSearchRiders(q){
   }
   let matches;
   if(!raw){
-    matches=all; // show every available rider alphabetically
+    // Default browse view stays constrained to the official startlist --
+    // getRaceRiders() also mixes in unconfirmed teammates (restricted/"DNS?")
+    // so a specific search can still find them, but showing all of those by
+    // default flooded the list with every team's full bench (some 400+ extra
+    // names) and buried the actual confirmed startlist. Only surface
+    // restricted riders when you're specifically searching for one by name.
+    matches=all.filter(r=>!r.restricted);
   } else {
     const lq=raw.toLowerCase();
     const starts=all.filter(r=>(r.name||'').toLowerCase().startsWith(lq));
